@@ -1,0 +1,28 @@
+# Data files (large)
+estudo/db/data/
+estudo/*.txt
+estudo/*.csv
+*.txt.gz
+
+# Node
+node_modules/
+dist/
+.output/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude
+.claude/plans/
