@@ -14,8 +14,8 @@
 O filtro de tecnologia NUNCA altera as cores dos poligonos. Cores sao sempre derivadas do quadrante (RN001-02). O filtro apenas mostra/oculta poligonos.
 
 **Exemplo:**
-- Filtro FIBRA ativo: geohash GROWTH com tech=FIBRA aparece verde (nao azul)
-- Filtro MOVEL ativo: geohash RETENCAO com tech=MOVEL aparece vermelho (nao laranja)
+- Filtro FIBRA ativo: geohash OPORTUNIDADE com tech=FIBRA aparece verde (nao azul)
+- Filtro MOVEL ativo: geohash RISCO com tech=MOVEL aparece vermelho (nao laranja)
 
 ---
 

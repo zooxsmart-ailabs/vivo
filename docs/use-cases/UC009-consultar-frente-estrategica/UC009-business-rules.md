@@ -2,6 +2,8 @@
 
 [<- Voltar ao fluxo principal](./UC009-main-flow.md)
 
+**Versao**: 2.0 | **Data**: 2026-03-29 | **Fonte**: Levantamento v1203
+
 ## RN009-01 — Configuracao de Fluxo por Estrategia
 
 | Campo | Valor |
@@ -11,29 +13,50 @@
 | **Passos** | Passo 10 |
 
 **Descricao:**
-Cada estrategia possui configuracao fixa de fluxo (FLOW_CONFIG):
+Cada quadrante possui fluxo estrategico (Levantamento v1203):
 
-### RETENCAO (Vermelho #DC2626)
-- **Contexto**: "Alta penetracao em area com qualidade tecnica comprometida"
+### RISCO (Vermelho #EF4444) — Blindagem da Base
+- **Cenario**: Share Alto (>=40%) + Satisfacao Baixa (<6.0)
 - **Alerta**: "Risco Iminente de Churn"
+- **Responsabilidade**: Marketing, CRM e Vendas
+- **Fluxo em 4 passos**:
+  1. **Identificacao**: ARPU alto × SpeedTest ruim → priorizar por valor em risco
+  2. **Diagnostico**: Gap de qualidade via SpeedTest, causa-raiz (ERB sobrecarregada, tecnologia defasada, cobertura fraca)
+  3. **Intervencao**: Oferta proativa de upgrade ou compensacao, acionamento da equipe tecnica
+  4. **Monitoramento**: Acompanhamento do score pos-intervencao, alerta de reincidencia
 - **Segmentos**: Premium 30%, Familia 50%, Basico 20%
-- **Acoes**: Upgrade gratuito + Mesh + SLA Prioridade / Manutencao preventiva + upgrade temporario / Verificacao tecnica + 15% desconto
+- **Acoes**: Upgrade + Mesh + SLA / Manutencao preventiva + upgrade temporario / Verificacao tecnica + 15% desconto
 
-### UPSELL (Roxo #7C3AED)
-- **Contexto**: "Base consolidada e satisfeita"
-- **Alerta**: "Oportunidade para maximizar receita"
+### FORTALEZA (Roxo #7C3AED) — Maximizacao de Receita
+- **Cenario**: Share Alto (>=40%) + Satisfacao Alta (>=7.5)
+- **Alerta**: "Oportunidade para Maximizar Receita"
+- **Responsabilidade**: Marketing, CRM e Vendas
+- **Acoes**: Ofertas Premium e Cross-sell baseados no perfil
 - **Segmentos**: Digital Premium 30%, Familia 45%, Gamer 25%
-- **Acoes**: ELITE ULTRA 1Gbps R$299 / FAMILIA PLUS 600Mbps+Disney+ R$189 / PERFORMANCE 500Mbps+IP Fixo R$199
+- **Ofertas**: ELITE ULTRA 1Gbps+WiFi6 Mesh R$299 / FAMILIA PLUS 600Mbps+Disney+ R$189 / PERFORMANCE 500Mbps+IP Fixo R$199
 
-### GROWTH (Verde #15803D)
-- **Contexto**: "Baixa penetracao em area de alta qualidade tecnica"
+### OPORTUNIDADE (Verde #22C55E) — Geracao de Leads
+- **Cenario**: Share Baixo (<30%) + Satisfacao Alta (>=7.5)
 - **Alerta**: "Janela de Ataque"
+- **Responsabilidade**: Marketing, CRM e Vendas
+- **Fluxo em 4 passos**:
+  1. **Entendimento das Areas**: Mapeamento de bolsoes de insatisfacao e potencial inexplorado
+  2. **Geracao de Leads (Zoox)**: Identificacao de nao-clientes por endereco, analise demografica, lista qualificada
+  3. **Criacao de Personas**: Segmentacao por perfil e renda, dados comportamentais, operadora atual e share
+  4. **Entendimento das Areas**: Mensagem personalizada por persona, oferta baseada na concorrencia
 - **Segmentos**: Elite Digital 35%, Familia 45%, Basico 20%
 - **Acoes**: Fibra 1Gbps+Mesh+Cashback / Fibra 500Mbps+Disney+ / WhatsApp Business+SMS
 
+### EXPANSAO (Laranja #F97316) — Diagnostico Tecnico + Captacao
+- **Cenario**: Share Baixo (<30%) + Satisfacao Baixa (<6.0)
+- **Alerta**: "Dupla Frente"
+- **Responsabilidade**: Engenharia, Planejamento e CAPEX
+- **Metricas**: Poder de compra (renda), volume de pessoas, crescimento pop., share Vivo
+- **Acao**: Diagnostico Tecnico Urgente + Captacao Condicionada
+
 ---
 
-## RN009-02 — Segmentacao de Clientes
+## RN009-02 — Personas e Perfis (Levantamento v1203)
 
 | Campo | Valor |
 |-------|-------|
@@ -42,13 +65,15 @@ Cada estrategia possui configuracao fixa de fluxo (FLOW_CONFIG):
 | **Passos** | Coluna 2 do FlowPanel |
 
 **Descricao:**
-Os segmentos de clientes sao fixos por estrategia (nao derivados de dados). Cada segmento exibe:
-- Nome e percentual
-- Faixa de renda ou gap de receita
-- Caracteristicas (device, comportamento)
-- Propensao (quando aplicavel)
+Personas oficiais do projeto (Levantamento — Conexao Territorial + Personas):
 
-Nota: esta segmentacao e uma recomendacao estrategica, nao um calculo sobre dados reais. Em versao futura, sera derivada dos dados de CRM.
+| Persona | Caracteristicas | Oferta Ideal |
+|---------|----------------|--------------|
+| **Elite Digital** | iPhone Pro/S24 Ultra, viagem internacional, alto poder aquisitivo | Plano Black + Roaming Global |
+| **Home Office** | Sensivel a falhas, uso intenso de Zoom/Teams, desktop/notebook | Fibra 1 Gbps + Mesh Wi-Fi |
+| **Gamer/Streamer** | Sensivel a latencia, alto upload (streaming), consumo noturno | Rota Otimizada + Upload Simetrico |
+
+Nota: As personas do prototipo (Premium/Familia/Basico) permanecem como segmentacao economica. As personas acima sao comportamentais e complementares.
 
 ---
 
@@ -61,22 +86,30 @@ Nota: esta segmentacao e uma recomendacao estrategica, nao um calculo sobre dado
 | **Passos** | Passo 6-7 |
 
 **Descricao:**
-O ranking utiliza a mesma formula de prioridade do UC004 (RN004-01). Campos de ordenacao disponiveis:
+Ranking atualizado com formulas ponderadas (RN004-01) e labels P1-P4 por score absoluto.
 
-| Campo | Chave | Acesso |
-|-------|-------|--------|
-| Share | share | marketShare.percentage |
-| Satisfacao | satisfaction | satisfactionScores[VIVO].score |
-| Clientes | clients | marketShare.activeClients |
-| Renda | income | demographics.avgIncome |
-| Crescimento | growth | demographics.populationGrowth |
-| Nome | label | label (alfabetico) |
+Colunas do ranking (Levantamento — planilha de 21 geohashes):
 
-Default: share desc.
+| Coluna | Descricao |
+|--------|-----------|
+| Rank | Posicao dentro do quadrante (#1/N) |
+| Geohash | ID do geohash |
+| Quadrante | RISCO, FORTALEZA, OPORTUNIDADE, EXPANSAO |
+| Share Atual | % share de mercado Vivo |
+| Satisfacao Vivo | Score 0-10 |
+| Nivel | Alta, Media, Baixa, Critica |
+| Delta Share | pp variacao vs periodo anterior |
+| Trend | Ganhando, Estavel, Perdendo |
+| Renda Media | R$ mensal |
+| Pop. Total | Populacao no geohash |
+| Cresc. Pop. | % crescimento anual |
+| Score | 0-10 (prioridade ponderada) |
+| Prioridade | P1-Critica a P4-Baixa |
+| Prazo | Dias para acao |
 
 ---
 
-## RN009-04 — Painel de Expansao (GROWTH_RETENCAO)
+## RN009-04 — Painel de Expansao
 
 | Campo | Valor |
 |-------|-------|
@@ -84,18 +117,6 @@ Default: share desc.
 | **Tipo** | Derivacao |
 | **Passos** | FA01 |
 
-**Descricao:**
-O quadrante GROWTH_RETENCAO possui painel diferenciado (ExpansaoPanel):
-
-**4 Cards de Metricas:**
-1. Poder de Compra: renda media (R$)
-2. Volume de Pessoas: populacao total
-3. Crescimento Pop.: % anual
-4. Share Vivo: % + donut
-
-**Foco Infraestrutura:**
-- Definicao de areas brancas (baixa cobertura/share)
-- Roadmap: classificacao de severidade, gaps tecnicos
-- Fatores de Priorizacao Zoox: poder de compra, volume, crescimento, analise competitiva
-
-**Camada 2:** Quando disponivel, exibe classificacoes de fibra e movel + decisao integrada.
+Sem alteracao estrutural. Renomeado de EXPANSAO para **EXPANSAO**.
+Base de decisao: Dados Tecnicos (Ocupacao, White Spots) + Potencial de Mercado.
+Responsabilidade: Engenharia, Planejamento e CAPEX.

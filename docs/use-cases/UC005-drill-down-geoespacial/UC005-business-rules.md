@@ -24,15 +24,25 @@ Mudancas de zoom sao agrupadas com debounce de 300ms para evitar multiplas subsc
 | **Passos** | Passo 6 |
 
 **Descricao:**
-Ao mudar precisao (ex: 7 -> 6), os dados sao agregados:
+O sistema suporta duas precisoes: **6** (zoom 11-13) e **7** (zoom 14-15). Cada uma tem pipeline de dados proprio:
 
-- **Share**: media ponderada pelo total de domicilios/populacao dos geohashes filhos
-- **Satisfacao**: media ponderada pelo sampleSize dos geohashes filhos
-- **Quadrante**: recalculado com os valores agregados vs benchmarks
-- **Trend**: delta do share agregado vs periodo anterior
-- **Camada 2**: classificacao dominante entre os filhos
+**Precisao 7 (detalhada):**
+- QoE: `cagg_ft_monthly_gh7`, `cagg_video_monthly_gh7`, `cagg_web_monthly_gh7`
+- Scores: tabela `score` direta (cd_geo_hsh7)
+- Demografia: `geo_por_latlong` agrupado por geohash7
 
-A agregacao e feita via continuous aggregate ou view materializada no PostgreSQL, nao no frontend.
+**Precisao 6 (agregada — zoom out):**
+- QoE: `cagg_ft_monthly_gh6`, `cagg_video_monthly_gh6`, `cagg_web_monthly_gh6` — continuous aggregates que agregam diretamente dos dados raw por `attr_geohash6`
+- Scores: agregados dos geohash7 filhos via `LEFT(cd_geo_hsh7, 6)` com `AVG(score)` e `SUM(sample_size)`
+- Demografia: `geo_por_latlong` agrupado por `LEFT(geohash7, 6)`
+
+**Derivacoes recalculadas em ambas as precisoes:**
+- **Share**: proporcao de testes Vivo / total de testes (via continuous aggregates)
+- **Quadrante**: recalculado com share e satisfacao agregados vs benchmarks (RN001-01)
+- **Prioridade**: formula por quadrante aplicada sobre valores agregados (RN004-01)
+- **Qualidade**: classificacao via thresholds de download/latencia (RN004-02)
+
+**Implementacao**: A `vw_geohash_summary` ja contem ambas as precisoes. O backend filtra com `WHERE gc.precision = ?`. Toda agregacao e feita no PostgreSQL, nunca no frontend.
 
 ---
 

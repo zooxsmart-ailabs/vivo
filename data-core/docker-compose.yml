@@ -1,0 +1,184 @@
+x-om-image: &om-image docker.getcollate.io/openmetadata/server:${OM_VERSION:-1.6.4}
+
+services:
+  # ===========================================================================
+  # DEFAULT PROFILE — Main Application Database
+  # ===========================================================================
+  postgres:
+    image: timescale/timescaledb-ha:pg18
+    ports:
+      - "${PG_PORT:-5437}:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-vivo_geointel}
+      POSTGRES_USER: ${POSTGRES_USER:-vivo}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+    volumes:
+      - pg-data:/home/postgres/pgdata/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-vivo} -d ${POSTGRES_DB:-vivo_geointel}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - vivo-net
+    restart: unless-stopped
+
+  # ===========================================================================
+  # CATALOG PROFILE — OpenMetadata Data Catalog
+  # ===========================================================================
+
+  om-postgres:
+    image: postgres:16-alpine
+    profiles: [catalog]
+    environment:
+      POSTGRES_DB: openmetadata_db
+      POSTGRES_USER: openmetadata
+      POSTGRES_PASSWORD: ${OM_PG_PASSWORD:-openmetadata}
+    volumes:
+      - om-pg-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U openmetadata -d openmetadata_db"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    networks:
+      - vivo-net
+    restart: unless-stopped
+
+  om-elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.17.4
+    profiles: [catalog]
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - xpack.security.enabled=false
+    volumes:
+      - om-es-data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:9200/_cluster/health | grep -qE '\"status\":\"(green|yellow)\"'"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+    networks:
+      - vivo-net
+    restart: unless-stopped
+
+  om-migrate:
+    image: *om-image
+    profiles: [catalog]
+    command: ./openmetadata-ops.sh migrate
+    depends_on:
+      om-postgres:
+        condition: service_healthy
+      om-elasticsearch:
+        condition: service_healthy
+    environment: &om-env
+      OPENMETADATA_CLUSTER_NAME: vivo-geointel
+      # Database (OM internal)
+      DB_DRIVER_CLASS: org.postgresql.Driver
+      DB_SCHEME: postgresql
+      DATABASE_HOST: om-postgres
+      DATABASE_PORT: "5432"
+      DATABASE_USER: openmetadata
+      DATABASE_PASSWORD: ${OM_PG_PASSWORD:-openmetadata}
+      DATABASE_DATABASE: openmetadata_db
+      # Elasticsearch
+      ELASTICSEARCH_HOST: om-elasticsearch
+      ELASTICSEARCH_PORT: "9200"
+      ELASTICSEARCH_SCHEME: http
+      # Auth
+      AUTHENTICATION_PROVIDER: basic
+      AUTHENTICATION_PUBLIC_KEYS: "[http://om-server:8585/api/v1/system/config/jwks]"
+      AUTHENTICATION_AUTHORITY: https://accounts.google.com
+      # JWT
+      RSA_PUBLIC_KEY_FILE_PATH: ./conf/public_key.der
+      RSA_PRIVATE_KEY_FILE_PATH: ./conf/private_key.der
+      JWT_ISSUER: open-metadata.org
+      JWT_KEY_ID: Gb389a-9f76-gdjs-a92j-0242bk94356
+      # API URL
+      SERVER_HOST_API_URL: http://om-server:8585/api
+      # Pipeline
+      PIPELINE_SERVICE_CLIENT_ENABLED: "true"
+      PIPELINE_SERVICE_CLIENT_HOST: http://om-ingestion:8080
+      PIPELINE_SERVICE_IP_INFO_ENABLED: "false"
+      # Migration
+      MIGRATION_LIMIT_PARAM: "1200"
+    networks:
+      - vivo-net
+    restart: on-failure
+
+  om-server:
+    image: *om-image
+    profiles: [catalog]
+    ports:
+      - "${OM_PORT:-8585}:8585"
+    depends_on:
+      om-migrate:
+        condition: service_completed_successfully
+      om-elasticsearch:
+        condition: service_healthy
+      om-postgres:
+        condition: service_healthy
+    environment: *om-env
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8585/api/v1/system/version || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 90s
+    networks:
+      - vivo-net
+    restart: unless-stopped
+
+  om-ingestion:
+    image: docker.getcollate.io/openmetadata/ingestion:${OM_VERSION:-1.6.4}
+    profiles: [catalog]
+    depends_on:
+      om-server:
+        condition: service_healthy
+    environment:
+      AIRFLOW__API__AUTH_BACKENDS: airflow.api.auth.backend.basic_auth
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://openmetadata:${OM_PG_PASSWORD:-openmetadata}@om-postgres:5432/openmetadata_db
+      DB_HOST: om-postgres
+      DB_PORT: "5432"
+      DB_USER: openmetadata
+      DB_SCHEME: postgresql+psycopg2
+      DB_PASSWORD: ${OM_PG_PASSWORD:-openmetadata}
+      AIRFLOW_DB: openmetadata_db
+    volumes:
+      - om-ingestion-data:/opt/airflow
+    networks:
+      - vivo-net
+    restart: unless-stopped
+
+  om-bootstrap:
+    build: ./catalog/bootstrap
+    profiles: [catalog]
+    depends_on:
+      om-server:
+        condition: service_healthy
+    environment:
+      OM_SERVER_URL: http://om-server:8585
+      OM_ADMIN_PASSWORD: ${OM_ADMIN_PASSWORD:-admin}
+      GEOINTEL_PG_HOST: ${GEOINTEL_PG_HOST:-postgres}
+      GEOINTEL_PG_PORT: ${GEOINTEL_PG_PORT:-5432}
+      GEOINTEL_PG_USER: ${GEOINTEL_PG_USER:-vivo}
+      GEOINTEL_PG_PASSWORD: ${GEOINTEL_PG_PASSWORD:-${POSTGRES_PASSWORD:?}}
+      GEOINTEL_PG_DATABASE: ${GEOINTEL_PG_DATABASE:-vivo_geointel}
+    volumes:
+      - ./catalog/bootstrap/seeds:/seeds:ro
+      - ./catalog/branding:/branding:ro
+    networks:
+      - vivo-net
+    restart: on-failure:3
+
+volumes:
+  pg-data:
+  om-pg-data:
+  om-es-data:
+  om-ingestion-data:
+
+networks:
+  vivo-net:
+    name: vivo-network

@@ -13,7 +13,7 @@
 | T05 | Exibir FlowPanel — Coluna 1 (dados geohash) | SE | 12 | 3 | Medio | 5 |
 | T06 | Exibir FlowPanel — Coluna 2 (perfis de cliente) | SE | 8 | 3 | Medio | 5 |
 | T07 | Exibir FlowPanel — Coluna 3 (acoes recomendadas) | SE | 8 | 3 | Medio | 5 |
-| T08 | Exibir ExpansaoPanel (GROWTH_RETENCAO) | SE | 15 | 4 | Complexo | 7 |
+| T08 | Exibir ExpansaoPanel (EXPANSAO) | SE | 15 | 4 | Complexo | 7 |
 | T09 | Exibir Camada 2 no painel de frente | SE | 10 | 3 | Medio | 5 |
 | T10 | Calcular prioridade e rank por quadrante | SE | 5 | 2 | Medio | 5 |
 | T11 | Consultar geohashes por estrategia | CE | 8 | 2 | Medio | 4 |

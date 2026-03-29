@@ -46,7 +46,7 @@ O Analista visualiza o mapa interativo com poligonos geohash coloridos por quadr
 | 7 | Sistema | Renderiza Google Maps com estilo analitico (cinza claro, sem POIs) |
 | 8 | Sistema | Para cada geohash recebido, cria poligono com cor do quadrante (RN001-01) |
 | 9 | Sistema | Exibe legenda com 4 quadrantes, cores e contadores |
-| 10 | Sistema | Exibe contadores de resumo: "X/Y visiveis", "Z em risco" (RETENCAO) |
+| 10 | Sistema | Exibe contadores de resumo: "X/Y visiveis", "Z em risco" (RISCO) |
 | 11 | Sistema | Exibe hint flutuante: "Passe o cursor sobre uma celula para ver a ficha estrategica" |
 | 12 | Analista | Visualiza o mapa com poligonos coloridos |
 

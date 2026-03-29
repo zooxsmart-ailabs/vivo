@@ -2,6 +2,8 @@
 
 [<- Voltar ao fluxo principal](./UC004-main-flow.md)
 
+**Versao**: 2.0 | **Data**: 2026-03-29 | **Fonte**: Levantamento v1203
+
 ## RN004-01 — Calculo de Prioridade por Quadrante
 
 | Campo | Valor |
@@ -11,30 +13,55 @@
 | **Passos** | Card Camada 1, secao Prioridade |
 
 **Descricao:**
-Cada quadrante possui formula de score de prioridade especifica:
+Formulas de prioridade ponderadas por quadrante (Levantamento sec.score):
 
-| Quadrante | Formula | Logica |
-|-----------|---------|--------|
-| RETENCAO | `share * 0.5 + (10 - vivoScore) * 5` | Alto share + baixa satisfacao = urgente |
-| UPSELL | `vivoScore * 5 + share * 0.5` | Alta satisfacao + alto share = receita |
-| GROWTH | `(10 - share) * 0.5 + vivoScore * 5` | Baixo share + alta satisfacao = oportunidade |
-| GROWTH_RETENCAO | `(avgIncome/1000)*3 + popGrowth*5 + density/100` | Potencial demografico |
+**RISCO** (share alto + satisfacao baixa):
 
-**Ranking e Percentil:**
-- Geohashes sao rankeados dentro do mesmo quadrante por score decrescente
-- Percentil: `((total - rank) / (total - 1)) * 100`
-- Labels:
+| Variavel | Peso | Descricao |
+|----------|------|-----------|
+| Share Vivo | 30% | Quanto mais share, mais a perder |
+| Risco de Churn | 25% | Baseado na satisfacao vs concorrentes |
+| Delta Share | 15% | Se esta caindo, prioridade maior |
+| ARPU/Renda | 15% | Valor do cliente (proxy: renda da regiao) |
+| QoE/Pontuacao | 15% | Qualidade tecnica da rede |
 
-| Percentil | Label | Cor |
-|-----------|-------|-----|
-| >= 75 | Critico | #DC2626 |
-| >= 50 | Alto | #D97706 |
-| >= 25 | Medio | #2563EB |
-| < 25 | Baixo | #64748B |
+**FORTALEZA** (share alto + satisfacao alta):
 
-**Exemplo:**
-- Geohash RETENCAO, share=45%, vivoScore=5.2: score = 45*0.5 + (10-5.2)*5 = 22.5+24 = 46.5
-- Rank 1 de 8 geohashes RETENCAO: percentil = ((8-1)/(8-1))*100 = 100% -> Critico
+| Variavel | Peso | Descricao |
+|----------|------|-----------|
+| Margem/Satisfacao | 30% | Clientes satisfeitos propensam a upgrade |
+| Share Vivo | 20% | Base instalada |
+| Renda da Regiao | 20% | Poder aquisitivo |
+| QoE Tecnico | 15% | Qualidade da rede |
+| Populacao | 15% | Volume de clientes potenciais |
+
+**OPORTUNIDADE** (share baixo + satisfacao alta):
+
+| Variavel | Peso | Descricao |
+|----------|------|-----------|
+| Cobertura/QoE | 25% | Qualidade da rede atrai clientes |
+| Satisfacao | 20% | Qualidade ja percebida positivamente |
+| Renda | 20% | Potencial de receita |
+| Populacao | 20% | Volume de leads |
+| Delta Share | 15% | Tendencia de crescimento |
+
+**EXPANSAO** (share baixo + satisfacao baixa):
+
+| Variavel | Peso | Descricao |
+|----------|------|-----------|
+| Renda | 30% | Foco em areas de alto valor |
+| Populacao | 25% | Volume justifica investimento |
+| Cobertura | 25% | Necessidade de infraestrutura |
+| Delta Share | 20% | Tendencia de mercado |
+
+**Labels de prioridade (score absoluto 0-10):**
+
+| Label | Score | Prazo RISCO | Prazo outros |
+|-------|-------|-------------|--------------|
+| P1 — Critica | >= 8.5 | < 7 dias | < 30 dias |
+| P2 — Alta | 6.0-8.4 | < 30 dias | < 30 dias |
+| P3 — Media | 4.0-5.9 | 30-60 dias | 30-60 dias |
+| P4 — Baixa | < 4.0 | 90 dias | 90 dias |
 
 ---
 
@@ -44,16 +71,9 @@ Cada quadrante possui formula de score de prioridade especifica:
 |-------|-------|
 | **ID** | RN004-02 |
 | **Tipo** | Derivacao |
-| **Passos** | Card Camada 1, secao SpeedTest Tecnico |
+| **Passos** | Card Camada 1, secao SpeedTest |
 
-**Descricao:**
-
-| Label | Cor | Criterio (inferido) |
-|-------|-----|---------------------|
-| Excelente | #16A34A | Download >= 100 Mbps AND latencia <= 20ms |
-| Bom | #2563EB | Download >= 50 Mbps AND latencia <= 40ms |
-| Regular | #D97706 | Download >= 20 Mbps OR latencia <= 60ms |
-| Ruim | #DC2626 | Demais casos |
+Sem alteracao. Mesmos thresholds da v1.
 
 ---
 
@@ -65,35 +85,12 @@ Cada quadrante possui formula de score de prioridade especifica:
 | **Tipo** | Derivacao |
 | **Passos** | Card Camada 1, secao Insights |
 
-**Descricao:**
-O sistema gera ate 2 insights automaticos por geohash, priorizados na ordem:
+**Descricao (atualizada com thresholds v1203):**
 
-1. **Satisfacao vs Media Estadual**
-   - Trigger: |vivoScore - 6.8| >= 0.2
-   - Tipo: positive se acima, negative se abaixo
-   - Texto: "Satisfacao X% [acima|abaixo] da media estadual (6.8)"
-
-2. **Share vs Media Nacional**
-   - Trigger: |share - 32| >= 3 pp
-   - Tipo: positive se acima, negative se abaixo
-   - Texto: "+/-X pp [acima|abaixo] da media nacional"
-
-3. **Gap Competitivo**
-   - Trigger: |vivoScore - max(timScore, claroScore)| >= 0.3
-   - Tipo: positive se Vivo lidera, warning se atras
-   - Texto: "Vivo lidera +X pts vs [TIM|CLARO]" ou "Vivo atras -X pts de [TIM|CLARO]"
-
-4. **Share vs Media da Cidade** (fallback se < 2 insights)
-   - Trigger: |share - 38| >= 3 pp
-
-**Estilos de Insight:**
-
-| Tipo | Background | Borda | Texto |
-|------|-----------|-------|-------|
-| positive | #F0FDF4 | #BBF7D0 | #15803D |
-| negative | #FEF2F2 | #FECACA | #DC2626 |
-| warning | #FFFBEB | #FDE68A | #B45309 |
-| neutral | #F8FAFC | #E2E8F0 | #475569 |
+1. **Satisfacao vs Threshold**: |vivoScore - 7.5| >= 0.5 (threshold alto) ou |vivoScore - 6.0| (threshold baixo)
+2. **Share vs Nacional**: |share - 32| >= 3 pp
+3. **Gap Competitivo**: |vivoScore - max(tim, claro)| >= 0.3 — agora com posicao competitiva (RN004-07)
+4. **Tendencia**: delta share > +1.0 pp (ganhando) ou < -1.0 pp (perdendo)
 
 ---
 
@@ -105,22 +102,23 @@ O sistema gera ate 2 insights automaticos por geohash, priorizados na ordem:
 | **Tipo** | Derivacao |
 | **Passos** | Card Camada 2, secao Fibra |
 
-**Descricao:**
+**Motor de decisao (Levantamento — fluxograma):**
 
-| Classificacao | Cor | Condicao | Campos Adicionais |
-|---------------|-----|----------|-------------------|
-| AUMENTO_CAPACIDADE | #EF4444 | Fibra presente, ocupacao > 85% | taxaOcupacao (%), portasDisponiveis (%) |
-| EXPANSAO_NOVA_AREA | #F97316 | Sem cobertura fibra (greenfield) | potencialMercado (%), sinergiaMovel (%) |
-| SAUDAVEL | #22C55E | Fibra presente, ocupacao <= 85% | — |
+```
+Tem Fibra Vivo? (presenca FTTH no geohash)
+  SIM → Ocupacao Critica? (>85% ou <5 portas)
+    SIM → AUMENTO_CAPACIDADE
+    NAO → SAUDAVEL (Monitorar)
+  NAO → EXPANSAO_NOVA_AREA (Greenfield)
+```
 
-**Score 0-100 (saude da infra):**
+**Score AUMENTO_CAPACIDADE (0-100):**
+- 60% Taxa de Ocupacao (nivel de utilizacao da fibra instalada)
+- 40% Valor da Area (renda media + ARPU)
 
-| Score | Label | Cor |
-|-------|-------|-----|
-| >= 80 | Critico | #DC2626 |
-| >= 60 | Alto | #D97706 |
-| >= 40 | Medio | #2563EB |
-| < 40 | Baixo | #16A34A |
+**Score EXPANSAO_NOVA_AREA (0-100):**
+- 50% Potencial de Mercado (renda media × densidade populacional)
+- 50% Sinergia com Movel (share movel Vivo no geohash — base movel facilita cross-sell)
 
 ---
 
@@ -132,16 +130,19 @@ O sistema gera ate 2 insights automaticos por geohash, priorizados na ordem:
 | **Tipo** | Derivacao |
 | **Passos** | Card Camada 2, secao Movel |
 
-**Descricao:**
+**Motor de decisao (Levantamento — fluxograma):**
 
-| Classificacao | Cor | Condicao | Campos Adicionais |
-|---------------|-----|----------|-------------------|
-| MELHORA_QUALIDADE | #EF4444 | Cobertura existe, qualidade ruim | speedtestScore (/100) |
-| SAUDAVEL | #22C55E | Cobertura e qualidade OK | — |
-| EXPANSAO_5G | #7C3AED | Sem 5G, segmento premium | concentracaoRenda (%) |
-| EXPANSAO_4G | #3B82F6 | Sem 4G (legacy 2G/3G) | concentracaoRenda (%) |
+```
+Tem Cobertura? (sinal detectado/ERB no geohash)
+  SIM → Qualidade Ruim? (SpeedTest < benchmark)
+    SIM → MELHORA_QUALIDADE
+    NAO → SAUDAVEL (Rede Saudavel)
+  NAO → EXPANSAO_COBERTURA (White Spots / sinal fraco)
+```
 
-Score e labels identicos a RN004-04.
+**Trilhas internas de MELHORA_QUALIDADE e EXPANSAO_COBERTURA:**
+- **Trilha 5G (Premium)**: areas de alto valor, renda alta
+- **Trilha 4G (Mass)**: areas de volume, cobertura basica
 
 ---
 
@@ -153,15 +154,27 @@ Score e labels identicos a RN004-04.
 | **Tipo** | Validacao |
 | **Passos** | Fluxo Principal e Alternativo |
 
-**Descricao:**
-O card lateral exibe o geohash determinado por:
+Sem alteracao. `displayedGeohash = pinnedGeohash ?? hoveredGeohash ?? null`.
 
-```
-displayedGeohash = pinnedGeohash ?? hoveredGeohash ?? null
-```
+---
 
-- Se pinnedGeohash != null: card mostra pin, hover NAO atualiza
-- Se pinnedGeohash == null: card segue hover
-- Se ambos null: card mostra estado vazio "Territorios de Acao"
+## RN004-07 — Posicao Competitiva
 
-Apenas 1 geohash pode estar fixado por vez.
+| Campo | Valor |
+|-------|-------|
+| **ID** | RN004-07 |
+| **Tipo** | Derivacao |
+| **Passos** | Card Camada 1, secao Satisfacao |
+
+**Descricao (Levantamento sec.4):**
+Delta competitiva = Score Vivo - Melhor Score Concorrente no mesmo geohash.
+
+| Posicao | Delta | Risco | Cor |
+|---------|-------|-------|-----|
+| Lider | > +0.5 | Baixo | Verde/Azul |
+| Competitivo | 0 a +0.5 | Medio | Verde |
+| Emparedada | -0.5 a 0 | Medio-Alto | Amarelo |
+| Abaixo | -1.0 a -0.5 | Alto | Vermelho |
+| Isolada | < -1.8 | Critico | Vermelho escuro |
+
+Exibida como badge no card lateral, secao de satisfacao.

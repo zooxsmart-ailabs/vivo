@@ -59,7 +59,7 @@ Os dois periodos selecionados nao podem ter meses em comum.
 | Download | `base.avgDownload - comp.avgDownload` | Mbps |
 | Latencia | `base.avgLatency - comp.avgLatency` | ms (negativo = melhor) |
 | Clientes | `base.activeClients - comp.activeClients` | unidades |
-| Quadrante | Mudou? (ex: GROWTH -> RETENCAO) | categorico |
+| Quadrante | Mudou? (ex: OPORTUNIDADE -> RISCO) | categorico |
 
 **Indicadores visuais:**
 - Positivo (melhora): seta verde para cima

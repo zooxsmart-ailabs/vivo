@@ -29,32 +29,32 @@ sequenceDiagram
 
     U->>NAV: Clica aba "Frentes Estrategicas"
     NAV->>FRT: Navega para /frentes
-    FRT->>WS: frentes.byStrategy({ strategy: RETENCAO, periodo, localizacao })
-    WS->>CACHE: GET cache:frentes:RETENCAO:{hash}
+    FRT->>WS: frentes.byStrategy({ strategy: RISCO, periodo, localizacao })
+    WS->>CACHE: GET cache:frentes:RISCO:{hash}
     alt Cache HIT
         CACHE-->>WS: FrenteData[]
     else Cache MISS
         WS->>SVC: getByStrategy(params)
-        SVC->>DB: SELECT FROM vw_geohash_summary WHERE quadrant='RETENCAO'
+        SVC->>DB: SELECT FROM vw_geohash_summary WHERE quadrant='RISCO'
         DB-->>SVC: rows[]
         SVC->>SVC: Calcula ranking por prioridade (RN004-01)
         SVC->>SVC: Calcula KPIs (total clientes, media share, media sat.)
-        SVC->>CACHE: SET cache:frentes:RETENCAO:{hash} TTL 5min
+        SVC->>CACHE: SET cache:frentes:RISCO:{hash} TTL 5min
         SVC-->>WS: { geohashes: [], kpis: {} }
     end
     WS-->>FRT: Stream dados
     FRT->>FRT: Renderiza sidebar (ranking) + FlowPanel (3 colunas)
-    FRT-->>U: Frente RETENCAO com ranking e fluxo
+    FRT-->>U: Frente RISCO com ranking e fluxo
 
     U->>FRT: Seleciona geohash #3 da lista
     FRT->>FRT: Atualiza FlowPanel com dados do geohash
     FRT-->>U: Dados + Perfis + Acoes do geohash
 
-    U->>FRT: Muda para aba UPSELL
-    FRT->>WS: frentes.byStrategy({ strategy: UPSELL, ... })
+    U->>FRT: Muda para aba FORTALEZA
+    FRT->>WS: frentes.byStrategy({ strategy: FORTALEZA, ... })
     WS->>DB: (mesma cadeia de cache/query)
-    WS-->>FRT: Stream dados UPSELL
-    FRT-->>U: Frente UPSELL renderizada
+    WS-->>FRT: Stream dados FORTALEZA
+    FRT-->>U: Frente FORTALEZA renderizada
 
     Note over U,CACHE: UC010 — Consultar Visao por Bairro
 
@@ -67,7 +67,7 @@ sequenceDiagram
     SVC-->>WS: BairroData[]
     WS-->>BRR: Stream dados
 
-    BRR->>BRR: Renderiza ranking por categoria (default: GROWTH)
+    BRR->>BRR: Renderiza ranking por categoria (default: OPORTUNIDADE)
     BRR-->>U: Lista de bairros + detalhamento
 
     U->>BRR: Seleciona bairro "Santana"

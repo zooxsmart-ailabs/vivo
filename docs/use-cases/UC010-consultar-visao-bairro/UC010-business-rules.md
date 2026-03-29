@@ -26,7 +26,7 @@ Geohashes sao agrupados por `neighborhood`. Para cada bairro, calcula-se:
 | trendUp/Down/Stable | COUNT por direcao de trend |
 | dominantTrend | Moda (trend com mais geohashes) |
 | trendDelta | AVG(shareTrend.delta) |
-| quadrantCounts | COUNT por quadrante (ex: {GROWTH: 2, RETENCAO: 3}) |
+| quadrantCounts | COUNT por quadrante (ex: {OPORTUNIDADE: 2, RISCO: 3}) |
 | dominantQuadrant | Quadrante com maior contagem |
 
 A lista de bairros e ordenada por `totalClients DESC`.
@@ -42,7 +42,7 @@ A lista de bairros e ordenada por `totalClients DESC`.
 | **Passos** | Passo 6-7 |
 
 **Descricao:**
-Ao selecionar uma categoria (ex: GROWTH), a lista mostra apenas bairros que possuem >= 1 geohash no quadrante GROWTH, ordenados pela contagem de geohashes nesse quadrante.
+Ao selecionar uma categoria (ex: OPORTUNIDADE), a lista mostra apenas bairros que possuem >= 1 geohash no quadrante OPORTUNIDADE, ordenados pela contagem de geohashes nesse quadrante.
 
 **Badges de posicao:**
 - #1, #2, #3: background colorido (opacidade decrescente)
@@ -102,10 +102,10 @@ delta = avgVivoScore - bestCompetitor
 
 | Quadrante | Label |
 |-----------|-------|
-| RETENCAO | "Risco de churn" |
-| UPSELL | "Upsell" |
-| GROWTH | "Aquisicao" |
-| GROWTH_RETENCAO | "Dupla frente" |
+| RISCO | "Risco de churn" |
+| FORTALEZA | "Upsell" |
+| OPORTUNIDADE | "Aquisicao" |
+| OPORTUNIDADE_RISCO | "Dupla frente" |
 
 ---
 

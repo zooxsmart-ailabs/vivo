@@ -24,7 +24,7 @@
 | T05 | Subscription WS geohash.subscribe | SE | 6 | 2 | Medio | 5 |
 | T06 | Consultar benchmarks regionais | CE | 8 | 1 | Medio | 4 |
 | T07 | Consultar viewport bounding box | CE | 4 | 1 | Simples | 3 |
-| T08 | Exibir badge "em risco" (RETENCAO) | SE | 3 | 1 | Simples | 4 |
+| T08 | Exibir badge "em risco" (RISCO) | SE | 3 | 1 | Simples | 4 |
 | T09 | Exibir hint flutuante | SE | 2 | 1 | Simples | 4 |
 | T10 | Consultar estado da sessao | CE | 6 | 2 | Medio | 4 |
 

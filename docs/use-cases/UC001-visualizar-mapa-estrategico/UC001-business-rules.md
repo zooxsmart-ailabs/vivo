@@ -2,6 +2,8 @@
 
 [<- Voltar ao fluxo principal](./UC001-main-flow.md)
 
+**Versao**: 2.0 | **Data**: 2026-03-29 | **Fonte**: Levantamento v1203
+
 ## RN001-01 — Classificacao de Quadrante Estrategico
 
 | Campo | Valor |
@@ -12,25 +14,26 @@
 
 **Descricao:**
 O quadrante de cada geohash e derivado do cruzamento de duas variaveis:
-- **Eixo X**: Market Share da Vivo (`sharePct` de `vw_geohash_summary`)
-- **Eixo Y**: Satisfacao do usuario Vivo (`score` de `satisfactionScore` onde operator='VIVO')
+- **Eixo X**: Share de Mercado Vivo (calculado com dados reais FTTH + ERB)
+- **Eixo Y**: Satisfacao do usuario Vivo (score SpeedTest 0-10)
 
-Os limiares sao definidos por benchmarks regionais (configuraveis por periodo):
+**Quadrantes (Levantamento v1203 sec.5):**
 
-| Condicao | Quadrante | Cor | Significado |
-|----------|-----------|-----|-------------|
-| share < limiar AND satisfacao >= limiar | GROWTH | #22C55E (verde) | Janela de ataque |
-| share >= limiar AND satisfacao >= limiar | UPSELL | #7C3AED (roxo) | Maximizar receita |
-| share < limiar AND satisfacao < limiar | GROWTH_RETENCAO | #F97316 (laranja) | Dupla frente |
-| share >= limiar AND satisfacao < limiar | RETENCAO | #EF4444 (vermelho) | Risco de churn |
+| Condicao | Quadrante | Cor | Significado | Acao |
+|----------|-----------|-----|-------------|------|
+| share < 30% AND sat >= 7.5 | **OPORTUNIDADE** | #22C55E (verde) | Janela de ataque | Geracao de Leads e Marketing de Ataque |
+| share >= 40% AND sat >= 7.5 | **FORTALEZA** | #7C3AED (roxo) | Base solida | Ofertas Premium e Cross-sell |
+| share >= 40% AND sat < 6.0 | **RISCO** | #EF4444 (vermelho) | Risco de churn | Blindagem e Atendimento Proativo |
+| share < 30% AND sat < 6.0 | **EXPANSAO** | #F97316 (laranja) | Dupla frente | Diagnostico Tecnico + Captacao |
 
-**Limiares default (SP):**
-- Share: 35% (`shareMediaEstadoSP`)
-- Satisfacao: 6.8 (`satisfacaoMediaEstadoSP`)
+**Zona intermediaria** (share 30-39% ou sat 6.0-7.4):
+- Classificar pelo quadrante mais proximo usando ponto medio dos thresholds
+- sat >= 6.75: share >= 35% → FORTALEZA, share < 35% → OPORTUNIDADE
+- sat < 6.75: share >= 35% → RISCO, share < 35% → EXPANSAO
 
-**Exemplo:**
-- Geohash com share=28%, satisfacao=7.2 -> GROWTH (verde)
-- Geohash com share=42%, satisfacao=5.9 -> RETENCAO (vermelho)
+**Thresholds (configuraveis via `benchmark_config`):**
+- Share alto: >= 40% | Share baixo: < 30%
+- Satisfacao alta: >= 7.5 | Satisfacao baixa: < 6.0
 
 ---
 
@@ -43,7 +46,7 @@ Os limiares sao definidos por benchmarks regionais (configuraveis por periodo):
 | **Passos** | Passo 8 |
 
 **Descricao:**
-Poligonos sao SEMPRE coloridos pelo quadrante estrategico, independente do filtro de tecnologia ativo. O filtro de tecnologia apenas mostra/oculta poligonos, nunca altera cores.
+Poligonos sao SEMPRE coloridos pelo quadrante estrategico, independente do filtro de tecnologia ativo.
 
 | Propriedade | Valor Default | Hover | Pinned |
 |-------------|---------------|-------|--------|
@@ -63,15 +66,14 @@ Poligonos sao SEMPRE coloridos pelo quadrante estrategico, independente do filtr
 | **Passos** | Passo 3, 4 |
 
 **Descricao:**
-A precisao do geohash enviada na subscription varia conforme o nivel de zoom do mapa:
+Precisoes suportadas (com continuous aggregates e dados operacionais):
 
-| Zoom Google Maps | Precisao Geohash | Tamanho Aprox. Celula |
-|------------------|------------------|-----------------------|
-| <= 8 | 4 | ~39km x 20km |
-| 9-10 | 5 | ~5km x 5km |
-| 11-13 | 6 | ~1.2km x 0.6km |
-| 14-15 | 7 | ~153m x 153m |
-| >= 16 | 8 | ~38m x 19m |
+| Zoom Google Maps | Precisao | Tamanho Celula | Fonte Share | Fonte QoE |
+|---|---|---|---|---|
+| 11-13 | 6 | ~1.2km x 0.6km | FTTH/ERB agrupados por geohash6 | cagg_*_gh6 |
+| 14-15 | 7 | ~153m x 153m | FTTH/ERB agrupados por geohash7 | cagg_*_gh7 |
+
+Zoom fora dessas faixas: clamp para 6 (zoom <= 13) ou 7 (zoom >= 14).
 
 ---
 
@@ -84,13 +86,9 @@ A precisao do geohash enviada na subscription varia conforme o nivel de zoom do 
 | **Passos** | Passo 10 |
 
 **Descricao:**
-- **Visiveis**: Contagem de geohashes que passam pelos filtros ativos (quadrante + tecnologia)
-- **Total**: Contagem total de geohashes no viewport/periodo
-- **Em risco**: Contagem de geohashes no quadrante RETENCAO (independe de filtro de visibilidade)
-
-Formula: `visibleCount = geohashes.filter(isVisible).length`
-
-O badge "em risco" pulsa em vermelho quando riscoCount > 0.
+- **Visiveis**: geohashes que passam nos filtros (quadrante + tecnologia)
+- **Total**: geohashes no viewport/periodo
+- **Em risco**: geohashes no quadrante **RISCO** (badge vermelho pulsante)
 
 ---
 
@@ -103,12 +101,7 @@ O badge "em risco" pulsa em vermelho quando riscoCount > 0.
 | **Passos** | Passo 7 |
 
 **Descricao:**
-O mapa base utiliza estilo analitico minimalista para nao competir visualmente com os poligonos:
-- Geometria: cinza claro (#f5f5f5)
-- Estradas: branco, highways #dadada
-- Agua: cinza medio (#c9c9c9)
-- POIs: ocultos
-- Labels: cinza (#616161)
+Estilo analitico minimalista: geometria cinza claro, estradas brancas, POIs ocultos.
 
 ---
 
@@ -121,16 +114,70 @@ O mapa base utiliza estilo analitico minimalista para nao competir visualmente c
 | **Passos** | Passo 5 |
 
 **Descricao:**
-Benchmarks sao carregados da tabela `benchmark_config` (ou view) e usados em multiplos UCs:
+Benchmarks carregados de `benchmark_config` (Levantamento v1203):
 
-| Benchmark | Valor Default | Uso |
-|-----------|---------------|-----|
-| satisfacaoMediaEstadoSP | 6.8 | Limiar quadrante Y |
-| satisfacaoMediaNacional | 6.5 | Comparacao insights |
-| satisfacaoMediaMercado | 7.2 | Comparacao insights |
-| shareMediaEstadoSP | 35% | Limiar quadrante X |
-| shareMediaNacional | 32% | Comparacao insights |
-| shareMediaCidadeSP | 38% | Comparacao insights |
-| densidadeMediaSP | 420 cl/km2 | Referencia |
-| churnMedioNacional | 2.8%/mes | Referencia |
-| churnMedioSP | 2.4%/mes | Referencia |
+| Benchmark | Valor | Uso |
+|-----------|-------|-----|
+| shareThresholdAlto | 40% | Limiar quadrante X (alto) |
+| shareThresholdBaixo | 30% | Limiar quadrante X (baixo) |
+| satisfacaoThresholdAlta | 7.5 | Limiar quadrante Y (alta) |
+| satisfacaoThresholdBaixa | 6.0 | Limiar quadrante Y (baixa) |
+| trendThresholdUp | +1.0 pp | Delta > +1.0 = UP |
+| trendThresholdDown | -1.0 pp | Delta < -1.0 = DOWN |
+| satisfacaoMedia NACIONAL | 6.5 | Comparacao insights |
+| shareMedia NACIONAL | 32% | Comparacao insights |
+| rendaAlta | R$10.000 | Referencia |
+| rendaBaixa | R$3.500 | Referencia |
+| densidadeAlta | 15.000 hab/km2 | Referencia |
+| densidadeBaixa | 5.000 hab/km2 | Referencia |
+
+---
+
+## RN001-07 — Calculo de Share Real
+
+| Campo | Valor |
+|-------|-------|
+| **ID** | RN001-07 |
+| **Tipo** | Calculo |
+| **Passos** | Passo 5 |
+
+**Descricao:**
+Share calculado com dados operacionais reais da Vivo (Levantamento sec.1):
+
+**FIBRA**: `Domicilios com Vivo Fibra Ativa / Total de Domicilios no Geohash × 100`
+- Numerador: COUNT de `vivo_ftth_coverage` no geohash
+- Denominador: SUM de `geo_por_latlong.total_de_domicilios_media` no geohash
+
+**MOVEL**: `Clientes Vivo com ERB Casa / Total de Pessoas Residentes × 100`
+- Numerador: SUM de `vivo_mobile_erb.(pos + ctrl + pre)` no geohash
+- Denominador: SUM de `geo_por_latlong.populacao_total_media` no geohash
+
+**Share combinado**: GREATEST(share_fibra, share_movel)
+
+**Niveis de share (Levantamento sec.1):**
+
+| Nivel | Threshold | Cor | Descricao |
+|-------|-----------|-----|-----------|
+| Muito Alta | > 50% | Verde Escuro | Lideranca absoluta |
+| Alta | 40-50% | Verde | Alta presenca |
+| Media | 30-39% | Amarelo | Presenca competitiva |
+| Baixa | < 30% | Vermelho | Presenca fraca |
+
+---
+
+## RN001-08 — Tecnologia Derivada
+
+| Campo | Valor |
+|-------|-------|
+| **ID** | RN001-08 |
+| **Tipo** | Derivacao |
+| **Passos** | Passo 8 |
+
+**Descricao:**
+A tecnologia do geohash e derivada da presenca de dados operacionais Vivo:
+
+| Condicao | Tecnologia | Cor |
+|----------|-----------|-----|
+| Geohash tem instalacoes FTTH E ERBs | AMBOS | #8B5CF6 |
+| Geohash tem apenas instalacoes FTTH | FIBRA | #0EA5E9 |
+| Geohash tem apenas ERBs | MOVEL | #F97316 |

@@ -35,12 +35,13 @@
 
 ## FE01 — Sem Dados na Precisao {#fe01}
 
-**Condicao de Desvio:** No passo 6, nao existem dados pre-agregados para a precisao solicitada.
+**Condicao de Desvio:** No passo 6, a query retorna 0 geohashes para a precisao solicitada (ex: nao existem `geohash_cell` de precisao 6 na regiao).
 
 | Passo | Ator | Acao / Resposta do Sistema |
 |-------|------|----------------------------|
-| 1 | Sistema | Backend retorna dados da precisao mais proxima disponivel |
-| 2 | Sistema | Exibe toast informativo: "Exibindo dados em precisao [X] (mais proxima disponivel)" |
-| 3 | Sistema | Renderiza poligonos na precisao disponivel |
+| 1 | Sistema | Backend tenta a outra precisao suportada (6 ↔ 7) |
+| 2 | Sistema | Se encontrou dados: renderiza na precisao alternativa |
+| 3 | Sistema | Exibe toast informativo: "Exibindo dados em precisao [X]" |
+| 4 | Sistema | Se nenhuma precisao tem dados: exibe mapa vazio (FA01 do UC001) |
 
 > **Retorno:** Passo 8 do fluxo principal.

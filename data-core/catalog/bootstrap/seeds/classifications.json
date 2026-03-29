@@ -1,0 +1,102 @@
+{
+  "classifications": [
+    {
+      "name": "QuadrantType",
+      "displayName": "Quadrante Estrategico",
+      "description": "Classificacao de quadrante baseada em market share e satisfacao do usuario. Thresholds: share alto >=40%, baixo <30%; satisfacao alta >=7.5, baixa <6.0. Fonte: Levantamento v1203.",
+      "tags": [
+        {"name": "OPORTUNIDADE", "description": "Share baixo (<30%) + Satisfacao alta (>=7.5). Janela de ataque — geracao de leads e marketing de ataque. Cor: #22C55E."},
+        {"name": "FORTALEZA", "description": "Share alto (>=40%) + Satisfacao alta (>=7.5). Base solida — ofertas premium e cross-sell. Cor: #7C3AED."},
+        {"name": "EXPANSAO", "description": "Share baixo (<30%) + Satisfacao baixa (<6.0). Dupla frente — diagnostico tecnico + captacao condicionada. Cor: #F97316."},
+        {"name": "RISCO", "description": "Share alto (>=40%) + Satisfacao baixa (<6.0). Risco de churn — blindagem e atendimento proativo. Cor: #EF4444."}
+      ]
+    },
+    {
+      "name": "TechCategory",
+      "displayName": "Categoria de Tecnologia",
+      "description": "Classificacao de tecnologia derivada da presenca de instalacoes FTTH e/ou ERBs movel no geohash.",
+      "tags": [
+        {"name": "FIBRA", "description": "Geohash possui apenas cobertura FTTH. Cor: #0EA5E9."},
+        {"name": "MOVEL", "description": "Geohash possui apenas cobertura movel (ERB). Cor: #F97316."},
+        {"name": "AMBOS", "description": "Geohash possui cobertura FTTH e movel. Cor: #8B5CF6."}
+      ]
+    },
+    {
+      "name": "PriorityLabel",
+      "displayName": "Prioridade de Acao",
+      "description": "Prioridade baseada em score absoluto (0-10) que determina prazo de acao. Formulas ponderadas por quadrante.",
+      "tags": [
+        {"name": "P1_CRITICA", "description": "Score >= 8.5. Prazo: <7 dias (RISCO) ou <30 dias (demais)."},
+        {"name": "P2_ALTA", "description": "Score 6.0-8.4. Prazo: <30 dias."},
+        {"name": "P3_MEDIA", "description": "Score 4.0-5.9. Prazo: 30-60 dias."},
+        {"name": "P4_BAIXA", "description": "Score <4.0. Prazo: 90 dias."}
+      ]
+    },
+    {
+      "name": "CompetitivePosition",
+      "displayName": "Posicao Competitiva",
+      "description": "Posicao da Vivo vs melhor concorrente. Delta = score_vivo - MAX(score_tim, score_claro) no mesmo geohash.",
+      "tags": [
+        {"name": "LIDER", "description": "Delta > +0.5. Risco Baixo — Vivo lidera com margem confortavel."},
+        {"name": "COMPETITIVO", "description": "Delta 0 a +0.5. Risco Medio — margem pequena, precisa manter."},
+        {"name": "EMPAREDADA", "description": "Delta -0.5 a 0. Risco Medio-Alto — presa entre concorrentes."},
+        {"name": "ABAIXO", "description": "Delta -1.0 a -0.5. Risco Alto — clientes propensos a migrar."},
+        {"name": "ISOLADA", "description": "Delta < -1.8. Risco Critico — perda e questao de tempo."}
+      ]
+    },
+    {
+      "name": "ShareLevel",
+      "displayName": "Nivel de Penetracao",
+      "description": "Nivel de penetracao de mercado da Vivo no geohash.",
+      "tags": [
+        {"name": "MUITO_ALTA", "description": "Share > 50%. Lideranca absoluta."},
+        {"name": "ALTA", "description": "Share 40-50%. Alta presenca."},
+        {"name": "MEDIA", "description": "Share 30-39%. Presenca competitiva."},
+        {"name": "BAIXA", "description": "Share < 30%. Presenca fraca."}
+      ]
+    },
+    {
+      "name": "FibraClass",
+      "displayName": "Classificacao Fibra (Camada 2)",
+      "description": "Classificacao de infraestrutura de rede fixa para decisao de CAPEX. Motor de decisao: Tem Fibra? -> Ocupacao critica? -> Classificacao.",
+      "tags": [
+        {"name": "AUMENTO_CAPACIDADE", "description": "Fibra presente, ocupacao >85% ou <5 portas. Score: 60% taxa ocupacao + 40% valor da area. Cor: #EF4444."},
+        {"name": "EXPANSAO_NOVA_AREA", "description": "Sem cobertura fibra (greenfield). Score: 50% potencial mercado + 50% sinergia movel. Cor: #F97316."},
+        {"name": "SAUDAVEL", "description": "Fibra presente, ocupacao <=85%. Monitorar. Cor: #22C55E."}
+      ]
+    },
+    {
+      "name": "MovelClass",
+      "displayName": "Classificacao Movel (Camada 2)",
+      "description": "Classificacao de infraestrutura de rede movel. Motor de decisao: Tem cobertura? -> Qualidade ruim? -> Classificacao. Trilhas internas: 5G (premium) ou 4G (mass).",
+      "tags": [
+        {"name": "MELHORA_QUALIDADE", "description": "Cobertura existe mas SpeedTest abaixo do benchmark. Cor: #EF4444."},
+        {"name": "SAUDAVEL", "description": "Cobertura e qualidade OK. Rede saudavel. Cor: #22C55E."},
+        {"name": "EXPANSAO_COBERTURA", "description": "Sem cobertura (white spots) ou sinal fraco. Cor: #7C3AED (5G) ou #3B82F6 (4G)."}
+      ]
+    },
+    {
+      "name": "OperatorName",
+      "displayName": "Operadora de Telecomunicacoes",
+      "description": "Operadoras brasileiras presentes nos dados SpeedTest Ookla.",
+      "tags": [
+        {"name": "VIVO", "description": "Telefonica Brasil / Vivo. MCC 724, MNC 23/06/10/11/17."},
+        {"name": "TIM", "description": "TIM Brasil. MCC 724, MNC 02/03/04."},
+        {"name": "CLARO", "description": "Claro / America Movil. MCC 724, MNC 05."},
+        {"name": "OI", "description": "Oi S.A."},
+        {"name": "OUTROS", "description": "Outras operadoras (MVNOs, regionais)."}
+      ]
+    },
+    {
+      "name": "QualityLabel",
+      "displayName": "Qualidade SpeedTest",
+      "description": "Classificacao de qualidade baseada em download e latencia.",
+      "tags": [
+        {"name": "EXCELENTE", "description": "Download >=100 Mbps E latencia <=20ms. Cor: #16A34A."},
+        {"name": "BOM", "description": "Download >=50 Mbps E latencia <=40ms. Cor: #2563EB."},
+        {"name": "REGULAR", "description": "Download >=20 Mbps OU latencia <=60ms. Cor: #D97706."},
+        {"name": "RUIM", "description": "Demais casos. Cor: #DC2626."}
+      ]
+    }
+  ]
+}

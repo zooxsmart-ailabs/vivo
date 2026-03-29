@@ -2,6 +2,8 @@
 
 [<- Voltar ao fluxo principal](./UC002-main-flow.md)
 
+**Versao**: 2.0 | **Data**: 2026-03-29
+
 ## RN002-01 — Toggle de Quadrante
 
 | Campo | Valor |
@@ -11,12 +13,12 @@
 | **Passos** | Passo 2 |
 
 **Descricao:**
-O estado de filtro de quadrantes e um Set de quadrantes ativos. Cada clique alterna (toggle) a presenca do quadrante no Set.
+O estado de filtro e um Set de quadrantes ativos. Cada clique alterna (toggle).
 
 - Estado inicial: todos os 4 quadrantes ativos
-- Ordem de exibicao: GROWTH -> UPSELL -> GROWTH_RETENCAO -> RETENCAO
-- Multiplos quadrantes podem estar ativos simultaneamente
-- Todos podem ser desativados (resultado: 0 poligonos visiveis)
+- **Ordem de exibicao**: OPORTUNIDADE → FORTALEZA → EXPANSAO → RISCO
+- Multiplos podem estar ativos simultaneamente
+- Todos podem ser desativados (0 poligonos visiveis)
 
 ---
 
@@ -29,8 +31,6 @@ O estado de filtro de quadrantes e um Set de quadrantes ativos. Cada clique alte
 | **Passos** | Passo 3 |
 
 **Descricao:**
-A visibilidade de um geohash e a intersecao de dois filtros:
-
 ```
 isVisible(gh, quadrantFilters, techFilter) =
   quadrantFilters.has(gh.quadrant)
@@ -38,10 +38,10 @@ isVisible(gh, quadrantFilters, techFilter) =
 ```
 
 **Exemplo:**
-- Filtros: {GROWTH, UPSELL}, tech=FIBRA
-- Geohash(quadrant=GROWTH, tech=FIBRA) -> visivel
-- Geohash(quadrant=GROWTH, tech=MOVEL) -> oculto
-- Geohash(quadrant=RETENCAO, tech=FIBRA) -> oculto
+- Filtros: {OPORTUNIDADE, FORTALEZA}, tech=FIBRA
+- Geohash(quadrant=OPORTUNIDADE, tech=FIBRA) → visivel
+- Geohash(quadrant=OPORTUNIDADE, tech=MOVEL) → oculto
+- Geohash(quadrant=RISCO, tech=FIBRA) → oculto
 
 ---
 
@@ -55,9 +55,11 @@ isVisible(gh, quadrantFilters, techFilter) =
 
 **Descricao:**
 
-| Estado | Background | Texto | Efeito |
-|--------|-----------|-------|--------|
-| Ativo | QUADRANT_COLORS[q].hex | branco | box-shadow glow |
-| Inativo | branco | slate-400 | borda slate-200 |
+| Quadrante | Cor Ativo | Label |
+|-----------|----------|-------|
+| OPORTUNIDADE | #22C55E | Oportunidade |
+| FORTALEZA | #7C3AED | Fortaleza |
+| EXPANSAO | #F97316 | Expansao |
+| RISCO | #EF4444 | Risco |
 
-Cada botao exibe: icone + label + contagem de geohashes no quadrante.
+Estado inativo: fundo branco, texto cinza, borda slate-200.

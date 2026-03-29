@@ -45,7 +45,7 @@ sequenceDiagram
 
     Note over U,CACHE: UC002 — Filtrar por Quadrante
 
-    U->>FILT: Toggle quadrante (ex: desativa RETENCAO)
+    U->>FILT: Toggle quadrante (ex: desativa RISCO)
     FILT->>MAP: Emite filterChange({ quadrants })
     MAP->>MAP: polygon.setVisible(isVisible) para cada poligono
     MAP->>MAP: Atualiza contadores

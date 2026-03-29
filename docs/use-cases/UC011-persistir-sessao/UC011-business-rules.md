@@ -68,11 +68,11 @@ interface SessionState {
 | mapZoom | 11 |
 | periodo | Ultimos 3 meses com dados |
 | localizacao | Estado e cidade com mais dados |
-| activeQuadrants | Todos (GROWTH, UPSELL, GROWTH_RETENCAO, RETENCAO) |
+| activeQuadrants | Todos (OPORTUNIDADE, FORTALEZA, EXPANSAO, RISCO) |
 | techFilter | "TODOS" |
 | pinnedGeohashId | null |
-| activeStrategy | "RETENCAO" |
-| rankingTab | "GROWTH" |
+| activeStrategy | "RISCO" |
+| rankingTab | "OPORTUNIDADE" |
 
 ---
 

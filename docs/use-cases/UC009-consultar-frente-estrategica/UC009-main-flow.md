@@ -67,7 +67,7 @@ O Analista consulta uma das 4 frentes estrategicas (Retencao, Upsell, Growth, Ex
 
 | Tipo | ID | Condicao de Desvio |
 |------|----|--------------------|
-| Alternativo | [FA01](./UC009-alt-flows.md#fa01) | Frente GROWTH_RETENCAO (painel Expansao) |
+| Alternativo | [FA01](./UC009-alt-flows.md#fa01) | Frente EXPANSAO (painel Expansao) |
 | Alternativo | [FA02](./UC009-alt-flows.md#fa02) | Geohash com Camada 2 disponivel |
 | Alternativo | [FA03](./UC009-alt-flows.md#fa03) | Lista vazia apos busca |
 

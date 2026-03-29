@@ -1,0 +1,20 @@
+{
+  "name": "GeoIntelligence-PostgreSQL",
+  "displayName": "Zoox x Vivo GeoIntelligence Database",
+  "description": "PostgreSQL 18 + TimescaleDB + PostGIS. Base de dados da plataforma de GeoInteligencia contendo medicoes QoE Ookla, dados operacionais Vivo (FTTH/ERB), dimensoes geohash, dados socioeconomicos e views analiticas.",
+  "serviceType": "Postgres",
+  "connection": {
+    "config": {
+      "type": "Postgres",
+      "scheme": "postgresql+psycopg2",
+      "hostPort": "{GEOINTEL_PG_HOST}:{GEOINTEL_PG_PORT}",
+      "username": "{GEOINTEL_PG_USER}",
+      "authType": {
+        "password": "{GEOINTEL_PG_PASSWORD}"
+      },
+      "database": "{GEOINTEL_PG_DATABASE}",
+      "ingestAllDatabases": false,
+      "sslMode": "disable"
+    }
+  }
+}

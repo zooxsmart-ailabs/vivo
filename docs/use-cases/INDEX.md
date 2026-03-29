@@ -1,6 +1,6 @@
 # Casos de Uso — Zoox x Vivo GeoIntelligence
 
-**Versao:** 1.0 | **Data:** 2026-03-25 | **Total de PF:** 194
+**Versao:** 2.0 | **Data:** 2026-03-29 | **Total de PF:** 212
 
 ## Atores
 
@@ -76,14 +76,16 @@
 | D02 | video (QoE Video Streaming) | AIE | 95 | 6 | Complexo | 10 |
 | D03 | web_browsing (QoE Web Browsing) | AIE | 100 | 6 | Complexo | 10 |
 | D04 | score (CS Score Calc) | AIE | 14 | 1 | Simples | 5 |
-| D05 | geo_por_latlong (Dados Socioeconomicos) | AIE | 21 | 1 | Medio | 7 |
+| D05 | geo_por_latlong (Dados Socioeconomicos v3) | AIE | 21 | 1 | Medio | 7 |
 | D06 | user_session (Estado da Sessao) | ALI | 12 | 3 | Medio | 10 |
-| D07 | vw_geohash_summary (View Consolidada) | ALI | 35 | 5 | Complexo | 15 |
+| D07 | vw_geohash_summary (View Consolidada v2) | ALI | 42 | 6 | Complexo | 15 |
 | D08 | vw_bairro_summary (View Agregacao Bairro) | ALI | 20 | 3 | Medio | 10 |
-| D09 | vw_score_comparison (View Comparacao Scores) | ALI | 15 | 2 | Medio | 10 |
-| D10 | benchmark_config (Parametros de Referencia) | ALI | 8 | 1 | Simples | 7 |
+| D09 | vw_share_real (View Share FTTH+ERB) | ALI | 10 | 2 | Medio | 10 |
+| D10 | benchmark_config (Parametros de Referencia) | ALI | 12 | 1 | Medio | 10 |
+| **D11** | **vivo_ftth_coverage (Instalacoes FTTH Vivo)** | **AIE** | 11 | 1 | **Medio** | **7** |
+| **D12** | **vivo_mobile_erb (ERBs Movel Vivo)** | **AIE** | 10 | 1 | **Medio** | **7** |
 
-**Subtotal Dados: 94 PF**
+**Subtotal Dados: 111 PF**
 
 ### Funcoes de Transacao (resumo por UC)
 
@@ -102,12 +104,12 @@
 | UC011 | 4 | 3 | 3 | 13 |
 | UC012 | 3 | 4 | 3 | 13 |
 
-**Subtotal Transacoes: 194 PF**
+**Subtotal Transacoes: 212 PF**
 
 ### Total Geral
 
 | Categoria | PF |
 |-----------|-----|
-| Dados | 94 |
-| Transacoes | 194 |
-| **Total** | **288** |
+| Dados | 111 |
+| Transacoes | 212 |
+| **Total** | **323** |

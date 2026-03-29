@@ -12,7 +12,7 @@
 
 ## Objetivo
 
-O Analista ativa/desativa a visibilidade de geohashes por quadrante estrategico (GROWTH, UPSELL, RETENCAO, GROWTH_RETENCAO) para focar a analise em estrategias especificas.
+O Analista ativa/desativa a visibilidade de geohashes por quadrante estrategico (OPORTUNIDADE, FORTALEZA, RISCO, EXPANSAO) para focar a analise em estrategias especificas.
 
 ## Pre-condicoes
 

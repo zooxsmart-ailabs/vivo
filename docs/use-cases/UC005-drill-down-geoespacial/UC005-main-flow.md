@@ -36,10 +36,10 @@ O Analista altera o zoom do mapa, disparando automaticamente uma mudanca na prec
 |-------|------|----------------------------|
 | 1 | Analista | Altera zoom do mapa (scroll, pinch, botoes +/-) |
 | 2 | Sistema | Detecta mudanca de zoom com debounce (300ms) |
-| 3 | Sistema | Calcula nova precisao de geohash (RN001-03) |
+| 3 | Sistema | Calcula nova precisao de geohash: clamp para 6 (zoom <= 13) ou 7 (zoom >= 14) — RN001-03 |
 | 4 | Sistema | Se precisao mudou: cancela subscription anterior |
 | 5 | Sistema | Envia nova subscription: `geohash.subscribe({ viewport, periodo, localizacao, precisao })` |
-| 6 | Sistema | Backend agrega dados na nova precisao via view materializada |
+| 6 | Sistema | Backend consulta `vw_geohash_summary WHERE precision = ?` que consome os continuous aggregates correspondentes (`cagg_*_gh6` ou `cagg_*_gh7`) — RN005-02 |
 | 7 | Sistema | Remove poligonos anteriores do mapa |
 | 8 | Sistema | Renderiza novos poligonos com animacao de transicao (fade) |
 | 9 | Sistema | Recalcula contadores e legenda |
