@@ -11,6 +11,11 @@ export class AuthGuard implements CanActivate {
   constructor(private readonly config: ConfigService) {}
 
   canActivate(context: ExecutionContext): boolean {
+    const jwtSecret = this.config.get<string>("app.jwtSecret");
+    if (!jwtSecret) {
+      throw new Error("JWT_SECRET is not configured");
+    }
+
     const request = context.switchToHttp().getRequest();
     const authHeader = request.headers.authorization;
 
@@ -25,8 +30,7 @@ export class AuthGuard implements CanActivate {
       throw new UnauthorizedException("Empty token");
     }
 
-    // TODO: Implement JWT verification with jose or jsonwebtoken
-    // For now, stores the raw token on the request
+    // TODO: Verify token signature using jwtSecret
     request.user = { token };
     return true;
   }

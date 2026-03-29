@@ -8,11 +8,16 @@ estudo/*.csv
 node_modules/
 dist/
 .output/
+.nuxt/
+coverage/
 
 # Environment
 .env
 .env.*
 !.env.example
+
+# Build artifacts
+*.tsbuildinfo
 
 # IDE
 .idea/
