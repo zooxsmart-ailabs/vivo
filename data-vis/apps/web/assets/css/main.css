@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --vivo-purple: #660099;
+  --vivo-purple-dark: #4a0070;
+  --vivo-purple-light: #8c1aff;
+}

@@ -1,0 +1,10 @@
+{
+  "extends": "./.nuxt/tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@vivo/shared": ["../../packages/shared/src"],
+      "@vivo/shared/*": ["../../packages/shared/src/*"],
+      "@vivo/api/*": ["../api/*"]
+    }
+  }
+}
