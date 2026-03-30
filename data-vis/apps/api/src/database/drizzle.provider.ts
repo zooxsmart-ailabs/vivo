@@ -2,10 +2,11 @@ import { ConfigType } from "@nestjs/config";
 import { Pool } from "pg";
 import { drizzle, NodePgDatabase } from "drizzle-orm/node-postgres";
 import databaseConfig from "../common/config/database.config";
+import * as schema from "./schema";
 
 export const DRIZZLE = Symbol("DRIZZLE");
 
-export type DrizzleDB = NodePgDatabase;
+export type DrizzleDB = NodePgDatabase<typeof schema>;
 
 export const drizzleProvider = {
   provide: DRIZZLE,
@@ -19,6 +20,6 @@ export const drizzleProvider = {
       database: config.database,
       ssl: config.ssl ? { rejectUnauthorized: false } : false,
     });
-    return drizzle(pool);
+    return drizzle(pool, { schema });
   },
 };
