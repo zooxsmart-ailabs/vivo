@@ -1,4 +1,4 @@
-x-om-image: &om-image docker.getcollate.io/openmetadata/server:${OM_VERSION:-1.6.4}
+x-om-image: &om-image docker.getcollate.io/openmetadata/server:${OM_VERSION:-1.12.3}
 
 services:
   # ===========================================================================
@@ -24,7 +24,7 @@ services:
     restart: unless-stopped
 
   # ===========================================================================
-  # CATALOG PROFILE — OpenMetadata Data Catalog
+  # CATALOG PROFILE — OpenMetadata 1.12.3
   # ===========================================================================
 
   om-postgres:
@@ -74,7 +74,6 @@ services:
         condition: service_healthy
     environment: &om-env
       OPENMETADATA_CLUSTER_NAME: vivo-geointel
-      # Database (OM internal)
       DB_DRIVER_CLASS: org.postgresql.Driver
       DB_SCHEME: postgresql
       DATABASE_HOST: om-postgres
@@ -82,26 +81,20 @@ services:
       DATABASE_USER: openmetadata
       DATABASE_PASSWORD: ${OM_PG_PASSWORD:-openmetadata}
       DATABASE_DATABASE: openmetadata_db
-      # Elasticsearch
       ELASTICSEARCH_HOST: om-elasticsearch
       ELASTICSEARCH_PORT: "9200"
       ELASTICSEARCH_SCHEME: http
-      # Auth
       AUTHENTICATION_PROVIDER: basic
       AUTHENTICATION_PUBLIC_KEYS: "[http://om-server:8585/api/v1/system/config/jwks]"
       AUTHENTICATION_AUTHORITY: https://accounts.google.com
-      # JWT
       RSA_PUBLIC_KEY_FILE_PATH: ./conf/public_key.der
       RSA_PRIVATE_KEY_FILE_PATH: ./conf/private_key.der
       JWT_ISSUER: open-metadata.org
       JWT_KEY_ID: Gb389a-9f76-gdjs-a92j-0242bk94356
-      # API URL
       SERVER_HOST_API_URL: http://om-server:8585/api
-      # Pipeline
       PIPELINE_SERVICE_CLIENT_ENABLED: "true"
       PIPELINE_SERVICE_CLIENT_HOST: http://om-ingestion:8080
       PIPELINE_SERVICE_IP_INFO_ENABLED: "false"
-      # Migration
       MIGRATION_LIMIT_PARAM: "1200"
     networks:
       - vivo-net
@@ -131,7 +124,7 @@ services:
     restart: unless-stopped
 
   om-ingestion:
-    image: docker.getcollate.io/openmetadata/ingestion:${OM_VERSION:-1.6.4}
+    image: docker.getcollate.io/openmetadata/ingestion:${OM_VERSION:-1.12.3}
     profiles: [catalog]
     depends_on:
       om-server:
@@ -173,11 +166,116 @@ services:
       - vivo-net
     restart: on-failure:3
 
+  # ===========================================================================
+  # OBSERVABILITY PROFILE — SigNoz (Traces + Metrics + Logs)
+  # ===========================================================================
+
+  signoz-zookeeper:
+    image: bitnami/zookeeper:3.9
+    profiles: [observability]
+    environment:
+      ALLOW_ANONYMOUS_LOGIN: "yes"
+      ZOO_AUTOPURGE_INTERVAL: "1"
+    volumes:
+      - signoz-zookeeper-data:/bitnami/zookeeper
+    healthcheck:
+      test: ["CMD-SHELL", "echo ruok | nc localhost 2181 | grep imok"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    networks:
+      - vivo-net
+    restart: unless-stopped
+
+  signoz-clickhouse:
+    image: clickhouse/clickhouse-server:24.1
+    profiles: [observability]
+    depends_on:
+      signoz-zookeeper:
+        condition: service_healthy
+    environment:
+      CLICKHOUSE_DB: signoz
+      CLICKHOUSE_USER: default
+      CLICKHOUSE_PASSWORD: ""
+    volumes:
+      - signoz-clickhouse-data:/var/lib/clickhouse
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:8123/ping"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    networks:
+      - vivo-net
+    restart: unless-stopped
+
+  signoz-otel-collector:
+    image: signoz/signoz-otel-collector:0.111.24
+    profiles: [observability]
+    depends_on:
+      signoz-clickhouse:
+        condition: service_healthy
+    ports:
+      - "${SIGNOZ_OTEL_GRPC_PORT:-4317}:4317"
+      - "${SIGNOZ_OTEL_HTTP_PORT:-4318}:4318"
+    volumes:
+      - ./observability/otel-collector-config.yaml:/etc/otel/config.yaml:ro
+    command: ["--config=/etc/otel/config.yaml"]
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:13133/"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    networks:
+      - vivo-net
+    restart: unless-stopped
+
+  signoz-query-service:
+    image: signoz/signoz:0.69.0
+    profiles: [observability]
+    depends_on:
+      signoz-clickhouse:
+        condition: service_healthy
+      signoz-otel-collector:
+        condition: service_healthy
+    environment:
+      ClickHouseUrl: tcp://signoz-clickhouse:9000
+      STORAGE: clickhouse
+      GODEBUG: netdns=go
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:8080/api/v1/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - vivo-net
+    restart: unless-stopped
+
+  signoz-frontend:
+    image: signoz/frontend:0.69.0
+    profiles: [observability]
+    depends_on:
+      signoz-query-service:
+        condition: service_healthy
+    ports:
+      - "${SIGNOZ_FRONTEND_PORT:-3301}:3301"
+    environment:
+      FRONTEND_API_ENDPOINT: http://signoz-query-service:8080
+    networks:
+      - vivo-net
+    restart: unless-stopped
+
 volumes:
   pg-data:
   om-pg-data:
   om-es-data:
   om-ingestion-data:
+  signoz-clickhouse-data:
+  signoz-zookeeper-data:
 
 networks:
   vivo-net:
