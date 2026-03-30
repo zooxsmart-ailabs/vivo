@@ -1,6 +1,6 @@
 # Casos de Uso — Zoox x Vivo GeoIntelligence
 
-**Versao:** 2.0 | **Data:** 2026-03-29 | **Total de PF:** 212
+**Versao:** 3.0 | **Data:** 2026-03-30 | **Total de PF:** 212
 
 ## Atores
 
@@ -84,8 +84,11 @@
 | D10 | benchmark_config (Parametros de Referencia) | ALI | 12 | 1 | Medio | 10 |
 | **D11** | **vivo_ftth_coverage (Instalacoes FTTH Vivo)** | **AIE** | 11 | 1 | **Medio** | **7** |
 | **D12** | **vivo_mobile_erb (ERBs Movel Vivo)** | **AIE** | 10 | 1 | **Medio** | **7** |
+| **D13** | **geohash_crm (Dados CRM por Geohash)** | **ALI** | 9 | 1 | **Medio** | **10** |
+| **D14** | **camada2_fibra (Scores CAPEX Fibra)** | **ALI** | 14 | 2 | **Medio** | **10** |
+| **D15** | **camada2_movel (Scores CAPEX Movel)** | **ALI** | 22 | 3 | **Complexo** | **15** |
 
-**Subtotal Dados: 111 PF**
+**Subtotal Dados: 153 PF**
 
 ### Funcoes de Transacao (resumo por UC)
 
@@ -108,8 +111,8 @@
 
 ### Total Geral
 
-| Categoria | PF |
-|-----------|-----|
-| Dados | 111 |
-| Transacoes | 212 |
-| **Total** | **323** |
+| Categoria | PF | Delta v3 |
+|-----------|-----|---------|
+| Dados | 153 | +42 (D13+D14+D15) |
+| Transacoes | 212 | — |
+| **Total** | **365** | **+42** |

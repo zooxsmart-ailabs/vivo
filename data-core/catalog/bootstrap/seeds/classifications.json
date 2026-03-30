@@ -3,12 +3,12 @@
     {
       "name": "QuadrantType",
       "displayName": "Quadrante Estrategico",
-      "description": "Classificacao de quadrante baseada em market share e satisfacao do usuario. Thresholds: share alto >=40%, baixo <30%; satisfacao alta >=7.5, baixa <6.0. Fonte: Levantamento v1203.",
+      "description": "Classificacao de quadrante baseada em market share e satisfacao do usuario. Thresholds v2: share >= 35% = alto; QoE >= 7.01 = alta, < 5.0 = baixa (escala 0-10). Fonte: ZooxMap_Indicadores_Unificado_v2.pdf.",
       "tags": [
-        {"name": "OPORTUNIDADE", "description": "Share baixo (<30%) + Satisfacao alta (>=7.5). Janela de ataque — geracao de leads e marketing de ataque. Cor: #22C55E."},
-        {"name": "FORTALEZA", "description": "Share alto (>=40%) + Satisfacao alta (>=7.5). Base solida — ofertas premium e cross-sell. Cor: #7C3AED."},
-        {"name": "EXPANSAO", "description": "Share baixo (<30%) + Satisfacao baixa (<6.0). Dupla frente — diagnostico tecnico + captacao condicionada. Cor: #F97316."},
-        {"name": "RISCO", "description": "Share alto (>=40%) + Satisfacao baixa (<6.0). Risco de churn — blindagem e atendimento proativo. Cor: #EF4444."}
+        {"name": "GROWTH", "description": "Share < 35% + QoE >= 7.01. Janela de ataque — geracao de leads e captacao. Cor: #158030 (Verde)."},
+        {"name": "UPSELL", "description": "Share >= 35% + QoE >= 7.01. Base consolidada — maximizar receita com upgrades. Cor: #7C3AED (Roxo)."},
+        {"name": "RETENCAO", "description": "Share >= 35% + QoE < 5.0. Risco iminente de churn — blindagem e atendimento proativo. Cor: #DC2626 (Vermelho)."},
+        {"name": "GROWTH_RETENCAO", "description": "Zona intermediaria: QoE 5.0-7.01 ou share baixo + QoE baixa. Perfil misto: acoes de captacao e retencao combinadas. Cor: #D97706 (Ambar)."}
       ]
     },
     {
@@ -24,55 +24,78 @@
     {
       "name": "PriorityLabel",
       "displayName": "Prioridade de Acao",
-      "description": "Prioridade baseada em score absoluto (0-10) que determina prazo de acao. Formulas ponderadas por quadrante.",
+      "description": "Prioridade baseada em score (0-10) por quadrante. Formulas: RETENCAO=(10-Sat)x0.30+Sharex0.25+(10-Delta)x0.25+Popx0.10+Crescx0.10; UPSELL=Sharex0.30+Satx0.25+Rendax0.25+Deltax0.10+Popx0.10; GROWTH=(10-Share)x0.25+Satx0.20+Rendax0.20+Crescx0.20+Deltax0.15; GROWTH_RETENCAO=Deltax0.30+Crescx0.25+Rendax0.20+Satx0.15+Sharex0.10.",
       "tags": [
-        {"name": "P1_CRITICA", "description": "Score >= 8.5. Prazo: <7 dias (RISCO) ou <30 dias (demais)."},
-        {"name": "P2_ALTA", "description": "Score 6.0-8.4. Prazo: <30 dias."},
-        {"name": "P3_MEDIA", "description": "Score 4.0-5.9. Prazo: 30-60 dias."},
-        {"name": "P4_BAIXA", "description": "Score <4.0. Prazo: 90 dias."}
+        {"name": "P1_CRITICA", "description": "Score > 7.5. Acao imediata — task force ou retencao urgente."},
+        {"name": "P2_ALTA", "description": "Score 6.0-7.4. Plano de acao no curto prazo (30-60 dias)."},
+        {"name": "P3_MEDIA", "description": "Score 4.5-5.9. Monitorar e agir no medio prazo (60-90 dias)."},
+        {"name": "P4_BAIXA", "description": "Score < 4.5. Baixa urgencia — monitoramento continuo (> 90 dias)."}
       ]
     },
     {
       "name": "CompetitivePosition",
       "displayName": "Posicao Competitiva",
-      "description": "Posicao da Vivo vs melhor concorrente. Delta = score_vivo - MAX(score_tim, score_claro) no mesmo geohash.",
+      "description": "Posicao da Vivo vs melhor concorrente. Delta = score_vivo - MAX(score_tim, score_claro) no mesmo geohash. Escala QoE 0-10.",
       "tags": [
-        {"name": "LIDER", "description": "Delta > +0.5. Risco Baixo — Vivo lidera com margem confortavel."},
-        {"name": "COMPETITIVO", "description": "Delta 0 a +0.5. Risco Medio — margem pequena, precisa manter."},
-        {"name": "EMPAREDADA", "description": "Delta -0.5 a 0. Risco Medio-Alto — presa entre concorrentes."},
-        {"name": "ABAIXO", "description": "Delta -1.0 a -0.5. Risco Alto — clientes propensos a migrar."},
-        {"name": "ISOLADA", "description": "Delta < -1.8. Risco Critico — perda e questao de tempo."}
+        {"name": "LIDER", "description": "Delta > +0.5. Risco Baixo — clientes satisfeitos sem motivo para trocar."},
+        {"name": "COMPETITIVO", "description": "Delta 0 a +0.5. Risco Medio — qualquer queda pode inverter a posicao."},
+        {"name": "EMPATADO", "description": "Delta -0.5 a 0. Risco Medio-Alto — decisao de compra baseada em preco e promocao."},
+        {"name": "ABAIXO", "description": "Delta -1.0 a -0.5. Risco Alto — clientes expostos a argumentos de venda do concorrente."},
+        {"name": "CRITICO", "description": "Delta < -1.0. Risco Muito Alto — churn acelerado e perda de share iminente."}
       ]
     },
     {
       "name": "ShareLevel",
       "displayName": "Nivel de Penetracao",
-      "description": "Nivel de penetracao de mercado da Vivo no geohash.",
+      "description": "Nivel de penetracao de mercado da Vivo no geohash (4 niveis). Fonte: Levantamento v2 sec.1.",
       "tags": [
-        {"name": "MUITO_ALTA", "description": "Share > 50%. Lideranca absoluta."},
-        {"name": "ALTA", "description": "Share 40-50%. Alta presenca."},
-        {"name": "MEDIA", "description": "Share 30-39%. Presenca competitiva."},
-        {"name": "BAIXA", "description": "Share < 30%. Presenca fraca."}
+        {"name": "MUITO_ALTA", "description": "Share > 50%. Lideranca absoluta, operadora dominante na regiao. Cor: Roxo Escuro."},
+        {"name": "ALTA", "description": "Share 40-50%. Alta presenca, base consolidada. Cor: Roxo."},
+        {"name": "MEDIA", "description": "Share 30-39%. Presenca competitiva com espaco para crescimento. Cor: Cinza/Roxo claro."},
+        {"name": "BAIXA", "description": "Share < 30%. Presenca fraca, mercado dominado por concorrentes. Cor: Verde."}
       ]
     },
     {
       "name": "FibraClass",
       "displayName": "Classificacao Fibra (Camada 2)",
-      "description": "Classificacao de infraestrutura de rede fixa para decisao de CAPEX. Motor de decisao: Tem Fibra? -> Ocupacao critica? -> Classificacao.",
+      "description": "Classificacao de infraestrutura de rede fixa para decisao de CAPEX. Arvore de decisao: Tem fibra? -> NAO: SEM_FIBRA; SIM -> Ocupacao critica (>85% ou <5 portas)? -> SIM: AUMENTO_CAPACIDADE; NAO: SAUDAVEL.",
       "tags": [
-        {"name": "AUMENTO_CAPACIDADE", "description": "Fibra presente, ocupacao >85% ou <5 portas. Score: 60% taxa ocupacao + 40% valor da area. Cor: #EF4444."},
-        {"name": "EXPANSAO_NOVA_AREA", "description": "Sem cobertura fibra (greenfield). Score: 50% potencial mercado + 50% sinergia movel. Cor: #F97316."},
-        {"name": "SAUDAVEL", "description": "Fibra presente, ocupacao <=85%. Monitorar. Cor: #22C55E."}
+        {"name": "AUMENTO_CAPACIDADE", "description": "Fibra presente, ocupacao >85% ou <5 portas disponiveis. Score: 60% taxa ocupacao + 40% valor da area (renda+ARPU). Cor: #DC2626."},
+        {"name": "EXPANSAO_NOVA_AREA", "description": "Sem cobertura fibra na area mas com potencial greenfield. Score: 50% potencial mercado + 50% sinergia movel. Cor: #D97706."},
+        {"name": "SAUDAVEL", "description": "Fibra presente, ocupacao <=85%, sem problemas criticos. Monitorar. Cor: #16A34A."},
+        {"name": "SEM_FIBRA", "description": "Area sem qualquer infraestrutura de fibra optica Vivo. Candidata a expansao nova area se potencial de mercado justificar. Cor: #94A3B8."}
       ]
     },
     {
       "name": "MovelClass",
       "displayName": "Classificacao Movel (Camada 2)",
-      "description": "Classificacao de infraestrutura de rede movel. Motor de decisao: Tem cobertura? -> Qualidade ruim? -> Classificacao. Trilhas internas: 5G (premium) ou 4G (mass).",
+      "description": "Classificacao de infraestrutura movel com separacao 4G/5G. Arvore: Tem cobertura? -> Qualidade ruim? -> MELHORA_QUALIDADE_5G/4G. Sem cobertura? -> EXPANSAO_COBERTURA_5G/4G. Criterio 5G vs 4G: Renda + Device Tier + Consumo Dados.",
       "tags": [
-        {"name": "MELHORA_QUALIDADE", "description": "Cobertura existe mas SpeedTest abaixo do benchmark. Cor: #EF4444."},
-        {"name": "SAUDAVEL", "description": "Cobertura e qualidade OK. Rede saudavel. Cor: #22C55E."},
-        {"name": "EXPANSAO_COBERTURA", "description": "Sem cobertura (white spots) ou sinal fraco. Cor: #7C3AED (5G) ou #3B82F6 (4G)."}
+        {"name": "MELHORA_QUALIDADE_5G", "description": "Cobertura 5G existe, qualidade ruim. Perfil Premium. Score: 40% SpeedTest inv + 30% ARPU + 30% Consumo Dados. Cor: #7C3AED."},
+        {"name": "MELHORA_QUALIDADE_4G", "description": "Cobertura 4G existe, qualidade ruim. Perfil Massivo. Score: 60% Gap Performance + 40% Volume Usuarios. Cor: #2563EB."},
+        {"name": "EXPANSAO_COBERTURA_5G", "description": "Sem cobertura 5G em area premium. White Spot Premium. Score: 60% Concentracao Renda + 40% Vulnerabilidade Concorrencia. Cor: #7C3AED."},
+        {"name": "EXPANSAO_COBERTURA_4G", "description": "Sem cobertura 4G em area massiva. White Spot Massivo. Score: 60% Densidade Demografica + 40% Vulnerabilidade Concorrencia. Cor: #2563EB."},
+        {"name": "SAUDAVEL", "description": "Cobertura e qualidade adequadas. Sem intervencao prioritaria. Cor: #16A34A."}
+      ]
+    },
+    {
+      "name": "ScoreLabel",
+      "displayName": "Faixa de Score de Intervencao",
+      "description": "Faixa do score de intervencao Camada 2 (0-100). Determina urgencia de acao de infraestrutura.",
+      "tags": [
+        {"name": "BAIXO", "description": "Score 0-39. Intervencao nao prioritaria — rede em condicoes adequadas. Cor: #16A34A."},
+        {"name": "MEDIO", "description": "Score 40-59. Monitoramento recomendado — atencao a tendencias. Cor: #2563EB."},
+        {"name": "ALTO", "description": "Score 60-79. Intervencao recomendada em curto prazo (30-60 dias). Cor: #D97706."},
+        {"name": "CRITICO", "description": "Score 80-100. Intervencao urgente — risco de degradacao severa do servico. Cor: #DC2626."}
+      ]
+    },
+    {
+      "name": "TechRecommendation",
+      "displayName": "Tecnologia Recomendada para CAPEX",
+      "description": "Recomendacao de tecnologia para investimento de infraestrutura movel. Separacao baseada em: Renda Media (Zoox/IBGE) + Device Tier (CRM) + Consumo de Dados (CRM).",
+      "tags": [
+        {"name": "SG_PREMIUM", "description": "5G Premium: alta renda + device Premium/Mid + alto consumo dados. Foco em experiencia de ultra-velocidade e alta capacidade."},
+        {"name": "4G_MASS", "description": "4G Mass Market: renda media/baixa + device Basic + consumo padrao. Foco em cobertura confavel e conectividade essencial — inclusao digital."}
       ]
     },
     {
@@ -90,11 +113,11 @@
     {
       "name": "QualityLabel",
       "displayName": "Qualidade SpeedTest",
-      "description": "Classificacao de qualidade baseada em download e latencia.",
+      "description": "Classificacao de qualidade baseada em throughput de download e latencia media. Fonte: metricas agregadas das CAAGs.",
       "tags": [
-        {"name": "EXCELENTE", "description": "Download >=100 Mbps E latencia <=20ms. Cor: #16A34A."},
-        {"name": "BOM", "description": "Download >=50 Mbps E latencia <=40ms. Cor: #2563EB."},
-        {"name": "REGULAR", "description": "Download >=20 Mbps OU latencia <=60ms. Cor: #D97706."},
+        {"name": "EXCELENTE", "description": "Download >= 100 Mbps E latencia <= 20ms. Cor: #16A34A."},
+        {"name": "BOM", "description": "Download >= 50 Mbps E latencia <= 40ms. Cor: #2563EB."},
+        {"name": "REGULAR", "description": "Download >= 20 Mbps OU latencia <= 60ms. Cor: #D97706."},
         {"name": "RUIM", "description": "Demais casos. Cor: #DC2626."}
       ]
     }
