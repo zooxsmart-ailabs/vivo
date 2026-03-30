@@ -1,11 +1,11 @@
-/**
- * Drizzle ORM schema definitions.
- *
- * The source of truth for the database schema lives in data-core migrations.
- * Tables will be added here as use cases are implemented, mirroring
- * the existing PostgreSQL + TimescaleDB + PostGIS tables:
- *
- * - file_transfer, video, web_browsing (hypertables)
- * - score (CS Score Calc)
- * - geo_por_latlong (socioeconômic + PostGIS)
- */
+export * from "./_enums";
+export * from "./file-transfer";
+export * from "./video";
+export * from "./web-browsing";
+export * from "./score";
+export * from "./geo-por-latlong";
+export * from "./vivo-ftth";
+export * from "./vivo-erb";
+export * from "./geohash-cell";
+export * from "./benchmark-config";
+export * from "./user-session";
