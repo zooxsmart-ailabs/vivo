@@ -1,8 +1,8 @@
-import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import type Redis from "ioredis";
+import type { DrizzleDB } from "../database/drizzle.provider";
 
 export interface TrpcContext {
-  db: NodePgDatabase;
+  db: DrizzleDB;
   redis: Redis;
   user?: { id: string; roles: string[] };
 }
