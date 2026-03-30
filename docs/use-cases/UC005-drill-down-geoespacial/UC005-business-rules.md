@@ -1,4 +1,4 @@
-# UC005 — Regras de Negocio
+# UC005 — Regras de Negócio
 
 [<- Voltar ao fluxo principal](./UC005-main-flow.md)
 
@@ -7,24 +7,24 @@
 | Campo | Valor |
 |-------|-------|
 | **ID** | RN005-01 |
-| **Tipo** | Temporizacao |
+| **Tipo** | Temporização |
 | **Passos** | Passo 2 |
 
-**Descricao:**
-Mudancas de zoom sao agrupadas com debounce de 300ms para evitar multiplas subscriptions durante scroll continuo. Somente o ultimo zoom apos 300ms de inatividade dispara nova subscription.
+**Descrição:**
+Mudanças de zoom sao agrupadas com debounce de 300ms para evitar múltiplas subscriptions durante scroll continuo. Somente o ultimo zoom apos 300ms de inatividade dispara nova subscription.
 
 ---
 
-## RN005-02 — Agregacao por Precisao
+## RN005-02 — Agregação por Precisao
 
 | Campo | Valor |
 |-------|-------|
 | **ID** | RN005-02 |
-| **Tipo** | Calculo |
+| **Tipo** | Cálculo |
 | **Passos** | Passo 6 |
 
-**Descricao:**
-O sistema suporta duas precisoes: **6** (zoom 11-13) e **7** (zoom 14-15). Cada uma tem pipeline de dados proprio:
+**Descrição:**
+O sistema suporta duas precisoes: **6** (zoom 11-13) e **7** (zoom 14-15). Cada uma tem pipeline de dados próprio:
 
 **Precisao 7 (detalhada):**
 - QoE: `cagg_ft_monthly_gh7`, `cagg_video_monthly_gh7`, `cagg_web_monthly_gh7`
@@ -37,25 +37,25 @@ O sistema suporta duas precisoes: **6** (zoom 11-13) e **7** (zoom 14-15). Cada 
 - Demografia: `geo_por_latlong` agrupado por `LEFT(geohash7, 6)`
 
 **Derivacoes recalculadas em ambas as precisoes:**
-- **Share**: proporcao de testes Vivo / total de testes (via continuous aggregates)
-- **Quadrante**: recalculado com share e satisfacao agregados vs benchmarks (RN001-01)
+- **Share**: proporção de testes Vivo / total de testes (via continuous aggregates)
+- **Quadrante**: recalculado com share e satisfação agregados vs benchmarks (RN001-01)
 - **Prioridade**: formula por quadrante aplicada sobre valores agregados (RN004-01)
-- **Qualidade**: classificacao via thresholds de download/latencia (RN004-02)
+- **Qualidade**: classificação via thresholds de download/latência (RN004-02)
 
-**Implementacao**: A `vw_geohash_summary` ja contem ambas as precisoes. O backend filtra com `WHERE gc.precision = ?`. Toda agregacao e feita no PostgreSQL, nunca no frontend.
+**Implementacao**: A `vw_geohash_summary` ja contem ambas as precisoes. O backend filtra com `WHERE gc.precision = ?`. Toda agregação e feita no PostgreSQL, nunca no frontend.
 
 ---
 
-## RN005-03 — Transicao Visual
+## RN005-03 — Transição Visual
 
 | Campo | Valor |
 |-------|-------|
 | **ID** | RN005-03 |
-| **Tipo** | Derivacao |
+| **Tipo** | Derivação |
 | **Passos** | Passo 7, 8 |
 
-**Descricao:**
-A transicao entre precisoes usa fade para suavizar a experiencia:
+**Descrição:**
+A transição entre precisoes usa fade para suavizar a experiência:
 1. Poligonos atuais: fade out (opacity 0.4 -> 0, 200ms)
 2. Remove poligonos do mapa
 3. Adiciona novos poligonos com opacity 0

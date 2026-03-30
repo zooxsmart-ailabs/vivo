@@ -1,16 +1,16 @@
-# UC010 — Regras de Negocio
+# UC010 — Regras de Negócio
 
 [<- Voltar ao fluxo principal](./UC010-main-flow.md)
 
-## RN010-01 — Agregacao por Bairro (BairroData)
+## RN010-01 — Agregação por Bairro (BairroData)
 
 | Campo | Valor |
 |-------|-------|
 | **ID** | RN010-01 |
-| **Tipo** | Calculo |
+| **Tipo** | Cálculo |
 | **Passos** | Passo 3 |
 
-**Descricao:**
+**Descrição:**
 Geohashes sao agrupados por `neighborhood`. Para cada bairro, calcula-se:
 
 | Campo Agregado | Formula |
@@ -23,7 +23,7 @@ Geohashes sao agrupados por `neighborhood`. Para cada bairro, calcula-se:
 | avgClaroScore | AVG(satisfactionScores[CLARO].score) |
 | avgIncome | AVG(demographics.avgIncome) — somente geohashes com dado |
 | totalDomicilios | SUM(shareTrend.fibra.totalDomicilios) — somente com fibra |
-| trendUp/Down/Stable | COUNT por direcao de trend |
+| trendUp/Down/Stable | COUNT por direção de trend |
 | dominantTrend | Moda (trend com mais geohashes) |
 | trendDelta | AVG(shareTrend.delta) |
 | quadrantCounts | COUNT por quadrante (ex: {OPORTUNIDADE: 2, RISCO: 3}) |
@@ -38,27 +38,27 @@ A lista de bairros e ordenada por `totalClients DESC`.
 | Campo | Valor |
 |-------|-------|
 | **ID** | RN010-02 |
-| **Tipo** | Derivacao |
+| **Tipo** | Derivação |
 | **Passos** | Passo 6-7 |
 
-**Descricao:**
+**Descrição:**
 Ao selecionar uma categoria (ex: OPORTUNIDADE), a lista mostra apenas bairros que possuem >= 1 geohash no quadrante OPORTUNIDADE, ordenados pela contagem de geohashes nesse quadrante.
 
-**Badges de posicao:**
+**Badges de posição:**
 - #1, #2, #3: background colorido (opacidade decrescente)
 - Demais: background 10% com texto colorido
 
 ---
 
-## RN010-03 — Cores de Satisfacao
+## RN010-03 — Cores de Satisfação
 
 | Campo | Valor |
 |-------|-------|
 | **ID** | RN010-03 |
-| **Tipo** | Derivacao |
+| **Tipo** | Derivação |
 | **Passos** | Painel de Detalhamento |
 
-**Descricao:**
+**Descrição:**
 
 | Score | Cor |
 |-------|-----|
@@ -73,16 +73,16 @@ Ao selecionar uma categoria (ex: OPORTUNIDADE), a lista mostra apenas bairros qu
 | Campo | Valor |
 |-------|-------|
 | **ID** | RN010-04 |
-| **Tipo** | Calculo |
+| **Tipo** | Cálculo |
 | **Passos** | Painel KPIs |
 
-**Descricao:**
+**Descrição:**
 ```
 bestCompetitor = MAX(avgTimScore, avgClaroScore)
 delta = avgVivoScore - bestCompetitor
 ```
 
-| Delta | Icone | Cor |
+| Delta | Ícone | Cor |
 |-------|-------|-----|
 | > 0 | TrendingUp | #16A34A |
 | < 0 | TrendingDown | #DC2626 |
@@ -90,15 +90,15 @@ delta = avgVivoScore - bestCompetitor
 
 ---
 
-## RN010-05 — Labels Estrategicos por Quadrante
+## RN010-05 — Labels Estratégicos por Quadrante
 
 | Campo | Valor |
 |-------|-------|
 | **ID** | RN010-05 |
-| **Tipo** | Derivacao |
-| **Passos** | Secao Camada 1 |
+| **Tipo** | Derivação |
+| **Passos** | Seção Camada 1 |
 
-**Descricao:**
+**Descrição:**
 
 | Quadrante | Label |
 |-----------|-------|
@@ -114,21 +114,21 @@ delta = avgVivoScore - bestCompetitor
 | Campo | Valor |
 |-------|-------|
 | **ID** | RN010-06 |
-| **Tipo** | Calculo |
-| **Passos** | Secao Camada 2 |
+| **Tipo** | Cálculo |
+| **Passos** | Seção Camada 2 |
 
-**Descricao:**
+**Descrição:**
 Para Camada 2 do bairro, agregar geohashes com dados de infraestrutura:
 
 **Fibra:**
 - Filtrar geohashes com `camada2.fibra`
 - Score medio: `AVG(camada2.fibra.score)`
-- Contagem por classificacao: {AUMENTO_CAPACIDADE: N, EXPANSAO_NOVA_AREA: M, SAUDAVEL: K}
+- Contagem por classificação: {AUMENTO_CAPACIDADE: N, EXPANSAO_NOVA_AREA: M, SAUDAVEL: K}
 
 **Movel:**
 - Filtrar geohashes com `camada2.movel`
 - Score medio: `AVG(camada2.movel.score)`
-- Contagem por classificacao: {MELHORA_QUALIDADE: N, SAUDAVEL: M, EXPANSAO_5G: K, EXPANSAO_4G: J}
+- Contagem por classificação: {MELHORA_QUALIDADE: N, SAUDAVEL: M, EXPANSAO_5G: K, EXPANSAO_4G: J}
 
 **Cores do score medio (threshold diferente do UC004):**
 

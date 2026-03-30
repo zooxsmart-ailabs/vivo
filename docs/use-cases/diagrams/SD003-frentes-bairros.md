@@ -8,11 +8,11 @@
 
 ```mermaid
 sequenceDiagram
-    box rgb(219, 234, 254) Usuario
+    box rgb(219, 234, 254) Usuário
         participant U as Analista
     end
     box rgb(220, 252, 231) Frontend (Nuxt)
-        participant NAV as Navegacao
+        participant NAV as Navegação
         participant FRT as Frentes Page
         participant BRR as Bairros Page
     end
@@ -25,11 +25,11 @@ sequenceDiagram
         participant CACHE as Redis
     end
 
-    Note over U,CACHE: UC009 — Consultar Frente Estrategica
+    Note over U,CACHE: UC009 — Consultar Frente Estratégica
 
-    U->>NAV: Clica aba "Frentes Estrategicas"
+    U->>NAV: Clica aba "Frentes Estratégicas"
     NAV->>FRT: Navega para /frentes
-    FRT->>WS: frentes.byStrategy({ strategy: RISCO, periodo, localizacao })
+    FRT->>WS: frentes.byStrategy({ strategy: RISCO, período, localização })
     WS->>CACHE: GET cache:frentes:RISCO:{hash}
     alt Cache HIT
         CACHE-->>WS: FrenteData[]
@@ -48,7 +48,7 @@ sequenceDiagram
 
     U->>FRT: Seleciona geohash #3 da lista
     FRT->>FRT: Atualiza FlowPanel com dados do geohash
-    FRT-->>U: Dados + Perfis + Acoes do geohash
+    FRT-->>U: Dados + Perfis + Ações do geohash
 
     U->>FRT: Muda para aba FORTALEZA
     FRT->>WS: frentes.byStrategy({ strategy: FORTALEZA, ... })
@@ -56,11 +56,11 @@ sequenceDiagram
     WS-->>FRT: Stream dados FORTALEZA
     FRT-->>U: Frente FORTALEZA renderizada
 
-    Note over U,CACHE: UC010 — Consultar Visao por Bairro
+    Note over U,CACHE: UC010 — Consultar Visão por Bairro
 
-    U->>NAV: Clica aba "Visao por Bairro"
+    U->>NAV: Clica aba "Visão por Bairro"
     NAV->>BRR: Navega para /bairros
-    BRR->>WS: bairros.list({ periodo, localizacao })
+    BRR->>WS: bairros.list({ período, localização })
     WS->>SVC: aggregateByNeighborhood(params)
     SVC->>DB: SELECT FROM vw_bairro_summary WHERE ...
     DB-->>SVC: bairros[]
@@ -71,7 +71,7 @@ sequenceDiagram
     BRR-->>U: Lista de bairros + detalhamento
 
     U->>BRR: Seleciona bairro "Santana"
-    BRR->>WS: bairros.detail({ bairro: "Santana", periodo, localizacao })
+    BRR->>WS: bairros.detail({ bairro: "Santana", período, localização })
     WS->>SVC: getBairroDetail(params)
     SVC->>DB: Query detalhada (KPIs + Camada 1 + Camada 2)
     DB-->>SVC: Dados agregados
@@ -83,7 +83,7 @@ sequenceDiagram
 ## Notas do Diagrama
 
 - **Passos 1-16:** UC009 — fluxo completo de consulta de frente com cache Redis.
-- **Passos 18-20:** Selecao de geohash e operacao local (dados ja carregados).
-- **Passos 22-26:** Mudanca de aba de estrategia dispara nova query.
-- **Passos 28-37:** UC010 — lista de bairros carregada na navegacao.
-- **Passos 39-46:** Selecao de bairro pode carregar detalhes adicionais do backend.
+- **Passos 18-20:** Seleção de geohash e operação local (dados ja carregados).
+- **Passos 22-26:** Mudança de aba de estratégia dispara nova query.
+- **Passos 28-37:** UC010 — lista de bairros carregada na navegação.
+- **Passos 39-46:** Seleção de bairro pode carregar detalhes adicionais do backend.

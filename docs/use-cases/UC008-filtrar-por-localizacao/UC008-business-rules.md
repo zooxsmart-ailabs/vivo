@@ -1,16 +1,16 @@
-# UC008 — Regras de Negocio
+# UC008 — Regras de Negócio
 
 [<- Voltar ao fluxo principal](./UC008-main-flow.md)
 
-## RN008-01 — Zoom Automatico por Nivel de Localizacao
+## RN008-01 — Zoom Automático por Nivel de Localização
 
 | Campo | Valor |
 |-------|-------|
 | **ID** | RN008-01 |
-| **Tipo** | Derivacao |
+| **Tipo** | Derivação |
 | **Passos** | Passo 10 |
 
-**Descricao:**
+**Descrição:**
 
 | Nivel | Zoom Sugerido | Precisao Geohash |
 |-------|---------------|------------------|
@@ -20,16 +20,16 @@
 
 ---
 
-## RN008-02 — Hierarquia de Localizacao
+## RN008-02 — Hierarquia de Localização
 
 | Campo | Valor |
 |-------|-------|
 | **ID** | RN008-02 |
-| **Tipo** | Derivacao |
+| **Tipo** | Derivação |
 | **Passos** | Passo 2-8 |
 
-**Descricao:**
-A localizacao e uma cascata obrigatoria:
+**Descrição:**
+A localização e uma cascata obrigatoria:
 1. **Estado** — obrigatorio, sempre selecionado
 2. **Cidade** — obrigatorio apos Estado
 3. **Bairro** — opcional (default: "Todos os bairros")
@@ -38,16 +38,16 @@ Fonte dos dados: campo `attr_place_region` (estado), `attr_place_subregion` (cid
 
 ---
 
-## RN008-03 — Sincronizacao Mapa <-> Seletor
+## RN008-03 — Sincronização Mapa <-> Seletor
 
 | Campo | Valor |
 |-------|-------|
 | **ID** | RN008-03 |
-| **Tipo** | Derivacao |
+| **Tipo** | Derivação |
 | **Passos** | Fluxo Alternativo |
 
-**Descricao:**
-A sincronizacao e bidirecional:
+**Descrição:**
+A sincronização e bidirecional:
 - **Seletor -> Mapa**: centraliza e ajusta zoom
 - **Mapa -> Seletor**: atualiza Estado e Cidade (nao Bairro)
 

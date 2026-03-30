@@ -1,61 +1,61 @@
-# UC007 — Comparar Periodos (Diff)
+# UC007 — Comparar Períodos (Diff)
 
 | Campo | Valor |
 |-------|-------|
 | **ID** | UC007 |
-| **Nome** | Comparar Periodos (Diff) |
+| **Nome** | Comparar Períodos (Diff) |
 | **Ator Primario** | Analista |
 | **Atores Secundarios** | NestJS Backend (tRPC/WS), PostgreSQL + TimescaleDB |
 | **Prioridade** | Media |
-| **Versao** | 1.0 |
+| **Versão** | 1.0 |
 | **Referencias** | UC006, UC001, UC009, UC010 |
 
 ## Objetivo
 
-O Analista compara dois periodos temporais lado a lado, visualizando o diff (delta) de todas as metricas para identificar evolucao ou regressao.
+O Analista compara dois períodos temporais lado a lado, visualizando o diff (delta) de todas as métricas para identificar evolução ou regressao.
 
-## Pre-condicoes
+## Pre-condições
 
-- PC01: Periodo base esta selecionado (UC006)
-- PC02: Existem dados em pelo menos 2 periodos distintos
+- PC01: Período base esta selecionado (UC006)
+- PC02: Existem dados em pelo menos 2 períodos distintos
 
-## Pos-condicoes (Sucesso)
+## Pos-condições (Sucesso)
 
 - PS01: Todas as visualizacoes exibem indicadores de diff (setas, deltas, cores)
-- PS02: Mapa pode exibir poligonos com cores de variacao (RN007-01)
-- PS03: Cards e rankings mostram delta entre periodos
+- PS02: Mapa pode exibir poligonos com cores de variação (RN007-01)
+- PS03: Cards e rankings mostram delta entre períodos
 
-## Pos-condicoes (Falha)
+## Pos-condições (Falha)
 
-- PF01: Se periodo de comparacao sem dados: diff nao calculado, mostra apenas periodo base
+- PF01: Se período de comparação sem dados: diff nao calculado, mostra apenas período base
 
 ## Fluxo Principal
 
-| Passo | Ator | Acao / Resposta do Sistema |
+| Passo | Ator | Ação / Resposta do Sistema |
 |-------|------|----------------------------|
-| 1 | Analista | Ativa modo de comparacao no seletor de periodo |
-| 2 | Sistema | Exibe segundo date range picker para "periodo de comparacao" |
-| 3 | Analista | Seleciona periodo de comparacao (ex: 3 meses anteriores) |
-| 4 | Sistema | Valida que periodos nao se sobrepoem (RN007-02) |
+| 1 | Analista | Ativa modo de comparação no seletor de período |
+| 2 | Sistema | Exibe segundo date range picker para "período de comparação" |
+| 3 | Analista | Seleciona período de comparação (ex: 3 meses anteriores) |
+| 4 | Sistema | Valida que períodos nao se sobrepoem (RN007-02) |
 | 5 | Sistema | Envia subscription dupla: `geohash.compare({ periodoBase, periodoComparacao, viewport, precisao })` |
-| 6 | Sistema | Backend calcula diff para cada metrica por geohash (RN007-03) |
+| 6 | Sistema | Backend calcula diff para cada métrica por geohash (RN007-03) |
 | 7 | Sistema | Frontend exibe indicadores de diff em todas as visualizacoes |
-| 8 | Sistema | No mapa: poligonos podem alternar entre cor por quadrante e cor por variacao |
-| 9 | Sistema | Nos cards: cada metrica exibe valor atual + delta + seta direcional |
-| 10 | Sistema | Persiste modo comparacao na sessao (UC011) |
+| 8 | Sistema | No mapa: poligonos podem alternar entre cor por quadrante e cor por variação |
+| 9 | Sistema | Nos cards: cada métrica exibe valor atual + delta + seta direcional |
+| 10 | Sistema | Persiste modo comparação na sessão (UC011) |
 
 ## Fluxos Relacionados
 
-| Tipo | ID | Condicao de Desvio |
+| Tipo | ID | Condição de Desvio |
 |------|----|--------------------|
-| Alternativo | [FA01](./UC007-alt-flows.md#fa01) | Geohash existe apenas em um dos periodos |
-| Alternativo | [FA02](./UC007-alt-flows.md#fa02) | Analista desativa modo comparacao |
-| Excecao | [FE01](./UC007-alt-flows.md#fe01) | Periodo de comparacao sem dados |
+| Alternativo | [FA01](./UC007-alt-flows.md#fa01) | Geohash existe apenas em um dos períodos |
+| Alternativo | [FA02](./UC007-alt-flows.md#fa02) | Analista desativa modo comparação |
+| Exceção | [FE01](./UC007-alt-flows.md#fe01) | Período de comparação sem dados |
 
-## Regras de Negocio Aplicadas
+## Regras de Negócio Aplicadas
 
 Veja [UC007-business-rules.md](./UC007-business-rules.md)
 
-## Pontos de Funcao
+## Pontos de Função
 
 Veja [UC007-function-points.md](./UC007-function-points.md)

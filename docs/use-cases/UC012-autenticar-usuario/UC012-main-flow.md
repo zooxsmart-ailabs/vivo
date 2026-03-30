@@ -1,59 +1,59 @@
-# UC012 — Autenticar Usuario (Guard Plugavel)
+# UC012 — Autenticar Usuário (Guard Plugavel)
 
 | Campo | Valor |
 |-------|-------|
 | **ID** | UC012 |
-| **Nome** | Autenticar Usuario (Guard Plugavel) |
+| **Nome** | Autenticar Usuário (Guard Plugavel) |
 | **Ator Primario** | Sistema de Auth (externo) |
 | **Atores Secundarios** | Analista, NestJS Backend |
 | **Prioridade** | Alta |
-| **Versao** | 1.0 |
+| **Versão** | 1.0 |
 | **Referencias** | UC011, todos os UCs |
 
 ## Objetivo
 
-O sistema valida a autenticacao e autorizacao do usuario de forma plugavel, aceitando diferentes provedores de identidade sem expor rotas abertas.
+O sistema valida a autenticação e autorização do usuário de forma plugavel, aceitando diferentes provedores de identidade sem expor rotas abertas.
 
-## Pre-condicoes
+## Pre-condições
 
 - PC01: Um provedor de auth esta configurado (ou modo bypass em dev)
 
-## Pos-condicoes (Sucesso)
+## Pos-condições (Sucesso)
 
-- PS01: Usuario autenticado com token valido
-- PS02: Sessao iniciada (UC011)
+- PS01: Usuário autenticado com token valido
+- PS02: Sessão iniciada (UC011)
 - PS03: Todas as rotas (HTTP e WS) protegidas pelo guard
 
-## Pos-condicoes (Falha)
+## Pos-condições (Falha)
 
-- PF01: Usuario redirecionado para pagina de auth externo
-- PF02: Nenhum dado e exposto sem autenticacao
+- PF01: Usuário redirecionado para página de auth externo
+- PF02: Nenhum dado e exposto sem autenticação
 
 ## Fluxo Principal
 
-| Passo | Ator | Acao / Resposta do Sistema |
+| Passo | Ator | Ação / Resposta do Sistema |
 |-------|------|----------------------------|
-| 1 | Analista | Acessa a aplicacao |
-| 2 | Sistema | NestJS Guard intercepta a requisicao |
+| 1 | Analista | Acessa a aplicação |
+| 2 | Sistema | NestJS Guard intercepta a requisição |
 | 3 | Sistema | Verifica presenca de token (header, cookie, ou query param) |
 | 4 | Sistema | Valida token com o provedor configurado (RN012-01) |
 | 5 | Sistema | Extrai claims do token: userId, roles, permissions |
-| 6 | Sistema | Cria/atualiza sessao interna (UC011) |
-| 7 | Sistema | Permite acesso a aplicacao |
-| 8 | Sistema | Para conexao WS: valida token no handshake e mantem associacao userId <-> socket |
+| 6 | Sistema | Cria/atualiza sessão interna (UC011) |
+| 7 | Sistema | Permite acesso a aplicação |
+| 8 | Sistema | Para conexão WS: valida token no handshake e mantem associação userId <-> socket |
 
 ## Fluxos Relacionados
 
-| Tipo | ID | Condicao de Desvio |
+| Tipo | ID | Condição de Desvio |
 |------|----|--------------------|
 | Alternativo | [FA01](./UC012-alt-flows.md#fa01) | Modo bypass (desenvolvimento) |
-| Excecao | [FE01](./UC012-alt-flows.md#fe01) | Token invalido ou expirado |
-| Excecao | [FE02](./UC012-alt-flows.md#fe02) | Provedor de auth indisponivel |
+| Exceção | [FE01](./UC012-alt-flows.md#fe01) | Token invalido ou expirado |
+| Exceção | [FE02](./UC012-alt-flows.md#fe02) | Provedor de auth indisponivel |
 
-## Regras de Negocio Aplicadas
+## Regras de Negócio Aplicadas
 
 Veja [UC012-business-rules.md](./UC012-business-rules.md)
 
-## Pontos de Funcao
+## Pontos de Função
 
 Veja [UC012-function-points.md](./UC012-function-points.md)

@@ -1,30 +1,30 @@
-# UC005 — Fluxos Alternativos e de Excecao
+# UC005 — Fluxos Alternativos e de Exceção
 
 [<- Voltar ao fluxo principal](./UC005-main-flow.md)
 
 ---
 
-## FA01 — Zoom Sem Mudanca de Precisao {#fa01}
+## FA01 — Zoom Sem Mudança de Precisao {#fa01}
 
-**Condicao de Desvio:** No passo 3, o novo zoom esta na mesma faixa da precisao atual.
+**Condição de Desvio:** No passo 3, o novo zoom esta na mesma faixa da precisao atual.
 
-| Passo | Ator | Acao / Resposta do Sistema |
+| Passo | Ator | Ação / Resposta do Sistema |
 |-------|------|----------------------------|
 | 1 | Sistema | Mantem poligonos existentes |
 | 2 | Sistema | Nao envia nova subscription |
 
-> **Retorno:** Nao aplicavel — UC encerra sem acao.
+> **Retorno:** Nao aplicavel — UC encerra sem ação.
 
 ---
 
 ## FA02 — Pan Sem Zoom {#fa02}
 
-**Condicao de Desvio:** O analista arrasta o mapa (pan) sem alterar zoom.
+**Condição de Desvio:** O analista arrasta o mapa (pan) sem alterar zoom.
 
-| Passo | Ator | Acao / Resposta do Sistema |
+| Passo | Ator | Ação / Resposta do Sistema |
 |-------|------|----------------------------|
 | 1 | Analista | Arrasta o mapa |
-| 2 | Sistema | Detecta mudanca de viewport (bounding box) com debounce 300ms |
+| 2 | Sistema | Detecta mudança de viewport (bounding box) com debounce 300ms |
 | 3 | Sistema | Envia subscription atualizada com novo viewport, mesma precisao |
 | 4 | Sistema | Backend retorna geohashes do novo viewport |
 | 5 | Sistema | Adiciona novos poligonos, remove os que sairam do viewport |
@@ -35,9 +35,9 @@
 
 ## FE01 — Sem Dados na Precisao {#fe01}
 
-**Condicao de Desvio:** No passo 6, a query retorna 0 geohashes para a precisao solicitada (ex: nao existem `geohash_cell` de precisao 6 na regiao).
+**Condição de Desvio:** No passo 6, a query retorna 0 geohashes para a precisao solicitada (ex: nao existem `geohash_cell` de precisao 6 na região).
 
-| Passo | Ator | Acao / Resposta do Sistema |
+| Passo | Ator | Ação / Resposta do Sistema |
 |-------|------|----------------------------|
 | 1 | Sistema | Backend tenta a outra precisao suportada (6 ↔ 7) |
 | 2 | Sistema | Se encontrou dados: renderiza na precisao alternativa |

@@ -1,36 +1,36 @@
-# UC002 — Regras de Negocio
+# UC002 — Regras de Negócio
 
 [<- Voltar ao fluxo principal](./UC002-main-flow.md)
 
-**Versao**: 2.0 | **Data**: 2026-03-29
+**Versão**: 2.0 | **Data**: 2026-03-29
 
 ## RN002-01 — Toggle de Quadrante
 
 | Campo | Valor |
 |-------|-------|
 | **ID** | RN002-01 |
-| **Tipo** | Validacao |
+| **Tipo** | Validação |
 | **Passos** | Passo 2 |
 
-**Descricao:**
+**Descrição:**
 O estado de filtro e um Set de quadrantes ativos. Cada clique alterna (toggle).
 
 - Estado inicial: todos os 4 quadrantes ativos
-- **Ordem de exibicao**: OPORTUNIDADE → FORTALEZA → EXPANSAO → RISCO
-- Multiplos podem estar ativos simultaneamente
+- **Ordem de exibição**: OPORTUNIDADE → FORTALEZA → EXPANSAO → RISCO
+- Múltiplos podem estar ativos simultaneamente
 - Todos podem ser desativados (0 poligonos visiveis)
 
 ---
 
-## RN002-02 — Funcao de Visibilidade
+## RN002-02 — Função de Visibilidade
 
 | Campo | Valor |
 |-------|-------|
 | **ID** | RN002-02 |
-| **Tipo** | Calculo |
+| **Tipo** | Cálculo |
 | **Passos** | Passo 3 |
 
-**Descricao:**
+**Descrição:**
 ```
 isVisible(gh, quadrantFilters, techFilter) =
   quadrantFilters.has(gh.quadrant)
@@ -50,16 +50,16 @@ isVisible(gh, quadrantFilters, techFilter) =
 | Campo | Valor |
 |-------|-------|
 | **ID** | RN002-03 |
-| **Tipo** | Derivacao |
+| **Tipo** | Derivação |
 | **Passos** | Passo 6 |
 
-**Descricao:**
+**Descrição:**
 
 | Quadrante | Cor Ativo | Label |
 |-----------|----------|-------|
 | OPORTUNIDADE | #22C55E | Oportunidade |
 | FORTALEZA | #7C3AED | Fortaleza |
-| EXPANSAO | #F97316 | Expansao |
+| EXPANSAO | #F97316 | Expansão |
 | RISCO | #EF4444 | Risco |
 
 Estado inativo: fundo branco, texto cinza, borda slate-200.

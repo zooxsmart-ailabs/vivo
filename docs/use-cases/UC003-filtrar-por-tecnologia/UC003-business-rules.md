@@ -1,4 +1,4 @@
-# UC003 — Regras de Negocio
+# UC003 — Regras de Negócio
 
 [<- Voltar ao fluxo principal](./UC003-main-flow.md)
 
@@ -7,10 +7,10 @@
 | Campo | Valor |
 |-------|-------|
 | **ID** | RN003-01 |
-| **Tipo** | Validacao |
+| **Tipo** | Validação |
 | **Passos** | Passo 4 |
 
-**Descricao:**
+**Descrição:**
 O filtro de tecnologia NUNCA altera as cores dos poligonos. Cores sao sempre derivadas do quadrante (RN001-02). O filtro apenas mostra/oculta poligonos.
 
 **Exemplo:**
@@ -24,13 +24,13 @@ O filtro de tecnologia NUNCA altera as cores dos poligonos. Cores sao sempre der
 | Campo | Valor |
 |-------|-------|
 | **ID** | RN003-02 |
-| **Tipo** | Derivacao |
+| **Tipo** | Derivação |
 | **Passos** | Passo 7 |
 
-**Descricao:**
+**Descrição:**
 Quando techFilter != "TODOS", a legenda exibe nota informativa:
 
-> "Exibindo apenas geohashes de [TECNOLOGIA] — cores mantidas por quadrante estrategico"
+> "Exibindo apenas geohashes de [TECNOLOGIA] — cores mantidas por quadrante estratégico"
 
 Com dot colorido da tecnologia ativa.
 
@@ -41,12 +41,12 @@ Com dot colorido da tecnologia ativa.
 | Campo | Valor |
 |-------|-------|
 | **ID** | RN003-03 |
-| **Tipo** | Derivacao |
+| **Tipo** | Derivação |
 | **Passos** | Passo 1 |
 
-**Descricao:**
+**Descrição:**
 
-| Categoria | Filtro | Cor | Icone |
+| Categoria | Filtro | Cor | Ícone |
 |-----------|--------|-----|-------|
 | TODOS | Todos os geohashes | #64748B | Sliders |
 | FIBRA | technology === "FIBRA" OR "AMBOS" | #0EA5E9 | Wifi |

@@ -1,17 +1,17 @@
 # Dicionario de Dados — Zoox x Vivo GeoIntelligence
 
-**Versao**: 2.0 | **Data**: 2026-03-29
+**Versão**: 2.0 | **Data**: 2026-03-29
 
 ## Tabelas Gerenciadas (ALI)
 
 ### geohash_cell
-Sem alteracao. Ver v1 (9 colunas, PK geohash_id).
+Sem alteração. Ver v1 (9 colunas, PK geohash_id).
 
 ### benchmark_config
-Sem alteracao estrutural. Dados seed atualizados com thresholds do Levantamento v1203.
+Sem alteração estrutural. Dados seed atualizados com thresholds do Levantamento v1203.
 
 ### user_session
-Sem alteracao. Ver v1.
+Sem alteração. Ver v1.
 
 ---
 
@@ -19,14 +19,14 @@ Sem alteracao. Ver v1.
 
 ### vivo_ftth_coverage (D11)
 
-| # | Coluna | Tipo | Nulavel | Default | Restricao | Descricao | Fonte |
+| # | Coluna | Tipo | Nulável | Default | Restrição | Descrição | Fonte |
 |---|--------|------|---------|---------|-----------|-----------|-------|
-| 1 | cod_geo | VARCHAR(20) | NO | — | PK | Codigo da instalacao FTTH | CSV col 1 |
+| 1 | cod_geo | VARCHAR(20) | NO | — | PK | Código da instalação FTTH | CSV col 1 |
 | 2 | anomes | INTEGER | NO | — | PK, CHECK >= 202501 | Ano-mes YYYYMM | CSV col 8 |
 | 3 | produto | VARCHAR(20) | NO | BANDA LARGA | — | Tipo de produto | CSV col 2 |
 | 4 | tp_produto | VARCHAR(10) | NO | FTTH | — | Tecnologia | CSV col 3 |
 | 5 | uf | VARCHAR(2) | NO | — | — | Estado | CSV col 4 |
-| 6 | flg_loc | SMALLINT | NO | — | CHECK IN (1,2) | Flag localizacao | CSV col 5 |
+| 6 | flg_loc | SMALLINT | NO | — | CHECK IN (1,2) | Flag localização | CSV col 5 |
 | 7 | x | DOUBLE PRECISION | NO | — | — | Longitude | CSV col 6 |
 | 8 | y | DOUBLE PRECISION | NO | — | — | Latitude | CSV col 7 |
 | 9 | geom | GEOMETRY(POINT,4326) | — | GENERATED | GIST index | PostGIS point | Derivado |
@@ -38,7 +38,7 @@ Sem alteracao. Ver v1.
 
 ### vivo_mobile_erb (D12)
 
-| # | Coluna | Tipo | Nulavel | Default | Restricao | Descricao | Fonte |
+| # | Coluna | Tipo | Nulável | Default | Restrição | Descrição | Fonte |
 |---|--------|------|---------|---------|-----------|-----------|-------|
 | 1 | erb_casa | VARCHAR(20) | NO | — | PK | ID da ERB (ex: GOFMQ) | CSV col 1 |
 | 2 | anomes | INTEGER | NO | — | PK, CHECK >= 202501 | Ano-mes YYYYMM | CSV col 7 |
@@ -51,15 +51,15 @@ Sem alteracao. Ver v1.
 | 9 | geohash7 | TEXT | — | GENERATED | BTREE index | ST_GeoHash(geom,7) | Derivado |
 | 10 | geohash6 | TEXT | — | GENERATED | BTREE index | ST_GeoHash(geom,6) | Derivado |
 
-**Volume**: ~1.000 rows/mes | **Uso**: Share MOVEL = SUM(linhas no geohash) / populacao
+**Volume**: ~1.000 rows/mes | **Uso**: Share MOVEL = SUM(linhas no geohash) / população
 **Fonte CSV**: `Ookla_visao_movel_3M_erb_casa_YYYYMM.csv`, delimitador `;`, decimal `,` (normalizar!)
 
 ---
 
-## Tabelas Raw QoE (AIE) — Referencia
+## Tabelas Raw QoE (AIE) — Referência
 
 ### file_transfer, video, web_browsing, score, geo_por_latlong
-Sem alteracao estrutural. `geo_por_latlong` atualizado para v3 (+60% pontos).
+Sem alteração estrutural. `geo_por_latlong` atualizado para v3 (+60% pontos).
 Ver v1 para detalhes de colunas.
 
 ---
@@ -70,12 +70,12 @@ Ver v1 para detalhes de colunas.
 
 Calcula share de mercado real Vivo usando dados operacionais (nao proxy de testes).
 
-| # | Coluna | Tipo | Derivacao | Descricao |
+| # | Coluna | Tipo | Derivação | Descrição |
 |---|--------|------|-----------|-----------|
 | 1 | geohash_id | VARCHAR | JOIN | Geohash 6 ou 7 |
 | 2 | precision | SMALLINT | 6 ou 7 | Nivel de precisao |
 | 3 | anomes | INTEGER | FTTH/ERB | Ano-mes |
-| 4 | total_ftth_vivo | INTEGER | COUNT(ftth) | Instalacoes FTTH no geohash |
+| 4 | total_ftth_vivo | INTEGER | COUNT(ftth) | Instalações FTTH no geohash |
 | 5 | share_fibra_pct | NUMERIC(5,2) | ftth/domicilios×100 | Share FIBRA (%) |
 | 6 | total_linhas_vivo | INTEGER | SUM(linhas) | Linhas movel no geohash |
 | 7 | share_movel_pct | NUMERIC(5,2) | linhas/pop×100 | Share MOVEL (%) |
@@ -87,7 +87,7 @@ Calcula share de mercado real Vivo usando dados operacionais (nao proxy de teste
 
 Colunas novas vs v1:
 
-| # | Coluna | Tipo | Derivacao | Novidade |
+| # | Coluna | Tipo | Derivação | Novidade |
 |---|--------|------|-----------|----------|
 | — | share_fibra_pct | NUMERIC(5,2) | vw_share_real | NOVO |
 | — | share_movel_pct | NUMERIC(5,2) | vw_share_real | NOVO |
@@ -106,7 +106,7 @@ JSONB keys renomeadas: OPORTUNIDADE, FORTALEZA, RISCO, EXPANSAO.
 
 ## Enums (ATUALIZADOS)
 
-| Tipo | Valores v2 | Mudanca vs v1 |
+| Tipo | Valores v2 | Mudança vs v1 |
 |------|-----------|---------------|
 | quadrant_type | OPORTUNIDADE, FORTALEZA, EXPANSAO, RISCO | Renomeados |
 | priority_label | P1_CRITICA, P2_ALTA, P3_MEDIA, P4_BAIXA | Score absoluto, nao percentil |
@@ -117,9 +117,9 @@ JSONB keys renomeadas: OPORTUNIDADE, FORTALEZA, RISCO, EXPANSAO.
 ---
 
 ## Continuous Aggregates
-Sem alteracao. 6 CAAGs (3 metricas × 2 precisoes). Ver v1.
+Sem alteração. 6 CAAGs (3 métricas × 2 precisoes). Ver v1.
 
 ---
 
-## Funcoes
-Sem alteracao. `fn_available_periods()`, `fn_normalize_operator()`.
+## Funções
+Sem alteração. `fn_available_periods()`, `fn_normalize_operator()`.

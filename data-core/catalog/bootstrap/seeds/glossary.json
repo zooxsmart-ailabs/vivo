@@ -7,68 +7,68 @@
   "terms": [
     {
       "name": "geohash_cell",
-      "displayName": "Celula Geohash",
-      "description": "Dimensao espacial. Cada linha e um poligono geohash com bairro/cidade/estado. PK natural (geohash_id) habilita drill-down hierarquico por prefixo. 9 colunas. Indices GIST em geom e BTREE em prefixos.",
+      "displayName": "Célula Geohash",
+      "description": "Dimensao espacial. Cada linha e um poligono geohash com bairro/cidade/estado. PK natural (geohash_id) habilita drill-down hierarquico por prefixo. 9 colunas. Índices GIST em geom e BTREE em prefixos.",
       "synonyms": ["Geohash Cell", "Dimensao Espacial"]
     },
     {
       "name": "benchmark_config",
-      "displayName": "Configuracao de Benchmarks",
-      "description": "Thresholds configuraveis para classificacao de quadrante estrategico. Fonte: Levantamento v1203. Inclui shareThresholdAlto (40%), shareThresholdBaixo (30%), satisfacaoThresholdAlta (7.5), satisfacaoThresholdBaixa (6.0). Configuraveis por escopo (Nacional/Estado/Cidade) e periodo.",
+      "displayName": "Configuração de Benchmarks",
+      "description": "Thresholds configuraveis para classificação de quadrante estratégico. Fonte: Levantamento v1203. Inclui shareThresholdAlto (40%), shareThresholdBaixo (30%), satisfacaoThresholdAlta (7.5), satisfacaoThresholdBaixa (6.0). Configuraveis por escopo (Nacional/Estado/Cidade) e período.",
       "synonyms": ["Benchmark Configuration", "Limiares"]
     },
     {
       "name": "user_session",
-      "displayName": "Sessao do Usuario",
-      "description": "Armazena estado da sessao do usuario como JSONB (backup do Redis). PK: user_id (claim sub do JWT). Campos: aba ativa, centro do mapa, zoom, filtros, selecoes. TTL Redis: 30 dias.",
-      "synonyms": ["User Session", "Estado da Sessao"]
+      "displayName": "Sessão do Usuário",
+      "description": "Armazena estado da sessão do usuário como JSONB (backup do Redis). PK: user_id (claim sub do JWT). Campos: aba ativa, centro do mapa, zoom, filtros, selecoes. TTL Redis: 30 dias.",
+      "synonyms": ["User Session", "Estado da Sessão"]
     },
     {
       "name": "vivo_ftth_coverage",
       "displayName": "Cobertura FTTH Vivo",
-      "description": "Instalacoes FTTH (Fiber-To-The-Home) da Vivo por ponto geografico. PK: (cod_geo, anomes). ~110k registros/mes. Colunas geom, geohash7 e geohash6 sao GENERATED via PostGIS. Usado para calculo de share FIBRA: COUNT(instalacoes no geohash) / total_domicilios x 100. AIE D11.",
-      "synonyms": ["Vivo FTTH Coverage", "Instalacoes Fibra"]
+      "description": "Instalações FTTH (Fiber-To-The-Home) da Vivo por ponto geográfico. PK: (cod_geo, anomes). ~110k registros/mes. Colunas geom, geohash7 e geohash6 sao GENERATED via PostGIS. Usado para cálculo de share FIBRA: COUNT(instalações no geohash) / total_domicilios x 100. AIE D11.",
+      "synonyms": ["Vivo FTTH Coverage", "Instalações Fibra"]
     },
     {
       "name": "vivo_mobile_erb",
       "displayName": "ERBs Movel Vivo",
-      "description": "Estacoes radio base (ERBs) movel da Vivo com contagem de linhas ativas (pos-pago, controle, pre-pago). PK: (erb_casa, anomes). ~1k registros/mes. Usado para calculo de share MOVEL: SUM(linhas no geohash) / populacao x 100. AIE D12.",
+      "description": "Estacoes radio base (ERBs) movel da Vivo com contagem de linhas ativas (pos-pago, controle, pre-pago). PK: (erb_casa, anomes). ~1k registros/mes. Usado para cálculo de share MOVEL: SUM(linhas no geohash) / população x 100. AIE D12.",
       "synonyms": ["Vivo Mobile ERB", "Estacoes Radio Base"]
     },
     {
       "name": "file_transfer",
       "displayName": "QoE File Transfer",
-      "description": "Medicoes Ookla SpeedTest de file transfer. Hypertable TimescaleDB particionada em ts_result (chunks 3 meses). 187 colunas. Metricas-chave: val_dl_throughput, val_ul_throughput, val_latency_avg. Compressao apos 6 meses. Retencao: 36 meses. AIE D01.",
+      "description": "Medicoes Ookla SpeedTest de file transfer. Hypertable TimescaleDB particionada em ts_result (chunks 3 meses). 187 colunas. Métricas-chave: val_dl_throughput, val_ul_throughput, val_latency_avg. Compressao apos 6 meses. Retenção: 36 meses. AIE D01.",
       "synonyms": ["Testes Download/Upload", "SpeedTest File Transfer"]
     },
     {
       "name": "video",
       "displayName": "QoE Video Streaming",
-      "description": "Medicoes Ookla SpeedTest de video streaming. Hypertable. 89 colunas. Metricas-chave: val_video_time_to_start, attr_video_rebuffering_count, is_video_fails_to_start. AIE D02.",
+      "description": "Medicoes Ookla SpeedTest de video streaming. Hypertable. 89 colunas. Métricas-chave: val_video_time_to_start, attr_video_rebuffering_count, is_video_fails_to_start. AIE D02.",
       "synonyms": ["Testes Video", "SpeedTest Video"]
     },
     {
       "name": "web_browsing",
       "displayName": "QoE Web Browsing",
-      "description": "Medicoes Ookla SpeedTest de web browsing. Hypertable. 91 colunas. Metricas-chave: val_web_page_load_time, val_web_page_first_byte_time, is_web_page_fails_to_load. AIE D03.",
+      "description": "Medicoes Ookla SpeedTest de web browsing. Hypertable. 91 colunas. Métricas-chave: val_web_page_load_time, val_web_page_first_byte_time, is_web_page_fails_to_load. AIE D03.",
       "synonyms": ["Testes Web", "SpeedTest Web"]
     },
     {
       "name": "score",
-      "displayName": "Score de Satisfacao por Operadora",
+      "displayName": "Score de Satisfação por Operadora",
       "description": "Score composto mensal por operadora por geohash7. 15 colunas. vl_cntv_scre e o score geral 0-100 (dividido por 10 nas views para escala 0-10). Granularidade: nu_ano_mes_rfrn (YYYYMM) x nm_oprd x cd_geo_hsh7. AIE D04.",
-      "synonyms": ["Operator Score", "Nota Satisfacao"]
+      "synonyms": ["Operator Score", "Nota Satisfação"]
     },
     {
       "name": "geo_por_latlong",
-      "displayName": "Demografia Geografica",
-      "description": "Dados socioeconomicos por ponto geografico. 22 colunas + geom + geohash7 (GENERATED). v3 com 4.958 pontos (+60% vs v2). Conteudo: renda_per_capita_media, populacao_total_media, total_de_domicilios_media, gastos_telefone_celular_dom_media. AIE D05.",
+      "displayName": "Demografia Geográfica",
+      "description": "Dados socioeconomicos por ponto geográfico. 22 colunas + geom + geohash7 (GENERATED). v3 com 4.958 pontos (+60% vs v2). Conteudo: renda_per_capita_media, populacao_total_media, total_de_domicilios_media, gastos_telefone_celular_dom_media. AIE D05.",
       "synonyms": ["Geographic Demographics", "Dados Socioeconomicos"]
     },
     {
       "name": "vw_share_real",
       "displayName": "View Share de Mercado Real",
-      "description": "Calcula share de mercado real da Vivo usando dados operacionais FTTH e ERB (nao proxy de testes). FIBRA: instalacoes/domicilios. MOVEL: linhas/populacao. Saida: share_pct, share_fibra_pct, share_movel_pct, technology, share_level. Suporta precisao 6 e 7.",
+      "description": "Calcula share de mercado real da Vivo usando dados operacionais FTTH e ERB (nao proxy de testes). FIBRA: instalações/domicilios. MOVEL: linhas/população. Saida: share_pct, share_fibra_pct, share_movel_pct, technology, share_level. Suporta precisao 6 e 7.",
       "synonyms": ["Real Market Share", "Share FTTH+ERB"]
     },
     {
@@ -86,43 +86,43 @@
     {
       "name": "vw_qoe_monthly",
       "displayName": "View QoE Mensal Unificada",
-      "description": "UNION ALL de cagg_ft_monthly_gh7 + cagg_ft_monthly_gh6. Metricas: avg_dl_throughput, avg_latency, p50_dl_throughput, test_count por operadora/geohash/mes. Filtrar por coluna precision (6 ou 7).",
+      "description": "UNION ALL de cagg_ft_monthly_gh7 + cagg_ft_monthly_gh6. Métricas: avg_dl_throughput, avg_latency, p50_dl_throughput, test_count por operadora/geohash/mes. Filtrar por coluna precision (6 ou 7).",
       "synonyms": ["Monthly QoE Unified"]
     },
     {
       "name": "cagg_ft_monthly_gh7",
       "displayName": "CAAG File Transfer Mensal (Precisao 7)",
-      "description": "Continuous aggregate TimescaleDB. Metricas file transfer por geohash7 x operadora x mes. Refresh: horario, lookback 3 meses. Colunas: avg_dl/ul_throughput, avg_latency, p50_dl, test_count, count_5g, count_4g.",
+      "description": "Continuous aggregate TimescaleDB. Métricas file transfer por geohash7 x operadora x mes. Refresh: horario, lookback 3 meses. Colunas: avg_dl/ul_throughput, avg_latency, p50_dl, test_count, count_5g, count_4g.",
       "synonyms": []
     },
     {
       "name": "cagg_ft_monthly_gh6",
       "displayName": "CAAG File Transfer Mensal (Precisao 6)",
-      "description": "Continuous aggregate TimescaleDB. Metricas file transfer por geohash6 x operadora x mes. Para zoom 11-13 (drill-out). Mesmas colunas que gh7.",
+      "description": "Continuous aggregate TimescaleDB. Métricas file transfer por geohash6 x operadora x mes. Para zoom 11-13 (drill-out). Mesmas colunas que gh7.",
       "synonyms": []
     },
     {
       "name": "cagg_video_monthly_gh7",
       "displayName": "CAAG Video Mensal (Precisao 7)",
-      "description": "Continuous aggregate. Metricas video por geohash7 x operadora x mes. avg_time_to_start, avg_rebuffer_time, fail_rate, test_count.",
+      "description": "Continuous aggregate. Métricas video por geohash7 x operadora x mes. avg_time_to_start, avg_rebuffer_time, fail_rate, test_count.",
       "synonyms": []
     },
     {
       "name": "cagg_video_monthly_gh6",
       "displayName": "CAAG Video Mensal (Precisao 6)",
-      "description": "Continuous aggregate. Metricas video por geohash6 x operadora x mes.",
+      "description": "Continuous aggregate. Métricas video por geohash6 x operadora x mes.",
       "synonyms": []
     },
     {
       "name": "cagg_web_monthly_gh7",
       "displayName": "CAAG Web Mensal (Precisao 7)",
-      "description": "Continuous aggregate. Metricas web browsing por geohash7 x operadora x mes. avg_page_load, avg_first_byte, fail_rate, test_count.",
+      "description": "Continuous aggregate. Métricas web browsing por geohash7 x operadora x mes. avg_page_load, avg_first_byte, fail_rate, test_count.",
       "synonyms": []
     },
     {
       "name": "cagg_web_monthly_gh6",
       "displayName": "CAAG Web Mensal (Precisao 6)",
-      "description": "Continuous aggregate. Metricas web browsing por geohash6 x operadora x mes.",
+      "description": "Continuous aggregate. Métricas web browsing por geohash6 x operadora x mes.",
       "synonyms": []
     }
   ]

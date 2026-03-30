@@ -1,14 +1,14 @@
-# UC011 — Fluxos Alternativos e de Excecao
+# UC011 — Fluxos Alternativos e de Exceção
 
 [<- Voltar ao fluxo principal](./UC011-main-flow.md)
 
 ---
 
-## FA01 — Sessao Expirada no Redis {#fa01}
+## FA01 — Sessão Expirada no Redis {#fa01}
 
-**Condicao de Desvio:** Redis retorna null (TTL expirado) no passo Restaurar 3.
+**Condição de Desvio:** Redis retorna null (TTL expirado) no passo Restaurar 3.
 
-| Passo | Ator | Acao / Resposta do Sistema |
+| Passo | Ator | Ação / Resposta do Sistema |
 |-------|------|----------------------------|
 | 1 | Sistema | Consulta PostgreSQL: `SELECT state FROM user_session WHERE user_id = ?` |
 | 2 | Sistema | Se encontrado: deserializa e restaura |
@@ -20,13 +20,13 @@
 
 ## FE01 — Redis Indisponivel {#fe01}
 
-**Condicao de Desvio:** Redis nao responde.
+**Condição de Desvio:** Redis nao responde.
 
-| Passo | Ator | Acao / Resposta do Sistema |
+| Passo | Ator | Ação / Resposta do Sistema |
 |-------|------|----------------------------|
 | 1 | Sistema | Log warning no SigNoz |
-| 2 | Sistema | Persistencia: grava diretamente no PostgreSQL |
-| 3 | Sistema | Restauracao: consulta PostgreSQL diretamente |
-| 4 | Sistema | Aplicacao funciona normalmente (sem cache de sessao) |
+| 2 | Sistema | Persistência: grava diretamente no PostgreSQL |
+| 3 | Sistema | Restauração: consulta PostgreSQL diretamente |
+| 4 | Sistema | Aplicação funciona normalmente (sem cache de sessão) |
 
-> **Retorno:** Operacao transparente para o usuario.
+> **Retorno:** Operação transparente para o usuário.

@@ -1,4 +1,4 @@
-# SD001 — Navegacao e Filtragem no Mapa
+# SD001 — Navegação e Filtragem no Mapa
 
 **UCs Referenciados:** [UC001](../UC001-visualizar-mapa-estrategico/UC001-main-flow.md), [UC002](../UC002-filtrar-por-quadrante/UC002-main-flow.md), [UC003](../UC003-filtrar-por-tecnologia/UC003-main-flow.md), [UC004](../UC004-inspecionar-geohash/UC004-main-flow.md), [UC005](../UC005-drill-down-geoespacial/UC005-main-flow.md)
 
@@ -8,7 +8,7 @@
 
 ```mermaid
 sequenceDiagram
-    box rgb(219, 234, 254) Usuario
+    box rgb(219, 234, 254) Usuário
         participant U as Analista
     end
     box rgb(220, 252, 231) Frontend (Nuxt)
@@ -25,10 +25,10 @@ sequenceDiagram
         participant CACHE as Redis
     end
 
-    Note over U,CACHE: UC001 — Visualizar Mapa Estrategico
+    Note over U,CACHE: UC001 — Visualizar Mapa Estratégico
 
-    U->>MAP: Acessa aba Mapa Estrategico
-    MAP->>WS: geohash.subscribe({ viewport, periodo, precisao })
+    U->>MAP: Acessa aba Mapa Estratégico
+    MAP->>WS: geohash.subscribe({ viewport, período, precisao })
     WS->>CACHE: GET cache:geohash:{hash}
     alt Cache HIT
         CACHE-->>WS: GeohashData[]
@@ -62,7 +62,7 @@ sequenceDiagram
 
     U->>MAP: Hover sobre poligono
     MAP->>CARD: setHoveredGeohash(data)
-    CARD-->>U: Exibe card Camada 1 (satisfacao, share, trend)
+    CARD-->>U: Exibe card Camada 1 (satisfação, share, trend)
     U->>MAP: Click no poligono (pin)
     MAP->>CARD: setPinnedGeohash(data)
     CARD-->>U: Card fixado com badge "Fixado"
@@ -84,7 +84,7 @@ sequenceDiagram
 ## Notas do Diagrama
 
 - **Passos 3-11:** UC001 fluxo principal. Cache Redis com TTL 5min para reduzir carga no PG.
-- **Passos 13-16:** UC002 e operacao local (frontend), sem ida ao backend.
+- **Passos 13-16:** UC002 e operação local (frontend), sem ida ao backend.
 - **Passos 18-20:** UC003 idem — filtro local.
 - **Passos 22-26:** UC004 — hover e pin sao operacoes locais sobre dados ja carregados.
 - **Passos 28-36:** UC005 — drill-down dispara nova subscription com precisao diferente.

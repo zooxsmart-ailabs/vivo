@@ -1,64 +1,64 @@
-# UC010 — Consultar Visao por Bairro
+# UC010 — Consultar Visão por Bairro
 
 | Campo | Valor |
 |-------|-------|
 | **ID** | UC010 |
-| **Nome** | Consultar Visao por Bairro |
+| **Nome** | Consultar Visão por Bairro |
 | **Ator Primario** | Analista |
 | **Atores Secundarios** | NestJS Backend (tRPC/WS), PostgreSQL |
 | **Prioridade** | Alta |
-| **Versao** | 1.0 |
+| **Versão** | 1.0 |
 | **Referencias** | UC006, UC008, UC011 |
 
 ## Objetivo
 
-O Analista consulta a agregacao de geohashes por bairro, com ranking por categoria estrategica e detalhamento com KPIs, satisfacao comparativa e infraestrutura.
+O Analista consulta a agregação de geohashes por bairro, com ranking por categoria estratégica e detalhamento com KPIs, satisfação comparativa e infraestrutura.
 
-## Pre-condicoes
+## Pre-condições
 
-- PC01: Periodo e localizacao definidos (UC006, UC008)
-- PC02: Existem geohashes agrupados por bairro na localizacao/periodo
+- PC01: Período e localização definidos (UC006, UC008)
+- PC02: Existem geohashes agrupados por bairro na localização/período
 
-## Pos-condicoes (Sucesso)
+## Pos-condições (Sucesso)
 
 - PS01: Lista de bairros rankada pela categoria selecionada
 - PS02: Painel de detalhamento exibido para o bairro selecionado
 - PS03: Dados agregados de todos os geohashes do bairro
 
-## Pos-condicoes (Falha)
+## Pos-condições (Falha)
 
 - PF01: Sem bairros para a categoria: lista vazia com mensagem informativa
 
 ## Fluxo Principal
 
-| Passo | Ator | Acao / Resposta do Sistema |
+| Passo | Ator | Ação / Resposta do Sistema |
 |-------|------|----------------------------|
-| 1 | Analista | Acessa a aba "Visao por Bairro" (rota `/bairros`) |
-| 2 | Sistema | Restaura ultimo bairro e categoria da sessao (UC011) |
+| 1 | Analista | Acessa a aba "Visão por Bairro" (rota `/bairros`) |
+| 2 | Sistema | Restaura ultimo bairro e categoria da sessão (UC011) |
 | 3 | Sistema | Agrega geohashes por bairro (RN010-01) |
-| 4 | Sistema | Exibe 3 abas de categoria: Growth, Upsell, Retencao |
+| 4 | Sistema | Exibe 3 abas de categoria: Growth, Upsell, Retenção |
 | 5 | Analista | Seleciona categoria de ranking |
 | 6 | Sistema | Filtra bairros que possuem geohashes na categoria selecionada |
 | 7 | Sistema | Ordena por contagem de geohashes na categoria (desc) |
-| 8 | Sistema | Exibe lista rankada na sidebar com: posicao, nome, share, contagem, satisfacao, trend |
+| 8 | Sistema | Exibe lista rankada na sidebar com: posição, nome, share, contagem, satisfação, trend |
 | 9 | Analista | Seleciona bairro da lista |
 | 10 | Sistema | Exibe detalhamento no painel direito |
 
 ## Conteudo do Painel de Detalhamento
 
-| Secao | Dados | Fonte |
+| Seção | Dados | Fonte |
 |-------|-------|-------|
-| Dados Regionais | Total domicilios, populacao, renda media | Agregado geo_por_latlong |
+| Dados Regionais | Total domicilios, população, renda media | Agregado geo_por_latlong |
 | Header | Nome, pills quadrantes, trend, share % | Agregado vw_bairro_summary |
-| KPIs | Total clientes, satisfacao media, delta vs melhor concorrente | Calculado |
-| Satisfacao | Barras VIVO/TIM/CLARO (0-10) | Agregado scores |
-| Camada 1 | Grid 2x2 quadrantes: contagem, %, barra, label estrategico | Agregado |
-| Camada 2 Fibra | Score medio, classificacoes (Capacidade/Expansao/Saudavel) | Agregado |
+| KPIs | Total clientes, satisfação media, delta vs melhor concorrente | Calculado |
+| Satisfação | Barras VIVO/TIM/CLARO (0-10) | Agregado scores |
+| Camada 1 | Grid 2x2 quadrantes: contagem, %, barra, label estratégico | Agregado |
+| Camada 2 Fibra | Score medio, classificacoes (Capacidade/Expansão/Saudavel) | Agregado |
 | Camada 2 Movel | Score medio, classificacoes (Qualidade/Saudavel/5G/4G) | Agregado |
 
 ## Interacoes na Sidebar
 
-| Passo | Ator | Acao / Resposta do Sistema |
+| Passo | Ator | Ação / Resposta do Sistema |
 |-------|------|----------------------------|
 | 11 | Analista | Digita no campo de busca |
 | 12 | Sistema | Filtra lista por nome do bairro (case-insensitive) |
@@ -67,15 +67,15 @@ O Analista consulta a agregacao de geohashes por bairro, com ranking por categor
 
 ## Fluxos Relacionados
 
-| Tipo | ID | Condicao de Desvio |
+| Tipo | ID | Condição de Desvio |
 |------|----|--------------------|
 | Alternativo | [FA01](./UC010-alt-flows.md#fa01) | Bairro sem dados de Camada 2 |
 | Alternativo | [FA02](./UC010-alt-flows.md#fa02) | Busca sem resultados |
 
-## Regras de Negocio Aplicadas
+## Regras de Negócio Aplicadas
 
 Veja [UC010-business-rules.md](./UC010-business-rules.md)
 
-## Pontos de Funcao
+## Pontos de Função
 
 Veja [UC010-function-points.md](./UC010-function-points.md)

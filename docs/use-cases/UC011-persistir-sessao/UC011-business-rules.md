@@ -1,4 +1,4 @@
-# UC011 — Regras de Negocio
+# UC011 — Regras de Negócio
 
 [<- Voltar ao fluxo principal](./UC011-main-flow.md)
 
@@ -7,10 +7,10 @@
 | Campo | Valor |
 |-------|-------|
 | **ID** | RN011-01 |
-| **Tipo** | Derivacao |
+| **Tipo** | Derivação |
 | **Passos** | Persistir Passo 3 |
 
-**Descricao:**
+**Descrição:**
 
 ```typescript
 interface SessionState {
@@ -51,23 +51,23 @@ interface SessionState {
 
 ---
 
-## RN011-02 — Defaults (Primeira Sessao)
+## RN011-02 — Defaults (Primeira Sessão)
 
 | Campo | Valor |
 |-------|-------|
 | **ID** | RN011-02 |
-| **Tipo** | Derivacao |
+| **Tipo** | Derivação |
 | **Passos** | Restaurar Passo 7 |
 
-**Descricao:**
+**Descrição:**
 
 | Campo | Default |
 |-------|---------|
 | activeTab | "/" |
 | mapCenter | Centro da ultima cidade com dados |
 | mapZoom | 11 |
-| periodo | Ultimos 3 meses com dados |
-| localizacao | Estado e cidade com mais dados |
+| período | Ultimos 3 meses com dados |
+| localização | Estado e cidade com mais dados |
 | activeQuadrants | Todos (OPORTUNIDADE, FORTALEZA, EXPANSAO, RISCO) |
 | techFilter | "TODOS" |
 | pinnedGeohashId | null |
@@ -76,21 +76,21 @@ interface SessionState {
 
 ---
 
-## RN011-03 — Estrategia de Persistencia
+## RN011-03 — Estratégia de Persistência
 
 | Campo | Valor |
 |-------|-------|
 | **ID** | RN011-03 |
-| **Tipo** | Derivacao |
+| **Tipo** | Derivação |
 | **Passos** | Persistir Passo 5 |
 
-**Descricao:**
-Dupla persistencia para resiliencia:
+**Descrição:**
+Dupla persistência para resiliência:
 
-1. **Redis** (primario): TTL 30 dias, acesso rapido, chave `session:{userId}`
+1. **Redis** (primario): TTL 30 dias, acesso rápido, chave `session:{userId}`
 2. **PostgreSQL** (backup): tabela `user_session`, sem TTL, atualizado a cada save
 
-Na restauracao:
-1. Tenta Redis (rapido)
+Na restauração:
+1. Tenta Redis (rápido)
 2. Fallback para PostgreSQL se Redis miss
 3. Defaults se ambos falham

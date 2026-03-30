@@ -2,22 +2,22 @@
 
 **Stack**: PostgreSQL 18 + TimescaleDB + PostGIS
 **ORM**: Drizzle (app) + SQL nativo (views/aggregates)
-**Versao**: 2.0 | **Data**: 2026-03-29
+**Versão**: 2.0 | **Data**: 2026-03-29
 **Fonte**: Levantamento v1203 + CSVs operacionais Vivo
 
-## Visao Geral
+## Visão Geral
 
 Arquitetura de duas camadas com dados operacionais Vivo adicionados:
 
 ```
                     ┌─────────────────────────────┐
-                    │        Frontend (Nuxt)       │
-                    │    tRPC WS subscriptions     │
+                    │        Frontend (Nuxt)      │
+                    │    tRPC WS subscriptions    │
                     └─────────────┬───────────────┘
                                   │
                     ┌─────────────▼───────────────┐
-                    │      NestJS Backend          │
-                    │    Drizzle + SQL nativo      │
+                    │      NestJS Backend         │
+                    │    Drizzle + SQL nativo     │
                     └─────────────┬───────────────┘
                                   │
               ┌───────────────────┼───────────────────┐
@@ -30,7 +30,7 @@ Arquitetura de duas camadas com dados operacionais Vivo adicionados:
    └──────────┬──────────┘                └────────────────────┘
               │
    ┌──────────▼──────────────────────────┐
-   │   Continuous Aggregates (TimescaleDB)│
+   │   Continuous Aggregates(TimescaleDB)│
    │  cagg_ft_monthly_gh7 / _gh6         │
    │  cagg_video_monthly_gh7 / _gh6      │
    │  cagg_web_monthly_gh7 / _gh6        │
@@ -50,16 +50,16 @@ Arquitetura de duas camadas com dados operacionais Vivo adicionados:
 
 ## Changelog v1 → v2
 
-| Mudanca | Impacto |
+| Mudança | Impacto |
 |---------|---------|
 | Quadrantes renomeados: OPORTUNIDADE, FORTALEZA, RISCO, EXPANSAO | Enum, views, UCs |
-| Thresholds: share 30/40%, satisfacao 6.0/7.5 (com zona intermediaria) | benchmark_config, views |
+| Thresholds: share 30/40%, satisfação 6.0/7.5 (com zona intermediaria) | benchmark_config, views |
 | 2 novas tabelas: vivo_ftth_coverage (D11), vivo_mobile_erb (D12) | DDL, views de share |
 | Share real (FTTH/ERB), nao mais proxy de testes | vw_share_real (NOVA), vw_geohash_summary |
-| Posicao competitiva (5 niveis) | Novo enum + coluna na view |
+| Posição competitiva (5 niveis) | Novo enum + coluna na view |
 | Prioridade por score absoluto P1-P4 | Novo enum + formula ponderada |
 | movel_class: EXPANSAO_5G/4G → EXPANSAO_COBERTURA | Enum simplificado |
-| geo_por_latlong v3 (+60% pontos) | Importacao |
+| geo_por_latlong v3 (+60% pontos) | Importação |
 
 ## Rastreabilidade UC → Tabelas/Views
 
@@ -71,7 +71,7 @@ Arquitetura de duas camadas com dados operacionais Vivo adicionados:
 | UC004 | score, geo_por_latlong, **vivo_ftth**, **vivo_erb** | — | vw_geohash_summary |
 | UC005 | geohash_cell | — | vw_geohash_summary (precisao 6 ou 7) |
 | UC006 | file_transfer (fn_available_periods) | — | Todas |
-| UC007 | — | — | vw_geohash_summary (2 periodos) |
+| UC007 | — | — | vw_geohash_summary (2 períodos) |
 | UC008 | geohash_cell | — | Todas |
 | UC009 | — | — | vw_geohash_summary |
 | UC010 | — | — | vw_bairro_summary |
@@ -83,13 +83,13 @@ Arquitetura de duas camadas com dados operacionais Vivo adicionados:
 | Arquivo | Conteudo |
 |---------|----------|
 | [conceptual/ER-conceptual.md](conceptual/ER-conceptual.md) | Diagrama ER Mermaid + narrativa |
-| [logical/schema-logical.md](logical/schema-logical.md) | Normalizacao, dominios, restricoes |
+| [logical/schema-logical.md](logical/schema-logical.md) | Normalizacao, domínios, restrições |
 | [physical/DDL-geointelligence.sql](physical/DDL-geointelligence.sql) | DDL executavel completo |
 | [physical/data-dictionary.md](physical/data-dictionary.md) | Dicionario de dados por tabela/view |
 
 ## Politicas TimescaleDB
 
-| Tabela | Chunks | Compressao | Retencao | Refresh (CAGG) |
+| Tabela | Chunks | Compressao | Retenção | Refresh (CAGG) |
 |--------|--------|-----------|----------|----------------|
 | file_transfer | 3 meses | Apos 6 meses | 36 meses | — |
 | video | 3 meses | Apos 6 meses | 36 meses | — |
@@ -103,8 +103,8 @@ Arquitetura de duas camadas com dados operacionais Vivo adicionados:
 Zoom out (11-13)                    Zoom in (14-15)
 ┌─────────────────┐                ┌────┬────┬────┐
 │                 │                │ 7a │ 7b │ 7c │
-│   geohash6      │    ──────►    ├────┼────┼────┤
-│   ~1.2km        │    zoom in    │ 7d │ 7e │ 7f │
+│   geohash6      │    ──────►     ├────┼────┼────┤
+│   ~1.2km        │    zoom in     │ 7d │ 7e │ 7f │
 │                 │                ├────┼────┼────┤
 └─────────────────┘                │ 7g │ 7h │ 7i │
  cagg_*_gh6                        └────┴────┴────┘
@@ -113,7 +113,7 @@ Zoom out (11-13)                    Zoom in (14-15)
                                     score: direto
 ```
 
-## Stack de Indices
+## Stack de Índices
 
 | Tipo | Tabela | Colunas | Uso |
 |------|--------|---------|-----|
@@ -122,7 +122,7 @@ Zoom out (11-13)                    Zoom in (14-15)
 | GIST | **vivo_ftth_coverage** | geom | Join espacial FTTH |
 | GIST | **vivo_mobile_erb** | geom | Join espacial ERB |
 | BTREE | geohash_cell | LEFT(geohash_id, 5/6) | Drill-down (UC005) |
-| BTREE | geohash_cell | (state, city, neighborhood) | Localizacao (UC008) |
+| BTREE | geohash_cell | (state, city, neighborhood) | Localização (UC008) |
 | BTREE | **vivo_ftth_coverage** | (geohash7, anomes), (geohash6, anomes) | Share FIBRA |
 | BTREE | **vivo_mobile_erb** | (geohash7, anomes), (geohash6, anomes) | Share MOVEL |
 | BTREE | score | (cd_geo_hsh7), (nm_oprd, nu_ano_mes_rfrn) | Join scores |

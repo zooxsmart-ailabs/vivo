@@ -1,19 +1,19 @@
-# UC007 — Regras de Negocio
+# UC007 — Regras de Negócio
 
 [<- Voltar ao fluxo principal](./UC007-main-flow.md)
 
-## RN007-01 — Cores de Variacao no Mapa
+## RN007-01 — Cores de Variação no Mapa
 
 | Campo | Valor |
 |-------|-------|
 | **ID** | RN007-01 |
-| **Tipo** | Derivacao |
+| **Tipo** | Derivação |
 | **Passos** | Passo 8 |
 
-**Descricao:**
-Em modo comparacao, o mapa pode alternar entre dois modos de cor:
-1. **Quadrante** (default): cores por quadrante estrategico (como UC001)
-2. **Variacao**: cores por delta de share ou satisfacao
+**Descrição:**
+Em modo comparação, o mapa pode alternar entre dois modos de cor:
+1. **Quadrante** (default): cores por quadrante estratégico (como UC001)
+2. **Variacao**: cores por delta de share ou satisfação
 
 | Delta Share | Cor | Significado |
 |-------------|-----|-------------|
@@ -25,39 +25,39 @@ Em modo comparacao, o mapa pode alternar entre dois modos de cor:
 
 ---
 
-## RN007-02 — Validacao de Periodos Nao Sobrepostos
+## RN007-02 — Validação de Períodos Nao Sobrepostos
 
 | Campo | Valor |
 |-------|-------|
 | **ID** | RN007-02 |
-| **Tipo** | Validacao |
+| **Tipo** | Validação |
 | **Passos** | Passo 4 |
 
-**Descricao:**
-Os dois periodos selecionados nao podem ter meses em comum.
+**Descrição:**
+Os dois períodos selecionados nao podem ter meses em comum.
 
 **Exemplo:**
-- Valido: Base=Jan-Mar 2026, Comparacao=Out-Dez 2025
-- Invalido: Base=Jan-Mar 2026, Comparacao=Feb-Apr 2026 (Feb-Mar sobrepostos)
+- Valido: Base=Jan-Mar 2026, Comparação=Out-Dez 2025
+- Invalido: Base=Jan-Mar 2026, Comparação=Feb-Apr 2026 (Feb-Mar sobrepostos)
 
 ---
 
-## RN007-03 — Calculo de Diff por Metrica
+## RN007-03 — Cálculo de Diff por Métrica
 
 | Campo | Valor |
 |-------|-------|
 | **ID** | RN007-03 |
-| **Tipo** | Calculo |
+| **Tipo** | Cálculo |
 | **Passos** | Passo 6 |
 
-**Descricao:**
+**Descrição:**
 
-| Metrica | Formula Diff | Unidade |
+| Métrica | Formula Diff | Unidade |
 |---------|-------------|---------|
 | Share | `base.sharePct - comp.sharePct` | pp (percentage points) |
-| Satisfacao | `base.score - comp.score` | pontos (0-10) |
+| Satisfação | `base.score - comp.score` | pontos (0-10) |
 | Download | `base.avgDownload - comp.avgDownload` | Mbps |
-| Latencia | `base.avgLatency - comp.avgLatency` | ms (negativo = melhor) |
+| Latência | `base.avgLatency - comp.avgLatency` | ms (negativo = melhor) |
 | Clientes | `base.activeClients - comp.activeClients` | unidades |
 | Quadrante | Mudou? (ex: OPORTUNIDADE -> RISCO) | categorico |
 
@@ -65,4 +65,4 @@ Os dois periodos selecionados nao podem ter meses em comum.
 - Positivo (melhora): seta verde para cima
 - Negativo (piora): seta vermelha para baixo
 - Estavel (dentro da margem): seta cinza horizontal
-- Mudanca de quadrante: badge especial com cor anterior -> cor atual
+- Mudança de quadrante: badge especial com cor anterior -> cor atual

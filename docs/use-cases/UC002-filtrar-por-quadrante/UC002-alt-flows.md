@@ -1,4 +1,4 @@
-# UC002 — Fluxos Alternativos e de Excecao
+# UC002 — Fluxos Alternativos e de Exceção
 
 [<- Voltar ao fluxo principal](./UC002-main-flow.md)
 
@@ -6,9 +6,9 @@
 
 ## FA01 — Todos os Quadrantes Desativados {#fa01}
 
-**Condicao de Desvio:** No passo 2, apos o toggle, o Set de filtros ativos fica vazio.
+**Condição de Desvio:** No passo 2, apos o toggle, o Set de filtros ativos fica vazio.
 
-| Passo | Ator | Acao / Resposta do Sistema |
+| Passo | Ator | Ação / Resposta do Sistema |
 |-------|------|----------------------------|
 | 1 | Sistema | Oculta todos os poligonos do mapa |
 | 2 | Sistema | Contadores mostram "0/Y visiveis" |

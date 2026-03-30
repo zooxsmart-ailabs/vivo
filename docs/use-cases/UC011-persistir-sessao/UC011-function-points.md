@@ -1,8 +1,8 @@
-# UC011 — Pontos de Funcao
+# UC011 — Pontos de Função
 
 [<- Voltar ao fluxo principal](./UC011-main-flow.md)
 
-## Funcoes de Dados
+## Funções de Dados
 
 | ID | Nome | Tipo | DET | RET | Complexidade | PF |
 |----|------|------|-----|-----|--------------|-----|
@@ -10,9 +10,9 @@
 
 **Subtotal Dados:** 10 PF
 
-## Funcoes de Transacao
+## Funções de Transacao
 
-| ID | Descricao | Tipo | DET | RET | Complexidade | PF |
+| ID | Descrição | Tipo | DET | RET | Complexidade | PF |
 |----|-----------|------|-----|-----|--------------|-----|
 | T01 | Serializar estado em SessionState | SE | 12 | 3 | Medio | 5 |
 | T02 | Persistir em Redis (write) | EE | 12 | 1 | Medio | 4 |
@@ -20,8 +20,8 @@
 | T04 | Restaurar de Redis (read) | CE | 12 | 1 | Medio | 4 |
 | T05 | Restaurar de PostgreSQL (fallback) | CE | 12 | 1 | Medio | 4 |
 | T06 | Aplicar estado restaurado ao frontend | SE | 12 | 5 | Complexo | 7 |
-| T07 | Debounce de mudancas (2s) | EE | 2 | 1 | Simples | 3 |
-| T08 | Identificar usuario (cookie/token) | CE | 3 | 1 | Simples | 3 |
+| T07 | Debounce de mudanças (2s) | EE | 2 | 1 | Simples | 3 |
+| T08 | Identificar usuário (cookie/token) | CE | 3 | 1 | Simples | 3 |
 
 **Subtotal Transacoes:** 34 PF
 

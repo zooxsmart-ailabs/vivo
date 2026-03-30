@@ -2,7 +2,7 @@
 -- DDL — Zoox x Vivo GeoIntelligence
 -- PostgreSQL 18 + TimescaleDB + PostGIS
 -- =============================================================================
--- Versao: 3.0
+-- Versão: 3.0
 -- Data: 2026-03-30
 -- Rastreabilidade: docs/use-cases/INDEX.md (UC001-UC012)
 -- Fonte: docs/levantamento/ZooxMap_Indicadores_Unificado_v2.pdf (Fev 2026)
@@ -18,7 +18,7 @@ CREATE EXTENSION IF NOT EXISTS postgis;
 -- 1. DOMINIOS E ENUMS
 -- ---------------------------------------------------------------------------
 
--- RN001-01: Quadrante estrategico (Levantamento v2 — Fev 2026)
+-- RN001-01: Quadrante estratégico (Levantamento v2 — Fev 2026)
 -- Score QoE: escala 0-10 (vl_cntv_scre / 10). Thresholds: >= 7.01 = Alta, < 5.0 = Baixa
 CREATE TYPE quadrant_type AS ENUM (
     'GROWTH',           -- Share < 35% + QoE >= 7.01 — Janela de ataque (novos clientes)
@@ -39,66 +39,66 @@ CREATE TYPE operator_name AS ENUM ('VIVO', 'TIM', 'CLARO', 'OI', 'OUTROS');
 CREATE TYPE trend_direction AS ENUM ('UP', 'DOWN', 'STABLE');
 COMMENT ON TYPE trend_direction IS 'UP: delta > +1.0pp, STABLE: -1.0 a +1.0pp, DOWN: delta < -1.0pp';
 
--- RN004-04: Classificacao Fibra Camada 2 (Levantamento v2)
+-- RN004-04: Classificação Fibra Camada 2 (Levantamento v2)
 CREATE TYPE fibra_class AS ENUM (
-    'AUMENTO_CAPACIDADE',  -- Fibra presente, ocupacao > 85% ou < 5 portas disponiveis
-    'EXPANSAO_NOVA_AREA',  -- Sem cobertura fibra (greenfield) — mas area tem fibra Vivo na regiao
-    'SAUDAVEL',            -- Fibra presente, ocupacao <= 85%, sem problemas
+    'AUMENTO_CAPACIDADE',  -- Fibra presente, ocupação > 85% ou < 5 portas disponíveis
+    'EXPANSAO_NOVA_AREA',  -- Sem cobertura fibra (greenfield) — mas area tem fibra Vivo na região
+    'SAUDAVEL',            -- Fibra presente, ocupação <= 85%, sem problemas
     'SEM_FIBRA'            -- Area sem qualquer infraestrutura de fibra optica Vivo
 );
 COMMENT ON TYPE fibra_class IS
-    'Classificacao Camada 2 Fibra. Arvore de decisao: '
-    'Tem fibra? NAO -> SEM_FIBRA | SIM -> ocupacao>85% ou <5 portas? SIM -> AUMENTO_CAPACIDADE | NAO -> SAUDAVEL. '
-    'Score: AUMENTO=60%ocupacao+40%valor_area; EXPANSAO=50%potencial_mercado+50%sinergia_movel.';
+    'Classificação Camada 2 Fibra. Árvore de decisão: '
+    'Tem fibra? NAO -> SEM_FIBRA | SIM -> ocupação>85% ou <5 portas? SIM -> AUMENTO_CAPACIDADE | NAO -> SAUDAVEL. '
+    'Score: AUMENTO=60%ocupação+40%valor_area; EXPANSAO=50%potencial_mercado+50%sinergia_movel.';
 
--- RN004-05: Classificacao Movel Camada 2 (Levantamento v2 — separacao 4G/5G)
+-- RN004-05: Classificação Movel Camada 2 (Levantamento v2 — separação 4G/5G)
 CREATE TYPE movel_class AS ENUM (
     'MELHORA_QUALIDADE_5G',    -- Cobertura 5G existe, qualidade ruim (Perfil Premium)
     'MELHORA_QUALIDADE_4G',    -- Cobertura 4G existe, qualidade ruim (Perfil Massivo)
     'EXPANSAO_COBERTURA_5G',   -- Sem cobertura 5G em area premium (White Spot Premium)
     'EXPANSAO_COBERTURA_4G',   -- Sem cobertura 4G em area massiva (White Spot Massivo)
-    'SAUDAVEL'                 -- Cobertura e qualidade adequadas — sem intervencao prioritaria
+    'SAUDAVEL'                 -- Cobertura e qualidade adequadas — sem intervenção prioritaria
 );
 COMMENT ON TYPE movel_class IS
-    'Classificacao Camada 2 Movel. Separacao 4G/5G via: Renda (Zoox/IBGE) + Device Tier (CRM) + Consumo Dados. '
+    'Classificação Camada 2 Movel. Separação 4G/5G via: Renda (Zoox/IBGE) + Device Tier (CRM) + Consumo Dados. '
     'SG_PREMIUM: renda alta + Premium/Mid device + alto consumo. '
     '4G_MASS: renda media/baixa + Basic device + consumo padrao.';
 
--- Score de intervencao Camada 2 (0-100)
+-- Score de intervenção Camada 2 (0-100)
 CREATE TYPE score_label AS ENUM (
-    'BAIXO',   -- 0-39:  Intervencao nao prioritaria — rede em condicoes adequadas
+    'BAIXO',   -- 0-39:  Intervenção nao prioritaria — rede em condições adequadas
     'MEDIO',   -- 40-59: Monitoramento recomendado — atencao a tendencias
-    'ALTO',    -- 60-79: Intervencao recomendada em curto prazo (30-60 dias)
-    'CRITICO'  -- 80-100: Intervencao urgente — risco de degradacao severa
+    'ALTO',    -- 60-79: Intervenção recomendada em curto prazo (30-60 dias)
+    'CRITICO'  -- 80-100: Intervenção urgente — risco de degradacao severa
 );
-COMMENT ON TYPE score_label IS 'Faixa do score de intervencao Camada 2 (0-100). Cores: BAIXO=#16A34A, MEDIO=#2563EB, ALTO=#D97706, CRITICO=#DC2626.';
+COMMENT ON TYPE score_label IS 'Faixa do score de intervenção Camada 2 (0-100). Cores: BAIXO=#16A34A, MEDIO=#2563EB, ALTO=#D97706, CRITICO=#DC2626.';
 
 -- Tecnologia recomendada para investimento no geohash
 CREATE TYPE tech_recommendation AS ENUM (
     'SG_PREMIUM',  -- 5G Premium: renda alta + device Premium/Mid + consumo dados alto
     '4G_MASS'      -- 4G Mass Market: renda media/baixa + device Basic + consumo padrao
 );
-COMMENT ON TYPE tech_recommendation IS 'Recomendacao de tecnologia para CAPEX. Criterios de corte: Renda Media (Zoox) + Device Tier (CRM) + Consumo de Dados (GB/mes).';
+COMMENT ON TYPE tech_recommendation IS 'Recomendação de tecnologia para CAPEX. Criterios de corte: Renda Media (Zoox) + Device Tier (CRM) + Consumo de Dados (GB/mes).';
 
 -- Labels de prioridade comercial (score 0-10 por quadrante)
 CREATE TYPE priority_label AS ENUM ('P1_CRITICA', 'P2_ALTA', 'P3_MEDIA', 'P4_BAIXA');
-COMMENT ON TYPE priority_label IS 'P1 > 7.5 (acao imediata), P2 >= 6.0 (curto prazo), P3 >= 4.5 (medio prazo), P4 < 4.5 (monitorar). Score normalizado 0-10 por quadrante.';
+COMMENT ON TYPE priority_label IS 'P1 > 7.5 (ação imediata), P2 >= 6.0 (curto prazo), P3 >= 4.5 (medio prazo), P4 < 4.5 (monitorar). Score normalizado 0-10 por quadrante.';
 
 CREATE TYPE quality_label AS ENUM ('EXCELENTE', 'BOM', 'REGULAR', 'RUIM');
 
 CREATE TYPE benchmark_scope AS ENUM ('NACIONAL', 'ESTADO', 'CIDADE');
 
--- RN004-07: Posicao competitiva (Levantamento v2 sec.4)
+-- RN004-07: Posição competitiva (Levantamento v2 sec.4)
 -- Delta = Score Vivo - MAX(Score TIM, Score Claro)
 CREATE TYPE competitive_position AS ENUM (
     'LIDER',        -- Delta > +0.5   | Churn baixo — sem motivo para trocar
     'COMPETITIVO',  -- Delta 0 a +0.5 | Medio — qualquer queda pode inverter
-    'EMPATADO',     -- Delta -0.5 a 0 | Medio-Alto — decisao de compra por preco/promocao
+    'EMPATADO',     -- Delta -0.5 a 0 | Medio-Alto — decisão de compra por preco/promocao
     'ABAIXO',       -- Delta -1.0 a -0.5 | Alto — clientes expostos a argumentos de venda
     'CRITICO'       -- Delta < -1.0   | Muito Alto — churn acelerado e perda de share iminente
 );
 COMMENT ON TYPE competitive_position IS
-    'Posicao competitiva v2: delta = score_vivo - MAX(score_tim, score_claro). '
+    'Posição competitiva v2: delta = score_vivo - MAX(score_tim, score_claro). '
     'Cores: LIDER=Verde Escuro, COMPETITIVO=Verde, EMPATADO=Amarelo, ABAIXO=Laranja, CRITICO=Vermelho.';
 
 CREATE TYPE share_level AS ENUM (
@@ -120,7 +120,7 @@ COMMENT ON TYPE share_level IS 'Nivel de penetracao de mercado Vivo no geohash. 
 
 -- ---------------------------------------------------------------------------
 -- 3. TABELA: vivo_ftth_coverage (AIE D11)
--- Dados operacionais Vivo: instalacoes FTTH por ponto geografico
+-- Dados operacionais Vivo: instalações FTTH por ponto geográfico
 -- Fonte: Ookla_visao_ftth_3M_YYYYMM.csv (~110k rows/mes)
 -- ---------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS vivo_ftth_coverage (
@@ -141,9 +141,9 @@ CREATE TABLE IF NOT EXISTS vivo_ftth_coverage (
     CONSTRAINT ck_ftth_anomes CHECK (anomes >= 202501)
 );
 
-COMMENT ON TABLE vivo_ftth_coverage IS 'Instalacoes FTTH Vivo por ponto geografico. Share FIBRA = COUNT(por geohash) / total_domicilios * 100. AIE D11.';
-COMMENT ON COLUMN vivo_ftth_coverage.cod_geo IS 'Codigo geografico da instalacao (C*, V*, 3-*, 8-*)';
-COMMENT ON COLUMN vivo_ftth_coverage.flg_loc IS 'Flag de localizacao: 1 ou 2 (semantica a confirmar com Vivo)';
+COMMENT ON TABLE vivo_ftth_coverage IS 'Instalações FTTH Vivo por ponto geográfico. Share FIBRA = COUNT(por geohash) / total_domicilios * 100. AIE D11.';
+COMMENT ON COLUMN vivo_ftth_coverage.cod_geo IS 'Código geográfico da instalação (C*, V*, 3-*, 8-*)';
+COMMENT ON COLUMN vivo_ftth_coverage.flg_loc IS 'Flag de localização: 1 ou 2 (semantica a confirmar com Vivo)';
 COMMENT ON COLUMN vivo_ftth_coverage.geohash7 IS 'Geohash precisao 7 gerado automaticamente de x,y via PostGIS';
 COMMENT ON COLUMN vivo_ftth_coverage.geohash6 IS 'Geohash precisao 6 gerado automaticamente para drill-out';
 
@@ -177,7 +177,7 @@ CREATE TABLE IF NOT EXISTS vivo_mobile_erb (
     CONSTRAINT ck_erb_anomes CHECK (anomes >= 202501)
 );
 
-COMMENT ON TABLE vivo_mobile_erb IS 'ERBs movel Vivo com linhas ativas. Share MOVEL = SUM(linhas por geohash) / populacao * 100. AIE D12.';
+COMMENT ON TABLE vivo_mobile_erb IS 'ERBs movel Vivo com linhas ativas. Share MOVEL = SUM(linhas por geohash) / população * 100. AIE D12.';
 COMMENT ON COLUMN vivo_mobile_erb.erb_casa IS 'ID da ERB (estacao radio base), formato: UF + alfanumerico (ex: GOFMQ)';
 COMMENT ON COLUMN vivo_mobile_erb.qtde_lnha_pos IS 'Linhas pos-pago vinculadas a esta ERB';
 COMMENT ON COLUMN vivo_mobile_erb.qtde_lnha_ctrl IS 'Linhas controle vinculadas a esta ERB';
@@ -189,7 +189,7 @@ CREATE INDEX IF NOT EXISTS idx_erb_geom ON vivo_mobile_erb USING GIST (geom);
 CREATE INDEX IF NOT EXISTS idx_erb_anomes ON vivo_mobile_erb (anomes);
 
 -- ---------------------------------------------------------------------------
--- 5. TABELA: geohash_cell (Dimensao Espacial) — sem alteracao
+-- 5. TABELA: geohash_cell (Dimensao Espacial) — sem alteração
 -- ---------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS geohash_cell (
     geohash_id      VARCHAR(12)      NOT NULL,
@@ -208,7 +208,7 @@ CREATE TABLE IF NOT EXISTS geohash_cell (
     CONSTRAINT ck_geohash_id_format CHECK (geohash_id ~ '^[0-9a-z]+$')
 );
 
-COMMENT ON TABLE geohash_cell IS 'Celula geohash com poligono. PK natural permite drill-down por prefixo (UC005).';
+COMMENT ON TABLE geohash_cell IS 'Célula geohash com poligono. PK natural permite drill-down por prefixo (UC005).';
 
 CREATE INDEX IF NOT EXISTS idx_geohash_cell_geom ON geohash_cell USING GIST (geom);
 CREATE INDEX IF NOT EXISTS idx_geohash_cell_prefix5 ON geohash_cell (LEFT(geohash_id, 5));
@@ -238,27 +238,27 @@ COMMENT ON TABLE benchmark_config IS 'Benchmarks e thresholds configuraveis. Fon
 
 -- Seed: thresholds oficiais do levantamento v2
 INSERT INTO benchmark_config (key, scope, region, value) VALUES
-    -- Quadrante: corte unico de share em 35% (Levantamento v2 sec.5)
+    -- Quadrante: corte único de share em 35% (Levantamento v2 sec.5)
     ('shareThresholdQuadrante',  'ESTADO', 'GO', 35.0),
-    -- Labels de share (4 niveis — para exibicao na plataforma)
+    -- Labels de share (4 niveis — para exibição na plataforma)
     ('shareThresholdBaixo',      'ESTADO', 'GO', 30.0),
     ('shareThresholdAlto',       'ESTADO', 'GO', 40.0),
     ('shareThresholdMuitoAlto',  'ESTADO', 'GO', 50.0),
     -- QoE score 0-10 (vl_cntv_scre/10). Equivalente: 7.01=701/1000; 5.0=500/1000
     ('qoeThresholdAlto',         'ESTADO', 'GO', 7.01),
     ('qoeThresholdBaixo',        'ESTADO', 'GO', 5.0),
-    -- Tendencia de share (pp percentuais — variacao mensal)
+    -- Tendência de share (pp percentuais — variacao mensal)
     ('trendThresholdUp',         'ESTADO', 'GO', 1.0),
     ('trendThresholdDown',       'ESTADO', 'GO', 1.0),
-    -- Benchmarks nacionais de referencia
+    -- Benchmarks nacionais de referência
     ('qoeMedia',                 'NACIONAL', NULL, 6.5),
     ('shareMedia',               'NACIONAL', NULL, 32.0),
-    -- Renda e densidade (Levantamento v2 sec.1 referencias demograficas)
+    -- Renda e densidade (Levantamento v2 sec.1 referencias demográficas)
     ('rendaAlta',                'ESTADO', 'GO', 10000),
     ('rendaBaixa',               'ESTADO', 'GO', 3500),
     ('densidadeAlta',            'ESTADO', 'GO', 15000),
     ('densidadeBaixa',           'ESTADO', 'GO', 5000),
-    -- Camada 2 Fibra: gatilhos de classificacao
+    -- Camada 2 Fibra: gatilhos de classificação
     ('fibraOcupacaoCritica',     'ESTADO', 'GO', 85.0),
     ('fibraPortasMinimas',       'ESTADO', 'GO', 5.0),
     -- Camada 2 Movel: benchmark SpeedTest para qualidade (score 0-10)
@@ -266,7 +266,7 @@ INSERT INTO benchmark_config (key, scope, region, value) VALUES
 ON CONFLICT DO NOTHING;
 
 -- ---------------------------------------------------------------------------
--- 7. TABELA: user_session — sem alteracao
+-- 7. TABELA: user_session — sem alteração
 -- ---------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS user_session (
     user_id         VARCHAR(255)     NOT NULL,
@@ -276,13 +276,13 @@ CREATE TABLE IF NOT EXISTS user_session (
     CONSTRAINT pk_user_session PRIMARY KEY (user_id)
 );
 
-COMMENT ON TABLE user_session IS 'Estado da sessao do usuario (backup do Redis). Schema JSONB: RN011-01.';
+COMMENT ON TABLE user_session IS 'Estado da sessão do usuário (backup do Redis). Schema JSONB: RN011-01.';
 CREATE INDEX IF NOT EXISTS idx_user_session_updated ON user_session (updated_at DESC);
 
 -- ---------------------------------------------------------------------------
 -- 8. TABELA: geohash_crm (ALI novo — D13)
 -- Dados CRM Vivo agregados por geohash/mes
--- Alimenta: Camada 1 (ARPU, plano, device tier) e Camada 2 (separacao 4G/5G)
+-- Alimenta: Camada 1 (ARPU, plano, device tier) e Camada 2 (separação 4G/5G)
 -- ---------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS geohash_crm (
     geohash_id          VARCHAR(12)      NOT NULL,
@@ -305,8 +305,8 @@ CREATE TABLE IF NOT EXISTS geohash_crm (
 
 COMMENT ON TABLE geohash_crm IS 'Dados CRM Vivo por geohash/mes. Fonte: CRM Vivo. ALI D13 (novo v3).';
 COMMENT ON COLUMN geohash_crm.arpu IS 'ARPU medio R$/mes. Fonte: CRM Vivo. Usado em scores UPSELL e Camada 2 Fibra (valor_area).';
-COMMENT ON COLUMN geohash_crm.device_tier IS 'Nivel predominante de dispositivos: BASIC/MID/PREMIUM. Criterio primario de separacao 4G vs 5G (Camada 2).';
-COMMENT ON COLUMN geohash_crm.consumo_dados_gb IS 'Volume medio GB/cliente/mes. Proxy de demanda para decisao de capacidade 5G.';
+COMMENT ON COLUMN geohash_crm.device_tier IS 'Nivel predominante de dispositivos: BASIC/MID/PREMIUM. Criterio primario de separação 4G vs 5G (Camada 2).';
+COMMENT ON COLUMN geohash_crm.consumo_dados_gb IS 'Volume medio GB/cliente/mes. Proxy de demanda para decisão de capacidade 5G.';
 
 CREATE INDEX IF NOT EXISTS idx_crm_geohash ON geohash_crm (geohash_id, anomes);
 CREATE INDEX IF NOT EXISTS idx_crm_anomes ON geohash_crm (anomes);
@@ -321,7 +321,7 @@ CREATE TABLE IF NOT EXISTS camada2_fibra (
     precision                   SMALLINT         NOT NULL,
     anomes                      INTEGER          NOT NULL,
 
-    -- Estado da rede e classificacao
+    -- Estado da rede e classificação
     classification              fibra_class      NOT NULL,
     taxa_ocupacao               NUMERIC(5,2),
     portas_disponiveis          INTEGER,
@@ -338,10 +338,10 @@ CREATE TABLE IF NOT EXISTS camada2_fibra (
     potencial_mercado           NUMERIC(5,2),    -- Renda x Densidade normalizado 0-100
     sinergia_movel              NUMERIC(5,2),    -- % share movel Vivo normalizado 0-100
 
-    -- Ranking dentro da classificacao (ordenacao descendente por score)
+    -- Ranking dentro da classificação (ordenacao descendente por score)
     ranking_classification      INTEGER,
 
-    -- Alerta automatico: ocupacao > 85% OU score_label movel = CRITICO
+    -- Alerta automático: ocupação > 85% OU score_label movel = CRITICO
     alerta_saturacao            BOOLEAN          NOT NULL DEFAULT FALSE,
 
     created_at                  TIMESTAMPTZ      NOT NULL DEFAULT NOW(),
@@ -357,8 +357,8 @@ CREATE TABLE IF NOT EXISTS camada2_fibra (
 );
 
 COMMENT ON TABLE camada2_fibra IS 'Scores CAPEX fibra por geohash/mes. RN004-04. Levantamento v2 Camada 2. ALI D14.';
-COMMENT ON COLUMN camada2_fibra.classification IS 'AUMENTO_CAPACIDADE: ocupacao>85% ou <5 portas. EXPANSAO_NOVA_AREA: greenfield. SAUDAVEL: ok. SEM_FIBRA: sem infra.';
-COMMENT ON COLUMN camada2_fibra.score_aumento_capacidade IS '0-100: 60% taxa_ocupacao_norm + 40% valor_area. Quanto maior, maior urgencia de expansao de capacidade.';
+COMMENT ON COLUMN camada2_fibra.classification IS 'AUMENTO_CAPACIDADE: ocupação>85% ou <5 portas. EXPANSAO_NOVA_AREA: greenfield. SAUDAVEL: ok. SEM_FIBRA: sem infra.';
+COMMENT ON COLUMN camada2_fibra.score_aumento_capacidade IS '0-100: 60% taxa_ocupacao_norm + 40% valor_area. Quanto maior, maior urgencia de expansão de capacidade.';
 COMMENT ON COLUMN camada2_fibra.score_expansao_nova_area IS '0-100: 50% potencial_mercado + 50% sinergia_movel. Greenfield — ROI estimado de nova implantacao.';
 COMMENT ON COLUMN camada2_fibra.alerta_saturacao IS 'TRUE: taxa_ocupacao > 85% OU score_label movel = CRITICO. Gera alerta no dashboard ZooxMap (RN004-04).';
 
@@ -376,13 +376,13 @@ CREATE TABLE IF NOT EXISTS camada2_movel (
     precision                       SMALLINT         NOT NULL,
     anomes                          INTEGER          NOT NULL,
 
-    -- Classificacao e estado (arvore de decisao + separacao 4G/5G)
+    -- Classificação e estado (árvore de decisão + separação 4G/5G)
     classification                  movel_class      NOT NULL,
     speed_test_score                NUMERIC(5,2),    -- Score QoE SpeedTest 0-10 (replica qoe.mobile.score)
     score_label                     score_label,     -- Faixa: BAIXO(0-39)/MEDIO(40-59)/ALTO(60-79)/CRITICO(80-100)
     tecnologia_recomendada          tech_recommendation,
 
-    -- Variaveis de separacao 4G/5G
+    -- Variáveis de separação 4G/5G
     renda_media                     NUMERIC(10,2),   -- R$ (fonte: Zoox/IBGE)
     device_tier                     VARCHAR(20)      CHECK (device_tier IN ('BASIC', 'MID', 'PREMIUM')),
     consumo_dados_gb                NUMERIC(10,3),   -- GB/mes medio (fonte: CRM Vivo)
@@ -408,7 +408,7 @@ CREATE TABLE IF NOT EXISTS camada2_movel (
     -- Score = (Gap_Performance, n=0.60) + (Volume_Usuarios, n=0.40)
     -- -----------------------------------------------------------------------
     score_melhora_qualidade_4g      NUMERIC(5,2),    -- 0-100
-    gap_performance_4g              NUMERIC(5,2),    -- Diferenca SpeedTest vs benchmark minimo 4G (0-100)
+    gap_performance_4g              NUMERIC(5,2),    -- Diferença SpeedTest vs benchmark mínimo 4G (0-100)
     volume_usuarios_4g              NUMERIC(5,2),    -- Densidade populacional normalizada (0-100)
 
     -- -----------------------------------------------------------------------
@@ -420,13 +420,13 @@ CREATE TABLE IF NOT EXISTS camada2_movel (
     vulnerabilidade_concorrencia_4g NUMERIC(5,2),    -- Score QoE concorrente invertido 0-100
 
     -- -----------------------------------------------------------------------
-    -- Decisao integrada (fibra + movel consolidados)
+    -- Decisão integrada (fibra + movel consolidados)
     -- -----------------------------------------------------------------------
-    decisao_integrada               TEXT,            -- Texto descritivo gerado pelo motor de decisao
+    decisao_integrada               TEXT,            -- Texto descritivo gerado pelo motor de decisão
     score_capex_consolidado         NUMERIC(5,2),    -- max(score_fibra, score_movel) + ajuste dupla rede
     alerta_saturacao                BOOLEAN          NOT NULL DEFAULT FALSE,
 
-    -- Ranking dentro da classificacao
+    -- Ranking dentro da classificação
     ranking_classification          INTEGER,
 
     created_at                      TIMESTAMPTZ      NOT NULL DEFAULT NOW(),
@@ -446,8 +446,8 @@ CREATE TABLE IF NOT EXISTS camada2_movel (
 COMMENT ON TABLE camada2_movel IS 'Scores CAPEX rede movel por geohash/mes. RN004-05. Levantamento v2 Camada 2. ALI D15.';
 COMMENT ON COLUMN camada2_movel.classification IS 'MELHORA_QUALIDADE_5G/4G: cobertura existe, qualidade ruim. EXPANSAO_COBERTURA_5G/4G: white spot. SAUDAVEL: ok.';
 COMMENT ON COLUMN camada2_movel.tecnologia_recomendada IS 'SG_PREMIUM: alta renda + Premium/Mid device + alto consumo. 4G_MASS: renda media/baixa + Basic device.';
-COMMENT ON COLUMN camada2_movel.decisao_integrada IS 'Ex: "Fibra: AUMENTO_CAPACIDADE (Score 87) | Movel: MELHORA_QUALIDADE_5G (Score 74) — upgrade ERB + expansao capacidade OLT".';
-COMMENT ON COLUMN camada2_movel.score_capex_consolidado IS 'Score unico CAPEX 0-100: max(score_fibra, score_movel) com peso adicional se ambas as redes precisam de intervencao.';
+COMMENT ON COLUMN camada2_movel.decisao_integrada IS 'Ex: "Fibra: AUMENTO_CAPACIDADE (Score 87) | Movel: MELHORA_QUALIDADE_5G (Score 74) — upgrade ERB + expansão capacidade OLT".';
+COMMENT ON COLUMN camada2_movel.score_capex_consolidado IS 'Score único CAPEX 0-100: max(score_fibra, score_movel) com peso adicional se ambas as redes precisam de intervenção.';
 
 CREATE INDEX IF NOT EXISTS idx_c2m_geohash ON camada2_movel (geohash_id, anomes);
 CREATE INDEX IF NOT EXISTS idx_c2m_classification ON camada2_movel (classification, anomes);
@@ -466,7 +466,7 @@ CREATE INDEX IF NOT EXISTS idx_wb_geohash6 ON web_browsing (attr_geohash6, ts_re
 CREATE INDEX IF NOT EXISTS idx_ft_connection_gen ON file_transfer (attr_connection_generation_name, attr_geohash7);
 
 -- ---------------------------------------------------------------------------
--- 12. CONTINUOUS AGGREGATES — 6 CAAGs (3 metricas x 2 precisoes)
+-- 12. CONTINUOUS AGGREGATES — 6 CAAGs (3 métricas x 2 precisoes)
 -- ---------------------------------------------------------------------------
 
 -- 12a. File Transfer — geohash7
@@ -516,7 +516,7 @@ SELECT add_continuous_aggregate_policy('cagg_ft_monthly_gh6',
     schedule_interval => INTERVAL '1 hour');
 
 -- 12c-12f. Video (gh7+gh6) e Web (gh7+gh6) — mesma estrutura que file_transfer
--- Ver arquivos de migracao para definicoes de cagg_video_monthly_gh7/gh6 e cagg_web_monthly_gh7/gh6
+-- Ver arquivos de migração para definicoes de cagg_video_monthly_gh7/gh6 e cagg_web_monthly_gh7/gh6
 
 -- 12g. View unificada QoE (file_transfer como base de performance de rede)
 CREATE OR REPLACE VIEW vw_qoe_monthly AS
@@ -524,12 +524,12 @@ SELECT * FROM cagg_ft_monthly_gh7
 UNION ALL
 SELECT * FROM cagg_ft_monthly_gh6;
 
-COMMENT ON VIEW vw_qoe_monthly IS 'Unifica metricas QoE file_transfer gh6+gh7. Filtrar por precision para obter a granularidade correta.';
+COMMENT ON VIEW vw_qoe_monthly IS 'Unifica métricas QoE file_transfer gh6+gh7. Filtrar por precision para obter a granularidade correta.';
 
 -- ---------------------------------------------------------------------------
 -- 13. VIEW: vw_share_real
 -- Share de mercado REAL usando dados operacionais Vivo (Levantamento v2 sec.1)
--- FIBRA: COUNT(instalacoes FTTH por geohash) / total_domicilios * 100
+-- FIBRA: COUNT(instalações FTTH por geohash) / total_domicilios * 100
 -- MOVEL: SUM(linhas ERB por geohash) / populacao_residente * 100
 -- ---------------------------------------------------------------------------
 CREATE OR REPLACE VIEW vw_share_real AS
@@ -614,12 +614,12 @@ FROM (SELECT * FROM share_fibra_gh7 UNION ALL SELECT * FROM share_fibra_gh6) f
 FULL OUTER JOIN (SELECT * FROM share_movel_gh7 UNION ALL SELECT * FROM share_movel_gh6) m
     ON f.geohash_id = m.geohash_id AND f.precision = m.precision AND f.anomes = m.anomes;
 
-COMMENT ON VIEW vw_share_real IS 'Share de mercado real Vivo (FTTH + ERB). Formula oficial Levantamento v2 sec.1. Sem alteracao de logica em relacao a v2.';
+COMMENT ON VIEW vw_share_real IS 'Share de mercado real Vivo (FTTH + ERB). Formula oficial Levantamento v2 sec.1. Sem alteração de lógica em relacao a v2.';
 
 -- ---------------------------------------------------------------------------
 -- 14. VIEW: vw_geohash_summary (REESCRITA — v3)
 -- View principal. Quadrantes GROWTH/UPSELL/RETENCAO/GROWTH_RETENCAO,
--- posicao competitiva EMPATADO/CRITICO, prioridade ponderada por quadrante.
+-- posição competitiva EMPATADO/CRITICO, prioridade ponderada por quadrante.
 -- ---------------------------------------------------------------------------
 CREATE OR REPLACE VIEW vw_geohash_summary AS
 WITH
@@ -705,7 +705,7 @@ base AS (
             ELSE 'GROWTH_RETENCAO'::quadrant_type
         END AS quadrant,
         -- -------------------------------------------------------------------
-        -- Posicao competitiva (RN004-07 v3 — EMPATADO/CRITICO)
+        -- Posição competitiva (RN004-07 v3 — EMPATADO/CRITICO)
         -- Delta = Score Vivo - MAX(Score TIM, Score Claro)
         -- -------------------------------------------------------------------
         CASE
@@ -726,9 +726,9 @@ base AS (
         END AS quality_label,
         COALESCE(d.avg_income, 0) AS avg_income,
         -- -------------------------------------------------------------------
-        -- Score de prioridade (Levantamento v2 sec. Score de Priorizacao)
-        -- Formulas distintas por quadrante. Variaveis normalizadas 0-10.
-        -- Variaveis sem historico (Delta, Cresc) usam proxy neutro = 5.0
+        -- Score de prioridade (Levantamento v2 sec. Score de Priorização)
+        -- Formulas distintas por quadrante. Variáveis normalizadas 0-10.
+        -- Variáveis sem histórico (Delta, Cresc) usam proxy neutro = 5.0
         -- Renda normalizada: avg_income / 2000 -> 0-10 (R$20.000 = max)
         -- Pop normalizada: total_population / 20000 -> 0-10 (200k = max)
         -- -------------------------------------------------------------------
@@ -774,7 +774,7 @@ base AS (
     LEFT JOIN demo d  ON gc.geohash_id = d.geohash_id  AND gc.precision = d.precision
 )
 SELECT *,
-    -- Priority label derivada do score (computado uma unica vez na CTE base)
+    -- Priority label derivada do score (computado uma única vez na CTE base)
     CASE
         WHEN priority_score >  7.5 THEN 'P1_CRITICA'::priority_label
         WHEN priority_score >= 6.0 THEN 'P2_ALTA'::priority_label
@@ -785,7 +785,7 @@ FROM base;
 
 COMMENT ON VIEW vw_geohash_summary IS
     'View principal v3: share real (FTTH+ERB), quadrantes GROWTH/UPSELL/RETENCAO/GROWTH_RETENCAO '
-    '(Levantamento v2, share>=35%, qoe>=7.01/5.0), posicao competitiva EMPATADO/CRITICO, '
+    '(Levantamento v2, share>=35%, qoe>=7.01/5.0), posição competitiva EMPATADO/CRITICO, '
     'prioridade ponderada P1>7.5/P2>=6.0/P3>=4.5/P4<4.5.';
 
 -- ---------------------------------------------------------------------------
@@ -813,7 +813,7 @@ FROM vw_geohash_summary gs
 WHERE gs.neighborhood IS NOT NULL
 GROUP BY gs.neighborhood, gs.city, gs.state, gs.period_month;
 
-COMMENT ON VIEW vw_bairro_summary IS 'Agregacao por bairro v3: quadrantes GROWTH/UPSELL/RETENCAO/GROWTH_RETENCAO (Levantamento v2).';
+COMMENT ON VIEW vw_bairro_summary IS 'Agregação por bairro v3: quadrantes GROWTH/UPSELL/RETENCAO/GROWTH_RETENCAO (Levantamento v2).';
 
 -- ---------------------------------------------------------------------------
 -- 16. FUNCOES

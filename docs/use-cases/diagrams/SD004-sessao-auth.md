@@ -1,4 +1,4 @@
-# SD004 — Sessao e Autenticacao
+# SD004 — Sessão e Autenticação
 
 **UCs Referenciados:** [UC011](../UC011-persistir-sessao/UC011-main-flow.md), [UC012](../UC012-autenticar-usuario/UC012-main-flow.md)
 
@@ -8,7 +8,7 @@
 
 ```mermaid
 sequenceDiagram
-    box rgb(219, 234, 254) Usuario
+    box rgb(219, 234, 254) Usuário
         participant U as Analista
     end
     box rgb(220, 252, 231) Frontend (Nuxt)
@@ -27,7 +27,7 @@ sequenceDiagram
         participant DB as PostgreSQL
     end
 
-    Note over U,DB: UC012 — Autenticacao
+    Note over U,DB: UC012 — Autenticação
 
     U->>APP: Acessa aplicacao
     APP->>GRD: GET / (com token no cookie/header)
@@ -52,7 +52,7 @@ sequenceDiagram
     GRD-->>WS: UserClaims
     WS->>WS: Associa userId ao socket
 
-    Note over U,DB: UC011 — Restaurar Sessao
+    Note over U,DB: UC011 — Restaurar Sessão
 
     APP->>WS: session.load({ userId })
     WS->>SES: loadSession(userId)
@@ -72,7 +72,7 @@ sequenceDiagram
     WS-->>APP: SessionState
     APP->>APP: Restaura aba, mapa, filtros, selecoes
 
-    Note over U,DB: UC011 — Persistir Sessao (automatico)
+    Note over U,DB: UC011 — Persistir Sessão (automático)
 
     U->>APP: Interage (muda filtro, seleciona geohash, etc.)
     APP->>APP: Debounce 2s
@@ -85,9 +85,9 @@ sequenceDiagram
 
 ## Notas do Diagrama
 
-- **Passos 1-14:** UC012 — fluxo de autenticacao com cache de token no Redis.
+- **Passos 1-14:** UC012 — fluxo de autenticação com cache de token no Redis.
 - **Passos 16-18:** Handshake WS valida token para associar socket ao userId.
-- **Passos 20-32:** UC011 restauracao — cascata Redis -> PG -> defaults.
-- **Passos 34-41:** UC011 persistencia — debounce 2s, dupla escrita Redis + PG.
+- **Passos 20-32:** UC011 restauração — cascata Redis -> PG -> defaults.
+- **Passos 34-41:** UC011 persistência — debounce 2s, dupla escrita Redis + PG.
 - O cache de token (5min TTL) reduz chamadas ao provedor externo.
-- A sessao (30d TTL) garante continuidade entre visitas.
+- A sessão (30d TTL) garante continuidade entre visitas.

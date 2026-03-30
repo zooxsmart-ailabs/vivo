@@ -1,6 +1,6 @@
 # Modelo Conceitual — Zoox x Vivo GeoIntelligence
 
-**Versao**: 2.0 | **Data**: 2026-03-29
+**Versão**: 2.0 | **Data**: 2026-03-29
 **Fonte**: docs/levantamento/Zoox_+_Vivo_Estrategia_v1203.pdf + CSVs operacionais
 
 ## Diagrama ER
@@ -144,8 +144,8 @@ erDiagram
     VW_GEOHASH_SUMMARY ||--o{ VIVO_FTTH_COVERAGE : "share fibra real"
     VW_GEOHASH_SUMMARY ||--o{ VIVO_MOBILE_ERB : "share movel real"
     VW_GEOHASH_SUMMARY ||--o{ GEO_POR_LATLONG : "demografia"
-    VW_GEOHASH_SUMMARY ||--o{ FILE_TRANSFER : "QoE metricas"
-    VW_GEOHASH_SUMMARY }o--|| GEOHASH_CELL : "referencia espacial"
+    VW_GEOHASH_SUMMARY ||--o{ FILE_TRANSFER : "QoE métricas"
+    VW_GEOHASH_SUMMARY }o--|| GEOHASH_CELL : "referência espacial"
     VW_GEOHASH_SUMMARY }o--|| BENCHMARK_CONFIG : "limiares de quadrante"
 
     VW_BAIRRO_SUMMARY ||--o{ VW_GEOHASH_SUMMARY : "agrega por bairro"
@@ -153,20 +153,20 @@ erDiagram
 
 ## Narrativa de Relacionamentos
 
-| Origem | Destino | Cardinalidade | Descricao | UC |
+| Origem | Destino | Cardinalidade | Descrição | UC |
 |--------|---------|---------------|-----------|-----|
 | FILE_TRANSFER | GEOHASH_CELL | N:1 | Testes SpeedTest por geohash | UC001, UC005 |
 | VIDEO | GEOHASH_CELL | N:1 | Testes de video por geohash | UC001 |
 | WEB_BROWSING | GEOHASH_CELL | N:1 | Testes de web por geohash | UC001 |
 | SCORE | GEOHASH_CELL | N:1 | Score mensal por geohash7 x operadora | UC004, UC009 |
-| VIVO_FTTH_COVERAGE | GEOHASH_CELL | N:1 | Instalacoes FTTH Vivo por geohash (via coordenadas) | UC001, UC004 |
+| VIVO_FTTH_COVERAGE | GEOHASH_CELL | N:1 | Instalações FTTH Vivo por geohash (via coordenadas) | UC001, UC004 |
 | VIVO_MOBILE_ERB | GEOHASH_CELL | N:1 | ERBs movel Vivo com linhas ativas por geohash | UC001, UC004 |
 | GEO_POR_LATLONG | GEOHASH_CELL | N:1 | Dados socioeconomicos por geohash | UC004, UC010 |
 | VW_GEOHASH_SUMMARY | BENCHMARK_CONFIG | N:1 | Limiares definem quadrante | RN001-01 |
-| VW_GEOHASH_SUMMARY | VIVO_FTTH_COVERAGE | 1:N | Share FIBRA = instalacoes / domicilios | RN001-01 |
-| VW_GEOHASH_SUMMARY | VIVO_MOBILE_ERB | 1:N | Share MOVEL = linhas / populacao | RN001-01 |
+| VW_GEOHASH_SUMMARY | VIVO_FTTH_COVERAGE | 1:N | Share FIBRA = instalações / domicilios | RN001-01 |
+| VW_GEOHASH_SUMMARY | VIVO_MOBILE_ERB | 1:N | Share MOVEL = linhas / população | RN001-01 |
 | VW_BAIRRO_SUMMARY | VW_GEOHASH_SUMMARY | 1:N | Bairro agrega N geohashes | UC010 |
-| USER_SESSION | — | standalone | Estado da sessao por usuario | UC011, UC012 |
+| USER_SESSION | — | standalone | Estado da sessão por usuário | UC011, UC012 |
 
 ## Rastreabilidade: Entidade → ALI/AIE
 
