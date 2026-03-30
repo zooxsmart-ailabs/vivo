@@ -9,7 +9,7 @@ RUN pnpm install --frozen-lockfile
 COPY tsconfig.base.json ./
 COPY packages/shared ./packages/shared
 COPY apps/api ./apps/api
-RUN pnpm --filter @vivo/api build
+RUN pnpm --filter @vivo/zoox-map-api build
 
 FROM node:22-alpine
 RUN addgroup -S app && adduser -S app -G app

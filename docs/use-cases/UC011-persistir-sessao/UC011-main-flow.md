@@ -4,8 +4,8 @@
 |-------|-------|
 | **ID** | UC011 |
 | **Nome** | Persistir e Restaurar Estado da Sessão |
-| **Ator Primario** | Analista |
-| **Atores Secundarios** | NestJS Backend (tRPC/WS), Redis, PostgreSQL |
+| **Ator Primário** | Analista |
+| **Atores Secundários** | NestJS Backend (tRPC/WS), Redis, PostgreSQL |
 | **Prioridade** | Media |
 | **Versão** | 1.0 |
 | **Referencias** | UC001-UC010, UC012 |

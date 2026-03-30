@@ -1,0 +1,27 @@
+"Field Name in Extract","Definition","Data Type","Date Available","Max Field Size"
+"resultId","Unique ID of the test.","number","2020-10-01","11"
+"resultDate","Date and time of the test in Pacific time zone (GMT -8).","datetime","2020-10-01","19"
+"clientIpAddress","Speedtest user's IP address. The last octet of the user's external IP address is masked for addresses that are not on your network. Full IP addresses are available for your customers. ","text","2020-10-01","15"
+"clientIpv6Address","Speedtest user's IPV6 address. We mask IP addresses for end users privacy, but show enough to allow clients to see which provider is offering the user's internet service. Please note that this address may not be the connection that the Speedtest was taken over (unless there is no IPV4 address populated).","text","2020-10-01","45"
+"browserName","The name of the browser used during the test.","text","2020-10-01","255"
+"browserVersion","The version of the browser used during the test.","text","2020-10-01","255"
+"os","Operating system of the device used during the test.","text","2020-10-01","255"
+"supplementalData","The additional field that is included in theSDK so that the user can configure andcollect specific ID and other data to tie intotheir internal databases for customer caseand other purposes.If “NULL” then this field has not beenconfigured.The save status of the supplemental data isincluded in the result submission responselocation: save.supplemental_dataSAVE_SUCCESS: The supplemental datawas persisted successfully.NO_DATA_FOUND: The supplemental datafield was included but was empty or null.NOT_TYPE_STRING: The providedsupplemental data field was not a string.EXCEEDS_MAX_LENGTH: The providedsupplemental data field was more than theMaximum Allowed Length of characters.INVALID_JSON_SYNTAX: The providedsupplemental data field failed to be parsedby JSON.parse() in the JavaScript language.SAVE_INSERT_ERROR: The attempt towrite to the database failed.","text","2020-10-01","1000"
+"userAgent","User agent or web browser accessing Speedtest.net.","text","2020-10-01","255"
+"clientCountry","Country from where test is taken.","text","2020-10-01","255"
+"clientRegionName","Region name where test is taken. Depending on the country, these are states, provinces, or territories, etc.","text","2020-10-01","255"
+"clientCityName","City where test is taken.","text","2020-10-01","255"
+"clientLatitude","Latitude of location where test is taken.","number","2020-10-01","10"
+"clientLongitude","Longitude of location where test is taken.","number","2020-10-01","10"
+"serverName","Name of the server tested.","text","2020-10-01","255"
+"serverCountry","Country where server tested is located.","text","2020-10-01","255"
+"serverSponsor","Name of the server tested.","text","2020-10-01","255"
+"serverLatitude","Latitude of server tested.","number","2020-10-01","10"
+"serverLongitude","Longitude of server tested.","number","2020-10-01","10"
+"ispName","ISP name associated with IP Address.","text","2020-10-01","255"
+"ipsCommonName","Common (marketing) name of the ISP","text","2020-10-01","255"
+"downloadKbps","The result of the download portion of the test, measured in kilobits per second.","number","2020-10-01","11"
+"uploadKbps","The result of the upload portion of the test, measured in kilobits per second.","number","2020-10-01","11"
+"latency","The result of the latency portion of the test, measured in milliseconds.","number","2020-10-01","6"
+"jitter","The variance in latency over time which determines the stability of the internet connection.","number","2020-10-01","4"
+"downloadServerCount","Number of servers utilized during the download portion of the test.","number","2020-10-01","2"

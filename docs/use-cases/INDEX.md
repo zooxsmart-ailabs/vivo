@@ -6,18 +6,18 @@
 
 | Ator | Tipo | Descrição |
 |------|------|-----------|
-| Analista | Primario | Usuário da plataforma que analisa métricas de QoE e toma decisoes estratégicas |
-| Sistema de Auth | Secundario | Provedor externo de autenticação /autorização (plugavel) |
-| Google Maps API | Secundario | Servico de mapas para renderização de poligonos geohash |
-| PostgreSQL + TimescaleDB | Secundario | Base de dados geoespacial e temporal |
-| Redis | Secundario | Cache e pub/sub para WebSocket |
-| SigNoz | Secundario | Plataforma de observabilidade via OpenTelemetry/gRPC |
+| Analista | Primário | Usuário da plataforma que analisa métricas de QoE e toma decisoes estratégicas |
+| Sistema de Auth | Secundário | Provedor externo de autenticação /autorização (plugavel) |
+| Google Maps API | Secundário | Servico de mapas para renderização de poligonos geohash |
+| PostgreSQL + TimescaleDB | Secundário | Base de dados geoespacial e temporal |
+| Redis | Secundário | Cache e pub/sub para WebSocket |
+| SigNoz | Secundário | Plataforma de observabilidade via OpenTelemetry/gRPC |
 
 ## Módulos Funcionais
 
 ### M1 — Mapa Estratégico
 
-| ID | Nome | Ator Primario | Prioridade | PF | Status |
+| ID | Nome | Ator Primário | Prioridade | PF | Status |
 |----|------|---------------|------------|-----|--------|
 | [UC001](./UC001-visualizar-mapa-estrategico/UC001-main-flow.md) | Visualizar Mapa Estratégico de Geohashes | Analista | Alta | 28 | Rascunho |
 | [UC002](./UC002-filtrar-por-quadrante/UC002-main-flow.md) | Filtrar Geohashes por Quadrante Estratégico | Analista | Alta | 10 | Rascunho |
@@ -26,13 +26,13 @@
 
 ### M2 — Navegação Geoespacial
 
-| ID | Nome | Ator Primario | Prioridade | PF | Status |
+| ID | Nome | Ator Primário | Prioridade | PF | Status |
 |----|------|---------------|------------|-----|--------|
 | [UC005](./UC005-drill-down-geoespacial/UC005-main-flow.md) | Realizar Drill-down Geoespacial | Analista | Alta | 15 | Rascunho |
 
 ### M3 — Filtros Globais
 
-| ID | Nome | Ator Primario | Prioridade | PF | Status |
+| ID | Nome | Ator Primário | Prioridade | PF | Status |
 |----|------|---------------|------------|-----|--------|
 | [UC006](./UC006-filtrar-por-periodo/UC006-main-flow.md) | Filtrar por Período Temporal | Analista | Alta | 13 | Rascunho |
 | [UC007](./UC007-comparar-periodos/UC007-main-flow.md) | Comparar Períodos (Diff) | Analista | Media | 16 | Rascunho |
@@ -40,19 +40,19 @@
 
 ### M4 — Frentes Estratégicas
 
-| ID | Nome | Ator Primario | Prioridade | PF | Status |
+| ID | Nome | Ator Primário | Prioridade | PF | Status |
 |----|------|---------------|------------|-----|--------|
 | [UC009](./UC009-consultar-frente-estrategica/UC009-main-flow.md) | Consultar Frente Estratégica | Analista | Alta | 22 | Rascunho |
 
 ### M5 — Visão por Bairro
 
-| ID | Nome | Ator Primario | Prioridade | PF | Status |
+| ID | Nome | Ator Primário | Prioridade | PF | Status |
 |----|------|---------------|------------|-----|--------|
 | [UC010](./UC010-consultar-visao-bairro/UC010-main-flow.md) | Consultar Visão por Bairro | Analista | Alta | 19 | Rascunho |
 
 ### M6 — Sessão e Segurança
 
-| ID | Nome | Ator Primario | Prioridade | PF | Status |
+| ID | Nome | Ator Primário | Prioridade | PF | Status |
 |----|------|---------------|------------|-----|--------|
 | [UC011](./UC011-persistir-sessao/UC011-main-flow.md) | Persistir e Restaurar Estado da Sessão | Analista | Media | 13 | Rascunho |
 | [UC012](./UC012-autenticar-usuario/UC012-main-flow.md) | Autenticar Usuário (Guard Plugavel) | Sistema de Auth | Alta | 13 | Rascunho |

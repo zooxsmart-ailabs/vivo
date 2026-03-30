@@ -4,7 +4,7 @@
     "paths": {
       "@vivo/shared": ["../../packages/shared/src"],
       "@vivo/shared/*": ["../../packages/shared/src/*"],
-      "@vivo/api/*": ["../api/*"]
+      "@vivo/zoox-map-api/*": ["../api/*"]
     }
   }
 }

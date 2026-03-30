@@ -1,0 +1,6 @@
+"Field Name in Extract","Definition","Data Type","Date Available","Max Field Size"
+"model","The raw model name of the device used for testing.","text","2020-06-25","255"
+"chipset_name","Ookla-maintained device chipset name","text","2020-06-25","255"
+"start_date","Date from which this chipset will be included in Modern Chipsets.","datetime","2020-06-25","19"
+"retirement_date","Date from which this chipset will be excluded from Modern Chipsets.","datetime","2020-06-26","19"
+"model_common","The Ookla-maintained common name of the device used for testing.","text","2023-09-20","255"

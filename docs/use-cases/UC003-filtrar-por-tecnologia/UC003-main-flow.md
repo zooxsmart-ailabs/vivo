@@ -4,8 +4,8 @@
 |-------|-------|
 | **ID** | UC003 |
 | **Nome** | Filtrar Geohashes por Tecnologia |
-| **Ator Primario** | Analista |
-| **Atores Secundarios** | — |
+| **Ator Primário** | Analista |
+| **Atores Secundários** | — |
 | **Prioridade** | Alta |
 | **Versão** | 1.0 |
 | **Referencias** | UC001, UC002, UC011 |

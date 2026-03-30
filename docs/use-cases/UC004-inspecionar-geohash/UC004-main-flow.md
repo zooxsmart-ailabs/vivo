@@ -4,8 +4,8 @@
 |-------|-------|
 | **ID** | UC004 |
 | **Nome** | Inspecionar Detalhes do Geohash |
-| **Ator Primario** | Analista |
-| **Atores Secundarios** | NestJS Backend (tRPC/WS), PostgreSQL |
+| **Ator Primário** | Analista |
+| **Atores Secundários** | NestJS Backend (tRPC/WS), PostgreSQL |
 | **Prioridade** | Alta |
 | **Versão** | 1.0 |
 | **Referencias** | UC001, UC006, UC007 |

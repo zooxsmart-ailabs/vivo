@@ -1,7 +1,5 @@
 # Data files (large)
-estudo/db/data/
-estudo/*.txt
-estudo/*.csv
+estudo/
 *.txt.gz
 
 # Node
@@ -31,3 +29,4 @@ Thumbs.db
 
 # Claude
 .claude/plans/
+tools/

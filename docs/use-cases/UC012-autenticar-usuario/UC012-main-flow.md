@@ -4,8 +4,8 @@
 |-------|-------|
 | **ID** | UC012 |
 | **Nome** | Autenticar Usuário (Guard Plugavel) |
-| **Ator Primario** | Sistema de Auth (externo) |
-| **Atores Secundarios** | Analista, NestJS Backend |
+| **Ator Primário** | Sistema de Auth (externo) |
+| **Atores Secundários** | Analista, NestJS Backend |
 | **Prioridade** | Alta |
 | **Versão** | 1.0 |
 | **Referencias** | UC011, todos os UCs |

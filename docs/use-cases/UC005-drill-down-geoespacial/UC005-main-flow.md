@@ -4,8 +4,8 @@
 |-------|-------|
 | **ID** | UC005 |
 | **Nome** | Realizar Drill-down Geoespacial |
-| **Ator Primario** | Analista |
-| **Atores Secundarios** | NestJS Backend (tRPC/WS), PostgreSQL + PostGIS |
+| **Ator Primário** | Analista |
+| **Atores Secundários** | NestJS Backend (tRPC/WS), PostgreSQL + PostGIS |
 | **Prioridade** | Alta |
 | **Versão** | 1.0 |
 | **Referencias** | UC001, RN001-03 |

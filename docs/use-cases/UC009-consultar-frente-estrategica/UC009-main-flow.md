@@ -4,8 +4,8 @@
 |-------|-------|
 | **ID** | UC009 |
 | **Nome** | Consultar Frente Estratégica |
-| **Ator Primario** | Analista |
-| **Atores Secundarios** | NestJS Backend (tRPC/WS), PostgreSQL |
+| **Ator Primário** | Analista |
+| **Atores Secundários** | NestJS Backend (tRPC/WS), PostgreSQL |
 | **Prioridade** | Alta |
 | **Versão** | 1.0 |
 | **Referencias** | UC006, UC008, UC011 |

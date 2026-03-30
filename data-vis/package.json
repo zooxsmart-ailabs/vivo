@@ -3,8 +3,8 @@
   "private": true,
   "scripts": {
     "dev": "pnpm -r --parallel dev",
-    "dev:api": "pnpm --filter @vivo/api dev",
-    "dev:web": "pnpm --filter @vivo/web dev",
+    "dev:api": "pnpm --filter @vivo/zoox-map-api dev",
+    "dev:web": "pnpm --filter @vivo/zoox-map-web dev",
     "build": "pnpm -r build",
     "test": "pnpm -r test",
     "test:e2e": "pnpm -r test:e2e",

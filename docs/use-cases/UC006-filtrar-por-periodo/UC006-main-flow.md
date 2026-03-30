@@ -4,8 +4,8 @@
 |-------|-------|
 | **ID** | UC006 |
 | **Nome** | Filtrar por Período Temporal |
-| **Ator Primario** | Analista |
-| **Atores Secundarios** | NestJS Backend (tRPC/WS), PostgreSQL + TimescaleDB |
+| **Ator Primário** | Analista |
+| **Atores Secundários** | NestJS Backend (tRPC/WS), PostgreSQL + TimescaleDB |
 | **Prioridade** | Alta |
 | **Versão** | 1.0 |
 | **Referencias** | UC001, UC007, UC009, UC010, UC011 |

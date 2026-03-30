@@ -4,8 +4,8 @@
 |-------|-------|
 | **ID** | UC001 |
 | **Nome** | Visualizar Mapa Estratégico de Geohashes |
-| **Ator Primario** | Analista |
-| **Atores Secundarios** | Google Maps API, NestJS Backend (tRPC/WS), PostgreSQL |
+| **Ator Primário** | Analista |
+| **Atores Secundários** | Google Maps API, NestJS Backend (tRPC/WS), PostgreSQL |
 | **Prioridade** | Alta |
 | **Versão** | 1.0 |
 | **Referencias** | UC002, UC003, UC004, UC005, UC006, UC008 |

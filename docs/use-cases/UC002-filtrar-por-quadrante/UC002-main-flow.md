@@ -4,8 +4,8 @@
 |-------|-------|
 | **ID** | UC002 |
 | **Nome** | Filtrar Geohashes por Quadrante Estratégico |
-| **Ator Primario** | Analista |
-| **Atores Secundarios** | — |
+| **Ator Primário** | Analista |
+| **Atores Secundários** | — |
 | **Prioridade** | Alta |
 | **Versão** | 1.0 |
 | **Referencias** | UC001, UC011 |

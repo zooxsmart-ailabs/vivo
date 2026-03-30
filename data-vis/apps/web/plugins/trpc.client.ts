@@ -6,7 +6,7 @@ import {
   createWSClient,
 } from "@trpc/client";
 import superjson from "superjson";
-import type { AppRouter } from "@vivo/api/src/trpc/trpc.router";
+import type { AppRouter } from "@vivo/zoox-map-api/src/trpc/trpc.router";
 
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig();

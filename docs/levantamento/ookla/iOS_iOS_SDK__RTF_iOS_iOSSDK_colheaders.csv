@@ -1,0 +1,37 @@
+"Field Name in Extract","Definition","Data Type","Date Available","Max Field Size"
+"resultId","Unique ID of the test.","number","2020-10-01","11"
+"resultDate","Date and time of the test in Pacific time zone (GMT -8).","datetime","2020-10-01","19"
+"clientIpAddress","Speedtest user's IP address. The last octet of the user's external IP address is masked for addresses that are not on your network. Full IP addresses are available for your customers. ","text","2020-10-01","15"
+"clientIpv6Address","Speedtest user's IPV6 address. We mask IP addresses for end users privacy, but show enough to allow clients to see which provider is offering the user's internet service. Please note that this address may not be the connection that the Speedtest was taken over (unless there is no IPV4 address populated).","text","2020-10-01","45"
+"os","Operating system of the device used during the test.","text","2020-10-01","255"
+"supplementalData","The additional field that is included in theSDK so that the user can configure andcollect specific ID and other data to tie intotheir internal databases for customer caseand other purposes.If “NULL” then this field has not beenconfigured.The save status of the supplemental data isincluded in the result submission responselocation: save.supplemental_dataSAVE_SUCCESS: The supplemental datawas persisted successfully.NO_DATA_FOUND: The supplemental datafield was included but was empty or null.NOT_TYPE_STRING: The providedsupplemental data field was not a string.EXCEEDS_MAX_LENGTH: The providedsupplemental data field was more than theMaximum Allowed Length of characters.INVALID_JSON_SYNTAX: The providedsupplemental data field failed to be parsedby JSON.parse() in the JavaScript language.SAVE_INSERT_ERROR: The attempt towrite to the database failed.","text","2020-10-01","1000"
+"clientCountry","The country where the device is located.","text","2020-10-01","255"
+"clientRegionName","The region within a country where the test was conducted. How each country is divided into regions varies country to country, but this is typically the top level region as described in ISO-3166-2. If this field is labeled unknown and the field location type equals 2, we were unable to confidently assign a region to the record and the location is only accurate to the country level.","text","2020-10-01","255"
+"clientCityName","The city where the test was conducted. If this field is labeled unknown and the location type field equals 2, we were unable to confidently assign a city to the record and is only accurate to the region level.","text","2020-10-01","255"
+"clientLatitude","The latitude of the device conducting the test. If location type equals 2, this value is approximate.","number","2020-10-01","10"
+"clientLongitude","The longitude of the device conducting the test. If location type equals 2, this value is approximate.","number","2020-10-01","10"
+"serverName","Name of the server tested.","text","2020-10-01","255"
+"serverCountry","Country where server tested is located.","text","2020-10-01","255"
+"serverSponsor","Name of the server sponsor tested.","text","2020-10-01","255"
+"serverLatitude","Latitude of server tested.","number","2020-10-01","10"
+"serverLongitude","Longitude of server tested.","number","2020-10-01","10"
+"ispName","ISP name associated with IP Address.","text","2020-10-01","255"
+"ipsCommonName","Common (marketing) name of the ISP","text","2020-10-01","255"
+"downloadKbps","The result of the download portion of the test, measured in kilobits per second.","number","2020-10-01","11"
+"uploadKbps","The result of the upload portion of the test, measured in kilobits per second.","number","2020-10-01","11"
+"latency","The result of the latency portion of the test, measured in milliseconds.","number","2020-10-01","6"
+"jitter","The variance in latency over time which determines the stability of the internet connection.","number","2020-10-01","4"
+"downloadServerCount","Number of servers utilized during the download portion of the test.","number","2020-10-01","2"
+"packetLoss","The percentage of packets lost during the test.","number","2020-10-01","5"
+"preConnectionType","A number representing the device's connection type as detected before the test begins. Please see the connection type table for an explanation of each type. Connection type as detected before the test starts: 0 = Unknown,1 = Cell, 2 = Wi-Fi, 3 = GPRS, 4 = EDGE, 5 = UMTS, 6 = CDMA, 7 = EVDO0, 8 = EVDOA, 9 = OnexRTT, 10 = HSDPA, 11 = HSPA, 12 = IDEN, 13 = EHRPD, 14 = EVDOB, 15 = LTE, 16 = HSUPA, 17 = HSPAP, 18 = GSM, 19 = TDSCDMA, 20 = IWLAN, 21 = LTE-CA, 22 = Ethernet, 23 = Bluetooth, 24 = NR","number","2020-10-01","4"
+"postConnectionType","A number representing the device's connection type as detected at the end of the test. Please see the connection type table for an explanation of each type. Connection type as detected at the end of the test: 0 = Unknown,1 = Cell, 2 = Wi-Fi, 3 = GPRS, 4 = EDGE, 5 = UMTS, 6 = CDMA, 7 = EVDO0, 8 = EVDOA, 9 = OnexRTT, 10 = HSDPA, 11 = HSPA, 12 = IDEN, 13 = EHRPD, 14 = EVDOB, 15 = LTE, 16 = HSUPA, 17 = HSPAP, 18 = GSM, 19 = TDSCDMA, 20 = IWLAN, 21 = LTE-CA, 22 = Ethernet, 23 = Bluetooth, 24 = NR","number","2020-10-01","4"
+"wifiApBssid","The media access control address (MAC) address of the wifi Chipset running on the wireless access point to which the device is connected.","text","2020-10-01","50"
+"wifiMacManufacturer","The manufacturer name associated with the MAC address of the WiFi access point (AP) serving the device based on IEEE Registration Authority assignments. This may not point to the marketed manufacturer name of the AP and may be associated with the manufacturer of another component such as the AP's radio.","text","2020-10-01","255"
+"simCount","The number of SIMs registered to the device during the test.","number","2020-10-01","2"
+"simMccMnc","The MCC and MNC associated with the SIM card used for the test.","number","2020-10-01","6"
+"simOperatorName","The mobile operator name from the primary SIM card used for the test.","text","2020-10-01","255"
+"simOoklaOperatorName","Mobile operator name for the primary SIM card as determined by Ookla based on our research on how the operator is marketed","text","2020-10-01","150"
+"model","The common name of the device model. Ex. iPhone 7, iPhone 6 Plus, iPad Mini","text","2022-01-03","255"
+"chipsetName","Ookla-maintained device chipset name.","text","2022-01-03","255"
+"chipsetManufacturer","Ookla-maintained device chipset manufacturer name.","text","2022-01-03","255"
+"wifiMacManufacturer","The manufacturer name associated with the MAC address of the WiFi access point (AP) serving the device based on IEEE Registration Authority assignments. This may not point to the marketed manufacturer name of the AP and may be associated with the manufacturer of another component such as the AP's radio.","text","2022-01-03","255"

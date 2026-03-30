@@ -1,4 +1,4 @@
-import type { AppRouter } from "@vivo/api/src/trpc/trpc.router";
+import type { AppRouter } from "@vivo/zoox-map-api/src/trpc/trpc.router";
 import type { createTRPCProxyClient } from "@trpc/client";
 
 type TrpcClient = ReturnType<typeof createTRPCProxyClient<AppRouter>>;

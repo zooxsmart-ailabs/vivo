@@ -1,0 +1,8 @@
+"Field Name in Extract","Definition","Data Type","Date Available","Max Field Size"
+"data_source","The platform where the data was collected. Examples: web, iOS, Android, MacOS, Windows","string","2018-04-01","15"
+"test_id","Unique ID of the test.","integer","2018-04-01","20"
+"device_id","Public-facing unique ID of the user/device.","integer","2018-04-01","20"
+"test_date","The date and time that the test was taken in UTC.","timestamp","2018-04-01","19"
+"country_code","The two-letter country code where the test was taken.","string","2018-04-01","2"
+"country","The country where the test was taken.","string","2018-04-01","255"
+"request_received_date","The date that Ookla received the data removal request in UTC.","timestamp","2018-04-01","19"

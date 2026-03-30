@@ -4,8 +4,8 @@
 |-------|-------|
 | **ID** | UC007 |
 | **Nome** | Comparar Períodos (Diff) |
-| **Ator Primario** | Analista |
-| **Atores Secundarios** | NestJS Backend (tRPC/WS), PostgreSQL + TimescaleDB |
+| **Ator Primário** | Analista |
+| **Atores Secundários** | NestJS Backend (tRPC/WS), PostgreSQL + TimescaleDB |
 | **Prioridade** | Media |
 | **Versão** | 1.0 |
 | **Referencias** | UC006, UC001, UC009, UC010 |

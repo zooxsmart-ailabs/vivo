@@ -11,7 +11,7 @@ COPY packages/shared ./packages/shared
 COPY apps/api/src ./apps/api/src
 COPY apps/api/tsconfig*.json ./apps/api/
 COPY apps/web ./apps/web
-RUN pnpm --filter @vivo/web build
+RUN pnpm --filter @vivo/zoox-map-web build
 
 FROM node:22-alpine
 RUN addgroup -S app && adduser -S app -G app

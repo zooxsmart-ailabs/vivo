@@ -1,0 +1,5 @@
+"Field Name","Definition","Data Type","Date Available","Max Field Size"
+"guid_result","A globally unique ID for every speedtest performed based. ","string","2023-06-21","32"
+"attr_place_type","Denotes the type of the place (examples: Ooklaficial, Census block, FIPs)","text","2023-06-21","255"
+"attr_place_type_name","The name of the place.","text","2023-06-21","255"
+"attr_place_type_code","The code associated with the place.","text","2023-06-21","255"

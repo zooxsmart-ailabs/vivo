@@ -4,8 +4,8 @@
 |-------|-------|
 | **ID** | UC008 |
 | **Nome** | Filtrar por Localização Geográfica |
-| **Ator Primario** | Analista |
-| **Atores Secundarios** | NestJS Backend (tRPC/WS), PostgreSQL + PostGIS |
+| **Ator Primário** | Analista |
+| **Atores Secundários** | NestJS Backend (tRPC/WS), PostgreSQL + PostGIS |
 | **Prioridade** | Alta |
 | **Versão** | 1.0 |
 | **Referencias** | UC001, UC005, UC009, UC010, UC011 |

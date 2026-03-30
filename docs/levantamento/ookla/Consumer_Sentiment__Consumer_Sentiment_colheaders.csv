@@ -1,0 +1,7 @@
+"Field Name in Extract","Definition","Data Type","Date Available","Max Field Size"
+"test_id","Unique ID of the test. Associates with the test_id of the speed test.","number","2020-10-01","11"
+"response_date","","timestamp","2020-10-01","19"
+"question_type","The type of Consumer Sentiment question (5-Star Ratings, Net Promoter Score, Expectations).","text","2020-10-01","18"
+"question","The text of the question displayed to the end user.","text","2020-10-01","150"
+"response","The end user's response to the question.","number","2020-10-01","2"
+"question_english","The text of the question displayed to the end user (in English).","text","2020-03-17","150"

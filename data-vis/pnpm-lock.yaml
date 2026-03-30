@@ -172,7 +172,7 @@ importers:
       '@types/node':
         specifier: ^22.0.0
         version: 22.19.15
-      '@vivo/api':
+      '@vivo/zoox-map-api':
         specifier: workspace:*
         version: link:../api
       '@vue/test-utils':
