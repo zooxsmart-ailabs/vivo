@@ -97,7 +97,7 @@
           Live Data
         </div>
         <img
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Vivo_logo_2021.svg/200px-Vivo_logo_2021.svg.png"
+          src="https://files.manuscdn.com/user_upload_by_module/session_file/310419663031821263/FMooUMezwbYNuWlt.png"
           alt="Vivo"
           class="h-8 w-auto"
           :style="{ objectFit: 'contain', filter: 'brightness(0) invert(1)' }"
@@ -149,9 +149,9 @@ const noiseStyle = {
 };
 
 const tabs = [
-  { path: "/", label: "Mapa Estrategico", icon: Map },
-  { path: "/frentes", label: "Frentes Estrategicas", icon: BarChart3 },
-  { path: "/bairros", label: "Visao por Bairro", icon: Building2 },
+  { path: "/", label: "Mapa Estratégico", icon: Map },
+  { path: "/frentes", label: "Estratégias Growth", icon: BarChart3 },
+  { path: "/bairros", label: "Visão por Bairro", icon: Building2 },
 ];
 
 function isActive(path: string): boolean {
