@@ -83,7 +83,7 @@ sequenceDiagram
 ## Notas do Diagrama
 
 - **Passos 1-16:** UC009 — fluxo completo de consulta de frente com cache Redis.
-- **Passos 18-20:** Seleção de geohash e operação local (dados ja carregados).
+- **Passos 18-20:** Seleção de geohash e operação local (dados já carregados).
 - **Passos 22-26:** Mudança de aba de estratégia dispara nova query.
 - **Passos 28-37:** UC010 — lista de bairros carregada na navegação.
 - **Passos 39-46:** Seleção de bairro pode carregar detalhes adicionais do backend.

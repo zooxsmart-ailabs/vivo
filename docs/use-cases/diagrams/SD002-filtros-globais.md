@@ -74,5 +74,5 @@ sequenceDiagram
 ## Notas do Diagrama
 
 - **Passos 1-17:** UC006 — mudança de período propaga para TODAS as abas simultaneamente via contexto global.
-- **Passos 19-28:** UC007 — backend calcula diff server-side para nao sobrecarregar frontend.
+- **Passos 19-28:** UC007 — backend calcula diff server-side para não sobrecarregar frontend.
 - **Passos 30-38:** UC008 — localização centraliza mapa e filtra dados. Bidirecional com pan do mapa.

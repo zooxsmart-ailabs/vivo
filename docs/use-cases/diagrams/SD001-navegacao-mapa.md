@@ -86,5 +86,5 @@ sequenceDiagram
 - **Passos 3-11:** UC001 fluxo principal. Cache Redis com TTL 5min para reduzir carga no PG.
 - **Passos 13-16:** UC002 e operação local (frontend), sem ida ao backend.
 - **Passos 18-20:** UC003 idem — filtro local.
-- **Passos 22-26:** UC004 — hover e pin sao operacoes locais sobre dados ja carregados.
-- **Passos 28-36:** UC005 — drill-down dispara nova subscription com precisao diferente.
+- **Passos 22-26:** UC004 — hover e pin são operações locais sobre dados já carregados.
+- **Passos 28-36:** UC005 — drill-down dispara nova subscription com precisão diferente.
