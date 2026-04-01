@@ -183,18 +183,18 @@ erDiagram
 | Origem | Destino | Cardinalidade | Descrição | UC |
 |--------|---------|---------------|-----------|-----|
 | FILE_TRANSFER | GEOHASH_CELL | N:1 | Testes SpeedTest por geohash | UC001, UC005 |
-| VIDEO | GEOHASH_CELL | N:1 | Testes de video por geohash | UC001 |
+| VIDEO | GEOHASH_CELL | N:1 | Testes de vídeo por geohash | UC001 |
 | WEB_BROWSING | GEOHASH_CELL | N:1 | Testes de web por geohash | UC001 |
 | SCORE | GEOHASH_CELL | N:1 | Score mensal por geohash7 x operadora | UC004, UC009 |
 | VIVO_FTTH_COVERAGE | GEOHASH_CELL | N:1 | Instalações FTTH Vivo por geohash (via coordenadas) | UC001, UC004 |
-| VIVO_MOBILE_ERB | GEOHASH_CELL | N:1 | ERBs movel Vivo com linhas ativas por geohash | UC001, UC004 |
-| GEO_POR_LATLONG | GEOHASH_CELL | N:1 | Dados socioeconomicos por geohash | UC004, UC010 |
+| VIVO_MOBILE_ERB | GEOHASH_CELL | N:1 | ERBs móvel Vivo com linhas ativas por geohash | UC001, UC004 |
+| GEO_POR_LATLONG | GEOHASH_CELL | N:1 | Dados socioeconômicos por geohash | UC004, UC010 |
 | VW_GEOHASH_SUMMARY | BENCHMARK_CONFIG | N:1 | Limiares definem quadrante | RN001-01 |
-| VW_GEOHASH_SUMMARY | VIVO_FTTH_COVERAGE | 1:N | Share FIBRA = instalações / domicilios | RN001-01 |
-| VW_GEOHASH_SUMMARY | VIVO_MOBILE_ERB | 1:N | Share MOVEL = linhas / população | RN001-01 |
+| VW_GEOHASH_SUMMARY | VIVO_FTTH_COVERAGE | 1:N | Share FIBRA = instalações / domicílios | RN001-01 |
+| VW_GEOHASH_SUMMARY | VIVO_MOBILE_ERB | 1:N | Share MÓVEL = linhas / população | RN001-01 |
 | VW_BAIRRO_SUMMARY | VW_GEOHASH_SUMMARY | 1:N | Bairro agrega N geohashes | UC010 |
 | USER_SESSION | — | standalone | Estado da sessão por usuário | UC011, UC012 |
-| DIAGNOSTICO_GROWTH | GEOHASH_CELL | N:1 | Diagnóstico 4 pilares por geohash/mes | UC009 |
+| DIAGNOSTICO_GROWTH | GEOHASH_CELL | N:1 | Diagnóstico 4 pilares por geohash/mês | UC009 |
 | DIAGNOSTICO_GROWTH | SCORE | 1:N | Score Ookla e delta competitivo | UC009 |
 | DIAGNOSTICO_GROWTH | VW_GEOHASH_SUMMARY | 1:1 | Share penetração | UC009 |
 

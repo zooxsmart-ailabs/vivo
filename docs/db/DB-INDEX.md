@@ -53,11 +53,11 @@ Arquitetura de duas camadas com dados operacionais Vivo adicionados:
 | Mudança | Impacto |
 |---------|---------|
 | Quadrantes renomeados: OPORTUNIDADE, FORTALEZA, RISCO, EXPANSAO | Enum, views, UCs |
-| Thresholds: share 30/40%, satisfação 6.0/7.5 (com zona intermediaria) | benchmark_config, views |
+| Thresholds: share 30/40%, satisfação 6.0/7.5 (com zona intermediária) | benchmark_config, views |
 | 2 novas tabelas: vivo_ftth_coverage (D11), vivo_mobile_erb (D12) | DDL, views de share |
-| Share real (FTTH/ERB), nao mais proxy de testes | vw_share_real (NOVA), vw_geohash_summary |
-| Posição competitiva (5 niveis) | Novo enum + coluna na view |
-| Prioridade por score absoluto P1-P4 | Novo enum + formula ponderada |
+| Share real (FTTH/ERB), não mais proxy de testes | vw_share_real (NOVA), vw_geohash_summary |
+| Posição competitiva (5 níveis) | Novo enum + coluna na view |
+| Prioridade por score absoluto P1-P4 | Novo enum + fórmula ponderada |
 | movel_class: EXPANSAO_5G/4G → EXPANSAO_COBERTURA | Enum simplificado |
 | geo_por_latlong v3 (+60% pontos) | Importação |
 
@@ -69,7 +69,7 @@ Arquitetura de duas camadas com dados operacionais Vivo adicionados:
 | UC002 | — | — | (filtro local) |
 | UC003 | — | — | (filtro local) |
 | UC004 | score, geo_por_latlong, **vivo_ftth**, **vivo_erb** | — | vw_geohash_summary |
-| UC005 | geohash_cell | — | vw_geohash_summary (precisao 6 ou 7) |
+| UC005 | geohash_cell | — | vw_geohash_summary (precisão 6 ou 7) |
 | UC006 | file_transfer (fn_available_periods) | — | Todas |
 | UC007 | — | — | vw_geohash_summary (2 períodos) |
 | UC008 | geohash_cell | — | Todas |
@@ -80,22 +80,22 @@ Arquitetura de duas camadas com dados operacionais Vivo adicionados:
 
 ## Artefatos
 
-| Arquivo | Conteudo |
+| Arquivo | Conteúdo |
 |---------|----------|
 | [conceptual/ER-conceptual.md](conceptual/ER-conceptual.md) | Diagrama ER Mermaid + narrativa |
-| [logical/schema-logical.md](logical/schema-logical.md) | Normalizacao, domínios, restrições |
-| [physical/DDL-geointelligence.sql](physical/DDL-geointelligence.sql) | DDL executavel completo |
-| [physical/data-dictionary.md](physical/data-dictionary.md) | Dicionario de dados por tabela/view |
+| [logical/schema-logical.md](logical/schema-logical.md) | Normalização, domínios, restrições |
+| [physical/DDL-geointelligence.sql](physical/DDL-geointelligence.sql) | DDL executável completo |
+| [physical/data-dictionary.md](physical/data-dictionary.md) | Dicionário de dados por tabela/view |
 
-## Politicas TimescaleDB
+## Políticas TimescaleDB
 
-| Tabela | Chunks | Compressao | Retenção | Refresh (CAGG) |
+| Tabela | Chunks | Compressão | Retenção | Refresh (CAGG) |
 |--------|--------|-----------|----------|----------------|
-| file_transfer | 3 meses | Apos 6 meses | 36 meses | — |
-| video | 3 meses | Apos 6 meses | 36 meses | — |
-| web_browsing | 3 meses | Apos 6 meses | 36 meses | — |
-| cagg_*_monthly_gh7 (×3) | Herdado | — | — | Horario, 3 meses lookback |
-| cagg_*_monthly_gh6 (×3) | Herdado | — | — | Horario, 3 meses lookback |
+| file_transfer | 3 meses | Após 6 meses | 36 meses | — |
+| video | 3 meses | Após 6 meses | 36 meses | — |
+| web_browsing | 3 meses | Após 6 meses | 36 meses | — |
+| cagg_*_monthly_gh7 (×3) | Herdado | — | — | Horário, 3 meses lookback |
+| cagg_*_monthly_gh6 (×3) | Herdado | — | — | Horário, 3 meses lookback |
 
 ## Drill-down Geoespacial (UC005)
 
@@ -124,7 +124,7 @@ Zoom out (11-13)                    Zoom in (14-15)
 | BTREE | geohash_cell | LEFT(geohash_id, 5/6) | Drill-down (UC005) |
 | BTREE | geohash_cell | (state, city, neighborhood) | Localização (UC008) |
 | BTREE | **vivo_ftth_coverage** | (geohash7, anomes), (geohash6, anomes) | Share FIBRA |
-| BTREE | **vivo_mobile_erb** | (geohash7, anomes), (geohash6, anomes) | Share MOVEL |
+| BTREE | **vivo_mobile_erb** | (geohash7, anomes), (geohash6, anomes) | Share MÓVEL |
 | BTREE | score | (cd_geo_hsh7), (nm_oprd, nu_ano_mes_rfrn) | Join scores |
 | BTREE | file_transfer | (attr_geohash7, ts_result DESC) | Temporal |
 | BTREE | user_session | (updated_at DESC) | Cleanup |

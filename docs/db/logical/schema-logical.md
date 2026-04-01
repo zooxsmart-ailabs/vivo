@@ -27,8 +27,8 @@
 | Quadrantes | GROWTH, UPSELL, RETENCAO, GROWTH_RETENCAO | OPORTUNIDADE, FORTALEZA, RISCO, EXPANSAO | PDF oficial v1203 |
 | Prioridade | CRITICO/ALTO/MEDIO/BAIXO (percentil) | P1-P4 (score absoluto 0-10) | Levantamento |
 | Movel class | EXPANSAO_5G, EXPANSAO_4G | EXPANSAO_COBERTURA (trilha 5G/4G e interna) | PDF Camada 2 |
-| Share thresholds | 35% único limiar | < 30% (baixa), 30-39% (media), >= 40% (alta) | Levantamento sec.1 |
-| Satisfação thresholds | 6.8 único limiar | < 6.0 (baixa), 6.0-7.4 (media), >= 7.5 (alta) | Levantamento sec.3 |
+| Share thresholds | 35% único limiar | < 30% (baixa), 30-39% (média), >= 40% (alta) | Levantamento sec.1 |
+| Satisfação thresholds | 6.8 único limiar | < 6.0 (baixa), 6.0-7.4 (média), >= 7.5 (alta) | Levantamento sec.3 |
 
 ## 2. Camada Raw (AIE) — Tabelas Existentes
 
@@ -40,7 +40,7 @@ Sem alteração. Ver v1.
 
 ### 2.5 geo_por_latlong (v3)
 - **Atualização**: v2 (3.092 rows) → v3 (4.958 rows), +60% cobertura
-- Schema identico, mesmo pipeline de importacao
+- Schema idêntico, mesmo pipeline de importação
 - Geohash7 e geom gerados via PostGIS
 
 ### 2.6 vivo_ftth_coverage (NOVO — AIE D11)
@@ -48,7 +48,7 @@ Sem alteração. Ver v1.
 | Coluna | Tipo | Restrição | Descrição |
 |--------|------|-----------|-----------|
 | cod_geo | VARCHAR(20) | NOT NULL | Código geográfico da instalação FTTH |
-| anomes | INTEGER | NOT NULL | Ano-mes referência (YYYYMM) |
+| anomes | INTEGER | NOT NULL | Ano-mês referência (YYYYMM) |
 | produto | VARCHAR(20) | NOT NULL | Sempre "BANDA LARGA" |
 | tp_produto | VARCHAR(10) | NOT NULL | Sempre "FTTH" |
 | uf | VARCHAR(2) | NOT NULL | Estado |
@@ -60,19 +60,19 @@ Sem alteração. Ver v1.
 | geohash6 | TEXT | GENERATED | LEFT(geohash7, 6) |
 
 **PK**: (cod_geo, anomes)
-**Volume**: ~110.000 registros/mes (apenas GO)
-**Uso**: Cálculo de share FIBRA — `COUNT(instalações no geohash) / total_domicilios × 100`
+**Volume**: ~110.000 registros/mês (apenas GO)
+**Uso**: Cálculo de share FIBRA — `COUNT(instalações no geohash) / total_domicílios × 100`
 **Fonte CSV**: `Ookla_visao_ftth_3M_YYYYMM.csv` (delimitador `;`)
 
 ### 2.7 vivo_mobile_erb (NOVO — AIE D12)
 
 | Coluna | Tipo | Restrição | Descrição |
 |--------|------|-----------|-----------|
-| erb_casa | VARCHAR(20) | NOT NULL | ID da ERB (estação radio base) |
-| anomes | INTEGER | NOT NULL | Ano-mes referência (YYYYMM) |
-| qtde_lnha_pos | INTEGER | NOT NULL DEFAULT 0 | Linhas pos-pago |
+| erb_casa | VARCHAR(20) | NOT NULL | ID da ERB (estação rádio base) |
+| anomes | INTEGER | NOT NULL | Ano-mês referência (YYYYMM) |
+| qtde_lnha_pos | INTEGER | NOT NULL DEFAULT 0 | Linhas pós-pago |
 | qtde_lnha_ctrl | INTEGER | NOT NULL DEFAULT 0 | Linhas controle |
-| qtde_lnha_pre | INTEGER | NOT NULL DEFAULT 0 | Linhas pre-pago |
+| qtde_lnha_pre | INTEGER | NOT NULL DEFAULT 0 | Linhas pré-pago |
 | x | DOUBLE PRECISION | NOT NULL | Longitude |
 | y | DOUBLE PRECISION | NOT NULL | Latitude |
 | geom | GEOMETRY(POINT, 4326) | GENERATED | Gerado de x,y |
@@ -80,11 +80,11 @@ Sem alteração. Ver v1.
 | geohash6 | TEXT | GENERATED | LEFT(geohash7, 6) |
 
 **PK**: (erb_casa, anomes)
-**Volume**: ~1.000 registros/mes (apenas GO)
-**Uso**: Cálculo de share MOVEL — `SUM(linhas no geohash) / populacao_residente × 100`
+**Volume**: ~1.000 registros/mês (apenas GO)
+**Uso**: Cálculo de share MÓVEL — `SUM(linhas no geohash) / populacao_residente × 100`
 **Fonte CSV**: `Ookla_visao_movel_3M_erb_casa_YYYYMM.csv` (delimitador `;`, decimal `,`)
 
-## 3. Camada Analitica (ALI) — Tabelas Gerenciadas
+## 3. Camada Analítica (ALI) — Tabelas Gerenciadas
 
 ### 3.1 geohash_cell
 Sem alteração. Ver v1.
@@ -108,17 +108,17 @@ Sem alteração. Ver v1.
 ### 3.3 user_session
 Sem alteração. Ver v1.
 
-## 4. Views — Alteracoes Significativas
+## 4. Views — Alterações Significativas
 
-### 4.1 vw_geohash_summary (View Principal) — ALTERACOES
+### 4.1 vw_geohash_summary (View Principal) — ALTERAÇÕES
 
-**Share real** (nao mais proporção de testes):
-- **FIBRA**: `COUNT(vivo_ftth_coverage no geohash) / SUM(geo_por_latlong.total_domicilios) × 100`
-- **MOVEL**: `SUM(vivo_mobile_erb.linhas_total no geohash) / SUM(geo_por_latlong.populacao_total) × 100`
+**Share real** (não mais proporção de testes):
+- **FIBRA**: `COUNT(vivo_ftth_coverage no geohash) / SUM(geo_por_latlong.total_domicílios) × 100`
+- **MÓVEL**: `SUM(vivo_mobile_erb.linhas_total no geohash) / SUM(geo_por_latlong.populacao_total) × 100`
 
-**Technology** (nao mais placeholder):
+**Technology** (não mais placeholder):
 - FIBRA: geohash tem instalações FTTH
-- MOVEL: geohash tem ERBs
+- MÓVEL: geohash tem ERBs
 - AMBOS: geohash tem ambos
 
 **Quadrante** (novos nomes e thresholds):
@@ -142,7 +142,7 @@ ABAIXO:      delta -1.0 a -0.5
 ISOLADA:     delta < -1.8
 ```
 
-**Prioridade** (formulas ponderadas novas):
+**Prioridade** (fórmulas ponderadas novas):
 ```
 RISCO:        Share×0.30 + RiscoChurn×0.25 + DeltaShare×0.15 + ARPU×0.15 + Pontuacao×0.15
 FORTALEZA:    GrossMargin×0.30 + Satisfacao×0.25 + Share×0.20 + Renda×0.10 + Potencial×0.10 + 0.05
@@ -150,7 +150,7 @@ OPORTUNIDADE: ShareAlvo×0.25 + Cobertura×0.25 + Satisfacao×0.20 + CrescPop×0
 EXPANSAO:     (Renda/1000)×3 + CrescPop×5 + Densidade/100
 ```
 
-**Priority label** (score absoluto, nao percentil):
+**Priority label** (score absoluto, não percentil):
 ```
 P1_CRITICA: score >= 8.5
 P2_ALTA:    score 6.0-8.4
@@ -175,8 +175,8 @@ P4:          90 dias
 | share_level | share_level | Classificação do share |
 | priority_label | priority_label | P1-P4 por score absoluto |
 | action_deadline_days | INTEGER | Prazo em dias por prioridade+quadrante |
-| share_fibra_pct | NUMERIC(5,2) | Share FTTH especifico |
-| share_movel_pct | NUMERIC(5,2) | Share movel especifico |
+| share_fibra_pct | NUMERIC(5,2) | Share FTTH específico |
+| share_movel_pct | NUMERIC(5,2) | Share móvel específico |
 | total_linhas_vivo | INTEGER | SUM linhas ERB no geohash |
 | total_ftth_vivo | INTEGER | COUNT instalações FTTH no geohash |
 
@@ -190,7 +190,7 @@ taxa_ocupação = instalacoes_ativas / capacidade_total × 100
 valor_area = normalizar(renda_media, ARPU) × 100
 ```
 
-**Fibra Expansão Nova Area** (score 0-100):
+**Fibra Expansão Nova Área** (score 0-100):
 ```
 score = potencial_mercado × 0.50 + sinergia_movel × 0.50
 
@@ -207,12 +207,12 @@ dos 4 pilares estratégicos para geohashes GROWTH. Calculado mensalmente (anomes
 
 | Pilar | Métricas | Fonte | Status |
 |-------|----------|-------|--------|
-| Percepção | score_ookla | score.vl_cntv_scre | Disponivel |
+| Percepção | score_ookla | score.vl_cntv_scre | Disponível |
 | Percepção | taxa_chamados | RAC/SAC Vivo | **A definir** (stub = 0) |
-| Concorrência | share_penetracao | vw_share_real | Disponivel |
-| Concorrência | delta_vs_lider | score (Vivo - MAX(TIM,Claro)) | Disponivel |
-| Infraestrutura | fibra_class | camada2_fibra.classification | Disponivel |
-| Infraestrutura | movel_class | camada2_movel.classification | Disponivel |
+| Concorrência | share_penetracao | vw_share_real | Disponível |
+| Concorrência | delta_vs_lider | score (Vivo - MAX(TIM,Claro)) | Disponível |
+| Infraestrutura | fibra_class | camada2_fibra.classification | Disponível |
+| Infraestrutura | movel_class | camada2_movel.classification | Disponível |
 | Comportamento | arpu_relativo | geohash_crm.arpu / AVG(arpu cidade) | **Parcial** (stub = 1.0) |
 | Comportamento | canal_dominante, canal_pct | CRM canal de vendas | **A definir** (stub = Digital/50%) |
 
@@ -244,14 +244,14 @@ ATIVAR     = else
 - Renomear quadrantes nos JSONB keys: OPORTUNIDADE, FORTALEZA, RISCO, EXPANSAO
 - Adicionar contagem de competitive_position por bairro
 
-## 5. Decisoes de Desnormalização (atualizadas)
+## 5. Decisões de Desnormalização (atualizadas)
 
 | Decisão | Justificativa | Impacto |
 |---------|---------------|---------|
 | Colunas geom/geohash7/geohash6 geradas nas tabelas Vivo | Evita JOIN com geohash_cell para cada query de share | INSERT trigger ou GENERATED ALWAYS |
-| Share calculado com dados Vivo reais | PDF define formulas explicitas com FTTH e ERB | Elimina proxy de testes |
-| Zona intermediaria por distancia euclidiana | PDF nao define regra explicita para share 30-39% ou sat 6.0-7.4 | Classificação deterministica |
-| Prioridade por score absoluto (nao percentil) | Levantamento define P1-P4 por faixas fixas de score | Independe da distribuição |
+| Share calculado com dados Vivo reais | PDF define fórmulas explícitas com FTTH e ERB | Elimina proxy de testes |
+| Zona intermediária por distância euclidiana | PDF não define regra explícita para share 30-39% ou sat 6.0-7.4 | Classificação determinística |
+| Prioridade por score absoluto (não percentil) | Levantamento define P1-P4 por faixas fixas de score | Independe da distribuição |
 
 ## 6. Regras de Integridade (atualizadas)
 
@@ -265,4 +265,4 @@ ATIVAR     = else
 | anomes >= 202501 AND anomes <= 209912 | CHECK | vivo_ftth/erb | — |
 | precision BETWEEN 1 AND 12 | CHECK | geohash_cell | RN001-03 |
 | benchmark value >= 0 | CHECK | benchmark_config | RN001-06 |
-| trend threshold: UP > +1.0pp, DOWN < -1.0pp | DERIVACAO | vw_geohash_summary | Levantamento sec.2 |
+| trend threshold: UP > +1.0pp, DOWN < -1.0pp | DERIVAÇÃO | vw_geohash_summary | Levantamento sec.2 |
