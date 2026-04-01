@@ -98,7 +98,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
 
   const tabs = [
     { path: "/",        label: "Mapa Estratégico",     icon: <Map className="w-3.5 h-3.5" /> },
-    { path: "/frentes", label: "Frentes Estratégicas", icon: <BarChart3 className="w-3.5 h-3.5" /> },
+    { path: "/frentes", label: "Estratégias Growth", icon: <BarChart3 className="w-3.5 h-3.5" /> },
     { path: "/bairros", label: "Visão por Bairro",     icon: <Building2 className="w-3.5 h-3.5" /> },
   ];
 

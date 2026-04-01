@@ -15,6 +15,20 @@ export type ShareTrend = "UP" | "DOWN" | "STABLE";
 export type FibraClassification = "AUMENTO_CAPACIDADE" | "EXPANSAO_NOVA_AREA" | "SAUDAVEL";
 export type MovelClassification = "MELHORA_QUALIDADE" | "SAUDAVEL" | "EXPANSAO_5G" | "EXPANSAO_4G";
 
+// ─── Diagnóstico Growth — 4 Pilares ─────────────────────────────────────────
+export interface DiagnosticoGrowth {
+  // Pilar 01 — Percepção
+  scoreOokla: number;            // Score SpeedTest Vivo (0-10)
+  taxaChamados: number;          // (RAC + SAC 30d) / Base Ativa (%) ex: 2.1
+  // Pilar 02 — Concorrência
+  sharePenetracao: number;       // % share Vivo (Base / Total Domicílios)
+  deltaVsLider: number;          // Score Vivo - Score líder (ex: -2.1)
+  // Pilar 04 — Comportamento
+  arpuRelativo: number;          // ARPU geohash / ARPU médio cidade (ex: 1.15)
+  canalDominante: string;        // Ex: "Digital", "Loja Física", "Televendas"
+  canalPct: number;              // % do canal dominante nas vendas
+}
+
 export interface Camada2 {
   fibra: {
     classification: FibraClassification;
@@ -104,6 +118,8 @@ export interface GeohashData {
     technology: string;        // Ex: "Fibra + 5G"
     severity: "Alta" | "Média" | "Baixa";
   };
+  // Diagnóstico Growth — 4 pilares
+  diagnostico?: DiagnosticoGrowth;
   // Camada 2 — Infraestrutura
   camada2?: Camada2;
   lat: number;
@@ -183,6 +199,7 @@ export const GEOHASH_DATA: GeohashData[] = [
     crm: { arpu: 89, deviceTier: "Mid", planType: "Pós-pago 4G" },
     speedtest: { downloadMbps: 42, latencyMs: 38, qualityLabel: "Regular" },
     demographics: { avgIncome: 5200, incomeLabel: "Médio", populationDensity: 9200, populationGrowth: 2.8, growthLabel: "Moderado", technology: "4G", severity: "Média" },
+    diagnostico: { scoreOokla: 6.1, taxaChamados: 4.2, sharePenetracao: 25, deltaVsLider: -2.1, arpuRelativo: 0.92, canalDominante: "Televendas", canalPct: 48 },
     camada2: {
       fibra: { classification: "EXPANSAO_NOVA_AREA", score: 72, scoreLabel: "Alto", potencialMercado: 68, sinergiaMovel: 28 },
       movel: { classification: "MELHORA_QUALIDADE", score: 65, scoreLabel: "Alto"},
@@ -218,6 +235,7 @@ export const GEOHASH_DATA: GeohashData[] = [
     crm: { arpu: 76, deviceTier: "Mid", planType: "Pós-pago 4G" },
     speedtest: { downloadMbps: 55, latencyMs: 32, qualityLabel: "Bom" },
     demographics: { avgIncome: 4800, incomeLabel: "Médio", populationDensity: 7800, populationGrowth: 3.1, growthLabel: "Alto", technology: "4G + Fibra", severity: "Média" },
+    diagnostico: { scoreOokla: 6.8, taxaChamados: 3.1, sharePenetracao: 31, deltaVsLider: -1.1, arpuRelativo: 0.85, canalDominante: "Digital", canalPct: 55 },
     camada2: {
       fibra: { classification: "EXPANSAO_NOVA_AREA", score: 68, scoreLabel: "Alto", potencialMercado: 62, sinergiaMovel: 31 },
       movel: { classification: "SAUDAVEL", score: 30, scoreLabel: "Baixo"},
@@ -253,6 +271,7 @@ export const GEOHASH_DATA: GeohashData[] = [
     crm: { arpu: 82, deviceTier: "Mid", planType: "Pós-pago 4G" },
     speedtest: { downloadMbps: 61, latencyMs: 29, qualityLabel: "Bom" },
     demographics: { avgIncome: 5500, incomeLabel: "Médio", populationDensity: 6900, populationGrowth: 1.9, growthLabel: "Moderado", technology: "4G", severity: "Média" },
+    diagnostico: { scoreOokla: 7.0, taxaChamados: 2.8, sharePenetracao: 29, deltaVsLider: -1.0, arpuRelativo: 0.95, canalDominante: "Loja Física", canalPct: 42 },
     camada2: {
       fibra: { classification: "EXPANSAO_NOVA_AREA", score: 61, scoreLabel: "Médio", potencialMercado: 55, sinergiaMovel: 29 },
       movel: { classification: "SAUDAVEL", score: 25, scoreLabel: "Baixo"},
@@ -288,6 +307,7 @@ export const GEOHASH_DATA: GeohashData[] = [
     crm: { arpu: 71, deviceTier: "Basic", planType: "Pós-pago 4G" },
     speedtest: { downloadMbps: 38, latencyMs: 44, qualityLabel: "Regular" },
     demographics: { avgIncome: 4100, incomeLabel: "Médio", populationDensity: 6300, populationGrowth: 1.4, growthLabel: "Moderado", technology: "4G", severity: "Baixa" },
+    diagnostico: { scoreOokla: 6.4, taxaChamados: 3.9, sharePenetracao: 26, deltaVsLider: -1.6, arpuRelativo: 0.88, canalDominante: "Televendas", canalPct: 38 },
     camada2: {
       fibra: { classification: "EXPANSAO_NOVA_AREA", score: 45, scoreLabel: "Médio", potencialMercado: 42 },
       movel: { classification: "MELHORA_QUALIDADE", score: 58, scoreLabel: "Médio"},
@@ -756,6 +776,7 @@ export const GEOHASH_DATA: GeohashData[] = [
     crm: { arpu: 88, deviceTier: "Mid", planType: "Pós-pago 4G" },
     speedtest: { downloadMbps: 28, latencyMs: 62, qualityLabel: "Ruim" },
     demographics: { avgIncome: 3800, incomeLabel: "Médio", populationDensity: 8400, populationGrowth: 1.1, growthLabel: "Moderado", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 6.5, taxaChamados: 3.8, sharePenetracao: 27, deltaVsLider: -1.8, arpuRelativo: 1.22, canalDominante: "Digital", canalPct: 67 },
     camada2: {
       fibra: { classification: "EXPANSAO_NOVA_AREA", score: 35, scoreLabel: "Baixo", potencialMercado: 32 },
       movel: { classification: "MELHORA_QUALIDADE", score: 88, scoreLabel: "Crítico"},
@@ -791,6 +812,7 @@ export const GEOHASH_DATA: GeohashData[] = [
     crm: { arpu: 72, deviceTier: "Basic", planType: "Pós-pago 4G" },
     speedtest: { downloadMbps: 22, latencyMs: 74, qualityLabel: "Ruim" },
     demographics: { avgIncome: 2900, incomeLabel: "Baixo", populationDensity: 7200, populationGrowth: 0.8, growthLabel: "Moderado", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 6.2, taxaChamados: 4.5, sharePenetracao: 24, deltaVsLider: -2.3, arpuRelativo: 1.35, canalDominante: "Digital", canalPct: 72 },
     camada2: {
       fibra: { classification: "EXPANSAO_NOVA_AREA", score: 28, scoreLabel: "Baixo", potencialMercado: 25 },
       movel: { classification: "MELHORA_QUALIDADE", score: 92, scoreLabel: "Crítico"},
@@ -936,6 +958,15 @@ export const GEOHASH_DATA: GeohashData[] = [
       decisaoIntegrada: "Aumentar capacidade de fibra para suportar crescimento. Móvel saudável com 5G disponível.",
     },
     technology: "FIBRA",
+    diagnostico: {
+      scoreOokla: 7.8,
+      taxaChamados: 3.2,
+      sharePenetracao: 18,
+      deltaVsLider: 0.4,
+      arpuRelativo: 1.18,
+      canalDominante: "Loja Física",
+      canalPct: 58,
+    },
     lat: -23.5630, lng: -46.6860,
   },
   {
@@ -968,6 +999,15 @@ export const GEOHASH_DATA: GeohashData[] = [
       decisaoIntegrada: "Expandir fibra em área de alto potencial. Móvel saudável com 5G.",
     },
     technology: "FIBRA",
+    diagnostico: {
+      scoreOokla: 8.3,
+      taxaChamados: 2.6,
+      sharePenetracao: 22,
+      deltaVsLider: 0.9,
+      arpuRelativo: 1.22,
+      canalDominante: "Digital",
+      canalPct: 52,
+    },
     lat: -23.5370, lng: -46.6710,
   },
 
@@ -1062,6 +1102,7 @@ export const GEOHASH_DATA: GeohashData[] = [
     crm: { arpu: 92, deviceTier: "Mid", planType: "Pós-pago 4G" },
     speedtest: { downloadMbps: 35, latencyMs: 52, qualityLabel: "Regular" },
     demographics: { avgIncome: 6800, incomeLabel: "Médio-Alto", populationDensity: 14200, populationGrowth: 0.8, growthLabel: "Moderado", technology: "4G + Fibra", severity: "Alta" },
+    diagnostico: { scoreOokla: 6.9, taxaChamados: 3.3, sharePenetracao: 30, deltaVsLider: -1.4, arpuRelativo: 1.18, canalDominante: "Digital", canalPct: 61 },
     camada2: {
       fibra: { classification: "EXPANSAO_NOVA_AREA", score: 58, scoreLabel: "Médio", potencialMercado: 55, sinergiaMovel: 29 },
       movel: { classification: "MELHORA_QUALIDADE", score: 72, scoreLabel: "Alto"},
@@ -1094,6 +1135,7 @@ export const GEOHASH_DATA: GeohashData[] = [
     crm: { arpu: 85, deviceTier: "Mid", planType: "Pós-pago 4G" },
     speedtest: { downloadMbps: 28, latencyMs: 61, qualityLabel: "Ruim" },
     demographics: { avgIncome: 5900, incomeLabel: "Médio", populationDensity: 16800, populationGrowth: 0.6, growthLabel: "Moderado", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 7.2, taxaChamados: 2.2, sharePenetracao: 32, deltaVsLider: -0.6, arpuRelativo: 1.05, canalDominante: "Loja Física", canalPct: 44 },
     camada2: {
       fibra: { classification: "EXPANSAO_NOVA_AREA", score: 48, scoreLabel: "Médio", potencialMercado: 45 },
       movel: { classification: "MELHORA_QUALIDADE", score: 80, scoreLabel: "Crítico"},
@@ -1194,6 +1236,7 @@ export const GEOHASH_DATA: GeohashData[] = [
     crm: { arpu: 162, deviceTier: "Premium", planType: "Fibra 500Mbps" },
     speedtest: { downloadMbps: 290, latencyMs: 9, qualityLabel: "Excelente" },
     demographics: { avgIncome: 15800, incomeLabel: "Alto", populationDensity: 13500, populationGrowth: 1.4, growthLabel: "Moderado", technology: "Fibra + 5G", severity: "Baixa" },
+    diagnostico: { scoreOokla: 7.1, taxaChamados: 2.5, sharePenetracao: 33, deltaVsLider: -0.8, arpuRelativo: 1.08, canalDominante: "Loja Física", canalPct: 51 },
     camada2: {
       fibra: { classification: "SAUDAVEL", score: 28, scoreLabel: "Baixo", taxaOcupacao: 68, portasDisponiveis: 32 },
       movel: { classification: "SAUDAVEL", score: 16, scoreLabel: "Baixo"},
@@ -1234,6 +1277,15 @@ export const GEOHASH_DATA: GeohashData[] = [
       decisaoIntegrada: "Expandir fibra e melhorar qualidade 4G para capturar mercado de alto volume.",
     },
     technology: "MOVEL",
+    diagnostico: {
+      scoreOokla: 6.4,
+      taxaChamados: 4.8,
+      sharePenetracao: 27,
+      deltaVsLider: -0.6,
+      arpuRelativo: 0.88,
+      canalDominante: "Porta a Porta",
+      canalPct: 44,
+    },
     lat: -23.4560, lng: -46.5330,
   },
   {
@@ -1266,6 +1318,15 @@ export const GEOHASH_DATA: GeohashData[] = [
       decisaoIntegrada: "Expandir fibra como alavanca de crescimento. Móvel estável.",
     },
     technology: "MOVEL",
+    diagnostico: {
+      scoreOokla: 6.1,
+      taxaChamados: 4.5,
+      sharePenetracao: 24,
+      deltaVsLider: -0.8,
+      arpuRelativo: 0.85,
+      canalDominante: "Porta a Porta",
+      canalPct: 47,
+    },
     lat: -23.5329, lng: -46.7920,
   },
   {
@@ -1298,6 +1359,15 @@ export const GEOHASH_DATA: GeohashData[] = [
       decisaoIntegrada: "Expandir fibra e melhorar 4G para capturar mercado de grande volume.",
     },
     technology: "MOVEL",
+    diagnostico: {
+      scoreOokla: 5.9,
+      taxaChamados: 5.4,
+      sharePenetracao: 19,
+      deltaVsLider: -1.3,
+      arpuRelativo: 0.82,
+      canalDominante: "Televendas",
+      canalPct: 38,
+    },
     lat: -23.5430, lng: -46.4580,
   },
   {
@@ -1362,6 +1432,15 @@ export const GEOHASH_DATA: GeohashData[] = [
       decisaoIntegrada: "Melhorar qualidade 4G para reter base. Avaliar expansão de fibra em fase posterior.",
     },
     technology: "MOVEL",
+    diagnostico: {
+      scoreOokla: 6.7,
+      taxaChamados: 3.9,
+      sharePenetracao: 21,
+      deltaVsLider: -0.3,
+      arpuRelativo: 0.93,
+      canalDominante: "Loja Física",
+      canalPct: 41,
+    },
     lat: -23.6290, lng: -46.6490,
   },
 ];
