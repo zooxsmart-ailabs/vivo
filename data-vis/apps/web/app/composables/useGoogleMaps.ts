@@ -25,7 +25,7 @@ export function useGoogleMaps() {
     _promise = new Promise<void>((resolve, reject) => {
       const script = document.createElement("script");
       const key = config.public.googleMapsKey;
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${key}&v=weekly&libraries=marker,geometry`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${key}&v=weekly&libraries=marker,geometry&loading=async`;
       script.async = true;
       script.onload = () => resolve();
       script.onerror = () =>
