@@ -1,6 +1,6 @@
 # Dicionario de Dados — Zoox x Vivo GeoIntelligence
 
-**Versão**: 2.0 | **Data**: 2026-03-29
+**Versão**: 3.0 | **Data**: 2026-04-01
 
 ## Tabelas Gerenciadas (ALI)
 
@@ -53,6 +53,51 @@ Sem alteração. Ver v1.
 
 **Volume**: ~1.000 rows/mes | **Uso**: Share MOVEL = SUM(linhas no geohash) / população
 **Fonte CSV**: `Ookla_visao_movel_3M_erb_casa_YYYYMM.csv`, delimitador `;`, decimal `,` (normalizar!)
+
+---
+
+### diagnostico_growth (D16 — NOVO)
+
+Diagnóstico pré-calculado dos 4 pilares para geohashes GROWTH. RN009-05/06/07.
+
+| # | Coluna | Tipo | Nulável | Default | Restrição | Descrição | Fonte |
+|---|--------|------|---------|---------|-----------|-----------|-------|
+| 1 | geohash_id | VARCHAR(12) | NO | — | PK, FK→geohash_cell | ID do geohash | geohash_cell |
+| 2 | precision | SMALLINT | NO | 6 | PK, CHECK 1-12 | Nivel de precisao | — |
+| 3 | anomes | INTEGER | NO | — | PK, CHECK ≥ 202501 | Ano-mes YYYYMM | — |
+| 4 | score_ookla | NUMERIC(4,1) | NO | — | CHECK 0-10 | Score SpeedTest Vivo (0-10) | score.vl_cntv_scre |
+| 5 | taxa_chamados | NUMERIC(5,2) | NO | 0 | CHECK ≥ 0 | (RAC+SAC 30d) / Base Ativa (%) | **A definir** |
+| 6 | share_penetracao | NUMERIC(5,2) | NO | — | CHECK 0-100 | Base Vivo / Total Domicilios (%) | vw_share_real |
+| 7 | delta_vs_lider | NUMERIC(4,1) | NO | — | — | Score Vivo - Score lider (Ookla) | score |
+| 8 | fibra_class | fibra_class | NO | SAUDAVEL | — | Classificação Camada 2 Fibra | camada2_fibra |
+| 9 | movel_class | movel_class | NO | SAUDAVEL | — | Classificação Camada 2 Movel | camada2_movel |
+| 10 | arpu_relativo | NUMERIC(4,2) | NO | 1.0 | — | ARPU geohash / ARPU medio cidade | geohash_crm |
+| 11 | canal_dominante | VARCHAR(30) | NO | Digital | — | Canal de venda dominante | **A definir** |
+| 12 | canal_pct | NUMERIC(5,2) | NO | 50.0 | CHECK 0-100 | % de vendas pelo canal dominante | **A definir** |
+| 13 | sinal_percepcao | sinal_type | NO | OK | — | Sinal agregado pilar Percepção | Calculado (RN009-08) |
+| 14 | sinal_concorrencia | sinal_type | NO | OK | — | Sinal agregado pilar Concorrência | Calculado (RN009-08) |
+| 15 | sinal_infraestrutura | sinal_type | NO | OK | — | Sinal agregado pilar Infraestrutura | Calculado (RN009-08) |
+| 16 | sinal_comportamento | sinal_type | NO | OK | — | Sinal agregado pilar Comportamento | Calculado (RN009-08) |
+| 17 | recomendacao | recomendacao_type | NO | ATIVAR | — | Decisão IA: ATIVAR/AGUARDAR/BLOQUEADO | Calculado (RN009-06) |
+| 18 | recomendacao_razao | TEXT | YES | — | — | Justificativa textual composta | Calculado (gerarRec) |
+| 19 | created_at | TIMESTAMPTZ | NO | NOW() | — | Timestamp de criação | Sistema |
+
+**Volume**: ~35 rows/mes (1 por geohash GROWTH × anomes) | **PK**: (geohash_id, precision, anomes)
+**Indices**: (geohash_id, anomes), (recomendacao, anomes)
+
+**Campos com fonte pendente (stubs):**
+- `taxa_chamados`: Depende de integração com sistema RAC/SAC Vivo (volume de chamados)
+- `arpu_relativo`: Requer cálculo de ARPU medio por cidade como referência
+- `canal_dominante` / `canal_pct`: Depende de integração com dados de canal de vendas CRM
+
+---
+
+## Enums (NOVOS v3)
+
+| Tipo | Valores | Descrição | RN |
+|------|---------|-----------|-----|
+| `recomendacao_type` | ATIVAR, AGUARDAR, BLOQUEADO | Decisão IA do diagnóstico Growth | RN009-06 |
+| `sinal_type` | OK, ALERTA, CRITICO | Sinal ternario dos pilares | RN009-08 |
 
 ---
 

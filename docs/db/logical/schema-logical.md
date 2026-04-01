@@ -1,6 +1,6 @@
 # Modelo Lógico — Zoox x Vivo GeoIntelligence
 
-**Versão**: 2.0 | **Data**: 2026-03-29
+**Versão**: 3.0 | **Data**: 2026-04-01
 
 ## 1. Domínios e Tipos Enumerados
 
@@ -17,6 +17,8 @@
 | `benchmark_scope` | ENUM | NACIONAL, ESTADO, CIDADE | RN001-06 |
 | `competitive_position` | ENUM | **LIDER, COMPETITIVO, EMPAREDADA, ABAIXO, ISOLADA** | Levantamento sec.4 |
 | `share_level` | ENUM | **MUITO_ALTA, ALTA, MEDIA, BAIXA** | Levantamento sec.1 |
+| `recomendacao_type` | ENUM | **ATIVAR, AGUARDAR, BLOQUEADO** | RN009-06 |
+| `sinal_type` | ENUM | **OK, ALERTA, CRITICO** | RN009-08 |
 
 ### Mudanças v1 → v2
 
@@ -196,7 +198,49 @@ potencial_mercado = normalizar(renda_media × densidade_pop) × 100
 sinergia_movel = share_movel_pct  (penetração movel Vivo no geohash)
 ```
 
-### 4.3 vw_bairro_summary
+### 4.3 Diagnóstico Growth — Composição dos 4 Pilares (NOVO)
+
+Tabela `diagnostico_growth` (ALI D16): armazena o resultado pré-calculado do diagnóstico
+dos 4 pilares estratégicos para geohashes GROWTH. Calculado mensalmente (anomes).
+
+**Fonte de dados por pilar:**
+
+| Pilar | Métricas | Fonte | Status |
+|-------|----------|-------|--------|
+| Percepção | score_ookla | score.vl_cntv_scre | Disponivel |
+| Percepção | taxa_chamados | RAC/SAC Vivo | **A definir** (stub = 0) |
+| Concorrência | share_penetracao | vw_share_real | Disponivel |
+| Concorrência | delta_vs_lider | score (Vivo - MAX(TIM,Claro)) | Disponivel |
+| Infraestrutura | fibra_class | camada2_fibra.classification | Disponivel |
+| Infraestrutura | movel_class | camada2_movel.classification | Disponivel |
+| Comportamento | arpu_relativo | geohash_crm.arpu / AVG(arpu cidade) | **Parcial** (stub = 1.0) |
+| Comportamento | canal_dominante, canal_pct | CRM canal de vendas | **A definir** (stub = Digital/50%) |
+
+**Cálculo dos sinais (RN009-08 — worst-signal):**
+
+```
+sinal_percepcao      = worst(sig(score_ookla), sig(taxa_chamados))
+sinal_concorrencia   = worst(sig(share_penetracao), sig(delta_vs_lider))
+sinal_infraestrutura = worst(sig(fibra_class), sig(movel_class))
+sinal_comportamento  = worst(sig(arpu_relativo), sig(canal_pct))
+```
+
+Thresholds de cada `sig()`: ver RN009-05.
+
+**Cálculo da recomendação (RN009-06):**
+
+```
+fibraBloqueada   = fibra_class == EXPANSAO_NOVA_AREA
+percCritica      = score_ookla < 6.0 OR taxa_chamados > 5%
+concCritica      = delta_vs_lider < -1.0
+infraControle    = fibra_class == AUMENTO_CAPACIDADE OR movel_class == MELHORA_QUALIDADE
+
+BLOQUEADO  = fibraBloqueada OR (percCritica AND concCritica)
+AGUARDAR   = infraControle OR percCritica OR concCritica
+ATIVAR     = else
+```
+
+### 4.4 vw_bairro_summary
 - Renomear quadrantes nos JSONB keys: OPORTUNIDADE, FORTALEZA, RISCO, EXPANSAO
 - Adicionar contagem de competitive_position por bairro
 

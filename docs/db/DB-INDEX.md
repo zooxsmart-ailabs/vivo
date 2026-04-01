@@ -2,7 +2,7 @@
 
 **Stack**: PostgreSQL 18 + TimescaleDB + PostGIS
 **ORM**: Drizzle (app) + SQL nativo (views/aggregates)
-**Versão**: 2.0 | **Data**: 2026-03-29
+**Versão**: 3.0 | **Data**: 2026-04-01
 **Fonte**: Levantamento v1203 + CSVs operacionais Vivo
 
 ## Visão Geral
@@ -73,7 +73,7 @@ Arquitetura de duas camadas com dados operacionais Vivo adicionados:
 | UC006 | file_transfer (fn_available_periods) | — | Todas |
 | UC007 | — | — | vw_geohash_summary (2 períodos) |
 | UC008 | geohash_cell | — | Todas |
-| UC009 | — | — | vw_geohash_summary |
+| UC009 | score, geohash_crm, camada2_fibra, camada2_movel | diagnostico_growth | vw_geohash_summary, vw_share_real |
 | UC010 | — | — | vw_bairro_summary |
 | UC011 | user_session | user_session | — |
 | UC012 | — | user_session | — |

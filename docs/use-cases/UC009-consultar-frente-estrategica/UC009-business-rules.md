@@ -177,3 +177,169 @@ Disponível em todos os quadrantes mas prioritario em GROWTH e GROWTH_RETENCAO.
 - **Score CAPEX Consolidado**: max(score_fibra, score_movel) — priorização unificada de investimento
 
 **Responsabilidade**: Engenharia, Planejamento e CAPEX.
+
+---
+
+## RN009-05 — Avaliação Diagnóstica dos 4 Pilares
+
+| Campo | Valor |
+|-------|-------|
+| **ID** | RN009-05 |
+| **Tipo** | Cálculo |
+| **Passos** | Passo 10 (Diagnóstico Growth) |
+| **Fonte** | `data-vis/apps/web/app/composables/useDiagnostico.ts` |
+
+**Descrição:**
+A frente GROWTH utiliza um motor diagnóstico que avalia 4 pilares estratégicos.
+Cada pilar contém 2 métricas, cada uma avaliada com sinal ternario (OK, Alerta, Critico).
+O sinal do pilar é o **pior sinal** entre suas métricas (worst-signal aggregation).
+
+### Pilar 01 — Percepção
+
+Mede como o cliente percebe a qualidade do servico Vivo no geohash.
+
+| Métrica | Fórmula | OK | Alerta | Crítico |
+|---------|---------|-----|--------|---------|
+| Score Ookla | Score SpeedTest Vivo no geohash (0-10) | ≥ 8.0 | 6.0–7.9 | < 6.0 |
+| Vol. Chamados | (RAC + SAC 30d) / Base Ativa Vivo (%) | < 3% | 3–5% | > 5% |
+
+**Sinal do pilar**: `worstSignal(scoreOokla, volChamados)`
+**Fonte de dados**: `score.vl_cntv_scre` (Ookla), **taxaChamados ainda nao disponivel no banco** (stub = 0).
+
+### Pilar 02 — Concorrência
+
+Avalia a posição competitiva da Vivo no geohash.
+
+| Métrica | Fórmula | OK | Alerta | Crítico |
+|---------|---------|-----|--------|---------|
+| Share / Penetração | Base Vivo / Total Domicilios (Zoox) (%) | < 20% | 20–40% | > 40% |
+| Vantagem vs Lider | Delta score Vivo − score lider (Ookla) | > 0 | −1.0 a 0 | < −1.0 |
+
+**Sinal do pilar**: `worstSignal(sharePenetracao, deltaVsLider)`
+**Interpretação inversa para GROWTH**: share baixo (< 20%) = "Alta Oportunidade", share alto (> 40%) = "Saturado".
+**Fonte de dados**: `vw_share_real` (share), `score` (delta).
+
+### Pilar 03 — Infraestrutura
+
+Avalia disponibilidade e saúde da infraestrutura de rede no geohash.
+
+| Métrica | Classificação Camada 2 | OK | Alerta | Crítico |
+|---------|------------------------|-----|--------|---------|
+| Fibra (Status) | `camada2_fibra.classification` | SAUDAVEL | AUMENTO_CAPACIDADE | EXPANSAO_NOVA_AREA |
+| Movel (Status) | `camada2_movel.classification` | SAUDAVEL | EXPANSAO_5G / EXPANSAO_4G | MELHORA_QUALIDADE |
+
+**Sinal do pilar**: `worstSignal(fibra, movel)`
+**Fonte de dados**: `camada2_fibra`, `camada2_movel`.
+
+### Pilar 04 — Comportamento
+
+Avalia perfil economico e afinidade de canal do geohash.
+
+| Métrica | Fórmula | OK | Alerta | Crítico |
+|---------|---------|-----|--------|---------|
+| Sensibilidade a Preco | ARPU Geohash / ARPU Medio da Cidade | > 1.1 | 0.9–1.1 | < 0.9 |
+| Afinidade de Canal | Vendas Canal Dominante / Total Vendas (%) | ≥ 50% | 20–50% | < 20% |
+
+**Sinal do pilar**: `worstSignal(arpuRelativo, canalPct)`
+**Interpretação**:
+- `arpuRelativo > 1.1` → "Foco em Totalizacao" (bundle premium)
+- `arpuRelativo 0.9-1.1` → "Mix de Ofertas"
+- `arpuRelativo < 0.9` → "Sensivel a Preco" (entrada competitiva)
+- `canalPct >= 50%` → "Canal Dominante — priorizar 80% da verba"
+- `canalPct < 20%` → "Canal Ineficiente — redefinir estratégia"
+**Fonte de dados**: `geohash_crm` (ARPU), **canalDominante/canalPct ainda nao disponiveis no banco** (stubs).
+
+---
+
+## RN009-06 — Arvore de Decisão IA (Recomendação)
+
+| Campo | Valor |
+|-------|-------|
+| **ID** | RN009-06 |
+| **Tipo** | Derivação |
+| **Passos** | Passo 10 (Card de Recomendação IA) |
+| **Fonte** | `useDiagnostico.ts → gerarRec()` |
+
+**Descrição:**
+O motor de recomendação IA combina os sinais dos 4 pilares e classificações de Camada 2
+para gerar uma decisão estratégica com 3 estados possiveis:
+
+### Decisão
+
+| Estado | Cor | Condição |
+|--------|-----|----------|
+| **BLOQUEADO** | #DC2626 (Vermelho) | Fibra = EXPANSAO_NOVA_AREA **OU** (percepção critica **E** concorrencia critica) |
+| **AGUARDAR** | #D97706 (Ambar) | Infraestrutura com gargalo (fibra AUMENTO_CAPACIDADE ou movel MELHORA_QUALIDADE) **OU** percepção critica **OU** concorrencia critica |
+| **ATIVAR** | #16A34A (Verde) | Nenhuma das condições acima — infraestrutura saudavel, percepção e concorrencia adequadas |
+
+**Critérios detalhados:**
+- `percepção critica` = scoreOokla < 6.0 **OU** taxaChamados > 5%
+- `concorrencia critica` = deltaVsLider < −1.0
+- `infraestrutura com gargalo` = fibra AUMENTO_CAPACIDADE **OU** movel MELHORA_QUALIDADE
+
+### Saida da Recomendação
+
+| Campo | Descrição |
+|-------|-----------|
+| decisao | ATIVAR, AGUARDAR ou BLOQUEADO |
+| canal | Canal recomendado + alocação de verba |
+| abordagem | Texto prescritivo com estratégia de abordagem comercial |
+| raciocinio | Justificativa composta pelos sinais avaliados |
+
+---
+
+## RN009-07 — Logica de Abordagem Comercial
+
+| Campo | Valor |
+|-------|-------|
+| **ID** | RN009-07 |
+| **Tipo** | Derivação |
+| **Passos** | Passo 10 (Campo "abordagem" da Recomendação IA) |
+
+**Descrição:**
+A abordagem comercial é determinada pela combinação do estado da infraestrutura
+com o perfil economico (arpuRelativo) do geohash:
+
+| Cenario de Infraestrutura | Abordagem |
+|---------------------------|-----------|
+| Fibra bloqueada (EXPANSAO_NOVA_AREA) | Nao ativar growth de fibra. Focar exclusivamente em movel |
+| Fibra gargalo + movel saudavel | Priorizar aquisição via movel enquanto capacidade de fibra é ampliada |
+| Movel problema + fibra saudavel | Priorizar oferta de fibra. Nao incluir movel no pitch até resolução técnica |
+| Ambos com restrição | Aguardar resolução de infraestrutura antes de ativar growth |
+| Movel expansao 5G/4G (cobertura em andamento) | Abordar com oferta de fibra como produto principal |
+| Infra saudavel + arpuRelativo > 1.1 | Oferta de totalizacao (Fibra + Movel + Streaming). Perfil premium — bundle completo |
+| Infra saudavel + arpuRelativo 0.9-1.1 | Mix de ofertas com ancoragem de preco. Comparativo custo-beneficio vs concorrencia |
+| Infra saudavel + arpuRelativo < 0.9 | Oferta de entrada com preco competitivo. Evitar planos premium no primeiro contato. Upsell gradual |
+
+**Lógica de Canal:**
+- `canalPct >= 50%` → Canal dominante — priorizar 80% da verba nesse canal
+- `canalPct 20-50%` → Canal dominante + canal complementar
+- `canalPct < 20%` → Redefinir canal — canal atual ineficiente
+
+---
+
+## RN009-08 — Agregação de Sinais (Worst-Signal)
+
+| Campo | Valor |
+|-------|-------|
+| **ID** | RN009-08 |
+| **Tipo** | Cálculo |
+| **Passos** | Todos os pilares de RN009-05 |
+
+**Descrição:**
+Cada pilar agrega suas N métricas em um único sinal usando a regra do **pior sinal**:
+
+```
+function worstSignal(...sinais):
+  se algum sinal == "critico" → retorna "critico"
+  se algum sinal == "alerta"  → retorna "alerta"
+  senao                       → retorna "ok"
+```
+
+**Estilos visuais por sinal:**
+
+| Sinal | Fundo | Borda | Texto | Dot | Label |
+|-------|-------|-------|-------|-----|-------|
+| OK | #F0FDF4 | #BBF7D0 | #15803D | #16A34A | "OK" |
+| Alerta | #FFFBEB | #FDE68A | #B45309 | #D97706 | "Alerta" |
+| Critico | #FEF2F2 | #FECACA | #DC2626 | #EF4444 | "Critico" |

@@ -82,6 +82,22 @@ COMMENT ON TYPE tech_recommendation IS 'Recomendação de tecnologia para CAPEX.
 
 -- Labels de prioridade comercial (score 0-10 por quadrante)
 CREATE TYPE priority_label AS ENUM ('P1_CRITICA', 'P2_ALTA', 'P3_MEDIA', 'P4_BAIXA');
+
+-- RN009-06: Decisão da recomendação IA do diagnóstico Growth
+CREATE TYPE recomendacao_type AS ENUM (
+    'ATIVAR',      -- Infraestrutura saudavel, percepção e concorrencia adequadas — growth liberado
+    'AGUARDAR',    -- Gargalo de infra, percepção ou concorrencia critica — aguardar resolução
+    'BLOQUEADO'    -- Fibra indisponivel (EXPANSAO_NOVA_AREA) ou percepção+concorrencia criticas
+);
+COMMENT ON TYPE recomendacao_type IS 'Decisão IA do diagnóstico Growth (RN009-06). ATIVAR=#16A34A, AGUARDAR=#D97706, BLOQUEADO=#DC2626.';
+
+-- RN009-08: Sinal ternario dos pilares do diagnóstico Growth
+CREATE TYPE sinal_type AS ENUM (
+    'OK',       -- Métrica dentro dos parâmetros saudaveis
+    'ALERTA',   -- Métrica em zona de atenção
+    'CRITICO'   -- Métrica em estado critico — requer ação
+);
+COMMENT ON TYPE sinal_type IS 'Sinal ternario dos pilares do diagnóstico Growth (RN009-05/08). OK=#16A34A, ALERTA=#D97706, CRITICO=#EF4444.';
 COMMENT ON TYPE priority_label IS 'P1 > 7.5 (ação imediata), P2 >= 6.0 (curto prazo), P3 >= 4.5 (medio prazo), P4 < 4.5 (monitorar). Score normalizado 0-10 por quadrante.';
 
 CREATE TYPE quality_label AS ENUM ('EXCELENTE', 'BOM', 'REGULAR', 'RUIM');
@@ -453,6 +469,70 @@ CREATE INDEX IF NOT EXISTS idx_c2m_geohash ON camada2_movel (geohash_id, anomes)
 CREATE INDEX IF NOT EXISTS idx_c2m_classification ON camada2_movel (classification, anomes);
 CREATE INDEX IF NOT EXISTS idx_c2m_alerta ON camada2_movel (alerta_saturacao) WHERE alerta_saturacao = TRUE;
 CREATE INDEX IF NOT EXISTS idx_c2m_capex ON camada2_movel (score_capex_consolidado DESC);
+
+-- ---------------------------------------------------------------------------
+-- 10b. TABELA: diagnostico_growth (ALI novo — D16)
+-- Resultado pré-calculado do diagnóstico dos 4 pilares para geohashes GROWTH.
+-- RN009-05 (pilares), RN009-06 (recomendação IA), RN009-07 (abordagem).
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS diagnostico_growth (
+    -- Chave composta
+    geohash_id       VARCHAR(12)   NOT NULL REFERENCES geohash_cell(geohash_id),
+    precision        SMALLINT      NOT NULL DEFAULT 6,
+    anomes           INTEGER       NOT NULL,
+
+    -- Pilar 01 — Percepção
+    score_ookla      NUMERIC(4,1)  NOT NULL,  -- Score SpeedTest Vivo (0-10)
+    taxa_chamados    NUMERIC(5,2)  NOT NULL DEFAULT 0,  -- (RAC+SAC 30d)/Base Ativa (%)
+
+    -- Pilar 02 — Concorrência
+    share_penetracao NUMERIC(5,2)  NOT NULL,  -- Base Vivo / Total Domicilios (%)
+    delta_vs_lider   NUMERIC(4,1)  NOT NULL,  -- Score Vivo - Score lider (Ookla)
+
+    -- Pilar 03 — Infraestrutura (derivado de Camada 2)
+    fibra_class      fibra_class   NOT NULL DEFAULT 'SAUDAVEL',
+    movel_class      movel_class   NOT NULL DEFAULT 'SAUDAVEL',
+
+    -- Pilar 04 — Comportamento
+    arpu_relativo    NUMERIC(4,2)  NOT NULL DEFAULT 1.0,   -- ARPU geohash / ARPU medio cidade
+    canal_dominante  VARCHAR(30)   NOT NULL DEFAULT 'Digital',
+    canal_pct        NUMERIC(5,2)  NOT NULL DEFAULT 50.0,  -- % do canal dominante
+
+    -- Sinais calculados por pilar (RN009-08: worst-signal)
+    sinal_percepcao      sinal_type NOT NULL DEFAULT 'OK',
+    sinal_concorrencia   sinal_type NOT NULL DEFAULT 'OK',
+    sinal_infraestrutura sinal_type NOT NULL DEFAULT 'OK',
+    sinal_comportamento  sinal_type NOT NULL DEFAULT 'OK',
+
+    -- Recomendação IA (RN009-06)
+    recomendacao       recomendacao_type NOT NULL DEFAULT 'ATIVAR',
+    recomendacao_razao TEXT,  -- Justificativa composta (gerada por gerarRec)
+
+    -- Metadata
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+    CONSTRAINT pk_diagnostico_growth PRIMARY KEY (geohash_id, precision, anomes),
+    CONSTRAINT ck_dg_precision CHECK (precision BETWEEN 1 AND 12),
+    CONSTRAINT ck_dg_score_ookla CHECK (score_ookla BETWEEN 0 AND 10),
+    CONSTRAINT ck_dg_taxa_chamados CHECK (taxa_chamados >= 0),
+    CONSTRAINT ck_dg_share CHECK (share_penetracao BETWEEN 0 AND 100),
+    CONSTRAINT ck_dg_canal_pct CHECK (canal_pct BETWEEN 0 AND 100),
+    CONSTRAINT ck_dg_anomes CHECK (anomes >= 202501)
+);
+
+COMMENT ON TABLE diagnostico_growth IS 'Diagnóstico pré-calculado dos 4 pilares para geohashes GROWTH. RN009-05/06/07. ALI D16.';
+COMMENT ON COLUMN diagnostico_growth.score_ookla IS 'Score SpeedTest Vivo no geohash (0-10). Fonte: score.vl_cntv_scre. Pilar Percepção.';
+COMMENT ON COLUMN diagnostico_growth.taxa_chamados IS '(RAC+SAC 30d) / Base Ativa Vivo (%). Fonte: a definir. Pilar Percepção. Default 0 (stub).';
+COMMENT ON COLUMN diagnostico_growth.share_penetracao IS 'Base Vivo / Total Domicilios (%). Fonte: vw_share_real. Pilar Concorrência.';
+COMMENT ON COLUMN diagnostico_growth.delta_vs_lider IS 'Score Vivo - MAX(Score TIM, Score Claro). Fonte: score. Pilar Concorrência.';
+COMMENT ON COLUMN diagnostico_growth.arpu_relativo IS 'ARPU geohash / ARPU medio cidade. Fonte: geohash_crm. Pilar Comportamento. Default 1.0 (stub).';
+COMMENT ON COLUMN diagnostico_growth.canal_dominante IS 'Canal de venda dominante no geohash. Fonte: a definir. Pilar Comportamento. Default Digital (stub).';
+COMMENT ON COLUMN diagnostico_growth.canal_pct IS '% de vendas pelo canal dominante. Fonte: a definir. Pilar Comportamento. Default 50 (stub).';
+COMMENT ON COLUMN diagnostico_growth.recomendacao IS 'Decisão IA: ATIVAR (growth liberado), AGUARDAR (gargalo), BLOQUEADO (infra indisponivel). RN009-06.';
+COMMENT ON COLUMN diagnostico_growth.recomendacao_razao IS 'Justificativa textual composta. Ex: "percepção excelente (Ookla >= 8.0); alta oportunidade de mercado (share < 20%)".';
+
+CREATE INDEX IF NOT EXISTS idx_dg_geohash ON diagnostico_growth (geohash_id, anomes);
+CREATE INDEX IF NOT EXISTS idx_dg_recomendacao ON diagnostico_growth (recomendacao, anomes);
 
 -- ---------------------------------------------------------------------------
 -- 11. INDICES ADICIONAIS NAS TABELAS RAW

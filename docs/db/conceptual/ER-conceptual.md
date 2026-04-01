@@ -1,6 +1,6 @@
 # Modelo Conceitual — Zoox x Vivo GeoIntelligence
 
-**Versão**: 2.0 | **Data**: 2026-03-29
+**Versão**: 3.0 | **Data**: 2026-04-01
 **Fonte**: docs/levantamento/Zoox_+_Vivo_Estrategia_v1203.pdf + CSVs operacionais
 
 ## Diagrama ER
@@ -104,6 +104,28 @@ erDiagram
         timestamptz updated_at
     }
 
+    %% ===== CAMADA DIAGNOSTICO (ALI — calculado pelo sistema) =====
+    DIAGNOSTICO_GROWTH {
+        varchar geohash_id PK
+        smallint precision PK
+        integer anomes PK
+        numeric score_ookla
+        numeric taxa_chamados
+        numeric share_penetracao
+        numeric delta_vs_lider
+        fibra_class fibra_class
+        movel_class movel_class
+        numeric arpu_relativo
+        varchar canal_dominante
+        numeric canal_pct
+        sinal_type sinal_percepcao
+        sinal_type sinal_concorrencia
+        sinal_type sinal_infraestrutura
+        sinal_type sinal_comportamento
+        recomendacao_type recomendacao
+        text recomendacao_razao
+    }
+
     %% ===== VIEWS (Camada Analitica) =====
     VW_GEOHASH_SUMMARY {
         varchar geohash_id PK
@@ -127,6 +149,11 @@ erDiagram
     }
 
     %% ===== RELACIONAMENTOS =====
+
+    %% Diagnóstico Growth → dependencias
+    DIAGNOSTICO_GROWTH }o--|| GEOHASH_CELL : "geohash_id -> geohash_id"
+    DIAGNOSTICO_GROWTH ||--o{ SCORE : "score_ookla, delta_vs_lider"
+    DIAGNOSTICO_GROWTH ||--o{ VW_GEOHASH_SUMMARY : "share_penetracao"
 
     %% Raw QoE → Geohash
     FILE_TRANSFER }o--|| GEOHASH_CELL : "attr_geohash7 -> geohash_id"
@@ -167,6 +194,9 @@ erDiagram
 | VW_GEOHASH_SUMMARY | VIVO_MOBILE_ERB | 1:N | Share MOVEL = linhas / população | RN001-01 |
 | VW_BAIRRO_SUMMARY | VW_GEOHASH_SUMMARY | 1:N | Bairro agrega N geohashes | UC010 |
 | USER_SESSION | — | standalone | Estado da sessão por usuário | UC011, UC012 |
+| DIAGNOSTICO_GROWTH | GEOHASH_CELL | N:1 | Diagnóstico 4 pilares por geohash/mes | UC009 |
+| DIAGNOSTICO_GROWTH | SCORE | 1:N | Score Ookla e delta competitivo | UC009 |
+| DIAGNOSTICO_GROWTH | VW_GEOHASH_SUMMARY | 1:1 | Share penetração | UC009 |
 
 ## Rastreabilidade: Entidade → ALI/AIE
 
@@ -184,3 +214,4 @@ erDiagram
 | VW_BAIRRO_SUMMARY | ALI | D08 | UC010 |
 | BENCHMARK_CONFIG | ALI | D10 | UC001, UC004, UC007 |
 | GEOHASH_CELL | ALI | — | UC001, UC005, UC008 |
+| **DIAGNOSTICO_GROWTH** | ALI | **D16** | UC009 (diagnóstico 4 pilares) |

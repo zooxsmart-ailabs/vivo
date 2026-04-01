@@ -88,3 +88,11 @@ export const techRecommendation = pgEnum("tech_recommendation", [
   "5G_PREMIUM",
   "4G_MASS",
 ]);
+
+export const recomendacaoType = pgEnum("recomendacao_type", [
+  "ATIVAR",
+  "AGUARDAR",
+  "BLOQUEADO",
+]);
+
+export const sinalType = pgEnum("sinal_type", ["OK", "ALERTA", "CRITICO"]);

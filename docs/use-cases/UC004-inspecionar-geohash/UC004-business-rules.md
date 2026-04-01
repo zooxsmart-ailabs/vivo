@@ -239,3 +239,58 @@ Delta competitivo = Score Vivo - Melhor Score Concorrente no mesmo geohash.
 | Critico | < -1.0 | Muito Alto | Vermelho | Muito Alto — churn acelerado e perda de share iminente |
 
 Exibida como badge no card lateral, seção de satisfação.
+
+---
+
+## RN004-08 — Interação de Tabs na Ficha Compacta (GeohashCard)
+
+| Campo | Valor |
+|-------|-------|
+| **ID** | RN004-08 |
+| **Tipo** | Interface |
+| **Passos** | Card lateral — tabs C1/C2 |
+| **Fonte** | `data-vis/apps/web/app/components/GeohashCard.vue` |
+
+**Descrição:**
+A ficha compacta (GeohashCard) exibe informações do geohash em duas abas:
+
+### Layout
+
+- **Header**: Gradient colorido pelo quadrante + barra lateral com cor do quadrante
+- **Grid de métricas**: 3 métricas em grid (Share, Satisfação, Prioridade)
+- **Tabs**: C1 (Comercial) e C2 (Infraestrutura)
+
+### Tab C1 — Comercial (default)
+
+| Seção | Conteudo | Dados |
+|-------|----------|-------|
+| Satisfação Comparativa | Barras horizontais por operadora (VIVO/TIM/CLARO) com score e badge de qualidade | score |
+| SpeedTest | Download (Mbps), Latência (ms), Qualidade | vw_geohash_summary |
+| CRM | ARPU (R$), Plano, Device Tier | geohash_crm |
+| Perfil da Area | Renda media, População, Domicilios | geo_por_latlong |
+| Insights | Geração automática por RN004-03 | Derivado |
+
+### Tab C2 — Infraestrutura
+
+| Seção | Conteudo | Dados |
+|-------|----------|-------|
+| Fibra | Classificação (badge colorido), Score (barra 0-100), Label (BAIXO/MEDIO/ALTO/CRITICO) | camada2_fibra |
+| Movel | Classificação (badge colorido), Score (barra 0-100), Label (BAIXO/MEDIO/ALTO/CRITICO) | camada2_movel |
+
+**Cores por classificação Fibra:**
+- SAUDAVEL: Verde (#16A34A)
+- AUMENTO_CAPACIDADE: Ambar (#D97706)
+- EXPANSAO_NOVA_AREA: Azul (#2563EB)
+- SEM_FIBRA: Cinza (#6B7280)
+
+**Cores por classificação Movel:**
+- SAUDAVEL: Verde (#16A34A)
+- MELHORA_QUALIDADE: Vermelho (#DC2626)
+- EXPANSAO_5G/4G: Ambar (#D97706)
+
+### Comportamento de Interação
+
+- Tab default: C1 (Comercial)
+- Switch entre tabs preserva seleção durante a sessão
+- Se Camada 2 nao disponivel (dados ausentes): tab C2 exibe "Dados de infraestrutura nao disponiveis"
+- Prioridade de exibição: Pin > Hover > Vazio (RN004-06 inalterado)

@@ -7,12 +7,12 @@
 | **Ator Primário** | Analista |
 | **Atores Secundários** | NestJS Backend (tRPC/WS), PostgreSQL |
 | **Prioridade** | Alta |
-| **Versão** | 1.0 |
+| **Versão** | 2.0 |
 | **Referencias** | UC006, UC008, UC011 |
 
 ## Objetivo
 
-O Analista consulta uma das 4 frentes estratégicas (Retenção, Upsell, Growth, Expansão) para visualizar o ranking de geohashes, perfis de cliente e ações recomendadas.
+O Analista consulta a frente estratégica Growth para visualizar o ranking de geohashes, diagnóstico dos 4 pilares (Percepção, Concorrência, Infraestrutura, Comportamento) e recomendação IA (ATIVAR/AGUARDAR/BLOQUEADO).
 
 ## Pre-condições
 
@@ -21,9 +21,9 @@ O Analista consulta uma das 4 frentes estratégicas (Retenção, Upsell, Growth,
 
 ## Pos-condições (Sucesso)
 
-- PS01: Lista de geohashes rankada por prioridade da frente selecionada
-- PS02: Painel de fluxo estratégico exibido para o geohash selecionado
-- PS03: KPIs da frente calculados e exibidos
+- PS01: Lista de geohashes GROWTH rankada por prioridade na sidebar esquerda
+- PS02: Painel de diagnóstico com 4 cards de pilar + card de recomendação IA exibido para o geohash selecionado
+- PS03: Recomendação IA (ATIVAR/AGUARDAR/BLOQUEADO) com canal, abordagem e raciocínio
 
 ## Pos-condições (Falha)
 
@@ -33,16 +33,16 @@ O Analista consulta uma das 4 frentes estratégicas (Retenção, Upsell, Growth,
 
 | Passo | Ator | Ação / Resposta do Sistema |
 |-------|------|----------------------------|
-| 1 | Analista | Acessa a aba "Frentes Estratégicas" (rota `/frentes`) |
-| 2 | Sistema | Restaura ultima frente e geohash da sessão (UC011) |
-| 3 | Sistema | Exibe 3 abas de estratégia: Retenção, Upsell, Growth |
-| 4 | Analista | Seleciona uma aba de estratégia |
-| 5 | Sistema | Filtra GEOHASH_DATA por `quadrant === estratégia selecionada` |
-| 6 | Sistema | Ordena por campo de sort ativo (default: share desc) |
-| 7 | Sistema | Exibe lista rankada na sidebar esquerda |
-| 8 | Sistema | Exibe KPIs da frente: total clientes, media share, media satisfação |
-| 9 | Sistema | Seleciona primeiro geohash da lista (ou ultimo da sessão) |
-| 10 | Sistema | Exibe FlowPanel no painel direito com 3 colunas (RN009-01) |
+| 1 | Analista | Acessa a aba "Estratégias Growth" (rota `/frentes`) |
+| 2 | Sistema | Restaura ultimo geohash da sessão (UC011) |
+| 3 | Sistema | Filtra geohashes por `quadrant === GROWTH` |
+| 4 | Sistema | Ordena por score de prioridade descendente (RN004-01) |
+| 5 | Sistema | Exibe ranking na sidebar dark esquerda com: posição, ID, bairro, share, score, prioridade (P1-P4) |
+| 6 | Sistema | Seleciona primeiro geohash da lista (ou ultimo da sessão) |
+| 7 | Sistema | Calcula diagnóstico dos 4 pilares (RN009-05) via `buildDiagnostico()` |
+| 8 | Sistema | Calcula recomendação IA (RN009-06) via `gerarRec()` |
+| 9 | Sistema | Exibe no painel principal direito: 4 PilarCards + 1 RecIA card |
+| 10 | Sistema | Cada PilarCard mostra: titulo, sinal (OK/Alerta/Critico), 2 métricas com valores e fórmulas |
 
 ## Interacoes na Sidebar
 
@@ -55,13 +55,27 @@ O Analista consulta uma das 4 frentes estratégicas (Retenção, Upsell, Growth,
 | 15 | Analista | Clica em um geohash da lista |
 | 16 | Sistema | Destaca item selecionado, atualiza FlowPanel |
 
-## Conteudo do FlowPanel (3 Colunas)
+## Conteudo do Painel Diagnóstico
 
-| Coluna | Conteudo | Dados |
-|--------|----------|-------|
-| 1 — Dados do Geohash | Donut share, clientes, trend, satisfação (3 operadoras) | vw_geohash_summary |
-| 2 — Perfil de Clientes | 3 segmentos com % e caracteristicas (RN009-02) | Configuração por estratégia |
-| 3 — Ações Recomendadas | Oferta por segmento com plano, preco, canal | Configuração por estratégia |
+### Cards de Pilar (4x — PilarCard.vue)
+
+| Card | Pilar | Métricas Exibidas | Fonte |
+|------|-------|-------------------|-------|
+| 1 | Percepção | Score Ookla (0-10), Vol. Chamados (%) | score, (stub) |
+| 2 | Concorrência | Share/Penetração (%), Vantagem vs Lider (delta) | vw_share_real, score |
+| 3 | Infraestrutura | Fibra Status (classificação), Movel Status (classificação) | camada2_fibra, camada2_movel |
+| 4 | Comportamento | Sensibilidade a Preco (ratio), Afinidade de Canal (%) | geohash_crm, (stub) |
+
+Cada card exibe: titulo do pilar, badge de sinal (OK/Alerta/Critico) com cor, e 2 linhas de métrica com label, valor, fórmula e detalhe.
+
+### Card de Recomendação IA (RecIA.vue)
+
+| Campo | Conteudo | Exemplo |
+|-------|----------|---------|
+| Decisão | ATIVAR / AGUARDAR / BLOQUEADO | Badge colorido com estado |
+| Canal | Canal recomendado + alocação | "Digital (dominante — priorizar 80% da verba)" |
+| Abordagem | Texto prescritivo de abordagem comercial | "Oferta de totalizacao (Fibra + Movel + Streaming)..." |
+| Raciocínio | Justificativa composta dos sinais avaliados | "Decisão baseada em: percepção excelente; alta oportunidade..." |
 
 ## Fluxos Relacionados
 
