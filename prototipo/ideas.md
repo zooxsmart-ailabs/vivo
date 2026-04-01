@@ -3,7 +3,7 @@
 ## Referência Visual
 - Fundo branco/cinza claro, estilo corporativo analítico
 - Cores de quadrante: Verde (Oportunidade), Roxo (Fortaleza), Cinza (Expansão), Vermelho (Risco)
-- Ficha de geohash com score de satisfação , share de mercado e estratégia recomendada
+- Ficha de geohash com score de satisfação, share de mercado e estratégia recomendada
 - Identidade Zoox: tipografia limpa, roxo como cor de destaque
 
 ---
@@ -133,7 +133,7 @@
 - Legenda e filtros abaixo do mapa
 
 **Signature Elements:**
-1. Barra vertical roxa à esquerda dos títulos de seção 
+1. Barra vertical roxa à esquerda dos títulos de seção
 2. Badge de estratégia com cor do quadrante
 3. Donut chart para share de mercado
 4. Barras coloridas para score de satisfação por operadora
