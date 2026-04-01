@@ -1,6 +1,7 @@
 import { Pool } from "pg";
 import { seedBenchmark } from "./seeds/benchmark.seed";
 import { seedGeoData } from "./seeds/geo-data.seed";
+import { seedGeohashCell } from "./seeds/geohash-cell.seed";
 // import { seedScore } from "./seeds/score.seed";
 // import { seedQoeSamples } from "./seeds/qoe-samples.seed";
 
@@ -18,6 +19,7 @@ async function main() {
   try {
     await seedBenchmark(pool);
     await seedGeoData(pool);
+    await seedGeohashCell(pool);
     // await seedScore(pool);
     // await seedQoeSamples(pool);
     console.log("\n=== Seed complete! ===");
