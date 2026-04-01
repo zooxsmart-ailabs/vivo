@@ -3,7 +3,7 @@ export default defineNuxtConfig({
 
   devtools: { enabled: true },
 
-  modules: ["@nuxtjs/tailwindcss"],
+  modules: [["@nuxtjs/tailwindcss", { cssPath: "~/assets/css/main.css" }]],
 
   imports: {
     dirs: ["app/composables"],
@@ -32,10 +32,6 @@ export default defineNuxtConfig({
       otelEndpoint: "",
       googleMapsKey: "",
     },
-  },
-
-  tailwindcss: {
-    cssPath: "~/assets/css/main.css",
   },
 
   typescript: {

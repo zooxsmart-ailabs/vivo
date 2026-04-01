@@ -1,4 +1,4 @@
-import { ConfigType } from "@nestjs/config";
+import type { ConfigType } from "@nestjs/config";
 import { Pool } from "pg";
 import { drizzle, NodePgDatabase } from "drizzle-orm/node-postgres";
 import databaseConfig from "../common/config/database.config";
