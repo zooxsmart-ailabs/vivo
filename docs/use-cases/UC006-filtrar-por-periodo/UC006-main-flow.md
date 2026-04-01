@@ -8,26 +8,26 @@
 | **Atores Secundários** | NestJS Backend (tRPC/WS), PostgreSQL + TimescaleDB |
 | **Prioridade** | Alta |
 | **Versão** | 1.0 |
-| **Referencias** | UC001, UC007, UC009, UC010, UC011 |
+| **Referências** | UC001, UC007, UC009, UC010, UC011 |
 
 ## Objetivo
 
-O Analista define o período temporal (intervalo de meses) para análise, afetando todas as abas da aplicacao. Default: ultimos 3 meses.
+O Analista define o período temporal (intervalo de meses) para análise, afetando todas as abas da aplicação. Default: últimos 3 meses.
 
-## Pre-condições
+## Pré-condições
 
-- PC01: O Analista esta autenticado (UC012)
+- PC01: O Analista está autenticado (UC012)
 - PC02: Existem dados carregados no banco
 
-## Pos-condições (Sucesso)
+## Pós-condições (Sucesso)
 
-- PS01: Todas as visualizacoes (mapa, frentes, bairros) refletem o período selecionado
+- PS01: Todas as visualizações (mapa, frentes, bairros) refletem o período selecionado
 - PS02: Benchmarks recalculados para o período
 - PS03: Período persistido na sessão (UC011)
 
-## Pos-condições (Falha)
+## Pós-condições (Falha)
 
-- PF01: Se nao existem dados no período: mensagem informativa, visualizacoes vazias
+- PF01: Se não existem dados no período: mensagem informativa, visualizações vazias
 
 ## Fluxo Principal
 
@@ -35,12 +35,12 @@ O Analista define o período temporal (intervalo de meses) para análise, afetan
 |-------|------|----------------------------|
 | 1 | Analista | Abre o seletor de período (componente global no header) |
 | 2 | Sistema | Exibe date range picker com meses disponíveis (RN006-01) |
-| 3 | Analista | Seleciona mes inicio e mes fim |
+| 3 | Analista | Seleciona mês início e mês fim |
 | 4 | Sistema | Valida intervalo (RN006-02) |
 | 5 | Sistema | Atualiza contexto global de período |
 | 6 | Sistema | Reenvia subscriptions WS com novo período para todas as abas ativas |
-| 7 | Sistema | Backend reconsulta views filtradas por `periodDate BETWEEN inicio AND fim` |
-| 8 | Sistema | Frontend re-renderiza visualizacoes com novos dados |
+| 7 | Sistema | Backend reconsulta views filtradas por `periodDate BETWEEN início AND fim` |
+| 8 | Sistema | Frontend re-renderiza visualizações com novos dados |
 | 9 | Sistema | Atualiza label do seletor: "Jan 2026 — Mar 2026" |
 | 10 | Sistema | Persiste período na sessão (UC011) |
 
@@ -49,7 +49,7 @@ O Analista define o período temporal (intervalo de meses) para análise, afetan
 | Tipo | ID | Condição de Desvio |
 |------|----|--------------------|
 | Alternativo | [FA01](./UC006-alt-flows.md#fa01) | Período sem dados |
-| Extend | [UC007](../UC007-comparar-periodos/UC007-main-flow.md) | Analista ativa comparação |
+| Extensão | [UC007](../UC007-comparar-periodos/UC007-main-flow.md) | Analista ativa comparação |
 
 ## Regras de Negócio Aplicadas
 

@@ -4,16 +4,16 @@
 
 ---
 
-## FA01 — Zoom Sem Mudança de Precisao {#fa01}
+## FA01 — Zoom Sem Mudança de Precisão {#fa01}
 
-**Condição de Desvio:** No passo 3, o novo zoom esta na mesma faixa da precisao atual.
+**Condição de Desvio:** No passo 3, o novo zoom está na mesma faixa da precisão atual.
 
 | Passo | Ator | Ação / Resposta do Sistema |
 |-------|------|----------------------------|
-| 1 | Sistema | Mantem poligonos existentes |
-| 2 | Sistema | Nao envia nova subscription |
+| 1 | Sistema | Mantém polígonos existentes |
+| 2 | Sistema | Não envia nova subscription |
 
-> **Retorno:** Nao aplicavel — UC encerra sem ação.
+> **Retorno:** Não aplicável — UC encerra sem ação.
 
 ---
 
@@ -25,23 +25,23 @@
 |-------|------|----------------------------|
 | 1 | Analista | Arrasta o mapa |
 | 2 | Sistema | Detecta mudança de viewport (bounding box) com debounce 300ms |
-| 3 | Sistema | Envia subscription atualizada com novo viewport, mesma precisao |
+| 3 | Sistema | Envia subscription atualizada com novo viewport, mesma precisão |
 | 4 | Sistema | Backend retorna geohashes do novo viewport |
-| 5 | Sistema | Adiciona novos poligonos, remove os que sairam do viewport |
+| 5 | Sistema | Adiciona novos polígonos, remove os que saíram do viewport |
 
 > **Retorno:** Passo 9 do fluxo principal.
 
 ---
 
-## FE01 — Sem Dados na Precisao {#fe01}
+## FE01 — Sem Dados na Precisão {#fe01}
 
-**Condição de Desvio:** No passo 6, a query retorna 0 geohashes para a precisao solicitada (ex: nao existem `geohash_cell` de precisao 6 na região).
+**Condição de Desvio:** No passo 6, a query retorna 0 geohashes para a precisão solicitada (ex: não existem `geohash_cell` de precisão 6 na região).
 
 | Passo | Ator | Ação / Resposta do Sistema |
 |-------|------|----------------------------|
-| 1 | Sistema | Backend tenta a outra precisao suportada (6 ↔ 7) |
-| 2 | Sistema | Se encontrou dados: renderiza na precisao alternativa |
-| 3 | Sistema | Exibe toast informativo: "Exibindo dados em precisao [X]" |
-| 4 | Sistema | Se nenhuma precisao tem dados: exibe mapa vazio (FA01 do UC001) |
+| 1 | Sistema | Backend tenta a outra precisão suportada (6 ↔ 7) |
+| 2 | Sistema | Se encontrou dados: renderiza na precisão alternativa |
+| 3 | Sistema | Exibe toast informativo: "Exibindo dados em precisão [X]" |
+| 4 | Sistema | Se nenhuma precisão tem dados: exibe mapa vazio (FA01 do UC001) |
 
 > **Retorno:** Passo 8 do fluxo principal.

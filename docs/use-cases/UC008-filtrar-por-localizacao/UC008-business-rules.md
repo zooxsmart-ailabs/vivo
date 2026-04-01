@@ -2,7 +2,7 @@
 
 [<- Voltar ao fluxo principal](./UC008-main-flow.md)
 
-## RN008-01 — Zoom Automático por Nivel de Localização
+## RN008-01 — Zoom Automático por Nível de Localização
 
 | Campo | Valor |
 |-------|-------|
@@ -12,7 +12,7 @@
 
 **Descrição:**
 
-| Nivel | Zoom Sugerido | Precisao Geohash |
+| Nível | Zoom Sugerido | Precisão Geohash |
 |-------|---------------|------------------|
 | Estado | 7-8 | 4-5 |
 | Cidade | 11-12 | 6 |
@@ -29,9 +29,9 @@
 | **Passos** | Passo 2-8 |
 
 **Descrição:**
-A localização e uma cascata obrigatoria:
-1. **Estado** — obrigatorio, sempre selecionado
-2. **Cidade** — obrigatorio apos Estado
+A localização é uma cascata obrigatória:
+1. **Estado** — obrigatório, sempre selecionado
+2. **Cidade** — obrigatório após Estado
 3. **Bairro** — opcional (default: "Todos os bairros")
 
 Fonte dos dados: campo `attr_place_region` (estado), `attr_place_subregion` (cidade), `attr_place_name` (bairro) das tabelas raw, ou `state/city/neighborhood` da `geohashCell`.
@@ -47,8 +47,8 @@ Fonte dos dados: campo `attr_place_region` (estado), `attr_place_subregion` (cid
 | **Passos** | Fluxo Alternativo |
 
 **Descrição:**
-A sincronização e bidirecional:
+A sincronização é bidirecional:
 - **Seletor -> Mapa**: centraliza e ajusta zoom
-- **Mapa -> Seletor**: atualiza Estado e Cidade (nao Bairro)
+- **Mapa -> Seletor**: atualiza Estado e Cidade (não Bairro)
 
-O debounce para geocoding reverso no pan e de 500ms.
+O debounce para geocoding reverso no pan é de 500ms.

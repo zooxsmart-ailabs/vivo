@@ -10,8 +10,8 @@
 
 | Passo | Ator | Ação / Resposta do Sistema |
 |-------|------|----------------------------|
-| 1 | Sistema | Exibe toast: "Nao ha dados disponíveis para o período selecionado" |
-| 2 | Sistema | Todas as visualizacoes mostram estado vazio |
+| 1 | Sistema | Exibe toast: "Não há dados disponíveis para o período selecionado" |
+| 2 | Sistema | Todas as visualizações mostram estado vazio |
 | 3 | Sistema | Seletor de período permanece aberto para ajuste |
 | 4 | Analista | Seleciona outro período |
 

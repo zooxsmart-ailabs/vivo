@@ -11,11 +11,11 @@
 | **Passos** | Passo 2 |
 
 **Descrição:**
-Mudanças de zoom sao agrupadas com debounce de 300ms para evitar múltiplas subscriptions durante scroll continuo. Somente o ultimo zoom apos 300ms de inatividade dispara nova subscription.
+Mudanças de zoom são agrupadas com debounce de 300ms para evitar múltiplas subscriptions durante scroll contínuo. Somente o último zoom após 300ms de inatividade dispara nova subscription.
 
 ---
 
-## RN005-02 — Agregação por Precisao
+## RN005-02 — Agregação por Precisão
 
 | Campo | Valor |
 |-------|-------|
@@ -24,25 +24,25 @@ Mudanças de zoom sao agrupadas com debounce de 300ms para evitar múltiplas sub
 | **Passos** | Passo 6 |
 
 **Descrição:**
-O sistema suporta duas precisoes: **6** (zoom 11-13) e **7** (zoom 14-15). Cada uma tem pipeline de dados próprio:
+O sistema suporta duas precisões: **6** (zoom 11-13) e **7** (zoom 14-15). Cada uma tem pipeline de dados próprio:
 
-**Precisao 7 (detalhada):**
+**Precisão 7 (detalhada):**
 - QoE: `cagg_ft_monthly_gh7`, `cagg_video_monthly_gh7`, `cagg_web_monthly_gh7`
 - Scores: tabela `score` direta (cd_geo_hsh7)
 - Demografia: `geo_por_latlong` agrupado por geohash7
 
-**Precisao 6 (agregada — zoom out):**
+**Precisão 6 (agregada — zoom out):**
 - QoE: `cagg_ft_monthly_gh6`, `cagg_video_monthly_gh6`, `cagg_web_monthly_gh6` — continuous aggregates que agregam diretamente dos dados raw por `attr_geohash6`
 - Scores: agregados dos geohash7 filhos via `LEFT(cd_geo_hsh7, 6)` com `AVG(score)` e `SUM(sample_size)`
 - Demografia: `geo_por_latlong` agrupado por `LEFT(geohash7, 6)`
 
-**Derivacoes recalculadas em ambas as precisoes:**
+**Derivações recalculadas em ambas as precisões:**
 - **Share**: proporção de testes Vivo / total de testes (via continuous aggregates)
 - **Quadrante**: recalculado com share e satisfação agregados vs benchmarks (RN001-01)
-- **Prioridade**: formula por quadrante aplicada sobre valores agregados (RN004-01)
+- **Prioridade**: fórmula por quadrante aplicada sobre valores agregados (RN004-01)
 - **Qualidade**: classificação via thresholds de download/latência (RN004-02)
 
-**Implementacao**: A `vw_geohash_summary` ja contem ambas as precisoes. O backend filtra com `WHERE gc.precision = ?`. Toda agregação e feita no PostgreSQL, nunca no frontend.
+**Implementação**: A `vw_geohash_summary` já contém ambas as precisões. O backend filtra com `WHERE gc.precision = ?`. Toda agregação é feita no PostgreSQL, nunca no frontend.
 
 ---
 
@@ -55,8 +55,8 @@ O sistema suporta duas precisoes: **6** (zoom 11-13) e **7** (zoom 14-15). Cada 
 | **Passos** | Passo 7, 8 |
 
 **Descrição:**
-A transição entre precisoes usa fade para suavizar a experiência:
-1. Poligonos atuais: fade out (opacity 0.4 -> 0, 200ms)
-2. Remove poligonos do mapa
-3. Adiciona novos poligonos com opacity 0
-4. Novos poligonos: fade in (opacity 0 -> 0.4, 200ms)
+A transição entre precisões usa fade para suavizar a experiência:
+1. Polígonos atuais: fade out (opacity 0.4 -> 0, 200ms)
+2. Remove polígonos do mapa
+3. Adiciona novos polígonos com opacity 0
+4. Novos polígonos: fade in (opacity 0 -> 0.4, 200ms)

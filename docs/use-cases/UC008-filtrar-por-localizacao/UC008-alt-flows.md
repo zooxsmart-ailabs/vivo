@@ -6,7 +6,7 @@
 
 ## FA01 — Localização Sem Dados no Período {#fa01}
 
-**Condição de Desvio:** A localização selecionada nao possui dados no período ativo (UC006).
+**Condição de Desvio:** A localização selecionada não possui dados no período ativo (UC006).
 
 | Passo | Ator | Ação / Resposta do Sistema |
 |-------|------|----------------------------|
@@ -20,12 +20,12 @@
 
 ## FE01 — Geocoding Reverso Falha {#fe01}
 
-**Condição de Desvio:** O geocoding reverso nao consegue identificar a cidade do centro do mapa.
+**Condição de Desvio:** O geocoding reverso não consegue identificar a cidade do centro do mapa.
 
 | Passo | Ator | Ação / Resposta do Sistema |
 |-------|------|----------------------------|
-| 1 | Sistema | Mantem ultima localização conhecida no seletor |
-| 2 | Sistema | Dados continuam filtrados pela ultima localização valida |
+| 1 | Sistema | Mantém última localização conhecida no seletor |
+| 2 | Sistema | Dados continuam filtrados pela última localização válida |
 | 3 | Sistema | Log do erro no SigNoz |
 
-> **Retorno:** Nao aplicavel — operação silenciosa.
+> **Retorno:** Não aplicável — operação silenciosa.

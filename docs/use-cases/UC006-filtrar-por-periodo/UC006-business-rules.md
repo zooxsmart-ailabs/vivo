@@ -19,7 +19,7 @@ FROM file_transfer
 ORDER BY mes DESC
 ```
 
-Meses sem dados sao desabilitados no picker. O período default e os ultimos 3 meses com dados.
+Meses sem dados são desabilitados no picker. O período default é os últimos 3 meses com dados.
 
 ---
 
@@ -33,13 +33,13 @@ Meses sem dados sao desabilitados no picker. O período default e os ultimos 3 m
 
 **Descrição:**
 - Intervalo máximo: 12 meses (limitação de performance)
-- Intervalo mínimo: 1 mes
-- Data fim >= Data inicio
+- Intervalo mínimo: 1 mês
+- Data fim >= Data início
 - Ambas as datas devem estar no conjunto de meses disponíveis (RN006-01)
 
 **Exemplo:**
-- Valido: Jan 2026 — Mar 2026 (3 meses)
-- Invalido: Jan 2026 — Mar 2027 (> 12 meses)
+- Válido: Jan 2026 — Mar 2026 (3 meses)
+- Inválido: Jan 2026 — Mar 2027 (> 12 meses)
 
 ---
 
@@ -56,8 +56,8 @@ A mudança de período afeta TODAS as abas simultaneamente:
 
 | Aba | Impacto |
 |-----|---------|
-| Mapa Estratégico | Poligonos recalculados para o período |
+| Mapa Estratégico | Polígonos recalculados para o período |
 | Frentes Estratégicas | Rankings e KPIs recalculados |
-| Visão por Bairro | Agregacoes por bairro recalculadas |
+| Visão por Bairro | Agregações por bairro recalculadas |
 
-Os benchmarks tambem sao recalculados para o período selecionado.
+Os benchmarks também são recalculados para o período selecionado.
