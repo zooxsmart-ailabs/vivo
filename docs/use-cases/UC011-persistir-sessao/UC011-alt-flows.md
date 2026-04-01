@@ -18,9 +18,9 @@
 
 ---
 
-## FE01 — Redis Indisponivel {#fe01}
+## FE01 — Redis Indisponível {#fe01}
 
-**Condição de Desvio:** Redis nao responde.
+**Condição de Desvio:** Redis não responde.
 
 | Passo | Ator | Ação / Resposta do Sistema |
 |-------|------|----------------------------|

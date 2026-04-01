@@ -64,9 +64,9 @@ interface SessionState {
 | Campo | Default |
 |-------|---------|
 | activeTab | "/" |
-| mapCenter | Centro da ultima cidade com dados |
+| mapCenter | Centro da última cidade com dados |
 | mapZoom | 11 |
-| período | Ultimos 3 meses com dados |
+| período | Últimos 3 meses com dados |
 | localização | Estado e cidade com mais dados |
 | activeQuadrants | Todos (OPORTUNIDADE, FORTALEZA, EXPANSAO, RISCO) |
 | techFilter | "TODOS" |
@@ -87,7 +87,7 @@ interface SessionState {
 **Descrição:**
 Dupla persistência para resiliência:
 
-1. **Redis** (primario): TTL 30 dias, acesso rápido, chave `session:{userId}`
+1. **Redis** (primário): TTL 30 dias, acesso rápido, chave `session:{userId}`
 2. **PostgreSQL** (backup): tabela `user_session`, sem TTL, atualizado a cada save
 
 Na restauração:

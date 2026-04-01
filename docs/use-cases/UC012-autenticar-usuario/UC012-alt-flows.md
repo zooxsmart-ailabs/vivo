@@ -19,7 +19,7 @@
 
 ---
 
-## FE01 — Token Invalido ou Expirado {#fe01}
+## FE01 — Token Inválido ou Expirado {#fe01}
 
 **Condição de Desvio:** No passo 4, a validação do token falha.
 
@@ -29,18 +29,18 @@
 | 2 | Sistema | HTTP: retorna 401 Unauthorized |
 | 3 | Sistema | WS: fecha conexão com código 4401 |
 | 4 | Sistema | Frontend detecta 401 e redireciona para `authStrategy.getLoginUrl()` |
-| 5 | Sistema | Registra tentativa no SigNoz (sem dados sensiveis) |
+| 5 | Sistema | Registra tentativa no SigNoz (sem dados sensíveis) |
 
 ---
 
-## FE02 — Provedor de Auth Indisponivel {#fe02}
+## FE02 — Provedor de Auth Indisponível {#fe02}
 
-**Condição de Desvio:** No passo 4, o provedor externo nao responde.
+**Condição de Desvio:** No passo 4, o provedor externo não responde.
 
 | Passo | Ator | Ação / Resposta do Sistema |
 |-------|------|----------------------------|
-| 1 | Sistema | Timeout apos 5s tentando validar |
+| 1 | Sistema | Timeout após 5s tentando validar |
 | 2 | Sistema | Se cache de validação disponível (Redis): aceita token previamente validado |
-| 3 | Sistema | Se nao: retorna 503 Service Unavailable |
-| 4 | Sistema | Frontend exibe: "Servico de autenticação indisponivel. Tente novamente." |
+| 3 | Sistema | Se não: retorna 503 Service Unavailable |
+| 4 | Sistema | Frontend exibe: "Serviço de autenticação indisponível. Tente novamente." |
 | 5 | Sistema | Registra incidente no SigNoz |

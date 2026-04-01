@@ -8,24 +8,24 @@
 | **Atores Secundários** | NestJS Backend (tRPC/WS), PostgreSQL |
 | **Prioridade** | Alta |
 | **Versão** | 1.0 |
-| **Referencias** | UC006, UC008, UC011 |
+| **Referências** | UC006, UC008, UC011 |
 
 ## Objetivo
 
 O Analista consulta a agregação de geohashes por bairro, com ranking por categoria estratégica e detalhamento com KPIs, satisfação comparativa e infraestrutura.
 
-## Pre-condições
+## Pré-condições
 
 - PC01: Período e localização definidos (UC006, UC008)
 - PC02: Existem geohashes agrupados por bairro na localização/período
 
-## Pos-condições (Sucesso)
+## Pós-condições (Sucesso)
 
 - PS01: Lista de bairros rankada pela categoria selecionada
 - PS02: Painel de detalhamento exibido para o bairro selecionado
 - PS03: Dados agregados de todos os geohashes do bairro
 
-## Pos-condições (Falha)
+## Pós-condições (Falha)
 
 - PF01: Sem bairros para a categoria: lista vazia com mensagem informativa
 
@@ -34,7 +34,7 @@ O Analista consulta a agregação de geohashes por bairro, com ranking por categ
 | Passo | Ator | Ação / Resposta do Sistema |
 |-------|------|----------------------------|
 | 1 | Analista | Acessa a aba "Visão por Bairro" (rota `/bairros`) |
-| 2 | Sistema | Restaura ultimo bairro e categoria da sessão (UC011) |
+| 2 | Sistema | Restaura último bairro e categoria da sessão (UC011) |
 | 3 | Sistema | Agrega geohashes por bairro (RN010-01) |
 | 4 | Sistema | Exibe 3 abas de categoria: Growth, Upsell, Retenção |
 | 5 | Analista | Seleciona categoria de ranking |
@@ -44,19 +44,19 @@ O Analista consulta a agregação de geohashes por bairro, com ranking por categ
 | 9 | Analista | Seleciona bairro da lista |
 | 10 | Sistema | Exibe detalhamento no painel direito |
 
-## Conteudo do Painel de Detalhamento
+## Conteúdo do Painel de Detalhamento
 
 | Seção | Dados | Fonte |
 |-------|-------|-------|
-| Dados Regionais | Total domicilios, população, renda media | Agregado geo_por_latlong |
+| Dados Regionais | Total domicílios, população, renda média | Agregado geo_por_latlong |
 | Header | Nome, pills quadrantes, trend, share % | Agregado vw_bairro_summary |
-| KPIs | Total clientes, satisfação media, delta vs melhor concorrente | Calculado |
+| KPIs | Total clientes, satisfação média, delta vs melhor concorrente | Calculado |
 | Satisfação | Barras VIVO/TIM/CLARO (0-10) | Agregado scores |
 | Camada 1 | Grid 2x2 quadrantes: contagem, %, barra, label estratégico | Agregado |
-| Camada 2 Fibra | Score medio, classificacoes (Capacidade/Expansão/Saudavel) | Agregado |
-| Camada 2 Movel | Score medio, classificacoes (Qualidade/Saudavel/5G/4G) | Agregado |
+| Camada 2 Fibra | Score médio, classificações (Capacidade/Expansão/Saudável) | Agregado |
+| Camada 2 Móvel | Score médio, classificações (Qualidade/Saudável/5G/4G) | Agregado |
 
-## Interacoes na Sidebar
+## Interações na Sidebar
 
 | Passo | Ator | Ação / Resposta do Sistema |
 |-------|------|----------------------------|

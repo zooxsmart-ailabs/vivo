@@ -11,9 +11,9 @@
 | **Passos** | Passo 3 |
 
 **Descrição:**
-Geohashes sao agrupados por `neighborhood`. Para cada bairro, calcula-se:
+Geohashes são agrupados por `neighborhood`. Para cada bairro, calcula-se:
 
-| Campo Agregado | Formula |
+| Campo Agregado | Fórmula |
 |----------------|---------|
 | totalPopulation | SUM(totalPopulation) de todos geohashes |
 | totalClients | SUM(activeClients) |
@@ -29,7 +29,7 @@ Geohashes sao agrupados por `neighborhood`. Para cada bairro, calcula-se:
 | quadrantCounts | COUNT por quadrante (ex: {OPORTUNIDADE: 2, RISCO: 3}) |
 | dominantQuadrant | Quadrante com maior contagem |
 
-A lista de bairros e ordenada por `totalClients DESC`.
+A lista de bairros é ordenada por `totalClients DESC`.
 
 ---
 
@@ -104,7 +104,7 @@ delta = avgVivoScore - bestCompetitor
 |-----------|-------|
 | RISCO | "Risco de churn" |
 | FORTALEZA | "Upsell" |
-| OPORTUNIDADE | "Aquisicao" |
+| OPORTUNIDADE | "Aquisição" |
 | OPORTUNIDADE_RISCO | "Dupla frente" |
 
 ---
@@ -122,15 +122,15 @@ Para Camada 2 do bairro, agregar geohashes com dados de infraestrutura:
 
 **Fibra:**
 - Filtrar geohashes com `camada2.fibra`
-- Score medio: `AVG(camada2.fibra.score)`
+- Score médio: `AVG(camada2.fibra.score)`
 - Contagem por classificação: {AUMENTO_CAPACIDADE: N, EXPANSAO_NOVA_AREA: M, SAUDAVEL: K}
 
-**Movel:**
+**Móvel:**
 - Filtrar geohashes com `camada2.movel`
-- Score medio: `AVG(camada2.movel.score)`
+- Score médio: `AVG(camada2.movel.score)`
 - Contagem por classificação: {MELHORA_QUALIDADE: N, SAUDAVEL: M, EXPANSAO_5G: K, EXPANSAO_4G: J}
 
-**Cores do score medio (threshold diferente do UC004):**
+**Cores do score médio (threshold diferente do UC004):**
 
 | Score | Cor |
 |-------|-----|

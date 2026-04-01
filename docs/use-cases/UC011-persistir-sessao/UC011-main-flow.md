@@ -6,24 +6,24 @@
 | **Nome** | Persistir e Restaurar Estado da Sessão |
 | **Ator Primário** | Analista |
 | **Atores Secundários** | NestJS Backend (tRPC/WS), Redis, PostgreSQL |
-| **Prioridade** | Media |
+| **Prioridade** | Média |
 | **Versão** | 1.0 |
-| **Referencias** | UC001-UC010, UC012 |
+| **Referências** | UC001-UC010, UC012 |
 
 ## Objetivo
 
 O sistema persiste automaticamente o estado da aplicação para cada usuário, permitindo que retome de onde parou na próxima sessão.
 
-## Pre-condições
+## Pré-condições
 
 - PC01: O usuário possui um identificador único (token de sessão, cookie, ou ID de auth externo)
 
-## Pos-condições (Sucesso)
+## Pós-condições (Sucesso)
 
 - PS01: Estado completo persistido no backend (Redis + PostgreSQL fallback)
-- PS02: Na próxima sessão, todas as visualizacoes restauradas ao ultimo estado
+- PS02: Na próxima sessão, todas as visualizações restauradas ao último estado
 
-## Pos-condições (Falha)
+## Pós-condições (Falha)
 
 - PF01: Se persistência falha: aplicação funciona normalmente com defaults
 - PF02: Se restauração falha: aplicação inicia com estado default
@@ -48,14 +48,14 @@ O sistema persiste automaticamente o estado da aplicação para cada usuário, p
 | 4 | Sistema | Se encontrado: deserializa SessionState |
 | 5 | Sistema | Restaura: aba ativa, centro do mapa, zoom, filtros, período, localização |
 | 6 | Sistema | Navega para a aba salva e aplica filtros |
-| 7 | Sistema | Se nao encontrado: inicia com defaults (RN011-02) |
+| 7 | Sistema | Se não encontrado: inicia com defaults (RN011-02) |
 
 ## Fluxos Relacionados
 
 | Tipo | ID | Condição de Desvio |
 |------|----|--------------------|
 | Alternativo | [FA01](./UC011-alt-flows.md#fa01) | Sessão expirada no Redis (fallback PG) |
-| Exceção | [FE01](./UC011-alt-flows.md#fe01) | Redis indisponivel |
+| Exceção | [FE01](./UC011-alt-flows.md#fe01) | Redis indisponível |
 
 ## Regras de Negócio Aplicadas
 
