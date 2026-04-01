@@ -20,6 +20,12 @@ export default defineNuxtConfig({
             "Plataforma de GeoInteligência para análise estratégica de QoE",
         },
       ],
+      link: [
+        {
+          rel: "stylesheet",
+          href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&family=DM+Sans:wght@400;500;600;700&display=swap",
+        },
+      ],
     },
   },
 

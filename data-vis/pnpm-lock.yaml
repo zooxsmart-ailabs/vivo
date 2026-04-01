@@ -150,6 +150,9 @@ importers:
       '@vivo/shared':
         specifier: workspace:*
         version: link:../../packages/shared
+      lucide-vue-next:
+        specifier: ^0.460.0
+        version: 0.460.0(vue@3.5.31(typescript@5.9.3))
       nuxt:
         specifier: ^3.16.0
         version: 3.21.2(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)(@parcel/watcher@2.5.6)(@types/node@22.19.15)(@vue/compiler-sfc@3.5.31)(cac@6.7.14)(db0@0.3.4(drizzle-orm@0.40.1(@opentelemetry/api@1.9.1)(@types/pg@8.20.0)(gel@2.2.0)(pg@8.20.0)))(drizzle-orm@0.40.1(@opentelemetry/api@1.9.1)(@types/pg@8.20.0)(gel@2.2.0)(pg@8.20.0))(ioredis@5.10.1)(magicast@0.5.2)(rollup-plugin-visualizer@7.0.1(rollup@4.60.0))(rollup@4.60.0)(terser@5.46.1)(tsx@4.21.0)(typescript@5.9.3)(vite@7.3.1(@types/node@22.19.15)(jiti@2.6.1)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))(yaml@2.8.3)
@@ -4983,6 +4986,11 @@ packages:
 
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
+
+  lucide-vue-next@0.460.0:
+    resolution: {integrity: sha512-IhM1tm3gPhc3u6RagNra4W6Oe48Mz0l3fAJzk0oSLzsRQqt3WU3XiX5ngRyjIs8fzCtvgzu7fC6Qk7XVhS00DQ==}
+    peerDependencies:
+      vue: '>=3.0.1'
 
   magic-regexp@0.10.0:
     resolution: {integrity: sha512-Uly1Bu4lO1hwHUW0CQeSWuRtzCMNO00CmXtS8N6fyvB3B979GOEEeAkiTUDsmbYLAbvpUS/Kt5c4ibosAzVyVg==}
@@ -12285,6 +12293,10 @@ snapshots:
   lru-cache@5.1.1:
     dependencies:
       yallist: 3.1.1
+
+  lucide-vue-next@0.460.0(vue@3.5.31(typescript@5.9.3)):
+    dependencies:
+      vue: 3.5.31(typescript@5.9.3)
 
   magic-regexp@0.10.0:
     dependencies:
