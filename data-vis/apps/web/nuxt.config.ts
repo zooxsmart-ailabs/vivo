@@ -1,13 +1,11 @@
 export default defineNuxtConfig({
+  srcDir: "app",
+
   ssr: false,
 
   devtools: { enabled: true },
 
   modules: [["@nuxtjs/tailwindcss", { cssPath: "~/assets/css/main.css" }]],
-
-  imports: {
-    dirs: ["app/composables"],
-  },
 
   app: {
     head: {
