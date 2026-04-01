@@ -13,30 +13,30 @@
 
 **Subtotal Dados:** 37 PF (contados uma vez no INDEX)
 
-## Funções de Transacao
+## Funções de Transação
 
 | ID | Descrição | Tipo | DET | RET | Complexidade | PF |
 |----|-----------|------|-----|-----|--------------|-----|
-| T01 | Renderizar poligonos geohash no mapa | SE | 12 | 3 | Medio | 5 |
+| T01 | Renderizar polígonos geohash no mapa | SE | 12 | 3 | Médio | 5 |
 | T02 | Calcular quadrante estratégico | SE | 4 | 2 | Simples | 4 |
 | T03 | Exibir legenda de quadrantes | SE | 8 | 1 | Simples | 4 |
 | T04 | Calcular contadores de resumo | SE | 5 | 1 | Simples | 4 |
-| T05 | Subscription WS geohash.subscribe | SE | 6 | 2 | Medio | 5 |
-| T06 | Consultar benchmarks regionais | CE | 8 | 1 | Medio | 4 |
+| T05 | Subscription WS geohash.subscribe | SE | 6 | 2 | Médio | 5 |
+| T06 | Consultar benchmarks regionais | CE | 8 | 1 | Médio | 4 |
 | T07 | Consultar viewport bounding box | CE | 4 | 1 | Simples | 3 |
 | T08 | Exibir badge "em risco" (RISCO) | SE | 3 | 1 | Simples | 4 |
 | T09 | Exibir hint flutuante | SE | 2 | 1 | Simples | 4 |
-| T10 | Consultar estado da sessão | CE | 6 | 2 | Medio | 4 |
+| T10 | Consultar estado da sessão | CE | 6 | 2 | Médio | 4 |
 
-**Subtotal Transacoes:** 41 PF
+**Subtotal Transações:** 41 PF
 
 ## Resumo
 
 | Categoria | PF |
 |-----------|-----|
 | Dados | 37 |
-| Transacoes | 41 |
+| Transações | 41 |
 | **Total UC001** | **78** |
 
-> Nota: Funções de dados compartilhadas (D01-D04) sao contadas uma única vez no INDEX.md.
-> O PF efetivo de transacoes deste UC e 28 (descontando dados compartilhados).
+> Nota: Funções de dados compartilhadas (D01-D04) são contadas uma única vez no INDEX.md.
+> O PF efetivo de transações deste UC é 28 (descontando dados compartilhados).

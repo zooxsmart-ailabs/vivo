@@ -13,12 +13,12 @@
 | **Passos** | Passo 2 |
 
 **Descrição:**
-O estado de filtro e um Set de quadrantes ativos. Cada clique alterna (toggle).
+O estado de filtro é um Set de quadrantes ativos. Cada clique alterna (toggle).
 
 - Estado inicial: todos os 4 quadrantes ativos
-- **Ordem de exibição**: OPORTUNIDADE → FORTALEZA → EXPANSAO → RISCO
+- **Ordem de exibição**: OPORTUNIDADE → FORTALEZA → EXPANSÃO → RISCO
 - Múltiplos podem estar ativos simultaneamente
-- Todos podem ser desativados (0 poligonos visiveis)
+- Todos podem ser desativados (0 polígonos visíveis)
 
 ---
 
@@ -39,13 +39,13 @@ isVisible(gh, quadrantFilters, techFilter) =
 
 **Exemplo:**
 - Filtros: {OPORTUNIDADE, FORTALEZA}, tech=FIBRA
-- Geohash(quadrant=OPORTUNIDADE, tech=FIBRA) → visivel
+- Geohash(quadrant=OPORTUNIDADE, tech=FIBRA) → visível
 - Geohash(quadrant=OPORTUNIDADE, tech=MOVEL) → oculto
 - Geohash(quadrant=RISCO, tech=FIBRA) → oculto
 
 ---
 
-## RN002-03 — Estilo dos Botoes de Filtro
+## RN002-03 — Estilo dos Botões de Filtro
 
 | Campo | Valor |
 |-------|-------|
@@ -59,7 +59,7 @@ isVisible(gh, quadrantFilters, techFilter) =
 |-----------|----------|-------|
 | OPORTUNIDADE | #22C55E | Oportunidade |
 | FORTALEZA | #7C3AED | Fortaleza |
-| EXPANSAO | #F97316 | Expansão |
+| EXPANSÃO | #F97316 | Expansão |
 | RISCO | #EF4444 | Risco |
 
 Estado inativo: fundo branco, texto cinza, borda slate-200.

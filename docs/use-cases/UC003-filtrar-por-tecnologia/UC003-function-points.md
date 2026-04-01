@@ -2,7 +2,7 @@
 
 [<- Voltar ao fluxo principal](./UC003-main-flow.md)
 
-## Funções de Transacao
+## Funções de Transação
 
 | ID | Descrição | Tipo | DET | RET | Complexidade | PF |
 |----|-----------|------|-----|-----|--------------|-----|
@@ -14,14 +14,14 @@
 | T06 | Atualizar estilo da aba ativa | SE | 4 | 1 | Simples | 4 |
 | T07 | Aplicar filtro tech no isVisible | EE | 3 | 1 | Simples | 3 |
 
-**Subtotal Transacoes:** 25 PF
+**Subtotal Transações:** 25 PF
 
 ## Resumo
 
 | Categoria | PF |
 |-----------|-----|
 | Dados | 0 (compartilhados com UC001) |
-| Transacoes | 25 |
+| Transações | 25 |
 | **Total UC003** | **25** |
 
 > PF efetivo no INDEX: 10.

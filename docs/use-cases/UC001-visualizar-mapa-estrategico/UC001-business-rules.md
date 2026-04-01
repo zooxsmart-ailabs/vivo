@@ -13,24 +13,24 @@
 | **Passos** | Passo 8 |
 
 **Descrição :**
-O quadrante de cada geohash e derivado do cruzamento de duas variáveis:
+O quadrante de cada geohash é derivado do cruzamento de duas variáveis:
 - **Eixo X**: Share de Mercado Vivo (calculado com dados reais FTTH + ERB — RN001-07)
 - **Eixo Y**: Satisfação do usuário Vivo (Score QoE SpeedTest 0-10)
 
 **Quadrantes (Levantamento v2 — ZooxMap_Indicadores_Unificado_v2.pdf sec.5):**
 
-| Condição | Quadrante | Cor | Significado | Ação Primaria |
+| Condição | Quadrante | Cor | Significado | Ação Primária |
 |----------|-----------|-----|-------------|---------------|
 | share >= 35% AND qoe >= 7.01 | **UPSELL** | #7C3AED (roxo) | Base consolidada e satisfeita | Maximizar receita com upgrades |
 | share < 35% AND qoe >= 7.01 | **GROWTH** | #158030 (verde) | Janela de ataque técnico | Geração de leads e captação |
 | share >= 35% AND qoe < 5.0 | **RETENCAO** | #DC2626 (vermelho) | Risco iminente de churn | Blindagem e atendimento proativo |
-| Todos os demais casos | **GROWTH_RETENCAO** | #D97706 (ambar) | Perfil misto — crescimento + risco | Ações combinadas de captação e retenção |
+| Todos os demais casos | **GROWTH_RETENCAO** | #D97706 (âmbar) | Perfil misto — crescimento + risco | Ações combinadas de captação e retenção |
 
-**Lógica da zona intermediaria (QoE 5.0-7.01):**
-Geohashes com satisfação media (QoE entre 5.0 e 7.01), independente do share, sao classificados
+**Lógica da zona intermediária (QoE 5.0-7.01):**
+Geohashes com satisfação média (QoE entre 5.0 e 7.01), independente do share, são classificados
 como GROWTH_RETENCAO. Idem para share baixo (<35%) + QoE baixa (<5.0).
 
-**Thresholds (configuraveis via `benchmark_config`):**
+**Thresholds (configuráveis via `benchmark_config`):**
 
 | Chave | Valor | Descrição |
 |-------|-------|-----------|
@@ -39,11 +39,11 @@ como GROWTH_RETENCAO. Idem para share baixo (<35%) + QoE baixa (<5.0).
 | qoeThresholdBaixo | 5.0 | Score QoE (0-10): < 5.0 = satisfação baixa |
 
 > Nota técnica: Score QoE 0-10 derivado de `vl_cntv_scre / 10` (tabela score).
-> Equivalencia SpeedTest 0-1000: 7.01 = 701 | 5.0 = 500.
+> Equivalência SpeedTest 0-1000: 7.01 = 701 | 5.0 = 500.
 
 ---
 
-## RN001-02 — Cores dos Poligonos
+## RN001-02 — Cores dos Polígonos
 
 | Campo | Valor |
 |-------|-------|
@@ -52,14 +52,14 @@ como GROWTH_RETENCAO. Idem para share baixo (<35%) + QoE baixa (<5.0).
 | **Passos** | Passo 8 |
 
 **Descrição :**
-Poligonos sao SEMPRE coloridos pelo quadrante estratégico, independente do filtro de tecnologia ativo.
+Polígonos são SEMPRE coloridos pelo quadrante estratégico, independente do filtro de tecnologia ativo.
 
 | Quadrante | Cor Fill | Cor Label |
 |-----------|----------|-----------|
 | UPSELL | #7C3AED (Roxo) | Roxo |
 | GROWTH | #158030 (Verde) | Verde |
 | RETENCAO | #DC2626 (Vermelho) | Vermelho |
-| GROWTH_RETENCAO | #D97706 (Ambar) | Ambar |
+| GROWTH_RETENCAO | #D97706 (Âmbar) | Âmbar |
 
 | Propriedade | Valor Default | Hover | Pinned |
 |-------------|---------------|-------|--------|
@@ -70,7 +70,7 @@ Poligonos sao SEMPRE coloridos pelo quadrante estratégico, independente do filt
 
 ---
 
-## RN001-03 — Precisao do Geohash por Nivel de Zoom
+## RN001-03 — Precisão do Geohash por Nível de Zoom
 
 | Campo | Valor |
 |-------|-------|
@@ -79,9 +79,9 @@ Poligonos sao SEMPRE coloridos pelo quadrante estratégico, independente do filt
 | **Passos** | Passo 3, 4 |
 
 **Descrição :**
-Precisoes suportadas (com continuous aggregates e dados operacionais):
+Precisões suportadas (com continuous aggregates e dados operacionais):
 
-| Zoom Google Maps | Precisao | Tamanho Célula | Fonte Share | Fonte QoE |
+| Zoom Google Maps | Precisão | Tamanho Célula | Fonte Share | Fonte QoE |
 |---|---|---|---|---|
 | 11-13 | 6 | ~1.2km x 0.6km | FTTH/ERB agrupados por geohash6 | cagg_*_gh6 |
 | 14-15 | 7 | ~153m x 153m | FTTH/ERB agrupados por geohash7 | cagg_*_gh7 |
@@ -99,7 +99,7 @@ Zoom fora dessas faixas: clamp para 6 (zoom <= 13) ou 7 (zoom >= 14).
 | **Passos** | Passo 10 |
 
 **Descrição :**
-- **Visiveis**: geohashes que passam nos filtros (quadrante + tecnologia)
+- **Visíveis**: geohashes que passam nos filtros (quadrante + tecnologia)
 - **Total**: geohashes no viewport/período
 - **Em risco**: geohashes no quadrante **RETENCAO** (badge vermelho pulsante)
 - **Top 10**: geohashes marcados como prioridade máxima dentro do quadrante (flag `is_top10`)
@@ -115,7 +115,7 @@ Zoom fora dessas faixas: clamp para 6 (zoom <= 13) ou 7 (zoom >= 14).
 | **Passos** | Passo 7 |
 
 **Descrição :**
-Estilo analitico minimalista: geometria cinza claro, estradas brancas, POIs ocultos.
+Estilo analítico minimalista: geometria cinza claro, estradas brancas, POIs ocultos.
 
 ---
 
@@ -160,7 +160,7 @@ Benchmarks carregados de `benchmark_config` (Levantamento v2):
 **Descrição :**
 Share calculado com dados operacionais reais da Vivo (Levantamento v2 sec.1):
 
-**FIBRA**: `Domicilios com Vivo Fibra Ativa / Total de Domicilios no Geohash x 100`
+**FIBRA**: `Domicílios com Vivo Fibra Ativa / Total de Domicílios no Geohash x 100`
 - Numerador: COUNT de `vivo_ftth_coverage` por geohash
 - Denominador: SUM de `geo_por_latlong.total_de_domicilios_media` no geohash
 
@@ -170,14 +170,14 @@ Share calculado com dados operacionais reais da Vivo (Levantamento v2 sec.1):
 
 **Share combinado**: GREATEST(share_fibra, share_movel)
 
-**Niveis de share (Levantamento v2 sec.1 — 4 niveis com cores):**
+**Níveis de share (Levantamento v2 sec.1 — 4 níveis com cores):**
 
-| Nivel | Threshold | Cor Plataforma | Descrição |
+| Nível | Threshold | Cor Plataforma | Descrição |
 |-------|-----------|----------------|-----------|
-| Muito Alta | > 50% | Roxo Escuro | Lideranca absoluta, operadora dominante |
-| Alta | 40-50% | Roxo | Forte presenca, base consolidada |
-| Media | 30-39% | Cinza/Roxo claro | Presenca competitiva, espaco para crescer |
-| Baixa | < 30% | Verde | Presenca fraca, mercado aberto |
+| Muito Alta | > 50% | Roxo Escuro | Liderança absoluta, operadora dominante |
+| Alta | 40-50% | Roxo | Forte presença, base consolidada |
+| Média | 30-39% | Cinza/Roxo claro | Presença competitiva, espaço para crescer |
+| Baixa | < 30% | Verde | Presença fraca, mercado aberto |
 
 ---
 
@@ -190,7 +190,7 @@ Share calculado com dados operacionais reais da Vivo (Levantamento v2 sec.1):
 | **Passos** | Passo 8 |
 
 **Descrição :**
-A tecnologia do geohash e derivada da presenca de dados operacionais Vivo:
+A tecnologia do geohash é derivada da presença de dados operacionais Vivo:
 
 | Condição | Tecnologia | Cor |
 |----------|-----------|-----|

@@ -4,14 +4,14 @@
 
 ---
 
-## FA01 — Nenhum Geohash Visivel {#fa01}
+## FA01 — Nenhum Geohash Visível {#fa01}
 
-**Condição de Desvio:** No passo 3, a combinação de filtros (quadrante + tecnologia) resulta em 0 geohashes visiveis.
+**Condição de Desvio:** No passo 3, a combinação de filtros (quadrante + tecnologia) resulta em 0 geohashes visíveis.
 
 | Passo | Ator | Ação / Resposta do Sistema |
 |-------|------|----------------------------|
-| 1 | Sistema | Oculta todos os poligonos |
-| 2 | Sistema | Contadores mostram "0/Y visiveis" |
+| 1 | Sistema | Oculta todos os polígonos |
+| 2 | Sistema | Contadores mostram "0/Y visíveis" |
 | 3 | Sistema | Card lateral mostra: "Nenhum geohash corresponde aos filtros selecionados" |
 | 4 | Analista | Ajusta filtros de quadrante (UC002) ou tecnologia |
 
