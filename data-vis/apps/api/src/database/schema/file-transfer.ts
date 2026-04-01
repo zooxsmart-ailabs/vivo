@@ -11,6 +11,7 @@ import {
   timestamp,
   date,
 } from "drizzle-orm/pg-core";
+import { inet, inetArray } from "./_custom-types";
 
 export const fileTransfer = pgTable("file_transfer", {
   // Timestamps & Identifiers
@@ -166,11 +167,11 @@ export const fileTransfer = pgTable("file_transfer", {
   valBytesSent: bigint("val_bytes_sent", { mode: "number" }),
 
   // IP / Server
-  attrPrivateIpAddress: text("attr_private_ip_address"),
-  attrNetworkIpv4Address: text("attr_network_ipv4_address"),
-  attrNetworkIpv6Address: text("attr_network_ipv6_address"),
+  attrPrivateIpAddress: inetArray("attr_private_ip_address"),
+  attrNetworkIpv4Address: inet("attr_network_ipv4_address"),
+  attrNetworkIpv6Address: inet("attr_network_ipv6_address"),
   attrDataSourceVersion: varchar("attr_data_source_version", { length: 20 }),
-  attrServerIpv4Address: text("attr_server_ipv4_address"),
+  attrServerIpv4Address: inet("attr_server_ipv4_address"),
   attrServerName: varchar("attr_server_name", { length: 100 }),
 
   // Signal (LTE)

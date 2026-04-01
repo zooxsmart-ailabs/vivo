@@ -1,5 +1,6 @@
 x-om-image: &om-image docker.getcollate.io/openmetadata/server:${OM_VERSION:-1.12.3}
 
+name: vivo
 services:
   # ===========================================================================
   # DEFAULT PROFILE — Main Application Database

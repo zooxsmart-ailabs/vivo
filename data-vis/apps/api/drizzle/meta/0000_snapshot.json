@@ -1,0 +1,2896 @@
+{
+  "id": "1ebee7ab-b371-450a-a8d8-1aa424c2075a",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.file_transfer": {
+      "name": "file_transfer",
+      "schema": "",
+      "columns": {
+        "ts_result": {
+          "name": "ts_result",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ts_result_received": {
+          "name": "ts_result_received",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_platform": {
+          "name": "id_platform",
+          "type": "varchar(7)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_device": {
+          "name": "id_device",
+          "type": "varchar(35)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "guid_result": {
+          "name": "guid_result",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_timezone": {
+          "name": "attr_location_timezone",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "has_ul_test_status": {
+          "name": "has_ul_test_status",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_ul_throughput": {
+          "name": "val_ul_throughput",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_ul_file_size": {
+          "name": "val_ul_file_size",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "has_dl_test_status": {
+          "name": "has_dl_test_status",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_dl_throughput": {
+          "name": "val_dl_throughput",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_dl_file_size": {
+          "name": "val_dl_file_size",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "has_latency_test_status": {
+          "name": "has_latency_test_status",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_latency_avg": {
+          "name": "val_latency_avg",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_device_model_raw": {
+          "name": "attr_device_model_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_device_model": {
+          "name": "attr_device_model",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_device_brand_raw": {
+          "name": "attr_device_brand_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_device_os_version": {
+          "name": "attr_device_os_version",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_device_sim_slot": {
+          "name": "id_device_sim_slot",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "num_device_sim_slots": {
+          "name": "num_device_sim_slots",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_device_battery_state": {
+          "name": "attr_device_battery_state",
+          "type": "varchar(2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_battery_temperature": {
+          "name": "val_device_battery_temperature",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_cpu_usage": {
+          "name": "val_device_cpu_usage",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_ram": {
+          "name": "val_device_ram",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_free_ram": {
+          "name": "val_device_free_ram",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_maximum_storage": {
+          "name": "val_device_maximum_storage",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_free_storage": {
+          "name": "val_device_free_storage",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_device_5g_capable": {
+          "name": "is_device_5g_capable",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_sim_operator_common_name": {
+          "name": "attr_sim_operator_common_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_sim_operator_mcc": {
+          "name": "attr_sim_operator_mcc",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_sim_operator_mnc": {
+          "name": "attr_sim_operator_mnc",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_operator_mcc": {
+          "name": "attr_network_operator_mcc",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_operator_mnc": {
+          "name": "attr_network_operator_mnc",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_sim_operator_name_raw": {
+          "name": "attr_sim_operator_name_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_altsim_operator_mcc": {
+          "name": "attr_altsim_operator_mcc",
+          "type": "varchar(3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_altsim_operator_mnc": {
+          "name": "attr_altsim_operator_mnc",
+          "type": "varchar(3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_altsim_operator_name_raw": {
+          "name": "attr_altsim_operator_name_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_operator_name_raw": {
+          "name": "attr_network_operator_name_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_isp_name": {
+          "name": "attr_network_isp_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_asn": {
+          "name": "attr_network_asn",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_tech_name": {
+          "name": "attr_connection_tech_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_standard_name": {
+          "name": "attr_connection_standard_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_family_name": {
+          "name": "attr_connection_family_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_family_name_first_hop": {
+          "name": "attr_connection_family_name_first_hop",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_generation_name": {
+          "name": "attr_connection_generation_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_downstream_bandwidth_kbps": {
+          "name": "attr_connection_downstream_bandwidth_kbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_upstream_bandwidth_kbps": {
+          "name": "attr_connection_upstream_bandwidth_kbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_vops_support": {
+          "name": "attr_vops_support",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_connection_carrier_aggregation": {
+          "name": "is_connection_carrier_aggregation",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_nr_state": {
+          "name": "attr_connection_nr_state",
+          "type": "varchar(1)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_connection_network_override_type": {
+          "name": "id_connection_network_override_type",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_operator_name": {
+          "name": "attr_network_operator_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_dl_access_tech_end": {
+          "name": "attr_dl_access_tech_end",
+          "type": "varchar(14)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_dl_access_tech_num_changes": {
+          "name": "val_dl_access_tech_num_changes",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_dl_access_tech_start": {
+          "name": "attr_dl_access_tech_start",
+          "type": "varchar(14)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_dl_first_byte_time": {
+          "name": "val_dl_first_byte_time",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_ul_access_tech_end": {
+          "name": "attr_ul_access_tech_end",
+          "type": "varchar(14)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_ul_access_tech_num_changes": {
+          "name": "val_ul_access_tech_num_changes",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_ul_access_tech_start": {
+          "name": "attr_ul_access_tech_start",
+          "type": "varchar(14)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_ul_first_byte_time": {
+          "name": "val_ul_first_byte_time",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_dns_lookup_time": {
+          "name": "val_dns_lookup_time",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_tcp_connect_time": {
+          "name": "val_tcp_connect_time",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_tls_setup_time": {
+          "name": "val_tls_setup_time",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_endpoint_type": {
+          "name": "attr_endpoint_type",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_network_roaming": {
+          "name": "is_network_roaming",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_network_vpn": {
+          "name": "is_network_vpn",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_latitude": {
+          "name": "attr_location_latitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_longitude": {
+          "name": "attr_location_longitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_accuracy_m": {
+          "name": "attr_location_accuracy_m",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_age_ms": {
+          "name": "attr_location_age_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_speed_mps": {
+          "name": "attr_location_speed_mps",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_speed_accuracy_mps": {
+          "name": "attr_location_speed_accuracy_mps",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_formatted_address": {
+          "name": "attr_place_formatted_address",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_name": {
+          "name": "attr_place_name",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_locality_type": {
+          "name": "attr_place_locality_type",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_country": {
+          "name": "attr_place_country",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_country_code": {
+          "name": "attr_place_country_code",
+          "type": "varchar(2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_region": {
+          "name": "attr_place_region",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_subregion": {
+          "name": "attr_place_subregion",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_subsubregion": {
+          "name": "attr_place_subsubregion",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_postal_code": {
+          "name": "attr_place_postal_code",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_geohash6": {
+          "name": "attr_geohash6",
+          "type": "varchar(6)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_geohash7": {
+          "name": "attr_geohash7",
+          "type": "varchar(7)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_geohash8": {
+          "name": "attr_geohash8",
+          "type": "varchar(8)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_altitude_m": {
+          "name": "attr_location_altitude_m",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_vertical_accuracy_m": {
+          "name": "attr_location_vertical_accuracy_m",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_location_type": {
+          "name": "id_location_type",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_bytes_received": {
+          "name": "val_bytes_received",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_bytes_sent": {
+          "name": "val_bytes_sent",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_private_ip_address": {
+          "name": "attr_private_ip_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_ipv4_address": {
+          "name": "attr_network_ipv4_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_ipv6_address": {
+          "name": "attr_network_ipv6_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_data_source_version": {
+          "name": "attr_data_source_version",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_server_ipv4_address": {
+          "name": "attr_server_ipv4_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_server_name": {
+          "name": "attr_server_name",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_cqi": {
+          "name": "val_signal_cqi",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_rsrp_dbm": {
+          "name": "val_signal_rsrp_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_rsrq_db": {
+          "name": "val_signal_rsrq_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_rsrp_dbm2": {
+          "name": "val_signal_rsrp_dbm2",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_rssnr_db": {
+          "name": "val_signal_rssnr_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_timing_advance_ts": {
+          "name": "val_signal_timing_advance_ts",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_csi_snr_db": {
+          "name": "val_signal_csi_snr_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_csi_rsrp_dbm": {
+          "name": "val_signal_csi_rsrp_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_csi_rsrq_db": {
+          "name": "val_signal_csi_rsrq_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_ss_snr_db": {
+          "name": "val_signal_ss_snr_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_ss_rsrp_dbm": {
+          "name": "val_signal_ss_rsrp_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_ss_rsrq_db": {
+          "name": "val_signal_ss_rsrq_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_bandwidths_khz": {
+          "name": "attr_cell_bandwidths_khz",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_cell_primary": {
+          "name": "id_cell_primary",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_arfcn": {
+          "name": "attr_cell_arfcn",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_pci": {
+          "name": "attr_cell_pci",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_lac": {
+          "name": "attr_cell_lac",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_tac": {
+          "name": "attr_cell_tac",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_cell_nr_available": {
+          "name": "is_cell_nr_available",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_nr_frequency_range": {
+          "name": "attr_cell_nr_frequency_range",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_cell_lte_enodeb": {
+          "name": "id_cell_lte_enodeb",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_bands": {
+          "name": "attr_cell_bands",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_frequency_channel": {
+          "name": "attr_cell_frequency_channel",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_frequency_channel_type": {
+          "name": "attr_cell_frequency_channel_type",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_frequency_mhz": {
+          "name": "attr_wifi_frequency_mhz",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_channel_width_mhz": {
+          "name": "attr_wifi_channel_width_mhz",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_standard": {
+          "name": "attr_wifi_standard",
+          "type": "varchar(25)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_wifi_standard": {
+          "name": "id_wifi_standard",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_rssi_dbm": {
+          "name": "attr_wifi_rssi_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_max_supported_rx_link_speed_mbps": {
+          "name": "attr_wifi_max_supported_rx_link_speed_mbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_max_supported_tx_link_speed_mbps": {
+          "name": "attr_wifi_max_supported_tx_link_speed_mbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_rx_link_speed_mbps": {
+          "name": "attr_wifi_rx_link_speed_mbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_tx_link_speed_mbps": {
+          "name": "attr_wifi_tx_link_speed_mbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_wifi_connected": {
+          "name": "is_wifi_connected",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_location_building": {
+          "name": "id_location_building",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_indoor_confidence_level": {
+          "name": "val_indoor_confidence_level",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dt_foto": {
+          "name": "dt_foto",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.video": {
+      "name": "video",
+      "schema": "",
+      "columns": {
+        "ts_result": {
+          "name": "ts_result",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ts_result_received": {
+          "name": "ts_result_received",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_platform": {
+          "name": "id_platform",
+          "type": "varchar(7)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_device": {
+          "name": "id_device",
+          "type": "varchar(35)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "guid_result": {
+          "name": "guid_result",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_timezone": {
+          "name": "attr_location_timezone",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_video_time_to_start": {
+          "name": "val_video_time_to_start",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_video_initial_buffering_time": {
+          "name": "attr_video_initial_buffering_time",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_video_rebuffering_count": {
+          "name": "attr_video_rebuffering_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_video_rebuffering_time": {
+          "name": "val_video_rebuffering_time",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_video_fails_to_start": {
+          "name": "is_video_fails_to_start",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_video_quality_time_144p": {
+          "name": "val_video_quality_time_144p",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_video_quality_time_240p": {
+          "name": "val_video_quality_time_240p",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_video_quality_time_360p": {
+          "name": "val_video_quality_time_360p",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_video_quality_time_480p": {
+          "name": "val_video_quality_time_480p",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_video_quality_time_720p": {
+          "name": "val_video_quality_time_720p",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_video_quality_time_1080p": {
+          "name": "val_video_quality_time_1080p",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_video_quality_time_1440p": {
+          "name": "val_video_quality_time_1440p",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_video_quality_time_2160p": {
+          "name": "val_video_quality_time_2160p",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_video_resolution": {
+          "name": "attr_video_resolution",
+          "type": "varchar(5)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_video_resolution_switch_happened": {
+          "name": "is_video_resolution_switch_happened",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_video_in_stream_failure": {
+          "name": "is_video_in_stream_failure",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_device_model_raw": {
+          "name": "attr_device_model_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_device_brand_raw": {
+          "name": "attr_device_brand_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_device_os_version": {
+          "name": "attr_device_os_version",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_device_sim_slot": {
+          "name": "id_device_sim_slot",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "num_device_sim_slots": {
+          "name": "num_device_sim_slots",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_device_battery_state": {
+          "name": "attr_device_battery_state",
+          "type": "varchar(1)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_battery_temperature": {
+          "name": "val_device_battery_temperature",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_cpu_usage": {
+          "name": "val_device_cpu_usage",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_ram": {
+          "name": "val_device_ram",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_free_ram": {
+          "name": "val_device_free_ram",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_maximum_storage": {
+          "name": "val_device_maximum_storage",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_free_storage": {
+          "name": "val_device_free_storage",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_device_5g_capable": {
+          "name": "is_device_5g_capable",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_sim_operator_common_name": {
+          "name": "attr_sim_operator_common_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_sim_operator_mcc": {
+          "name": "attr_sim_operator_mcc",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_sim_operator_mnc": {
+          "name": "attr_sim_operator_mnc",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_operator_mcc": {
+          "name": "attr_network_operator_mcc",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_operator_mnc": {
+          "name": "attr_network_operator_mnc",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_sim_operator_name_raw": {
+          "name": "attr_sim_operator_name_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_altsim_operator_mcc": {
+          "name": "attr_altsim_operator_mcc",
+          "type": "varchar(3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_altsim_operator_mnc": {
+          "name": "attr_altsim_operator_mnc",
+          "type": "varchar(3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_altsim_operator_name_raw": {
+          "name": "attr_altsim_operator_name_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_operator_name_raw": {
+          "name": "attr_network_operator_name_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_isp_name": {
+          "name": "attr_network_isp_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_asn": {
+          "name": "attr_network_asn",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_tech_name": {
+          "name": "attr_connection_tech_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_downstream_bandwidth_kbps": {
+          "name": "attr_connection_downstream_bandwidth_kbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_upstream_bandwidth_kbps": {
+          "name": "attr_connection_upstream_bandwidth_kbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_vops_support": {
+          "name": "attr_vops_support",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_connection_carrier_aggregation": {
+          "name": "is_connection_carrier_aggregation",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_nr_state": {
+          "name": "attr_connection_nr_state",
+          "type": "varchar(1)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_connection_network_override_type": {
+          "name": "id_connection_network_override_type",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_operator_name": {
+          "name": "attr_network_operator_name",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_network_roaming": {
+          "name": "is_network_roaming",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_access_tech_end": {
+          "name": "attr_access_tech_end",
+          "type": "varchar(14)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "num_access_tech_num_changes": {
+          "name": "num_access_tech_num_changes",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_access_tech_start": {
+          "name": "attr_access_tech_start",
+          "type": "varchar(14)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_network_vpn": {
+          "name": "is_network_vpn",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_latitude": {
+          "name": "attr_location_latitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_longitude": {
+          "name": "attr_location_longitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_accuracy_m": {
+          "name": "attr_location_accuracy_m",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_age_ms": {
+          "name": "attr_location_age_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_altitude_m": {
+          "name": "attr_location_altitude_m",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_speed_mps": {
+          "name": "attr_location_speed_mps",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_speed_accuracy_mps": {
+          "name": "attr_location_speed_accuracy_mps",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_formatted_address": {
+          "name": "attr_place_formatted_address",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_name": {
+          "name": "attr_place_name",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_locality_type": {
+          "name": "attr_place_locality_type",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_country": {
+          "name": "attr_place_country",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_country_code": {
+          "name": "attr_place_country_code",
+          "type": "varchar(2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_region": {
+          "name": "attr_place_region",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_subregion": {
+          "name": "attr_place_subregion",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_subsubregion": {
+          "name": "attr_place_subsubregion",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_postal_code": {
+          "name": "attr_place_postal_code",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_geohash6": {
+          "name": "attr_geohash6",
+          "type": "varchar(6)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_geohash7": {
+          "name": "attr_geohash7",
+          "type": "varchar(7)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_geohash8": {
+          "name": "attr_geohash8",
+          "type": "varchar(8)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_vertical_accuracy_m": {
+          "name": "attr_location_vertical_accuracy_m",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_location_type": {
+          "name": "id_location_type",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_private_ip_address": {
+          "name": "attr_private_ip_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_ipv6_address": {
+          "name": "attr_network_ipv6_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_data_source_version": {
+          "name": "attr_data_source_version",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_server_ipv4_address": {
+          "name": "attr_server_ipv4_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_gateway_ip_address": {
+          "name": "attr_gateway_ip_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_cqi": {
+          "name": "val_signal_cqi",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_rsrp_dbm": {
+          "name": "val_signal_rsrp_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_rsrq_db": {
+          "name": "val_signal_rsrq_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_rsrp_dbm2": {
+          "name": "val_signal_rsrp_dbm2",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_rssnr_db": {
+          "name": "val_signal_rssnr_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_timing_advance_ts": {
+          "name": "val_signal_timing_advance_ts",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_csi_snr_db": {
+          "name": "val_signal_csi_snr_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_csi_rsrp_dbm": {
+          "name": "val_signal_csi_rsrp_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_csi_rsrq_db": {
+          "name": "val_signal_csi_rsrq_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_ss_snr_dbm": {
+          "name": "val_signal_ss_snr_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_ss_rsrp_dbm": {
+          "name": "val_signal_ss_rsrp_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_ss_rsrq_db": {
+          "name": "val_signal_ss_rsrq_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_bandwidths_khz": {
+          "name": "attr_cell_bandwidths_khz",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_cell_primary": {
+          "name": "id_cell_primary",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_pci": {
+          "name": "attr_cell_pci",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_lac": {
+          "name": "attr_cell_lac",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_tac": {
+          "name": "attr_cell_tac",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_cell_service_dcnr_restricted": {
+          "name": "is_cell_service_dcnr_restricted",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_cell_service_endc_available": {
+          "name": "is_cell_service_endc_available",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_cell_nr_available": {
+          "name": "is_cell_nr_available",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_nr_frequency_range": {
+          "name": "attr_cell_nr_frequency_range",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_bands": {
+          "name": "attr_cell_bands",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_frequency_channel": {
+          "name": "attr_cell_frequency_channel",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_frequency_channel_type": {
+          "name": "attr_cell_frequency_channel_type",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_frequency_mhz": {
+          "name": "attr_wifi_frequency_mhz",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_channel_width_id": {
+          "name": "attr_wifi_channel_width_id",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_standard": {
+          "name": "attr_wifi_standard",
+          "type": "varchar(25)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_wifi_standard": {
+          "name": "id_wifi_standard",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_rssi_dbm": {
+          "name": "attr_wifi_rssi_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_max_supported_rx_link_speed_mbps": {
+          "name": "attr_wifi_max_supported_rx_link_speed_mbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_max_supported_tx_link_speed_mbps": {
+          "name": "attr_wifi_max_supported_tx_link_speed_mbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_rx_link_speed_mbps": {
+          "name": "attr_wifi_rx_link_speed_mbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_tx_link_speed_mbps": {
+          "name": "attr_wifi_tx_link_speed_mbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_wifi_connected": {
+          "name": "is_wifi_connected",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_location_building": {
+          "name": "id_location_building",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_indoor_confidence_level": {
+          "name": "val_indoor_confidence_level",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dt_foto": {
+          "name": "dt_foto",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.web_browsing": {
+      "name": "web_browsing",
+      "schema": "",
+      "columns": {
+        "ts_result": {
+          "name": "ts_result",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ts_result_received": {
+          "name": "ts_result_received",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_platform": {
+          "name": "id_platform",
+          "type": "varchar(7)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_device": {
+          "name": "id_device",
+          "type": "varchar(35)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "guid_result": {
+          "name": "guid_result",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_timezone": {
+          "name": "attr_location_timezone",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_web_page_load_time": {
+          "name": "val_web_page_load_time",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_web_page_first_byte_time": {
+          "name": "val_web_page_first_byte_time",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_web_page_fails_to_load": {
+          "name": "is_web_page_fails_to_load",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_web_page_url": {
+          "name": "attr_web_page_url",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_bands": {
+          "name": "attr_cell_bands",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_device_model_raw": {
+          "name": "attr_device_model_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_device_brand_raw": {
+          "name": "attr_device_brand_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_device_os_version": {
+          "name": "attr_device_os_version",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_device_sim_slot": {
+          "name": "id_device_sim_slot",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "num_device_sim_slots": {
+          "name": "num_device_sim_slots",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_device_battery_state": {
+          "name": "attr_device_battery_state",
+          "type": "varchar(1)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_battery_temperature": {
+          "name": "val_device_battery_temperature",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_cpu_usage": {
+          "name": "val_device_cpu_usage",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_ram": {
+          "name": "val_device_ram",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_free_ram": {
+          "name": "val_device_free_ram",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_maximum_storage": {
+          "name": "val_device_maximum_storage",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_free_storage": {
+          "name": "val_device_free_storage",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_device_5g_capable": {
+          "name": "is_device_5g_capable",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_sim_operator_common_name": {
+          "name": "attr_sim_operator_common_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_sim_operator_mcc": {
+          "name": "attr_sim_operator_mcc",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_sim_operator_mnc": {
+          "name": "attr_sim_operator_mnc",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_operator_mcc": {
+          "name": "attr_network_operator_mcc",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_operator_mnc": {
+          "name": "attr_network_operator_mnc",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_sim_operator_name_raw": {
+          "name": "attr_sim_operator_name_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_altsim_operator_mcc": {
+          "name": "attr_altsim_operator_mcc",
+          "type": "varchar(3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_altsim_operator_mnc": {
+          "name": "attr_altsim_operator_mnc",
+          "type": "varchar(3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_altsim_operator_name_raw": {
+          "name": "attr_altsim_operator_name_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_operator_name_raw": {
+          "name": "attr_network_operator_name_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_isp_name": {
+          "name": "attr_network_isp_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_asn": {
+          "name": "attr_network_asn",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_tech_name": {
+          "name": "attr_connection_tech_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_downstream_bandwidth_kbps": {
+          "name": "attr_connection_downstream_bandwidth_kbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_upstream_bandwidth_kbps": {
+          "name": "attr_connection_upstream_bandwidth_kbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_vops_support": {
+          "name": "attr_vops_support",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_connection_carrier_aggregation": {
+          "name": "is_connection_carrier_aggregation",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_nr_state": {
+          "name": "attr_connection_nr_state",
+          "type": "varchar(1)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_connection_network_override_type": {
+          "name": "id_connection_network_override_type",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_operator_name": {
+          "name": "attr_network_operator_name",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_network_roaming": {
+          "name": "is_network_roaming",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_access_tech_end": {
+          "name": "attr_access_tech_end",
+          "type": "varchar(14)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "num_access_tech_num_changes": {
+          "name": "num_access_tech_num_changes",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_access_tech_start": {
+          "name": "attr_access_tech_start",
+          "type": "varchar(14)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_network_vpn": {
+          "name": "is_network_vpn",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_latitude": {
+          "name": "attr_location_latitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_longitude": {
+          "name": "attr_location_longitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_accuracy_m": {
+          "name": "attr_location_accuracy_m",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_age_ms": {
+          "name": "attr_location_age_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_altitude_m": {
+          "name": "attr_location_altitude_m",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_speed_mps": {
+          "name": "attr_location_speed_mps",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_speed_accuracy_mps": {
+          "name": "attr_location_speed_accuracy_mps",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_formatted_address": {
+          "name": "attr_place_formatted_address",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_name": {
+          "name": "attr_place_name",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_locality_type": {
+          "name": "attr_place_locality_type",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_country": {
+          "name": "attr_place_country",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_country_code": {
+          "name": "attr_place_country_code",
+          "type": "varchar(2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_region": {
+          "name": "attr_place_region",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_subregion": {
+          "name": "attr_place_subregion",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_subsubregion": {
+          "name": "attr_place_subsubregion",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_postal_code": {
+          "name": "attr_place_postal_code",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_geohash6": {
+          "name": "attr_geohash6",
+          "type": "varchar(6)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_geohash7": {
+          "name": "attr_geohash7",
+          "type": "varchar(7)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_geohash8": {
+          "name": "attr_geohash8",
+          "type": "varchar(8)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_vertical_accuracy_m": {
+          "name": "attr_location_vertical_accuracy_m",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_location_type": {
+          "name": "id_location_type",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_private_ip_address": {
+          "name": "attr_private_ip_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_ipv4_address": {
+          "name": "attr_network_ipv4_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_ipv6_address": {
+          "name": "attr_network_ipv6_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_data_source_version": {
+          "name": "attr_data_source_version",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_cqi": {
+          "name": "val_signal_cqi",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_rsrp_dbm": {
+          "name": "val_signal_rsrp_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_rsrq_db": {
+          "name": "val_signal_rsrq_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_rsrp_dbm2": {
+          "name": "val_signal_rsrp_dbm2",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_rssnr_db": {
+          "name": "val_signal_rssnr_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_timing_advance_ts": {
+          "name": "val_signal_timing_advance_ts",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_csi_snr_db": {
+          "name": "val_signal_csi_snr_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_csi_rsrq_db": {
+          "name": "val_signal_csi_rsrq_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_csi_rsrp_dbm": {
+          "name": "val_signal_csi_rsrp_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_ss_snr_dbm": {
+          "name": "val_signal_ss_snr_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_ss_rsrp_dbm": {
+          "name": "val_signal_ss_rsrp_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_ss_rsrq_db": {
+          "name": "val_signal_ss_rsrq_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_bandwidths_khz": {
+          "name": "attr_cell_bandwidths_khz",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_cell_primary": {
+          "name": "id_cell_primary",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_pci": {
+          "name": "attr_cell_pci",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_lac": {
+          "name": "attr_cell_lac",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_tac": {
+          "name": "attr_cell_tac",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_dc_nr_restricted": {
+          "name": "is_dc_nr_restricted",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_en_dc_available": {
+          "name": "is_en_dc_available",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_cell_nr_available": {
+          "name": "is_cell_nr_available",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_nr_frequency_range": {
+          "name": "attr_cell_nr_frequency_range",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_frequency_channel": {
+          "name": "attr_cell_frequency_channel",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_frequency_channel_type": {
+          "name": "attr_cell_frequency_channel_type",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_technology_standard_name": {
+          "name": "attr_cell_technology_standard_name",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_frequency_mhz": {
+          "name": "attr_wifi_frequency_mhz",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_channel_width_id": {
+          "name": "attr_wifi_channel_width_id",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_standard": {
+          "name": "attr_wifi_standard",
+          "type": "varchar(25)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_wifi_standard": {
+          "name": "id_wifi_standard",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_rssi_dbm": {
+          "name": "attr_wifi_rssi_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_max_supported_rx_link_speed_mbps": {
+          "name": "attr_wifi_max_supported_rx_link_speed_mbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_max_supported_tx_link_speed_mbps": {
+          "name": "attr_wifi_max_supported_tx_link_speed_mbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_rx_link_speed_mbps": {
+          "name": "attr_wifi_rx_link_speed_mbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_tx_link_speed_mbps": {
+          "name": "attr_wifi_tx_link_speed_mbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_wifi_connected": {
+          "name": "is_wifi_connected",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_location_building": {
+          "name": "id_location_building",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_indoor_confidence_level": {
+          "name": "val_indoor_confidence_level",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dt_foto": {
+          "name": "dt_foto",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.score": {
+      "name": "score",
+      "schema": "",
+      "columns": {
+        "nu_ano_mes_rfrn": {
+          "name": "nu_ano_mes_rfrn",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nm_oprd": {
+          "name": "nm_oprd",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cd_geo_hsh7": {
+          "name": "cd_geo_hsh7",
+          "type": "varchar(7)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "vl_vdeo_scre": {
+          "name": "vl_vdeo_scre",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "qt_ltra_vdeo_scre": {
+          "name": "qt_ltra_vdeo_scre",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vl_web_scre": {
+          "name": "vl_web_scre",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "qt_ltra_web_scre": {
+          "name": "qt_ltra_web_scre",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vl_nota_sped_scre": {
+          "name": "vl_nota_sped_scre",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "qt_ltra_sped_scre": {
+          "name": "qt_ltra_sped_scre",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vl_cntv_scre": {
+          "name": "vl_cntv_scre",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "no_arqv_orig": {
+          "name": "no_arqv_orig",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dt_insr_vic": {
+          "name": "dt_insr_vic",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dt_atlz_vic": {
+          "name": "dt_atlz_vic",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nu_cnro": {
+          "name": "nu_cnro",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ds_obs": {
+          "name": "ds_obs",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.geo_por_latlong": {
+      "name": "geo_por_latlong",
+      "schema": "",
+      "columns": {
+        "latitude": {
+          "name": "latitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "longitude": {
+          "name": "longitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "populacao_total_media": {
+          "name": "populacao_total_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "total_de_domicilios_media": {
+          "name": "total_de_domicilios_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "total_trabalhadores_media": {
+          "name": "total_trabalhadores_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "renda_per_capita_media": {
+          "name": "renda_per_capita_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gastos_habitacao_dom_media": {
+          "name": "gastos_habitacao_dom_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gastos_transporte_dom_media": {
+          "name": "gastos_transporte_dom_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gastos_saude_dom_media": {
+          "name": "gastos_saude_dom_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gastos_educacao_dom_media": {
+          "name": "gastos_educacao_dom_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gastos_higiene_e_cuidados_pessoais_dom_media": {
+          "name": "gastos_higiene_e_cuidados_pessoais_dom_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gastos_alimentacao_dom_media": {
+          "name": "gastos_alimentacao_dom_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gastos_telefone_fixo_dom_media": {
+          "name": "gastos_telefone_fixo_dom_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gastos_telefone_celular_dom_media": {
+          "name": "gastos_telefone_celular_dom_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gastos_pacote_3play_dom_media": {
+          "name": "gastos_pacote_3play_dom_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gastos_comunicacao_dom_media": {
+          "name": "gastos_comunicacao_dom_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gastos_recreacao_e_cultura_dom_media": {
+          "name": "gastos_recreacao_e_cultura_dom_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gastos_viagens_dom_media": {
+          "name": "gastos_viagens_dom_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "propensao_seguro_saude_media": {
+          "name": "propensao_seguro_saude_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "propensao_seguro_vida_media": {
+          "name": "propensao_seguro_vida_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "propensao_seguro_residencial_media": {
+          "name": "propensao_seguro_residencial_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.vivo_ftth_coverage": {
+      "name": "vivo_ftth_coverage",
+      "schema": "",
+      "columns": {
+        "cod_geo": {
+          "name": "cod_geo",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "anomes": {
+          "name": "anomes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "produto": {
+          "name": "produto",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tp_produto": {
+          "name": "tp_produto",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "uf": {
+          "name": "uf",
+          "type": "varchar(2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "flg_loc": {
+          "name": "flg_loc",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "x": {
+          "name": "x",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "y": {
+          "name": "y",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "vivo_ftth_coverage_cod_geo_anomes_pk": {
+          "name": "vivo_ftth_coverage_cod_geo_anomes_pk",
+          "columns": [
+            "cod_geo",
+            "anomes"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.vivo_mobile_erb": {
+      "name": "vivo_mobile_erb",
+      "schema": "",
+      "columns": {
+        "erb_casa": {
+          "name": "erb_casa",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "anomes": {
+          "name": "anomes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "qtde_lnha_pos": {
+          "name": "qtde_lnha_pos",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "qtde_lnha_ctrl": {
+          "name": "qtde_lnha_ctrl",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "qtde_lnha_pre": {
+          "name": "qtde_lnha_pre",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "x": {
+          "name": "x",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "y": {
+          "name": "y",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "vivo_mobile_erb_erb_casa_anomes_pk": {
+          "name": "vivo_mobile_erb_erb_casa_anomes_pk",
+          "columns": [
+            "erb_casa",
+            "anomes"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.geohash_cell": {
+      "name": "geohash_cell",
+      "schema": "",
+      "columns": {
+        "geohash_id": {
+          "name": "geohash_id",
+          "type": "varchar(12)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "precision": {
+          "name": "precision",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "center_lat": {
+          "name": "center_lat",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "center_lng": {
+          "name": "center_lng",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "geom": {
+          "name": "geom",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "neighborhood": {
+          "name": "neighborhood",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "city": {
+          "name": "city",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "state": {
+          "name": "state",
+          "type": "varchar(2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.benchmark_config": {
+      "name": "benchmark_config",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "key": {
+          "name": "key",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "scope": {
+          "name": "scope",
+          "type": "benchmark_scope",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "region": {
+          "name": "region",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "value": {
+          "name": "value",
+          "type": "numeric(8, 3)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "period_date": {
+          "name": "period_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.user_session": {
+      "name": "user_session",
+      "schema": "",
+      "columns": {
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar(255)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "state": {
+          "name": "state",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "public.benchmark_scope": {
+      "name": "benchmark_scope",
+      "schema": "public",
+      "values": [
+        "NACIONAL",
+        "ESTADO",
+        "CIDADE"
+      ]
+    },
+    "public.competitive_position": {
+      "name": "competitive_position",
+      "schema": "public",
+      "values": [
+        "LIDER",
+        "COMPETITIVO",
+        "EMPAREDADA",
+        "ABAIXO",
+        "ISOLADA"
+      ]
+    },
+    "public.fibra_class": {
+      "name": "fibra_class",
+      "schema": "public",
+      "values": [
+        "AUMENTO_CAPACIDADE",
+        "EXPANSAO_NOVA_AREA",
+        "SAUDAVEL"
+      ]
+    },
+    "public.movel_class": {
+      "name": "movel_class",
+      "schema": "public",
+      "values": [
+        "MELHORA_QUALIDADE",
+        "SAUDAVEL",
+        "EXPANSAO_COBERTURA"
+      ]
+    },
+    "public.operator_name": {
+      "name": "operator_name",
+      "schema": "public",
+      "values": [
+        "VIVO",
+        "TIM",
+        "CLARO",
+        "OI",
+        "OUTROS"
+      ]
+    },
+    "public.priority_label": {
+      "name": "priority_label",
+      "schema": "public",
+      "values": [
+        "P1_CRITICA",
+        "P2_ALTA",
+        "P3_MEDIA",
+        "P4_BAIXA"
+      ]
+    },
+    "public.quadrant_type": {
+      "name": "quadrant_type",
+      "schema": "public",
+      "values": [
+        "OPORTUNIDADE",
+        "FORTALEZA",
+        "EXPANSAO",
+        "RISCO"
+      ]
+    },
+    "public.quality_label": {
+      "name": "quality_label",
+      "schema": "public",
+      "values": [
+        "EXCELENTE",
+        "BOM",
+        "REGULAR",
+        "RUIM"
+      ]
+    },
+    "public.share_level": {
+      "name": "share_level",
+      "schema": "public",
+      "values": [
+        "MUITO_ALTA",
+        "ALTA",
+        "MEDIA",
+        "BAIXA"
+      ]
+    },
+    "public.tech_category": {
+      "name": "tech_category",
+      "schema": "public",
+      "values": [
+        "FIBRA",
+        "MOVEL",
+        "AMBOS"
+      ]
+    },
+    "public.trend_direction": {
+      "name": "trend_direction",
+      "schema": "public",
+      "values": [
+        "UP",
+        "DOWN",
+        "STABLE"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

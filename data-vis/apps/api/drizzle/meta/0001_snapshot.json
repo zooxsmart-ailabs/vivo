@@ -1,0 +1,4794 @@
+{
+  "id": "6e167089-ecb3-4d00-a940-a9dc44f2c390",
+  "prevId": "1ebee7ab-b371-450a-a8d8-1aa424c2075a",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.file_transfer": {
+      "name": "file_transfer",
+      "schema": "",
+      "columns": {
+        "ts_result": {
+          "name": "ts_result",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ts_result_received": {
+          "name": "ts_result_received",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_platform": {
+          "name": "id_platform",
+          "type": "varchar(7)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_device": {
+          "name": "id_device",
+          "type": "varchar(35)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "guid_result": {
+          "name": "guid_result",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_timezone": {
+          "name": "attr_location_timezone",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "has_ul_test_status": {
+          "name": "has_ul_test_status",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_ul_throughput": {
+          "name": "val_ul_throughput",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_ul_file_size": {
+          "name": "val_ul_file_size",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "has_dl_test_status": {
+          "name": "has_dl_test_status",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_dl_throughput": {
+          "name": "val_dl_throughput",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_dl_file_size": {
+          "name": "val_dl_file_size",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "has_latency_test_status": {
+          "name": "has_latency_test_status",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_latency_avg": {
+          "name": "val_latency_avg",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_device_model_raw": {
+          "name": "attr_device_model_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_device_model": {
+          "name": "attr_device_model",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_device_brand_raw": {
+          "name": "attr_device_brand_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_device_os_version": {
+          "name": "attr_device_os_version",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_device_sim_slot": {
+          "name": "id_device_sim_slot",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "num_device_sim_slots": {
+          "name": "num_device_sim_slots",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_device_battery_state": {
+          "name": "attr_device_battery_state",
+          "type": "varchar(2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_battery_temperature": {
+          "name": "val_device_battery_temperature",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_cpu_usage": {
+          "name": "val_device_cpu_usage",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_ram": {
+          "name": "val_device_ram",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_free_ram": {
+          "name": "val_device_free_ram",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_maximum_storage": {
+          "name": "val_device_maximum_storage",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_free_storage": {
+          "name": "val_device_free_storage",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_device_5g_capable": {
+          "name": "is_device_5g_capable",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_sim_operator_common_name": {
+          "name": "attr_sim_operator_common_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_sim_operator_mcc": {
+          "name": "attr_sim_operator_mcc",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_sim_operator_mnc": {
+          "name": "attr_sim_operator_mnc",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_operator_mcc": {
+          "name": "attr_network_operator_mcc",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_operator_mnc": {
+          "name": "attr_network_operator_mnc",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_sim_operator_name_raw": {
+          "name": "attr_sim_operator_name_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_altsim_operator_mcc": {
+          "name": "attr_altsim_operator_mcc",
+          "type": "varchar(3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_altsim_operator_mnc": {
+          "name": "attr_altsim_operator_mnc",
+          "type": "varchar(3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_altsim_operator_name_raw": {
+          "name": "attr_altsim_operator_name_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_operator_name_raw": {
+          "name": "attr_network_operator_name_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_isp_name": {
+          "name": "attr_network_isp_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_asn": {
+          "name": "attr_network_asn",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_tech_name": {
+          "name": "attr_connection_tech_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_standard_name": {
+          "name": "attr_connection_standard_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_family_name": {
+          "name": "attr_connection_family_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_family_name_first_hop": {
+          "name": "attr_connection_family_name_first_hop",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_generation_name": {
+          "name": "attr_connection_generation_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_downstream_bandwidth_kbps": {
+          "name": "attr_connection_downstream_bandwidth_kbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_upstream_bandwidth_kbps": {
+          "name": "attr_connection_upstream_bandwidth_kbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_vops_support": {
+          "name": "attr_vops_support",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_connection_carrier_aggregation": {
+          "name": "is_connection_carrier_aggregation",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_nr_state": {
+          "name": "attr_connection_nr_state",
+          "type": "varchar(1)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_connection_network_override_type": {
+          "name": "id_connection_network_override_type",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_operator_name": {
+          "name": "attr_network_operator_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_dl_access_tech_end": {
+          "name": "attr_dl_access_tech_end",
+          "type": "varchar(14)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_dl_access_tech_num_changes": {
+          "name": "val_dl_access_tech_num_changes",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_dl_access_tech_start": {
+          "name": "attr_dl_access_tech_start",
+          "type": "varchar(14)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_dl_first_byte_time": {
+          "name": "val_dl_first_byte_time",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_ul_access_tech_end": {
+          "name": "attr_ul_access_tech_end",
+          "type": "varchar(14)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_ul_access_tech_num_changes": {
+          "name": "val_ul_access_tech_num_changes",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_ul_access_tech_start": {
+          "name": "attr_ul_access_tech_start",
+          "type": "varchar(14)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_ul_first_byte_time": {
+          "name": "val_ul_first_byte_time",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_dns_lookup_time": {
+          "name": "val_dns_lookup_time",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_tcp_connect_time": {
+          "name": "val_tcp_connect_time",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_tls_setup_time": {
+          "name": "val_tls_setup_time",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_endpoint_type": {
+          "name": "attr_endpoint_type",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_network_roaming": {
+          "name": "is_network_roaming",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_network_vpn": {
+          "name": "is_network_vpn",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_latitude": {
+          "name": "attr_location_latitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_longitude": {
+          "name": "attr_location_longitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_accuracy_m": {
+          "name": "attr_location_accuracy_m",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_age_ms": {
+          "name": "attr_location_age_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_speed_mps": {
+          "name": "attr_location_speed_mps",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_speed_accuracy_mps": {
+          "name": "attr_location_speed_accuracy_mps",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_formatted_address": {
+          "name": "attr_place_formatted_address",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_name": {
+          "name": "attr_place_name",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_locality_type": {
+          "name": "attr_place_locality_type",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_country": {
+          "name": "attr_place_country",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_country_code": {
+          "name": "attr_place_country_code",
+          "type": "varchar(2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_region": {
+          "name": "attr_place_region",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_subregion": {
+          "name": "attr_place_subregion",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_subsubregion": {
+          "name": "attr_place_subsubregion",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_postal_code": {
+          "name": "attr_place_postal_code",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_geohash6": {
+          "name": "attr_geohash6",
+          "type": "varchar(6)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_geohash7": {
+          "name": "attr_geohash7",
+          "type": "varchar(7)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_geohash8": {
+          "name": "attr_geohash8",
+          "type": "varchar(8)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_altitude_m": {
+          "name": "attr_location_altitude_m",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_vertical_accuracy_m": {
+          "name": "attr_location_vertical_accuracy_m",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_location_type": {
+          "name": "id_location_type",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_bytes_received": {
+          "name": "val_bytes_received",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_bytes_sent": {
+          "name": "val_bytes_sent",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_private_ip_address": {
+          "name": "attr_private_ip_address",
+          "type": "inet[]",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_ipv4_address": {
+          "name": "attr_network_ipv4_address",
+          "type": "inet",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_ipv6_address": {
+          "name": "attr_network_ipv6_address",
+          "type": "inet",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_data_source_version": {
+          "name": "attr_data_source_version",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_server_ipv4_address": {
+          "name": "attr_server_ipv4_address",
+          "type": "inet",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_server_name": {
+          "name": "attr_server_name",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_cqi": {
+          "name": "val_signal_cqi",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_rsrp_dbm": {
+          "name": "val_signal_rsrp_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_rsrq_db": {
+          "name": "val_signal_rsrq_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_rsrp_dbm2": {
+          "name": "val_signal_rsrp_dbm2",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_rssnr_db": {
+          "name": "val_signal_rssnr_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_timing_advance_ts": {
+          "name": "val_signal_timing_advance_ts",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_csi_snr_db": {
+          "name": "val_signal_csi_snr_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_csi_rsrp_dbm": {
+          "name": "val_signal_csi_rsrp_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_csi_rsrq_db": {
+          "name": "val_signal_csi_rsrq_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_ss_snr_db": {
+          "name": "val_signal_ss_snr_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_ss_rsrp_dbm": {
+          "name": "val_signal_ss_rsrp_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_ss_rsrq_db": {
+          "name": "val_signal_ss_rsrq_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_bandwidths_khz": {
+          "name": "attr_cell_bandwidths_khz",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_cell_primary": {
+          "name": "id_cell_primary",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_arfcn": {
+          "name": "attr_cell_arfcn",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_pci": {
+          "name": "attr_cell_pci",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_lac": {
+          "name": "attr_cell_lac",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_tac": {
+          "name": "attr_cell_tac",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_cell_nr_available": {
+          "name": "is_cell_nr_available",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_nr_frequency_range": {
+          "name": "attr_cell_nr_frequency_range",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_cell_lte_enodeb": {
+          "name": "id_cell_lte_enodeb",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_bands": {
+          "name": "attr_cell_bands",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_frequency_channel": {
+          "name": "attr_cell_frequency_channel",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_frequency_channel_type": {
+          "name": "attr_cell_frequency_channel_type",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_frequency_mhz": {
+          "name": "attr_wifi_frequency_mhz",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_channel_width_mhz": {
+          "name": "attr_wifi_channel_width_mhz",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_standard": {
+          "name": "attr_wifi_standard",
+          "type": "varchar(25)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_wifi_standard": {
+          "name": "id_wifi_standard",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_rssi_dbm": {
+          "name": "attr_wifi_rssi_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_max_supported_rx_link_speed_mbps": {
+          "name": "attr_wifi_max_supported_rx_link_speed_mbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_max_supported_tx_link_speed_mbps": {
+          "name": "attr_wifi_max_supported_tx_link_speed_mbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_rx_link_speed_mbps": {
+          "name": "attr_wifi_rx_link_speed_mbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_tx_link_speed_mbps": {
+          "name": "attr_wifi_tx_link_speed_mbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_wifi_connected": {
+          "name": "is_wifi_connected",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_location_building": {
+          "name": "id_location_building",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_indoor_confidence_level": {
+          "name": "val_indoor_confidence_level",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dt_foto": {
+          "name": "dt_foto",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.video": {
+      "name": "video",
+      "schema": "",
+      "columns": {
+        "ts_result": {
+          "name": "ts_result",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ts_result_received": {
+          "name": "ts_result_received",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_platform": {
+          "name": "id_platform",
+          "type": "varchar(7)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_device": {
+          "name": "id_device",
+          "type": "varchar(35)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "guid_result": {
+          "name": "guid_result",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_timezone": {
+          "name": "attr_location_timezone",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_video_time_to_start": {
+          "name": "val_video_time_to_start",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_video_initial_buffering_time": {
+          "name": "attr_video_initial_buffering_time",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_video_rebuffering_count": {
+          "name": "attr_video_rebuffering_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_video_rebuffering_time": {
+          "name": "val_video_rebuffering_time",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_video_fails_to_start": {
+          "name": "is_video_fails_to_start",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_video_quality_time_144p": {
+          "name": "val_video_quality_time_144p",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_video_quality_time_240p": {
+          "name": "val_video_quality_time_240p",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_video_quality_time_360p": {
+          "name": "val_video_quality_time_360p",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_video_quality_time_480p": {
+          "name": "val_video_quality_time_480p",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_video_quality_time_720p": {
+          "name": "val_video_quality_time_720p",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_video_quality_time_1080p": {
+          "name": "val_video_quality_time_1080p",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_video_quality_time_1440p": {
+          "name": "val_video_quality_time_1440p",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_video_quality_time_2160p": {
+          "name": "val_video_quality_time_2160p",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_video_resolution": {
+          "name": "attr_video_resolution",
+          "type": "varchar(5)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_video_resolution_switch_happened": {
+          "name": "is_video_resolution_switch_happened",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_video_in_stream_failure": {
+          "name": "is_video_in_stream_failure",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_device_model_raw": {
+          "name": "attr_device_model_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_device_brand_raw": {
+          "name": "attr_device_brand_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_device_os_version": {
+          "name": "attr_device_os_version",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_device_sim_slot": {
+          "name": "id_device_sim_slot",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "num_device_sim_slots": {
+          "name": "num_device_sim_slots",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_device_battery_state": {
+          "name": "attr_device_battery_state",
+          "type": "varchar(1)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_battery_temperature": {
+          "name": "val_device_battery_temperature",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_cpu_usage": {
+          "name": "val_device_cpu_usage",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_ram": {
+          "name": "val_device_ram",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_free_ram": {
+          "name": "val_device_free_ram",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_maximum_storage": {
+          "name": "val_device_maximum_storage",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_free_storage": {
+          "name": "val_device_free_storage",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_device_5g_capable": {
+          "name": "is_device_5g_capable",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_sim_operator_common_name": {
+          "name": "attr_sim_operator_common_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_sim_operator_mcc": {
+          "name": "attr_sim_operator_mcc",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_sim_operator_mnc": {
+          "name": "attr_sim_operator_mnc",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_operator_mcc": {
+          "name": "attr_network_operator_mcc",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_operator_mnc": {
+          "name": "attr_network_operator_mnc",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_sim_operator_name_raw": {
+          "name": "attr_sim_operator_name_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_altsim_operator_mcc": {
+          "name": "attr_altsim_operator_mcc",
+          "type": "varchar(3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_altsim_operator_mnc": {
+          "name": "attr_altsim_operator_mnc",
+          "type": "varchar(3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_altsim_operator_name_raw": {
+          "name": "attr_altsim_operator_name_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_operator_name_raw": {
+          "name": "attr_network_operator_name_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_isp_name": {
+          "name": "attr_network_isp_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_asn": {
+          "name": "attr_network_asn",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_tech_name": {
+          "name": "attr_connection_tech_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_downstream_bandwidth_kbps": {
+          "name": "attr_connection_downstream_bandwidth_kbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_upstream_bandwidth_kbps": {
+          "name": "attr_connection_upstream_bandwidth_kbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_vops_support": {
+          "name": "attr_vops_support",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_connection_carrier_aggregation": {
+          "name": "is_connection_carrier_aggregation",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_nr_state": {
+          "name": "attr_connection_nr_state",
+          "type": "varchar(1)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_connection_network_override_type": {
+          "name": "id_connection_network_override_type",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_operator_name": {
+          "name": "attr_network_operator_name",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_network_roaming": {
+          "name": "is_network_roaming",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_access_tech_end": {
+          "name": "attr_access_tech_end",
+          "type": "varchar(14)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "num_access_tech_num_changes": {
+          "name": "num_access_tech_num_changes",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_access_tech_start": {
+          "name": "attr_access_tech_start",
+          "type": "varchar(14)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_network_vpn": {
+          "name": "is_network_vpn",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_latitude": {
+          "name": "attr_location_latitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_longitude": {
+          "name": "attr_location_longitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_accuracy_m": {
+          "name": "attr_location_accuracy_m",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_age_ms": {
+          "name": "attr_location_age_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_altitude_m": {
+          "name": "attr_location_altitude_m",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_speed_mps": {
+          "name": "attr_location_speed_mps",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_speed_accuracy_mps": {
+          "name": "attr_location_speed_accuracy_mps",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_formatted_address": {
+          "name": "attr_place_formatted_address",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_name": {
+          "name": "attr_place_name",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_locality_type": {
+          "name": "attr_place_locality_type",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_country": {
+          "name": "attr_place_country",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_country_code": {
+          "name": "attr_place_country_code",
+          "type": "varchar(2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_region": {
+          "name": "attr_place_region",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_subregion": {
+          "name": "attr_place_subregion",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_subsubregion": {
+          "name": "attr_place_subsubregion",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_postal_code": {
+          "name": "attr_place_postal_code",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_geohash6": {
+          "name": "attr_geohash6",
+          "type": "varchar(6)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_geohash7": {
+          "name": "attr_geohash7",
+          "type": "varchar(7)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_geohash8": {
+          "name": "attr_geohash8",
+          "type": "varchar(8)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_vertical_accuracy_m": {
+          "name": "attr_location_vertical_accuracy_m",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_location_type": {
+          "name": "id_location_type",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_private_ip_address": {
+          "name": "attr_private_ip_address",
+          "type": "inet[]",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_ipv6_address": {
+          "name": "attr_network_ipv6_address",
+          "type": "inet",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_data_source_version": {
+          "name": "attr_data_source_version",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_server_ipv4_address": {
+          "name": "attr_server_ipv4_address",
+          "type": "inet",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_gateway_ip_address": {
+          "name": "attr_gateway_ip_address",
+          "type": "inet",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_cqi": {
+          "name": "val_signal_cqi",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_rsrp_dbm": {
+          "name": "val_signal_rsrp_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_rsrq_db": {
+          "name": "val_signal_rsrq_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_rsrp_dbm2": {
+          "name": "val_signal_rsrp_dbm2",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_rssnr_db": {
+          "name": "val_signal_rssnr_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_timing_advance_ts": {
+          "name": "val_signal_timing_advance_ts",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_csi_snr_db": {
+          "name": "val_signal_csi_snr_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_csi_rsrp_dbm": {
+          "name": "val_signal_csi_rsrp_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_csi_rsrq_db": {
+          "name": "val_signal_csi_rsrq_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_ss_snr_dbm": {
+          "name": "val_signal_ss_snr_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_ss_rsrp_dbm": {
+          "name": "val_signal_ss_rsrp_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_ss_rsrq_db": {
+          "name": "val_signal_ss_rsrq_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_bandwidths_khz": {
+          "name": "attr_cell_bandwidths_khz",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_cell_primary": {
+          "name": "id_cell_primary",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_pci": {
+          "name": "attr_cell_pci",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_lac": {
+          "name": "attr_cell_lac",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_tac": {
+          "name": "attr_cell_tac",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_cell_service_dcnr_restricted": {
+          "name": "is_cell_service_dcnr_restricted",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_cell_service_endc_available": {
+          "name": "is_cell_service_endc_available",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_cell_nr_available": {
+          "name": "is_cell_nr_available",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_nr_frequency_range": {
+          "name": "attr_cell_nr_frequency_range",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_bands": {
+          "name": "attr_cell_bands",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_frequency_channel": {
+          "name": "attr_cell_frequency_channel",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_frequency_channel_type": {
+          "name": "attr_cell_frequency_channel_type",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_frequency_mhz": {
+          "name": "attr_wifi_frequency_mhz",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_channel_width_id": {
+          "name": "attr_wifi_channel_width_id",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_standard": {
+          "name": "attr_wifi_standard",
+          "type": "varchar(25)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_wifi_standard": {
+          "name": "id_wifi_standard",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_rssi_dbm": {
+          "name": "attr_wifi_rssi_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_max_supported_rx_link_speed_mbps": {
+          "name": "attr_wifi_max_supported_rx_link_speed_mbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_max_supported_tx_link_speed_mbps": {
+          "name": "attr_wifi_max_supported_tx_link_speed_mbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_rx_link_speed_mbps": {
+          "name": "attr_wifi_rx_link_speed_mbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_tx_link_speed_mbps": {
+          "name": "attr_wifi_tx_link_speed_mbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_wifi_connected": {
+          "name": "is_wifi_connected",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_location_building": {
+          "name": "id_location_building",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_indoor_confidence_level": {
+          "name": "val_indoor_confidence_level",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dt_foto": {
+          "name": "dt_foto",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.web_browsing": {
+      "name": "web_browsing",
+      "schema": "",
+      "columns": {
+        "ts_result": {
+          "name": "ts_result",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ts_result_received": {
+          "name": "ts_result_received",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_platform": {
+          "name": "id_platform",
+          "type": "varchar(7)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_device": {
+          "name": "id_device",
+          "type": "varchar(35)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "guid_result": {
+          "name": "guid_result",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_timezone": {
+          "name": "attr_location_timezone",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_web_page_load_time": {
+          "name": "val_web_page_load_time",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_web_page_first_byte_time": {
+          "name": "val_web_page_first_byte_time",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_web_page_fails_to_load": {
+          "name": "is_web_page_fails_to_load",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_web_page_url": {
+          "name": "attr_web_page_url",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_bands": {
+          "name": "attr_cell_bands",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_device_model_raw": {
+          "name": "attr_device_model_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_device_brand_raw": {
+          "name": "attr_device_brand_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_device_os_version": {
+          "name": "attr_device_os_version",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_device_sim_slot": {
+          "name": "id_device_sim_slot",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "num_device_sim_slots": {
+          "name": "num_device_sim_slots",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_device_battery_state": {
+          "name": "attr_device_battery_state",
+          "type": "varchar(1)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_battery_temperature": {
+          "name": "val_device_battery_temperature",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_cpu_usage": {
+          "name": "val_device_cpu_usage",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_ram": {
+          "name": "val_device_ram",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_free_ram": {
+          "name": "val_device_free_ram",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_maximum_storage": {
+          "name": "val_device_maximum_storage",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_device_free_storage": {
+          "name": "val_device_free_storage",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_device_5g_capable": {
+          "name": "is_device_5g_capable",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_sim_operator_common_name": {
+          "name": "attr_sim_operator_common_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_sim_operator_mcc": {
+          "name": "attr_sim_operator_mcc",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_sim_operator_mnc": {
+          "name": "attr_sim_operator_mnc",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_operator_mcc": {
+          "name": "attr_network_operator_mcc",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_operator_mnc": {
+          "name": "attr_network_operator_mnc",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_sim_operator_name_raw": {
+          "name": "attr_sim_operator_name_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_altsim_operator_mcc": {
+          "name": "attr_altsim_operator_mcc",
+          "type": "varchar(3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_altsim_operator_mnc": {
+          "name": "attr_altsim_operator_mnc",
+          "type": "varchar(3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_altsim_operator_name_raw": {
+          "name": "attr_altsim_operator_name_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_operator_name_raw": {
+          "name": "attr_network_operator_name_raw",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_isp_name": {
+          "name": "attr_network_isp_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_asn": {
+          "name": "attr_network_asn",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_tech_name": {
+          "name": "attr_connection_tech_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_downstream_bandwidth_kbps": {
+          "name": "attr_connection_downstream_bandwidth_kbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_upstream_bandwidth_kbps": {
+          "name": "attr_connection_upstream_bandwidth_kbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_vops_support": {
+          "name": "attr_vops_support",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_connection_carrier_aggregation": {
+          "name": "is_connection_carrier_aggregation",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_connection_nr_state": {
+          "name": "attr_connection_nr_state",
+          "type": "varchar(1)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_connection_network_override_type": {
+          "name": "id_connection_network_override_type",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_operator_name": {
+          "name": "attr_network_operator_name",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_network_roaming": {
+          "name": "is_network_roaming",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_access_tech_end": {
+          "name": "attr_access_tech_end",
+          "type": "varchar(14)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "num_access_tech_num_changes": {
+          "name": "num_access_tech_num_changes",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_access_tech_start": {
+          "name": "attr_access_tech_start",
+          "type": "varchar(14)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_network_vpn": {
+          "name": "is_network_vpn",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_latitude": {
+          "name": "attr_location_latitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_longitude": {
+          "name": "attr_location_longitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_accuracy_m": {
+          "name": "attr_location_accuracy_m",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_age_ms": {
+          "name": "attr_location_age_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_altitude_m": {
+          "name": "attr_location_altitude_m",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_speed_mps": {
+          "name": "attr_location_speed_mps",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_speed_accuracy_mps": {
+          "name": "attr_location_speed_accuracy_mps",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_formatted_address": {
+          "name": "attr_place_formatted_address",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_name": {
+          "name": "attr_place_name",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_locality_type": {
+          "name": "attr_place_locality_type",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_country": {
+          "name": "attr_place_country",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_country_code": {
+          "name": "attr_place_country_code",
+          "type": "varchar(2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_region": {
+          "name": "attr_place_region",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_subregion": {
+          "name": "attr_place_subregion",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_subsubregion": {
+          "name": "attr_place_subsubregion",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_place_postal_code": {
+          "name": "attr_place_postal_code",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_geohash6": {
+          "name": "attr_geohash6",
+          "type": "varchar(6)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_geohash7": {
+          "name": "attr_geohash7",
+          "type": "varchar(7)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_geohash8": {
+          "name": "attr_geohash8",
+          "type": "varchar(8)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_location_vertical_accuracy_m": {
+          "name": "attr_location_vertical_accuracy_m",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_location_type": {
+          "name": "id_location_type",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_private_ip_address": {
+          "name": "attr_private_ip_address",
+          "type": "inet[]",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_ipv4_address": {
+          "name": "attr_network_ipv4_address",
+          "type": "inet",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_network_ipv6_address": {
+          "name": "attr_network_ipv6_address",
+          "type": "inet",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_data_source_version": {
+          "name": "attr_data_source_version",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_cqi": {
+          "name": "val_signal_cqi",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_rsrp_dbm": {
+          "name": "val_signal_rsrp_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_rsrq_db": {
+          "name": "val_signal_rsrq_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_rsrp_dbm2": {
+          "name": "val_signal_rsrp_dbm2",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_rssnr_db": {
+          "name": "val_signal_rssnr_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_timing_advance_ts": {
+          "name": "val_signal_timing_advance_ts",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_csi_snr_db": {
+          "name": "val_signal_csi_snr_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_csi_rsrq_db": {
+          "name": "val_signal_csi_rsrq_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_csi_rsrp_dbm": {
+          "name": "val_signal_csi_rsrp_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_ss_snr_dbm": {
+          "name": "val_signal_ss_snr_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_ss_rsrp_dbm": {
+          "name": "val_signal_ss_rsrp_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_signal_ss_rsrq_db": {
+          "name": "val_signal_ss_rsrq_db",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_bandwidths_khz": {
+          "name": "attr_cell_bandwidths_khz",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_cell_primary": {
+          "name": "id_cell_primary",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_pci": {
+          "name": "attr_cell_pci",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_lac": {
+          "name": "attr_cell_lac",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_tac": {
+          "name": "attr_cell_tac",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_dc_nr_restricted": {
+          "name": "is_dc_nr_restricted",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_en_dc_available": {
+          "name": "is_en_dc_available",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_cell_nr_available": {
+          "name": "is_cell_nr_available",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_nr_frequency_range": {
+          "name": "attr_cell_nr_frequency_range",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_frequency_channel": {
+          "name": "attr_cell_frequency_channel",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_frequency_channel_type": {
+          "name": "attr_cell_frequency_channel_type",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_cell_technology_standard_name": {
+          "name": "attr_cell_technology_standard_name",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_frequency_mhz": {
+          "name": "attr_wifi_frequency_mhz",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_channel_width_id": {
+          "name": "attr_wifi_channel_width_id",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_standard": {
+          "name": "attr_wifi_standard",
+          "type": "varchar(25)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_wifi_standard": {
+          "name": "id_wifi_standard",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_rssi_dbm": {
+          "name": "attr_wifi_rssi_dbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_max_supported_rx_link_speed_mbps": {
+          "name": "attr_wifi_max_supported_rx_link_speed_mbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_max_supported_tx_link_speed_mbps": {
+          "name": "attr_wifi_max_supported_tx_link_speed_mbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_rx_link_speed_mbps": {
+          "name": "attr_wifi_rx_link_speed_mbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attr_wifi_tx_link_speed_mbps": {
+          "name": "attr_wifi_tx_link_speed_mbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_wifi_connected": {
+          "name": "is_wifi_connected",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_location_building": {
+          "name": "id_location_building",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "val_indoor_confidence_level": {
+          "name": "val_indoor_confidence_level",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dt_foto": {
+          "name": "dt_foto",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.score": {
+      "name": "score",
+      "schema": "",
+      "columns": {
+        "nu_ano_mes_rfrn": {
+          "name": "nu_ano_mes_rfrn",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nm_oprd": {
+          "name": "nm_oprd",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cd_geo_hsh7": {
+          "name": "cd_geo_hsh7",
+          "type": "varchar(7)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "vl_vdeo_scre": {
+          "name": "vl_vdeo_scre",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "qt_ltra_vdeo_scre": {
+          "name": "qt_ltra_vdeo_scre",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vl_web_scre": {
+          "name": "vl_web_scre",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "qt_ltra_web_scre": {
+          "name": "qt_ltra_web_scre",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vl_nota_sped_scre": {
+          "name": "vl_nota_sped_scre",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "qt_ltra_sped_scre": {
+          "name": "qt_ltra_sped_scre",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vl_cntv_scre": {
+          "name": "vl_cntv_scre",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "no_arqv_orig": {
+          "name": "no_arqv_orig",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dt_insr_vic": {
+          "name": "dt_insr_vic",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dt_atlz_vic": {
+          "name": "dt_atlz_vic",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nu_cnro": {
+          "name": "nu_cnro",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ds_obs": {
+          "name": "ds_obs",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.geo_por_latlong": {
+      "name": "geo_por_latlong",
+      "schema": "",
+      "columns": {
+        "latitude": {
+          "name": "latitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "longitude": {
+          "name": "longitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "populacao_total_media": {
+          "name": "populacao_total_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "total_de_domicilios_media": {
+          "name": "total_de_domicilios_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "total_trabalhadores_media": {
+          "name": "total_trabalhadores_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "renda_per_capita_media": {
+          "name": "renda_per_capita_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gastos_habitacao_dom_media": {
+          "name": "gastos_habitacao_dom_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gastos_transporte_dom_media": {
+          "name": "gastos_transporte_dom_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gastos_saude_dom_media": {
+          "name": "gastos_saude_dom_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gastos_educacao_dom_media": {
+          "name": "gastos_educacao_dom_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gastos_higiene_e_cuidados_pessoais_dom_media": {
+          "name": "gastos_higiene_e_cuidados_pessoais_dom_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gastos_alimentacao_dom_media": {
+          "name": "gastos_alimentacao_dom_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gastos_telefone_fixo_dom_media": {
+          "name": "gastos_telefone_fixo_dom_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gastos_telefone_celular_dom_media": {
+          "name": "gastos_telefone_celular_dom_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gastos_pacote_3play_dom_media": {
+          "name": "gastos_pacote_3play_dom_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gastos_comunicacao_dom_media": {
+          "name": "gastos_comunicacao_dom_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gastos_recreacao_e_cultura_dom_media": {
+          "name": "gastos_recreacao_e_cultura_dom_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gastos_viagens_dom_media": {
+          "name": "gastos_viagens_dom_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "propensao_seguro_saude_media": {
+          "name": "propensao_seguro_saude_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "propensao_seguro_vida_media": {
+          "name": "propensao_seguro_vida_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "propensao_seguro_residencial_media": {
+          "name": "propensao_seguro_residencial_media",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.vivo_ftth_coverage": {
+      "name": "vivo_ftth_coverage",
+      "schema": "",
+      "columns": {
+        "cod_geo": {
+          "name": "cod_geo",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "anomes": {
+          "name": "anomes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "produto": {
+          "name": "produto",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tp_produto": {
+          "name": "tp_produto",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "uf": {
+          "name": "uf",
+          "type": "varchar(2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "flg_loc": {
+          "name": "flg_loc",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "x": {
+          "name": "x",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "y": {
+          "name": "y",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "vivo_ftth_coverage_cod_geo_anomes_pk": {
+          "name": "vivo_ftth_coverage_cod_geo_anomes_pk",
+          "columns": [
+            "cod_geo",
+            "anomes"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.vivo_mobile_erb": {
+      "name": "vivo_mobile_erb",
+      "schema": "",
+      "columns": {
+        "erb_casa": {
+          "name": "erb_casa",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "anomes": {
+          "name": "anomes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "qtde_lnha_pos": {
+          "name": "qtde_lnha_pos",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "qtde_lnha_ctrl": {
+          "name": "qtde_lnha_ctrl",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "qtde_lnha_pre": {
+          "name": "qtde_lnha_pre",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "x": {
+          "name": "x",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "y": {
+          "name": "y",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "vivo_mobile_erb_erb_casa_anomes_pk": {
+          "name": "vivo_mobile_erb_erb_casa_anomes_pk",
+          "columns": [
+            "erb_casa",
+            "anomes"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.geohash_cell": {
+      "name": "geohash_cell",
+      "schema": "",
+      "columns": {
+        "geohash_id": {
+          "name": "geohash_id",
+          "type": "varchar(12)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "precision": {
+          "name": "precision",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "center_lat": {
+          "name": "center_lat",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "center_lng": {
+          "name": "center_lng",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "geom": {
+          "name": "geom",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "neighborhood": {
+          "name": "neighborhood",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "city": {
+          "name": "city",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "state": {
+          "name": "state",
+          "type": "varchar(2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.benchmark_config": {
+      "name": "benchmark_config",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "key": {
+          "name": "key",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "scope": {
+          "name": "scope",
+          "type": "benchmark_scope",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "region": {
+          "name": "region",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "value": {
+          "name": "value",
+          "type": "numeric(8, 3)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "period_date": {
+          "name": "period_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.user_session": {
+      "name": "user_session",
+      "schema": "",
+      "columns": {
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar(255)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "state": {
+          "name": "state",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.networkPerformanceFixed": {
+      "name": "networkPerformanceFixed",
+      "schema": "",
+      "columns": {
+        "idResult": {
+          "name": "idResult",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "guidResult": {
+          "name": "guidResult",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "idPlatform": {
+          "name": "idPlatform",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tsResult": {
+          "name": "tsResult",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tsResultReceived": {
+          "name": "tsResultReceived",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrLocationTimezone": {
+          "name": "attrLocationTimezone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "idDevice": {
+          "name": "idDevice",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceModel": {
+          "name": "attrDeviceModel",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceManufacturer": {
+          "name": "attrDeviceManufacturer",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceManufacturerRaw": {
+          "name": "attrDeviceManufacturerRaw",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceBrandRaw": {
+          "name": "attrDeviceBrandRaw",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceChipset": {
+          "name": "attrDeviceChipset",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceChipsetManufacturer": {
+          "name": "attrDeviceChipsetManufacturer",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceOsVersion": {
+          "name": "attrDeviceOsVersion",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceRadio": {
+          "name": "attrDeviceRadio",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceRamMb": {
+          "name": "attrDeviceRamMb",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceStorageMb": {
+          "name": "attrDeviceStorageMb",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceSoftwareVersion": {
+          "name": "attrDeviceSoftwareVersion",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceSystemMemoryMb": {
+          "name": "attrDeviceSystemMemoryMb",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceProcessorCount": {
+          "name": "attrDeviceProcessorCount",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceProcessorType": {
+          "name": "attrDeviceProcessorType",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceProcessorFrequency": {
+          "name": "attrDeviceProcessorFrequency",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrProviderName": {
+          "name": "attrProviderName",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrProviderNameCommon": {
+          "name": "attrProviderNameCommon",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrSimOperatorCommonName": {
+          "name": "attrSimOperatorCommonName",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrSimOperatorNameRaw": {
+          "name": "attrSimOperatorNameRaw",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrSimOperatorMcc": {
+          "name": "attrSimOperatorMcc",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrSimOperatorMnc": {
+          "name": "attrSimOperatorMnc",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrNetworkOperatorMcc": {
+          "name": "attrNetworkOperatorMcc",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrNetworkOperatorMnc": {
+          "name": "attrNetworkOperatorMnc",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "idConnectionType": {
+          "name": "idConnectionType",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrConnectionTypeString": {
+          "name": "attrConnectionTypeString",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrConnectionLinkSpeed": {
+          "name": "attrConnectionLinkSpeed",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "idConnectionNetSpeed": {
+          "name": "idConnectionNetSpeed",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrTestMethod": {
+          "name": "attrTestMethod",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrTestIpVersion": {
+          "name": "attrTestIpVersion",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrResultTestSource": {
+          "name": "attrResultTestSource",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrBrowserAgent": {
+          "name": "attrBrowserAgent",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrLocationLatitude": {
+          "name": "attrLocationLatitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrLocationLongitude": {
+          "name": "attrLocationLongitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrLocationAltitude": {
+          "name": "attrLocationAltitude",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrLocationAccuracyM": {
+          "name": "attrLocationAccuracyM",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrLocationAgeMs": {
+          "name": "attrLocationAgeMs",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "idLocationType": {
+          "name": "idLocationType",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrPlaceName": {
+          "name": "attrPlaceName",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrPlaceLocalityType": {
+          "name": "attrPlaceLocalityType",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrPlaceCountry": {
+          "name": "attrPlaceCountry",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrPlaceCountryCode": {
+          "name": "attrPlaceCountryCode",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrPlaceRegion": {
+          "name": "attrPlaceRegion",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrPlaceSubregion": {
+          "name": "attrPlaceSubregion",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrPlaceSubsubregion": {
+          "name": "attrPlaceSubsubregion",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrPlacePostalCode": {
+          "name": "attrPlacePostalCode",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrWifiMacManufacturer": {
+          "name": "attrWifiMacManufacturer",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrWifiFrequencyMhz": {
+          "name": "attrWifiFrequencyMhz",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrWifiChannelWidthMhz": {
+          "name": "attrWifiChannelWidthMhz",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isWifi5ghz": {
+          "name": "isWifi5ghz",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isWifi6ghz": {
+          "name": "isWifi6ghz",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isWifi24ghzBandSupported": {
+          "name": "isWifi24ghzBandSupported",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isWifi5ghzSupported": {
+          "name": "isWifi5ghzSupported",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isWifi6ghzBandSupported": {
+          "name": "isWifi6ghzBandSupported",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isWifi60ghzBandSupported": {
+          "name": "isWifi60ghzBandSupported",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrWifiBaseStationId": {
+          "name": "attrWifiBaseStationId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrWifiRssiDbm": {
+          "name": "attrWifiRssiDbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrWifiRxLinkSpeedMbps": {
+          "name": "attrWifiRxLinkSpeedMbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrWifiTxLinkSpeedMbps": {
+          "name": "attrWifiTxLinkSpeedMbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrWifiMaxSupportedRxLinkSpeedMbps": {
+          "name": "attrWifiMaxSupportedRxLinkSpeedMbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrWifiMaxSupportedTxLinkSpeedMbps": {
+          "name": "attrWifiMaxSupportedTxLinkSpeedMbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrWifiStandard": {
+          "name": "attrWifiStandard",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "idWifiStandard": {
+          "name": "idWifiStandard",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valDownloadMbps": {
+          "name": "valDownloadMbps",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valUploadMbps": {
+          "name": "valUploadMbps",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numTestDownloadThreads": {
+          "name": "numTestDownloadThreads",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numTestUploadThreads": {
+          "name": "numTestUploadThreads",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valLatencyMinMs": {
+          "name": "valLatencyMinMs",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valLatencyIqmMs": {
+          "name": "valLatencyIqmMs",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valLatencyMaxMs": {
+          "name": "valLatencyMaxMs",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valMultiserverLatencyMs": {
+          "name": "valMultiserverLatencyMs",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valDownloadLatencyMinMs": {
+          "name": "valDownloadLatencyMinMs",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valDownloadLatencyIqmMs": {
+          "name": "valDownloadLatencyIqmMs",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valDownloadLatencyMaxMs": {
+          "name": "valDownloadLatencyMaxMs",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valUploadLatencyMinMs": {
+          "name": "valUploadLatencyMinMs",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valUploadLatencyIqmMs": {
+          "name": "valUploadLatencyIqmMs",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valUploadLatencyMaxMs": {
+          "name": "valUploadLatencyMaxMs",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valJitterMs": {
+          "name": "valJitterMs",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valMultiserverJitterMs": {
+          "name": "valMultiserverJitterMs",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numPacketLossSent": {
+          "name": "numPacketLossSent",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numPacketLossReceived": {
+          "name": "numPacketLossReceived",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "metricPacketLossPercent": {
+          "name": "metricPacketLossPercent",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numTracerouteHops": {
+          "name": "numTracerouteHops",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrTraceroute0IpAddress": {
+          "name": "attrTraceroute0IpAddress",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valTraceroute0LatencyMs": {
+          "name": "valTraceroute0LatencyMs",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrTraceroute0PingMtu": {
+          "name": "attrTraceroute0PingMtu",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrTraceroute1IpAddress": {
+          "name": "attrTraceroute1IpAddress",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valTraceroute1LatencyMs": {
+          "name": "valTraceroute1LatencyMs",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrTraceroute1PingMtu": {
+          "name": "attrTraceroute1PingMtu",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrNetworkIpv4Address": {
+          "name": "attrNetworkIpv4Address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrNetworkIpv6Address": {
+          "name": "attrNetworkIpv6Address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrNetworkAsn": {
+          "name": "attrNetworkAsn",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isNetworkVpn": {
+          "name": "isNetworkVpn",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrAppVersion": {
+          "name": "attrAppVersion",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrServerName": {
+          "name": "attrServerName",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrServerSponsorName": {
+          "name": "attrServerSponsorName",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrServerLatitude": {
+          "name": "attrServerLatitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrServerLongitude": {
+          "name": "attrServerLongitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrServerDistanceKm": {
+          "name": "attrServerDistanceKm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrServerCountryCode": {
+          "name": "attrServerCountryCode",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isServerAutoSelected": {
+          "name": "isServerAutoSelected",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isServerOnNetwork": {
+          "name": "isServerOnNetwork",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrServerAsn": {
+          "name": "attrServerAsn",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numServerDownload": {
+          "name": "numServerDownload",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrSignalCellType": {
+          "name": "attrSignalCellType",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrCellFrequencyChannel": {
+          "name": "attrCellFrequencyChannel",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrCellFrequencyChannelType": {
+          "name": "attrCellFrequencyChannelType",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrCellLac": {
+          "name": "attrCellLac",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrCellNrPci": {
+          "name": "attrCellNrPci",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isPortalIncluded": {
+          "name": "isPortalIncluded",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrPortalCategories": {
+          "name": "attrPortalCategories",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valAsuLevel": {
+          "name": "valAsuLevel",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valNrAsuLevel": {
+          "name": "valNrAsuLevel",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isAppPermissionPhoneState": {
+          "name": "isAppPermissionPhoneState",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isAppPermissionFineLocation": {
+          "name": "isAppPermissionFineLocation",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isAppPermissionCoarseLocation": {
+          "name": "isAppPermissionCoarseLocation",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isAppPermissionBackgroundLocation": {
+          "name": "isAppPermissionBackgroundLocation",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isAppPermissionWifiState": {
+          "name": "isAppPermissionWifiState",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ingestedAt": {
+          "name": "ingestedAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "networkPerformanceFixed_idResult_tsResult_pk": {
+          "name": "networkPerformanceFixed_idResult_tsResult_pk",
+          "columns": [
+            "idResult",
+            "tsResult"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.networkPerformanceMobile": {
+      "name": "networkPerformanceMobile",
+      "schema": "",
+      "columns": {
+        "idResult": {
+          "name": "idResult",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "guidResult": {
+          "name": "guidResult",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "idPlatform": {
+          "name": "idPlatform",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tsResult": {
+          "name": "tsResult",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tsResultReceived": {
+          "name": "tsResultReceived",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrLocationTimezone": {
+          "name": "attrLocationTimezone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "idDevice": {
+          "name": "idDevice",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceAndroidFingerprint": {
+          "name": "attrDeviceAndroidFingerprint",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceModel": {
+          "name": "attrDeviceModel",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceManufacturer": {
+          "name": "attrDeviceManufacturer",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceModelRaw": {
+          "name": "attrDeviceModelRaw",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceManufacturerRaw": {
+          "name": "attrDeviceManufacturerRaw",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceBrandRaw": {
+          "name": "attrDeviceBrandRaw",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceChipset": {
+          "name": "attrDeviceChipset",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceChipsetManufacturer": {
+          "name": "attrDeviceChipsetManufacturer",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceHardwareName": {
+          "name": "attrDeviceHardwareName",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceOsVersion": {
+          "name": "attrDeviceOsVersion",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceBuild": {
+          "name": "attrDeviceBuild",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isDeviceRooted": {
+          "name": "isDeviceRooted",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceRadio": {
+          "name": "attrDeviceRadio",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceRamMb": {
+          "name": "attrDeviceRamMb",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceStorageMb": {
+          "name": "attrDeviceStorageMb",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isDeviceWorldPhone": {
+          "name": "isDeviceWorldPhone",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceMultiSimSupport": {
+          "name": "attrDeviceMultiSimSupport",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numDeviceActiveModems": {
+          "name": "numDeviceActiveModems",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numDeviceSupportedModems": {
+          "name": "numDeviceSupportedModems",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isDeviceConcurrentVoiceDataSupported": {
+          "name": "isDeviceConcurrentVoiceDataSupported",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isDeviceDataConnectionAllowed": {
+          "name": "isDeviceDataConnectionAllowed",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isDeviceDataCapable": {
+          "name": "isDeviceDataCapable",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isDeviceDataRoamingEnabled": {
+          "name": "isDeviceDataRoamingEnabled",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isDeviceIccCardPresent": {
+          "name": "isDeviceIccCardPresent",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceServiceState": {
+          "name": "attrDeviceServiceState",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceThermalStatus": {
+          "name": "attrDeviceThermalStatus",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valDeviceThermalHeadroom": {
+          "name": "valDeviceThermalHeadroom",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceSoftwareVersion": {
+          "name": "attrDeviceSoftwareVersion",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrDeviceEsimEmbedded": {
+          "name": "attrDeviceEsimEmbedded",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isAppPermissionPhoneState": {
+          "name": "isAppPermissionPhoneState",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isAppPermissionFineLocation": {
+          "name": "isAppPermissionFineLocation",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isAppPermissionCoarseLocation": {
+          "name": "isAppPermissionCoarseLocation",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isAppPermissionBackgroundLocation": {
+          "name": "isAppPermissionBackgroundLocation",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isAppPermissionWifiState": {
+          "name": "isAppPermissionWifiState",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrSimOperatorCommonName": {
+          "name": "attrSimOperatorCommonName",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrSimOperatorNameRaw": {
+          "name": "attrSimOperatorNameRaw",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrSimOperatorMcc": {
+          "name": "attrSimOperatorMcc",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrSimOperatorMnc": {
+          "name": "attrSimOperatorMnc",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrAltsimOperatorName": {
+          "name": "attrAltsimOperatorName",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrAltsimOperatorMcc": {
+          "name": "attrAltsimOperatorMcc",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrAltsimOperatorMnc": {
+          "name": "attrAltsimOperatorMnc",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrNetworkOperatorMcc": {
+          "name": "attrNetworkOperatorMcc",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrNetworkOperatorMnc": {
+          "name": "attrNetworkOperatorMnc",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrNetworkOperatorCommonName": {
+          "name": "attrNetworkOperatorCommonName",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrIspCommonName": {
+          "name": "attrIspCommonName",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrIspNameRaw": {
+          "name": "attrIspNameRaw",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrSimTypeAllocationCode": {
+          "name": "attrSimTypeAllocationCode",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrSimState": {
+          "name": "attrSimState",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrTestMethod": {
+          "name": "attrTestMethod",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrTestIpVersion": {
+          "name": "attrTestIpVersion",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "idConnectionTypeStart": {
+          "name": "idConnectionTypeStart",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "idConnectionTypeEnd": {
+          "name": "idConnectionTypeEnd",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numConnectionsFailed": {
+          "name": "numConnectionsFailed",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isConnectionCarrierAggregation": {
+          "name": "isConnectionCarrierAggregation",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrConnectionNrState": {
+          "name": "attrConnectionNrState",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrConnectionApn": {
+          "name": "attrConnectionApn",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "idConnectionNetSpeed": {
+          "name": "idConnectionNetSpeed",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isConnectionAccessTechnologyNr": {
+          "name": "isConnectionAccessTechnologyNr",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "idConnectionNetworkOverrideType": {
+          "name": "idConnectionNetworkOverrideType",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrConnectionDownstreamBandwidthKbps": {
+          "name": "attrConnectionDownstreamBandwidthKbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrConnectionUpstreamBandwidthKbps": {
+          "name": "attrConnectionUpstreamBandwidthKbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrConnectionNat64Prefix": {
+          "name": "attrConnectionNat64Prefix",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrConnectionTypeStartString": {
+          "name": "attrConnectionTypeStartString",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrConnectionTypeEndString": {
+          "name": "attrConnectionTypeEndString",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrLocationLatitude": {
+          "name": "attrLocationLatitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrLocationLongitude": {
+          "name": "attrLocationLongitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrLocationStartLatitude": {
+          "name": "attrLocationStartLatitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrLocationStartLongitude": {
+          "name": "attrLocationStartLongitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "idLocationStartType": {
+          "name": "idLocationStartType",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "idLocationEndType": {
+          "name": "idLocationEndType",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrLocationAccuracyM": {
+          "name": "attrLocationAccuracyM",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrLocationAgeMs": {
+          "name": "attrLocationAgeMs",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrLocationAltitudeM": {
+          "name": "attrLocationAltitudeM",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrLocationVerticalAccuracyM": {
+          "name": "attrLocationVerticalAccuracyM",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrLocationSpeedMps": {
+          "name": "attrLocationSpeedMps",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrPlaceFormattedAddress": {
+          "name": "attrPlaceFormattedAddress",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrPlaceName": {
+          "name": "attrPlaceName",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrPlaceLocalityType": {
+          "name": "attrPlaceLocalityType",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrPlaceCountry": {
+          "name": "attrPlaceCountry",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrPlaceCountryCode": {
+          "name": "attrPlaceCountryCode",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrPlaceRegion": {
+          "name": "attrPlaceRegion",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrPlaceSubregion": {
+          "name": "attrPlaceSubregion",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrPlaceSubsubregion": {
+          "name": "attrPlaceSubsubregion",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrPlacePostalCode": {
+          "name": "attrPlacePostalCode",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valDownloadKbps": {
+          "name": "valDownloadKbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valUploadKbps": {
+          "name": "valUploadKbps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valTestDownloadKb": {
+          "name": "valTestDownloadKb",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numTestDownloadThreads": {
+          "name": "numTestDownloadThreads",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valTestDownloadDurationMs": {
+          "name": "valTestDownloadDurationMs",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valTestUploadKb": {
+          "name": "valTestUploadKb",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numTestUploadThreads": {
+          "name": "numTestUploadThreads",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valTestUploadDurationMs": {
+          "name": "valTestUploadDurationMs",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isDownloadStopped": {
+          "name": "isDownloadStopped",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valLatencyMinMs": {
+          "name": "valLatencyMinMs",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valLatencyIqmMs": {
+          "name": "valLatencyIqmMs",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valLatencyMaxMs": {
+          "name": "valLatencyMaxMs",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valMultiserverLatencyMs": {
+          "name": "valMultiserverLatencyMs",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valDownloadLatencyMinMs": {
+          "name": "valDownloadLatencyMinMs",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valDownloadLatencyIqmMs": {
+          "name": "valDownloadLatencyIqmMs",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valDownloadLatencyMaxMs": {
+          "name": "valDownloadLatencyMaxMs",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valUploadLatencyMinMs": {
+          "name": "valUploadLatencyMinMs",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valUploadLatencyIqmMs": {
+          "name": "valUploadLatencyIqmMs",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valUploadLatencyMaxMs": {
+          "name": "valUploadLatencyMaxMs",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valJitterMs": {
+          "name": "valJitterMs",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valMultiserverJitterMs": {
+          "name": "valMultiserverJitterMs",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numPacketLossSent": {
+          "name": "numPacketLossSent",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numPacketLossReceived": {
+          "name": "numPacketLossReceived",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "metricPacketLossPercent": {
+          "name": "metricPacketLossPercent",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numTracerouteHops": {
+          "name": "numTracerouteHops",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrTraceroute0IpAddress": {
+          "name": "attrTraceroute0IpAddress",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valTraceroute0LatencyMs": {
+          "name": "valTraceroute0LatencyMs",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrTraceroute0PingMtu": {
+          "name": "attrTraceroute0PingMtu",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrTraceroute1IpAddress": {
+          "name": "attrTraceroute1IpAddress",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valTraceroute1LatencyMs": {
+          "name": "valTraceroute1LatencyMs",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrTraceroute1PingMtu": {
+          "name": "attrTraceroute1PingMtu",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrNetworkIpv4Address": {
+          "name": "attrNetworkIpv4Address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrNetworkIpv6Address": {
+          "name": "attrNetworkIpv6Address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrNetworkAsn": {
+          "name": "attrNetworkAsn",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isNetworkRoaming": {
+          "name": "isNetworkRoaming",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isNetworkInternationalRoaming": {
+          "name": "isNetworkInternationalRoaming",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isNetworkVpn": {
+          "name": "isNetworkVpn",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isDevice5gCapable": {
+          "name": "isDevice5gCapable",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrAppVersion": {
+          "name": "attrAppVersion",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrAppStore": {
+          "name": "attrAppStore",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrServerName": {
+          "name": "attrServerName",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrServerSponsorName": {
+          "name": "attrServerSponsorName",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrServerLatitude": {
+          "name": "attrServerLatitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrServerLongitude": {
+          "name": "attrServerLongitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valServerDistanceKm": {
+          "name": "valServerDistanceKm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrServerCountry": {
+          "name": "attrServerCountry",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrServerCountryCode": {
+          "name": "attrServerCountryCode",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isServerAutoSelected": {
+          "name": "isServerAutoSelected",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isServerOnNetwork": {
+          "name": "isServerOnNetwork",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrServerAsn": {
+          "name": "attrServerAsn",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numServerDownload": {
+          "name": "numServerDownload",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valSignalRsrpDbm": {
+          "name": "valSignalRsrpDbm",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valSignalCsiRsrpDbm": {
+          "name": "valSignalCsiRsrpDbm",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valSignalSsRsrpDbm": {
+          "name": "valSignalSsRsrpDbm",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valSignalRsrqDb": {
+          "name": "valSignalRsrqDb",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valSignalCsiRsrqDb": {
+          "name": "valSignalCsiRsrqDb",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valSignalSsRsrqDb": {
+          "name": "valSignalSsRsrqDb",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valSignalRssnrDb": {
+          "name": "valSignalRssnrDb",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valSignalCsiSnrDb": {
+          "name": "valSignalCsiSnrDb",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valSignalSsSnrDb": {
+          "name": "valSignalSsSnrDb",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valSignalWcdmaEcnoDb": {
+          "name": "valSignalWcdmaEcnoDb",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valSignalRssiDbm": {
+          "name": "valSignalRssiDbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valSignalGsmRssiDbm": {
+          "name": "valSignalGsmRssiDbm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valSignalTimingAdvanceTs": {
+          "name": "valSignalTimingAdvanceTs",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valSignalCqi": {
+          "name": "valSignalCqi",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrSignalCellType": {
+          "name": "attrSignalCellType",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrCellNrFrequencyRange": {
+          "name": "attrCellNrFrequencyRange",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrCellBandwidthKhz": {
+          "name": "attrCellBandwidthKhz",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrCellBandwidthsKhz": {
+          "name": "attrCellBandwidthsKhz",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "idCellPrimary": {
+          "name": "idCellPrimary",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "idCellLteEnodeb": {
+          "name": "idCellLteEnodeb",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrCellPci": {
+          "name": "attrCellPci",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrCellNrPci": {
+          "name": "attrCellNrPci",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrCellTac": {
+          "name": "attrCellTac",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrCellLac": {
+          "name": "attrCellLac",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrCellPsc": {
+          "name": "attrCellPsc",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrCellFrequencyChannel": {
+          "name": "attrCellFrequencyChannel",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrCellFrequencyChannelType": {
+          "name": "attrCellFrequencyChannelType",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrCellNrArfcn": {
+          "name": "attrCellNrArfcn",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrCellLteBands": {
+          "name": "attrCellLteBands",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrCellNrBands": {
+          "name": "attrCellNrBands",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "idCellNr": {
+          "name": "idCellNr",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "idCellStart": {
+          "name": "idCellStart",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "idCellGsm": {
+          "name": "idCellGsm",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrNetworkOperatorMccNr": {
+          "name": "attrNetworkOperatorMccNr",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrNetworkOperatorMncNr": {
+          "name": "attrNetworkOperatorMncNr",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "idLocationBuilding": {
+          "name": "idLocationBuilding",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valIndoorConfidenceLevel": {
+          "name": "valIndoorConfidenceLevel",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isPortalIncluded": {
+          "name": "isPortalIncluded",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attrPortalCategories": {
+          "name": "attrPortalCategories",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valAsuLevel": {
+          "name": "valAsuLevel",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valNrAsuLevel": {
+          "name": "valNrAsuLevel",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ingestedAt": {
+          "name": "ingestedAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "networkPerformanceMobile_idResult_tsResult_pk": {
+          "name": "networkPerformanceMobile_idResult_tsResult_pk",
+          "columns": [
+            "idResult",
+            "tsResult"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "public.benchmark_scope": {
+      "name": "benchmark_scope",
+      "schema": "public",
+      "values": [
+        "NACIONAL",
+        "ESTADO",
+        "CIDADE"
+      ]
+    },
+    "public.competitive_position": {
+      "name": "competitive_position",
+      "schema": "public",
+      "values": [
+        "LIDER",
+        "COMPETITIVO",
+        "EMPAREDADA",
+        "ABAIXO",
+        "ISOLADA"
+      ]
+    },
+    "public.fibra_class": {
+      "name": "fibra_class",
+      "schema": "public",
+      "values": [
+        "AUMENTO_CAPACIDADE",
+        "EXPANSAO_NOVA_AREA",
+        "SAUDAVEL"
+      ]
+    },
+    "public.movel_class": {
+      "name": "movel_class",
+      "schema": "public",
+      "values": [
+        "MELHORA_QUALIDADE",
+        "SAUDAVEL",
+        "EXPANSAO_COBERTURA"
+      ]
+    },
+    "public.operator_name": {
+      "name": "operator_name",
+      "schema": "public",
+      "values": [
+        "VIVO",
+        "TIM",
+        "CLARO",
+        "OI",
+        "OUTROS"
+      ]
+    },
+    "public.priority_label": {
+      "name": "priority_label",
+      "schema": "public",
+      "values": [
+        "P1_CRITICA",
+        "P2_ALTA",
+        "P3_MEDIA",
+        "P4_BAIXA"
+      ]
+    },
+    "public.quadrant_type": {
+      "name": "quadrant_type",
+      "schema": "public",
+      "values": [
+        "OPORTUNIDADE",
+        "FORTALEZA",
+        "EXPANSAO",
+        "RISCO"
+      ]
+    },
+    "public.quality_label": {
+      "name": "quality_label",
+      "schema": "public",
+      "values": [
+        "EXCELENTE",
+        "BOM",
+        "REGULAR",
+        "RUIM"
+      ]
+    },
+    "public.share_level": {
+      "name": "share_level",
+      "schema": "public",
+      "values": [
+        "MUITO_ALTA",
+        "ALTA",
+        "MEDIA",
+        "BAIXA"
+      ]
+    },
+    "public.tech_category": {
+      "name": "tech_category",
+      "schema": "public",
+      "values": [
+        "FIBRA",
+        "MOVEL",
+        "AMBOS"
+      ]
+    },
+    "public.trend_direction": {
+      "name": "trend_direction",
+      "schema": "public",
+      "values": [
+        "UP",
+        "DOWN",
+        "STABLE"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

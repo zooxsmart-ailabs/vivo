@@ -11,6 +11,7 @@ import {
   timestamp,
   date,
 } from "drizzle-orm/pg-core";
+import { inet, inetArray } from "./_custom-types";
 
 export const video = pgTable("video", {
   // Timestamps & Identifiers
@@ -141,11 +142,11 @@ export const video = pgTable("video", {
   idLocationType: smallint("id_location_type"),
 
   // IP / Server
-  attrPrivateIpAddress: text("attr_private_ip_address"),
-  attrNetworkIpv6Address: text("attr_network_ipv6_address"),
+  attrPrivateIpAddress: inetArray("attr_private_ip_address"),
+  attrNetworkIpv6Address: inet("attr_network_ipv6_address"),
   attrDataSourceVersion: varchar("attr_data_source_version", { length: 20 }),
-  attrServerIpv4Address: text("attr_server_ipv4_address"),
-  attrGatewayIpAddress: text("attr_gateway_ip_address"),
+  attrServerIpv4Address: inet("attr_server_ipv4_address"),
+  attrGatewayIpAddress: inet("attr_gateway_ip_address"),
 
   // Signal (LTE)
   valSignalCqi: integer("val_signal_cqi"),

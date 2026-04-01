@@ -18,9 +18,13 @@ export const benchmarkConfig = pgTable("benchmark_config", {
   createdAt: timestamp("created_at", {
     withTimezone: true,
     mode: "string",
-  }).notNull(),
+  })
+    .notNull()
+    .defaultNow(),
   updatedAt: timestamp("updated_at", {
     withTimezone: true,
     mode: "string",
-  }).notNull(),
+  })
+    .notNull()
+    .defaultNow(),
 });

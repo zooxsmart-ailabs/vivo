@@ -16,10 +16,10 @@ async function main() {
   console.log("=== Starting database seed ===\n");
 
   try {
-    await seedBenchmark(pool);
+    // await seedBenchmark(pool);
     await seedGeoData(pool);
-    await seedScore(pool);
-    await seedQoeSamples(pool);
+    // await seedScore(pool);
+    // await seedQoeSamples(pool);
     console.log("\n=== Seed complete! ===");
   } catch (err) {
     console.error("\nSeed failed:", err);

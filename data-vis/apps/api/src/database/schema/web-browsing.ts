@@ -11,6 +11,7 @@ import {
   timestamp,
   date,
 } from "drizzle-orm/pg-core";
+import { inet, inetArray } from "./_custom-types";
 
 export const webBrowsing = pgTable("web_browsing", {
   // Timestamps & Identifiers
@@ -130,9 +131,9 @@ export const webBrowsing = pgTable("web_browsing", {
   idLocationType: smallint("id_location_type"),
 
   // IP / Server
-  attrPrivateIpAddress: text("attr_private_ip_address"),
-  attrNetworkIpv4Address: text("attr_network_ipv4_address"),
-  attrNetworkIpv6Address: text("attr_network_ipv6_address"),
+  attrPrivateIpAddress: inetArray("attr_private_ip_address"),
+  attrNetworkIpv4Address: inet("attr_network_ipv4_address"),
+  attrNetworkIpv6Address: inet("attr_network_ipv6_address"),
   attrDataSourceVersion: varchar("attr_data_source_version", { length: 20 }),
 
   // Signal (LTE)
