@@ -61,4 +61,11 @@ export async function seedGeohashCell(pool: Pool): Promise<void> {
   const total =
     gh7Geo.rowCount! + gh6Geo.rowCount! + gh7Score.rowCount! + gh6Score.rowCount!;
   console.log(`  Inserted ${total} geohash_cell rows (${gh7Geo.rowCount} + ${gh6Geo.rowCount} geo, ${gh7Score.rowCount} + ${gh6Score.rowCount} score-only)`);
+
+  // Refresh materialized view after populating geohash_cell
+  console.log("  Refreshing vw_geohash_summary...");
+  await pool.query(
+    "REFRESH MATERIALIZED VIEW CONCURRENTLY vw_geohash_summary",
+  );
+  console.log("  Materialized view refreshed");
 }

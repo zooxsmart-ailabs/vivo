@@ -540,9 +540,12 @@ FULL OUTER JOIN (SELECT * FROM share_movel_gh7 UNION ALL SELECT * FROM share_mov
     ON f.geohash_id = m.geohash_id AND f.precision = m.precision AND f.anomes = m.anomes;
 
 -- ---------------------------------------------------------------------------
--- 11. VIEW: vw_geohash_summary (v3 — with API-compatible aliases)
+-- 11. MATERIALIZED VIEW: vw_geohash_summary (v3 — with API-compatible aliases)
+--     Materialized for performance (~100x faster than regular VIEW).
+--     Refreshed hourly via TimescaleDB job (see step 13).
 -- ---------------------------------------------------------------------------
-CREATE OR REPLACE VIEW vw_geohash_summary AS
+DROP MATERIALIZED VIEW IF EXISTS vw_geohash_summary CASCADE;
+CREATE MATERIALIZED VIEW vw_geohash_summary AS
 WITH
 scores_all AS (
     SELECT
@@ -708,7 +711,18 @@ SELECT
     -- Trend stub (no historical data yet — compute with LAG() when available)
     'STABLE'::trend_direction AS trend_direction,
     0.0::NUMERIC              AS trend_delta
-FROM base;
+FROM base
+WITH DATA;
+
+-- Indices for the materialized view
+CREATE UNIQUE INDEX IF NOT EXISTS idx_mvw_gh_summary_pk
+  ON vw_geohash_summary (geohash_id, precision, period);
+CREATE INDEX IF NOT EXISTS idx_mvw_gh_summary_precision_period
+  ON vw_geohash_summary (precision, period);
+CREATE INDEX IF NOT EXISTS idx_mvw_gh_summary_quadrant
+  ON vw_geohash_summary (quadrant_type, priority_score DESC);
+CREATE INDEX IF NOT EXISTS idx_geohash_cell_precision
+  ON geohash_cell (precision);
 
 -- ---------------------------------------------------------------------------
 -- 12. VIEW: vw_bairro_summary (neighborhood aggregation)
@@ -734,3 +748,19 @@ SELECT
 FROM vw_geohash_summary gs
 WHERE gs.neighborhood IS NOT NULL
 GROUP BY gs.neighborhood, gs.city, gs.state, gs.period_month;
+
+-- ---------------------------------------------------------------------------
+-- 13. TimescaleDB job: hourly refresh of vw_geohash_summary
+-- ---------------------------------------------------------------------------
+CREATE OR REPLACE PROCEDURE fn_refresh_geohash_summary(job_id INT, config JSONB)
+LANGUAGE plpgsql AS $$
+BEGIN
+  REFRESH MATERIALIZED VIEW CONCURRENTLY vw_geohash_summary;
+END;
+$$;
+
+SELECT add_job(
+  'fn_refresh_geohash_summary',
+  schedule_interval => INTERVAL '1 hour',
+  job_name => 'refresh_geohash_summary'
+);
