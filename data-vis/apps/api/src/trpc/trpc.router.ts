@@ -1,20 +1,12 @@
-import { initTRPC, TRPCError } from "@trpc/server";
-import superjson from "superjson";
 import { z } from "zod";
-import type { TrpcContext } from "./trpc.context";
+import { t, publicProcedure, protectedProcedure } from "./trpc.base";
+import { geohashRouter } from "./routers/geohash.router";
+import { bairroRouter } from "./routers/bairro.router";
+import { frenteRouter } from "./routers/frente.router";
+import { sessionRouter } from "./routers/session.router";
+import { metaRouter } from "./routers/meta.router";
 
-const t = initTRPC.context<TrpcContext>().create({
-  transformer: superjson,
-});
-
-export const publicProcedure = t.procedure;
-
-export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
-  if (!ctx.user) {
-    throw new TRPCError({ code: "UNAUTHORIZED" });
-  }
-  return next({ ctx: { ...ctx, user: ctx.user } });
-});
+export { publicProcedure, protectedProcedure };
 
 export const appRouter = t.router({
   health: publicProcedure.query(() => ({
@@ -28,6 +20,12 @@ export const appRouter = t.router({
       pong: input.message || "pong",
       timestamp: new Date().toISOString(),
     })),
+
+  geohash: geohashRouter,
+  bairro: bairroRouter,
+  frente: frenteRouter,
+  session: sessionRouter,
+  meta: metaRouter,
 });
 
 export type AppRouter = typeof appRouter;

@@ -5,6 +5,10 @@ export default defineNuxtConfig({
 
   modules: ["@nuxtjs/tailwindcss"],
 
+  imports: {
+    dirs: ["app/composables"],
+  },
+
   app: {
     head: {
       title: "Vivo GeoIntelligence",
@@ -26,6 +30,7 @@ export default defineNuxtConfig({
       apiBase: "http://localhost:3008",
       wsUrl: "ws://localhost:3008",
       otelEndpoint: "",
+      googleMapsKey: "",
     },
   },
 

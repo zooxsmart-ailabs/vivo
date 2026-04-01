@@ -1,10 +1,10 @@
 import { pgEnum } from "drizzle-orm/pg-core";
 
 export const quadrantType = pgEnum("quadrant_type", [
-  "OPORTUNIDADE",
-  "FORTALEZA",
-  "EXPANSAO",
-  "RISCO",
+  "GROWTH",
+  "UPSELL",
+  "RETENCAO",
+  "GROWTH_RETENCAO",
 ]);
 
 export const techCategory = pgEnum("tech_category", [
@@ -31,12 +31,15 @@ export const fibraClass = pgEnum("fibra_class", [
   "AUMENTO_CAPACIDADE",
   "EXPANSAO_NOVA_AREA",
   "SAUDAVEL",
+  "SEM_FIBRA",
 ]);
 
 export const movelClass = pgEnum("movel_class", [
-  "MELHORA_QUALIDADE",
+  "MELHORA_QUALIDADE_5G",
+  "MELHORA_QUALIDADE_4G",
+  "EXPANSAO_COBERTURA_5G",
+  "EXPANSAO_COBERTURA_4G",
   "SAUDAVEL",
-  "EXPANSAO_COBERTURA",
 ]);
 
 export const priorityLabel = pgEnum("priority_label", [
@@ -62,9 +65,9 @@ export const benchmarkScope = pgEnum("benchmark_scope", [
 export const competitivePosition = pgEnum("competitive_position", [
   "LIDER",
   "COMPETITIVO",
-  "EMPAREDADA",
+  "EMPATADO",
   "ABAIXO",
-  "ISOLADA",
+  "CRITICO",
 ]);
 
 export const shareLevel = pgEnum("share_level", [
@@ -72,4 +75,16 @@ export const shareLevel = pgEnum("share_level", [
   "ALTA",
   "MEDIA",
   "BAIXA",
+]);
+
+export const scoreLabel = pgEnum("score_label", [
+  "BAIXO",
+  "MEDIO",
+  "ALTO",
+  "CRITICO",
+]);
+
+export const techRecommendation = pgEnum("tech_recommendation", [
+  "5G_PREMIUM",
+  "4G_MASS",
 ]);
