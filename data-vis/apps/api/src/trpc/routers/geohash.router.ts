@@ -136,69 +136,74 @@ export const geohashRouter = t.router({
       if (cached) return JSON.parse(cached);
 
       // Dados base da vw_geohash_summary
-      const [baseRows, crmRows, fibra2Rows, movel2Rows] = await Promise.all([
-        ctx.db.execute<{
-          geohash_id: string;
-          precision: number;
-          center_lat: number;
-          center_lng: number;
-          neighborhood: string | null;
-          city: string;
-          state: string;
-          quadrant_type: string;
-          share_vivo: number;
-          share_fibra: number | null;
-          share_movel: number | null;
-          avg_satisfaction_vivo: number;
-          priority_score: number;
-          priority_label: string;
-          tech_category: string;
-          trend_direction: string;
-          trend_delta: number;
-          competitive_position: string;
-          vivo_score: number | null;
-          tim_score: number | null;
-          claro_score: number | null;
-          oi_score: number | null;
-          download_mbps: number | null;
-          latency_ms: number | null;
-          quality_label: string | null;
-          domicilios_com_fibra: number | null;
-          total_domicilios: number | null;
-          pessoas_com_erb: number | null;
-          populacao_residente: number | null;
-          period: string;
-        }>(sql`
-          SELECT
-            s.*,
-            gc.precision,
-            gc.center_lat,
-            gc.center_lng,
-            gc.neighborhood,
-            gc.city,
-            gc.state
-          FROM vw_geohash_summary s
-          JOIN geohash_cell gc ON gc.geohash_id = s.geohash_id
-          WHERE s.geohash_id = ${input.geohashId}
-            ${input.period ? sql`AND s.period = ${input.period}` : sql`AND s.period = (SELECT MAX(period) FROM vw_geohash_summary)`}
-        `),
+      const baseRows = await ctx.db.execute<{
+        geohash_id: string;
+        precision: number;
+        center_lat: number;
+        center_lng: number;
+        neighborhood: string | null;
+        city: string;
+        state: string;
+        quadrant_type: string;
+        share_vivo: number;
+        share_fibra: number | null;
+        share_movel: number | null;
+        avg_satisfaction_vivo: number;
+        priority_score: number;
+        priority_label: string;
+        tech_category: string;
+        trend_direction: string;
+        trend_delta: number;
+        competitive_position: string;
+        vivo_score: number | null;
+        tim_score: number | null;
+        claro_score: number | null;
+        oi_score: number | null;
+        download_mbps: number | null;
+        latency_ms: number | null;
+        quality_label: string | null;
+        domicilios_com_fibra: number | null;
+        total_domicilios: number | null;
+        pessoas_com_erb: number | null;
+        populacao_residente: number | null;
+        period: string;
+      }>(sql`
+        SELECT
+          s.*,
+          gc.precision,
+          gc.center_lat,
+          gc.center_lng,
+          gc.neighborhood,
+          gc.city,
+          gc.state
+        FROM vw_geohash_summary s
+        JOIN geohash_cell gc ON gc.geohash_id = s.geohash_id
+        WHERE s.geohash_id = ${input.geohashId}
+          ${input.period ? sql`AND s.period = ${input.period}` : sql`AND s.period = (SELECT MAX(period) FROM vw_geohash_summary)`}
+      `);
 
-        ctx.db.execute<{
+      // Queries auxiliares — tabelas de Camada 2/CRM podem não existir ainda
+      const safeQuery = <T>(query: Promise<{ rows: T[] }>) =>
+        query.then((r) => r.rows[0] ?? null).catch(() => null);
+
+      const [crm, fibra2, movel2] = await Promise.all([
+        safeQuery<{
           avg_arpu: number | null;
           dominant_plan_type: string | null;
           device_tier: string | null;
           avg_income: number | null;
           population_density: number | null;
           income_label: string | null;
-        }>(sql`
-          SELECT avg_arpu, dominant_plan_type, device_tier,
-                 avg_income, population_density, income_label
-          FROM geohash_crm
-          WHERE geohash_id = ${input.geohashId}
-            ${input.period ? sql`AND period = ${input.period}` : sql`AND period = (SELECT MAX(period) FROM geohash_crm WHERE geohash_id = ${input.geohashId})`}
-        `),
-
-        ctx.db.execute<{
+        }>(
+          ctx.db.execute(sql`
+            SELECT avg_arpu, dominant_plan_type, device_tier,
+                   avg_income, population_density, income_label
+            FROM geohash_crm
+            WHERE geohash_id = ${input.geohashId}
+              ${input.period ? sql`AND period = ${input.period}` : sql`AND period = (SELECT MAX(period) FROM geohash_crm WHERE geohash_id = ${input.geohashId})`}
+          `),
+        ),
+        safeQuery<{
           classification: string;
           score: number;
           score_label: string;
@@ -206,15 +211,16 @@ export const geohashRouter = t.router({
           portas_disponiveis: number | null;
           potencial_mercado: number | null;
           sinergia_movel: number | null;
-        }>(sql`
-          SELECT classification, score, score_label,
-                 taxa_ocupacao, portas_disponiveis, potencial_mercado, sinergia_movel
-          FROM camada2_fibra
-          WHERE geohash_id = ${input.geohashId}
-            ${input.period ? sql`AND period = ${input.period}` : sql`AND period = (SELECT MAX(period) FROM camada2_fibra WHERE geohash_id = ${input.geohashId})`}
-        `),
-
-        ctx.db.execute<{
+        }>(
+          ctx.db.execute(sql`
+            SELECT classification, score, score_label,
+                   taxa_ocupacao, portas_disponiveis, potencial_mercado, sinergia_movel
+            FROM camada2_fibra
+            WHERE geohash_id = ${input.geohashId}
+              ${input.period ? sql`AND period = ${input.period}` : sql`AND period = (SELECT MAX(period) FROM camada2_fibra WHERE geohash_id = ${input.geohashId})`}
+          `),
+        ),
+        safeQuery<{
           classification: string;
           score: number;
           score_label: string;
@@ -222,22 +228,21 @@ export const geohashRouter = t.router({
           speedtest_score: number | null;
           concentracao_renda: number | null;
           vulnerabilidade_concorrencia: number | null;
-        }>(sql`
-          SELECT classification, score, score_label,
-                 tech_recommendation, speedtest_score,
-                 concentracao_renda, vulnerabilidade_concorrencia
-          FROM camada2_movel
-          WHERE geohash_id = ${input.geohashId}
-            ${input.period ? sql`AND period = ${input.period}` : sql`AND period = (SELECT MAX(period) FROM camada2_movel WHERE geohash_id = ${input.geohashId})`}
-        `),
+        }>(
+          ctx.db.execute(sql`
+            SELECT classification, score, score_label,
+                   tech_recommendation, speedtest_score,
+                   concentracao_renda, vulnerabilidade_concorrencia
+            FROM camada2_movel
+            WHERE geohash_id = ${input.geohashId}
+              ${input.period ? sql`AND period = ${input.period}` : sql`AND period = (SELECT MAX(period) FROM camada2_movel WHERE geohash_id = ${input.geohashId})`}
+          `),
+        ),
       ]);
 
       if (baseRows.rows.length === 0) return null;
 
       const base = baseRows.rows[0];
-      const crm = crmRows.rows[0] ?? null;
-      const fibra2 = fibra2Rows.rows[0] ?? null;
-      const movel2 = movel2Rows.rows[0] ?? null;
 
       const result = {
         ...base,
