@@ -1,8 +1,8 @@
 import { Pool } from "pg";
 import { seedBenchmark } from "./seeds/benchmark.seed";
 import { seedGeoData } from "./seeds/geo-data.seed";
-import { seedScore } from "./seeds/score.seed";
-import { seedQoeSamples } from "./seeds/qoe-samples.seed";
+// import { seedScore } from "./seeds/score.seed";
+// import { seedQoeSamples } from "./seeds/qoe-samples.seed";
 
 async function main() {
   const pool = new Pool({
@@ -16,7 +16,7 @@ async function main() {
   console.log("=== Starting database seed ===\n");
 
   try {
-    // await seedBenchmark(pool);
+    await seedBenchmark(pool);
     await seedGeoData(pool);
     // await seedScore(pool);
     // await seedQoeSamples(pool);

@@ -1,4 +1,4 @@
-CREATE TABLE "networkPerformanceFixed" (
+CREATE TABLE IF NOT EXISTS "networkPerformanceFixed" (
 	"idResult" bigint NOT NULL,
 	"guidResult" text,
 	"idPlatform" smallint,
@@ -127,7 +127,7 @@ CREATE TABLE "networkPerformanceFixed" (
 	CONSTRAINT "networkPerformanceFixed_idResult_tsResult_pk" PRIMARY KEY("idResult","tsResult")
 );
 --> statement-breakpoint
-CREATE TABLE "networkPerformanceMobile" (
+CREATE TABLE IF NOT EXISTS "networkPerformanceMobile" (
 	"idResult" bigint NOT NULL,
 	"guidResult" text,
 	"idPlatform" smallint,

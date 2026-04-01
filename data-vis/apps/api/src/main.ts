@@ -20,7 +20,7 @@ async function bootstrap() {
   const trpcService = app.get(TrpcService);
 
   const corsOrigins = config.get<string>("app.corsOrigins") as unknown;
-  const port = config.get<number>("app.port", 3001);
+  const port = config.get<number>("app.port", 3008);
 
   // Security
   app.use(helmet());

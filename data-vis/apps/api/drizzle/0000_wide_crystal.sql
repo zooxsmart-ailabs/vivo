@@ -9,7 +9,7 @@ CREATE TYPE "public"."quality_label" AS ENUM('EXCELENTE', 'BOM', 'REGULAR', 'RUI
 CREATE TYPE "public"."share_level" AS ENUM('MUITO_ALTA', 'ALTA', 'MEDIA', 'BAIXA');--> statement-breakpoint
 CREATE TYPE "public"."tech_category" AS ENUM('FIBRA', 'MOVEL', 'AMBOS');--> statement-breakpoint
 CREATE TYPE "public"."trend_direction" AS ENUM('UP', 'DOWN', 'STABLE');--> statement-breakpoint
-CREATE TABLE "file_transfer" (
+CREATE TABLE IF NOT EXISTS "file_transfer" (
 	"ts_result" timestamp with time zone NOT NULL,
 	"ts_result_received" timestamp with time zone,
 	"id_platform" varchar(7),
@@ -144,7 +144,7 @@ CREATE TABLE "file_transfer" (
 	"dt_foto" date
 );
 --> statement-breakpoint
-CREATE TABLE "video" (
+CREATE TABLE IF NOT EXISTS "video" (
 	"ts_result" timestamp with time zone NOT NULL,
 	"ts_result_received" timestamp with time zone,
 	"id_platform" varchar(7),
@@ -270,7 +270,7 @@ CREATE TABLE "video" (
 	"dt_foto" date
 );
 --> statement-breakpoint
-CREATE TABLE "web_browsing" (
+CREATE TABLE IF NOT EXISTS "web_browsing" (
 	"ts_result" timestamp with time zone NOT NULL,
 	"ts_result_received" timestamp with time zone,
 	"id_platform" varchar(7),
@@ -384,7 +384,7 @@ CREATE TABLE "web_browsing" (
 	"dt_foto" date
 );
 --> statement-breakpoint
-CREATE TABLE "score" (
+CREATE TABLE IF NOT EXISTS "score" (
 	"nu_ano_mes_rfrn" integer NOT NULL,
 	"nm_oprd" varchar(50) NOT NULL,
 	"cd_geo_hsh7" varchar(7) NOT NULL,
@@ -402,7 +402,7 @@ CREATE TABLE "score" (
 	"ds_obs" text
 );
 --> statement-breakpoint
-CREATE TABLE "geo_por_latlong" (
+CREATE TABLE IF NOT EXISTS "geo_por_latlong" (
 	"latitude" double precision,
 	"longitude" double precision,
 	"populacao_total_media" double precision,
@@ -426,7 +426,7 @@ CREATE TABLE "geo_por_latlong" (
 	"propensao_seguro_residencial_media" double precision
 );
 --> statement-breakpoint
-CREATE TABLE "vivo_ftth_coverage" (
+CREATE TABLE IF NOT EXISTS "vivo_ftth_coverage" (
 	"cod_geo" varchar(20) NOT NULL,
 	"anomes" integer NOT NULL,
 	"produto" varchar(20) NOT NULL,
@@ -438,7 +438,7 @@ CREATE TABLE "vivo_ftth_coverage" (
 	CONSTRAINT "vivo_ftth_coverage_cod_geo_anomes_pk" PRIMARY KEY("cod_geo","anomes")
 );
 --> statement-breakpoint
-CREATE TABLE "vivo_mobile_erb" (
+CREATE TABLE IF NOT EXISTS "vivo_mobile_erb" (
 	"erb_casa" varchar(20) NOT NULL,
 	"anomes" integer NOT NULL,
 	"qtde_lnha_pos" integer NOT NULL,
@@ -449,7 +449,7 @@ CREATE TABLE "vivo_mobile_erb" (
 	CONSTRAINT "vivo_mobile_erb_erb_casa_anomes_pk" PRIMARY KEY("erb_casa","anomes")
 );
 --> statement-breakpoint
-CREATE TABLE "geohash_cell" (
+CREATE TABLE IF NOT EXISTS "geohash_cell" (
 	"geohash_id" varchar(12) PRIMARY KEY NOT NULL,
 	"precision" smallint NOT NULL,
 	"center_lat" double precision NOT NULL,
@@ -461,7 +461,7 @@ CREATE TABLE "geohash_cell" (
 	"created_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "benchmark_config" (
+CREATE TABLE IF NOT EXISTS "benchmark_config" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"key" varchar(50) NOT NULL,
 	"scope" "benchmark_scope" NOT NULL,
@@ -472,7 +472,7 @@ CREATE TABLE "benchmark_config" (
 	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "user_session" (
+CREATE TABLE IF NOT EXISTS "user_session" (
 	"user_id" varchar(255) PRIMARY KEY NOT NULL,
 	"state" jsonb NOT NULL,
 	"updated_at" timestamp with time zone NOT NULL

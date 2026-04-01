@@ -21,19 +21,19 @@ export async function seedGeoData(pool: Pool): Promise<void> {
   // "geom", "geohash7", "geohash6" are GENERATED ALWAYS columns — must skip.
   // CSV does not include them, so no skipColumns needed.
   // Limit to first 5000 rows for seed.
-  // console.log("Seeding vivo_ftth_coverage (sample)...");
-  // const ftthCount = await seedFromCsv(
-  //   pool,
-  //   "vivo_ftth_coverage",
-  //   resolveDataPath("docs/levantamento/Ookla_visao_ftth_3M_202512.csv"),
-  //   {
-  //     delimiter: ";",
-  //     decimalComma: true,
-  //     limit: 5000,
-  //     onConflict: "(cod_geo, anomes) DO NOTHING",
-  //   }
-  // );
-  // console.log(`  Inserted ${ftthCount} vivo_ftth_coverage rows`);
+  console.log("Seeding vivo_ftth_coverage (sample)...");
+  const ftthCount = await seedFromCsv(
+    pool,
+    "vivo_ftth_coverage",
+    resolveDataPath("docs/levantamento/Ookla_visao_ftth_3M_202512.csv"),
+    {
+      delimiter: ";",
+      decimalComma: true,
+      limit: 5000,
+      onConflict: "(cod_geo, anomes) DO NOTHING",
+    }
+  );
+  console.log(`  Inserted ${ftthCount} vivo_ftth_coverage rows`);
 
   // vivo_mobile_erb (semicolon, uppercase headers, ~994 rows)
   // "geom", "geohash7", "geohash6" are GENERATED ALWAYS — CSV doesn't have them.
