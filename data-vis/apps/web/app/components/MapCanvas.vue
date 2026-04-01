@@ -151,7 +151,7 @@ async function initMap() {
   await load();
 
   map = new google.maps.Map(mapEl.value, {
-    center: props.center ?? { lat: -23.5505, lng: -46.6333 },
+    center: props.center ?? { lat: -16.6869, lng: -49.2648 },
     zoom: props.zoom ?? 11,
     mapTypeControl: false,
     streetViewControl: false,

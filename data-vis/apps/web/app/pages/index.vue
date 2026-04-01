@@ -139,6 +139,8 @@ import {
   QUADRANT_DESCRIPTIONS,
 } from "../composables/useFilters";
 
+definePageMeta({ layout: "fullscreen" });
+
 const trpc = useTrpc();
 const filters = useFilters();
 const session = useSession();
