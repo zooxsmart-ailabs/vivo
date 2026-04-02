@@ -13,9 +13,9 @@
   "dependencies": {
     "@trpc/client": "^10.45.0",
     "@vivo/shared": "workspace:*",
+    "lucide-vue-next": "^0.460.0",
     "nuxt": "^3.16.0",
     "superjson": "^2.2.0",
-    "lucide-vue-next": "^0.460.0",
     "vue": "^3.5.0",
     "vue-router": "^4.5.0"
   },
@@ -24,6 +24,7 @@
     "@nuxtjs/tailwindcss": "^6.13.0",
     "@types/google.maps": "^3.58.1",
     "@types/node": "^22.0.0",
+    "@vitejs/plugin-vue": "^6.0.5",
     "@vivo/zoox-map-api": "workspace:*",
     "@vue/test-utils": "^2.4.0",
     "happy-dom": "^16.0.0",
