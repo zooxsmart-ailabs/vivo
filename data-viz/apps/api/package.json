@@ -73,6 +73,9 @@
     "testEnvironment": "node",
     "moduleNameMapper": {
       "^@vivo/shared(.*)$": "<rootDir>/../../packages/shared/src$1"
-    }
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!.*(superjson|copy-anything|is-what))"
+    ]
   }
 }
