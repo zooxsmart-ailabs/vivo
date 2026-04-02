@@ -16,6 +16,7 @@
       <button
         v-for="q in QUADRANT_ORDER"
         :key="q"
+        :data-cy="`quadrant-${q}`"
         @click="toggleQuadrant(q)"
         class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 border"
         :class="activeQuadrants.has(q)
@@ -41,6 +42,7 @@
       <button
         v-for="tab in TECH_TABS"
         :key="tab.key"
+        :data-cy="`tech-${tab.key}`"
         @click="setTech(tab.key)"
         class="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold transition-all duration-150"
         :class="techFilter === tab.key ? 'bg-white shadow-sm' : 'text-slate-400 hover:text-slate-600'"
@@ -53,9 +55,10 @@
 
     <!-- Counter -->
     <div class="ml-auto flex items-center gap-3 text-xs text-slate-400">
-      <span>{{ visibleCount }}/{{ totalCount }} visíveis</span>
+      <span data-cy="counter-visible">{{ visibleCount }}/{{ totalCount }} visíveis</span>
       <span
         v-if="retencaoCount > 0"
+        data-cy="counter-risco"
         class="flex items-center gap-1 text-red-500 font-semibold"
       >
         <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />

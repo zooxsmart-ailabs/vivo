@@ -111,6 +111,7 @@
         v-for="tab in tabs"
         :key="tab.path"
         :to="tab.path"
+        :data-cy="`nav-${tab.path === '/' ? 'mapa' : tab.path.slice(1)}`"
         class="relative flex items-center gap-2 px-4 py-2.5 text-xs font-semibold transition-all duration-200 no-underline"
         :style="{
           color: isActive(tab.path) ? '#fff' : 'rgba(255,255,255,0.38)',
