@@ -1,5 +1,5 @@
 {
-  "name": "@vivo/data-vis",
+  "name": "@vivo/data-viz",
   "private": true,
   "scripts": {
     "dev": "pnpm -r --parallel dev",

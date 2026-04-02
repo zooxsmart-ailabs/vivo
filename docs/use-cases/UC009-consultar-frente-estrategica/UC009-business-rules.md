@@ -187,7 +187,7 @@ Disponível em todos os quadrantes mas prioritário em GROWTH e GROWTH_RETENCAO.
 | **ID** | RN009-05 |
 | **Tipo** | Cálculo |
 | **Passos** | Passo 10 (Diagnóstico Growth) |
-| **Fonte** | `data-vis/apps/web/app/composables/useDiagnostico.ts` |
+| **Fonte** | `data-viz/apps/web/app/composables/useDiagnostico.ts` |
 
 **Descrição:**
 A frente GROWTH utiliza um motor diagnóstico que avalia 4 pilares estratégicos.

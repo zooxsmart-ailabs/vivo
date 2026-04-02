@@ -249,7 +249,7 @@ Exibida como badge no card lateral, seção de satisfação.
 | **ID** | RN004-08 |
 | **Tipo** | Interface |
 | **Passos** | Card lateral — tabs C1/C2 |
-| **Fonte** | `data-vis/apps/web/app/components/GeohashCard.vue` |
+| **Fonte** | `data-viz/apps/web/app/components/GeohashCard.vue` |
 
 **Descrição:**
 A ficha compacta (GeohashCard) exibe informações do geohash em duas abas:
