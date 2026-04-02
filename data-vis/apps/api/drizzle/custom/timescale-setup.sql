@@ -730,21 +730,24 @@ CREATE INDEX IF NOT EXISTS idx_geohash_cell_precision
 CREATE OR REPLACE VIEW vw_bairro_summary AS
 SELECT
     gs.neighborhood, gs.city, gs.state, gs.period_month,
-    COUNT(DISTINCT gs.geohash_id) AS geohash_count,
-    SUM(gs.total_population) AS total_population,
-    SUM(gs.total_linhas_vivo) + SUM(gs.total_ftth_vivo) AS total_clients,
-    ROUND(AVG(gs.share_pct)::numeric, 2) AS avg_share,
-    ROUND(AVG(gs.vivo_score)::numeric, 1) AS avg_vivo_score,
-    ROUND(AVG(gs.tim_score)::numeric, 1) AS avg_tim_score,
-    ROUND(AVG(gs.claro_score)::numeric, 1) AS avg_claro_score,
-    ROUND((AVG(gs.avg_income) FILTER (WHERE gs.avg_income > 0)::numeric), 2) AS avg_income,
-    SUM(gs.total_domicilios) AS total_domicilios,
-    JSONB_BUILD_OBJECT(
-        'GROWTH',          COUNT(*) FILTER (WHERE gs.quadrant = 'GROWTH'),
-        'UPSELL',          COUNT(*) FILTER (WHERE gs.quadrant = 'UPSELL'),
-        'RETENCAO',        COUNT(*) FILTER (WHERE gs.quadrant = 'RETENCAO'),
-        'GROWTH_RETENCAO', COUNT(*) FILTER (WHERE gs.quadrant = 'GROWTH_RETENCAO')
-    ) AS quadrant_counts
+    gs.period_month                                      AS period,
+    COUNT(DISTINCT gs.geohash_id)::int                   AS geohash_count,
+    COUNT(DISTINCT gs.geohash_id)::int                   AS total_geohashes,
+    SUM(gs.total_population)                             AS total_population,
+    SUM(gs.total_linhas_vivo) + SUM(gs.total_ftth_vivo)  AS total_clients,
+    ROUND(AVG(gs.share_pct)::numeric, 2)                 AS avg_share,
+    ROUND(AVG(gs.vivo_score)::numeric, 1)                AS avg_satisfaction,
+    ROUND(AVG(gs.vivo_score)::numeric, 1)                AS avg_vivo_score,
+    ROUND(AVG(gs.tim_score)::numeric, 1)                 AS avg_tim_score,
+    ROUND(AVG(gs.claro_score)::numeric, 1)               AS avg_claro_score,
+    ROUND(AVG(gs.priority_score)::numeric, 2)            AS avg_priority_score,
+    MODE() WITHIN GROUP (ORDER BY gs.quadrant)           AS dominant_quadrant,
+    ROUND((AVG(gs.avg_income) FILTER (WHERE gs.avg_income > 0))::numeric, 2) AS avg_income,
+    SUM(gs.total_domicilios)                             AS total_domicilios,
+    COUNT(*) FILTER (WHERE gs.quadrant = 'GROWTH')::int           AS geohash_count_growth,
+    COUNT(*) FILTER (WHERE gs.quadrant = 'UPSELL')::int           AS geohash_count_upsell,
+    COUNT(*) FILTER (WHERE gs.quadrant = 'RETENCAO')::int         AS geohash_count_retencao,
+    COUNT(*) FILTER (WHERE gs.quadrant = 'GROWTH_RETENCAO')::int  AS geohash_count_growth_retencao
 FROM vw_geohash_summary gs
 WHERE gs.neighborhood IS NOT NULL
 GROUP BY gs.neighborhood, gs.city, gs.state, gs.period_month;

@@ -42,27 +42,25 @@ export const bairroRouter = t.router({
         period: string;
       }>(sql`
         SELECT
-          gc.neighborhood,
-          gc.city,
-          gc.state,
-          COUNT(*)::int                                      AS total_geohashes,
-          ROUND(AVG(s.share_vivo)::numeric, 2)              AS avg_share,
-          ROUND(AVG(s.avg_satisfaction_vivo)::numeric, 2)   AS avg_satisfaction,
-          ROUND(AVG(s.priority_score)::numeric, 2)          AS avg_priority_score,
-          MODE() WITHIN GROUP (ORDER BY s.quadrant_type)    AS dominant_quadrant,
-          COUNT(*) FILTER (WHERE s.quadrant_type = 'GROWTH')::int           AS geohash_count_growth,
-          COUNT(*) FILTER (WHERE s.quadrant_type = 'UPSELL')::int           AS geohash_count_upsell,
-          COUNT(*) FILTER (WHERE s.quadrant_type = 'RETENCAO')::int         AS geohash_count_retencao,
-          COUNT(*) FILTER (WHERE s.quadrant_type = 'GROWTH_RETENCAO')::int  AS geohash_count_growth_retencao,
-          s.period
-        FROM vw_geohash_summary s
-        JOIN geohash_cell gc ON gc.geohash_id = s.geohash_id
-        WHERE gc.neighborhood IS NOT NULL
-          ${input.period ? sql`AND s.period = ${input.period}` : sql`AND s.period = (SELECT MAX(period) FROM vw_geohash_summary)`}
-          ${input.state ? sql`AND gc.state = ${input.state}` : sql``}
-          ${input.city ? sql`AND gc.city = ${input.city}` : sql``}
-          ${input.quadrant ? sql`AND s.quadrant_type = ${input.quadrant}` : sql``}
-        GROUP BY gc.neighborhood, gc.city, gc.state, s.period
+          neighborhood,
+          city,
+          state,
+          total_geohashes,
+          avg_share,
+          avg_satisfaction,
+          avg_priority_score,
+          dominant_quadrant,
+          geohash_count_growth,
+          geohash_count_upsell,
+          geohash_count_retencao,
+          geohash_count_growth_retencao,
+          period
+        FROM vw_bairro_summary
+        WHERE TRUE
+          ${input.period ? sql`AND period = ${input.period}` : sql`AND period = (SELECT MAX(period) FROM vw_bairro_summary)`}
+          ${input.state ? sql`AND state = ${input.state}` : sql``}
+          ${input.city ? sql`AND city = ${input.city}` : sql``}
+          ${input.quadrant ? sql`AND dominant_quadrant = ${input.quadrant}` : sql``}
         ORDER BY avg_priority_score DESC
         LIMIT ${input.limit}
         OFFSET ${input.offset}

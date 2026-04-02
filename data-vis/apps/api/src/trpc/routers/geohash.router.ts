@@ -186,7 +186,7 @@ export const geohashRouter = t.router({
       const safeQuery = <T>(query: Promise<{ rows: T[] }>) =>
         query.then((r) => r.rows[0] ?? null).catch(() => null);
 
-      const [crm, fibra2, movel2] = await Promise.all([
+      const [crm, fibra2, movel2, growthDiag] = await Promise.all([
         safeQuery<{
           avg_arpu: number | null;
           dominant_plan_type: string | null;
@@ -238,6 +238,36 @@ export const geohashRouter = t.router({
               ${input.period ? sql`AND period = ${input.period}` : sql`AND period = (SELECT MAX(period) FROM camada2_movel WHERE geohash_id = ${input.geohashId})`}
           `),
         ),
+        safeQuery<{
+          score_ookla: number;
+          taxa_chamados: number;
+          share_penetracao: number;
+          delta_vs_lider: number;
+          fibra_class: string;
+          movel_class: string;
+          arpu_relativo: number;
+          canal_dominante: string;
+          canal_pct: number;
+          sinal_percepcao: string;
+          sinal_concorrencia: string;
+          sinal_infraestrutura: string;
+          sinal_comportamento: string;
+          recomendacao: string;
+          recomendacao_razao: string | null;
+        }>(
+          ctx.db.execute(sql`
+            SELECT score_ookla, taxa_chamados,
+                   share_penetracao, delta_vs_lider,
+                   fibra_class, movel_class,
+                   arpu_relativo, canal_dominante, canal_pct,
+                   sinal_percepcao, sinal_concorrencia,
+                   sinal_infraestrutura, sinal_comportamento,
+                   recomendacao, recomendacao_razao
+            FROM diagnostico_growth
+            WHERE geohash_id = ${input.geohashId}
+              ${input.period ? sql`AND anomes = ${input.period}` : sql`AND anomes = (SELECT MAX(anomes) FROM diagnostico_growth WHERE geohash_id = ${input.geohashId})`}
+          `),
+        ),
       ]);
 
       if (baseRows.rows.length === 0) return null;
@@ -254,6 +284,7 @@ export const geohashRouter = t.router({
                 movel: movel2,
               }
             : null,
+        diagnosticoGrowth: growthDiag,
       };
 
       await ctx.redis.set(cacheKey, JSON.stringify(result), "EX", 300);
