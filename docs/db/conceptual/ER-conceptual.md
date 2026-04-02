@@ -78,6 +78,30 @@ erDiagram
         geometry geom
     }
 
+    %% ===== CAMADA RAW (AIE — Speedtest Ookla rede fixa/móvel) =====
+    NETWORK_PERFORMANCE_FIXED {
+        bigint idResult PK
+        timestamptz tsResult PK
+        text attrProviderName
+        double valDownloadMbps
+        double valUploadMbps
+        double valLatencyIqmMs
+        double attrLocationLatitude
+        double attrLocationLongitude
+    }
+
+    NETWORK_PERFORMANCE_MOBILE {
+        bigint idResult PK
+        timestamptz tsResult PK
+        text attrSimOperatorCommonName
+        integer valDownloadKbps
+        integer valUploadKbps
+        double valLatencyIqmMs
+        double attrLocationLatitude
+        double attrLocationLongitude
+        boolean isDevice5gCapable
+    }
+
     %% ===== CAMADA ANALITICA (ALI — mantidas pelo sistema) =====
     GEOHASH_CELL {
         varchar geohash_id PK
@@ -102,6 +126,41 @@ erDiagram
         varchar user_id PK
         jsonb state
         timestamptz updated_at
+    }
+
+    %% ===== CAMADA CRM + CAMADA 2 (ALI — dados derivados) =====
+    GEOHASH_CRM {
+        varchar geohash_id PK
+        varchar period PK
+        numeric avg_arpu
+        varchar dominant_plan_type
+        varchar device_tier
+        numeric avg_income
+        numeric population_density
+    }
+
+    CAMADA2_FIBRA {
+        varchar geohash_id PK
+        varchar period PK
+        fibra_class classification
+        smallint score
+        score_label score_label
+        numeric taxa_ocupacao
+        numeric portas_disponiveis
+        numeric potencial_mercado
+        numeric sinergia_movel
+    }
+
+    CAMADA2_MOVEL {
+        varchar geohash_id PK
+        varchar period PK
+        movel_class classification
+        smallint score
+        score_label score_label
+        tech_recommendation tech_recommendation
+        numeric speedtest_score
+        numeric concentracao_renda
+        numeric vulnerabilidade_concorrencia
     }
 
     %% ===== CAMADA DIAGNOSTICO (ALI — calculado pelo sistema) =====
@@ -150,9 +209,21 @@ erDiagram
 
     %% ===== RELACIONAMENTOS =====
 
+    %% Network Performance → Geohash (via PostGIS)
+    NETWORK_PERFORMANCE_FIXED }o--|| GEOHASH_CELL : "ST_GeoHash(lat,lng) -> geohash_id"
+    NETWORK_PERFORMANCE_MOBILE }o--|| GEOHASH_CELL : "ST_GeoHash(lat,lng) -> geohash_id"
+
+    %% CRM + Camada 2 → Geohash
+    GEOHASH_CRM }o--|| GEOHASH_CELL : "geohash_id -> geohash_id"
+    CAMADA2_FIBRA }o--|| GEOHASH_CELL : "geohash_id -> geohash_id"
+    CAMADA2_MOVEL }o--|| GEOHASH_CELL : "geohash_id -> geohash_id"
+
     %% Diagnóstico Growth → dependencias
     DIAGNOSTICO_GROWTH }o--|| GEOHASH_CELL : "geohash_id -> geohash_id"
     DIAGNOSTICO_GROWTH ||--o{ SCORE : "score_ookla, delta_vs_lider"
+    DIAGNOSTICO_GROWTH ||--o{ CAMADA2_FIBRA : "fibra_class"
+    DIAGNOSTICO_GROWTH ||--o{ CAMADA2_MOVEL : "movel_class"
+    DIAGNOSTICO_GROWTH ||--o{ GEOHASH_CRM : "arpu_relativo"
     DIAGNOSTICO_GROWTH ||--o{ VW_GEOHASH_SUMMARY : "share_penetracao"
 
     %% Raw QoE → Geohash
@@ -194,8 +265,16 @@ erDiagram
 | VW_GEOHASH_SUMMARY | VIVO_MOBILE_ERB | 1:N | Share MÓVEL = linhas / população | RN001-01 |
 | VW_BAIRRO_SUMMARY | VW_GEOHASH_SUMMARY | 1:N | Bairro agrega N geohashes | UC010 |
 | USER_SESSION | — | standalone | Estado da sessão por usuário | UC011, UC012 |
+| NETWORK_PERFORMANCE_FIXED | GEOHASH_CELL | N:1 | Testes Speedtest rede fixa por geohash | UC001, UC004 |
+| NETWORK_PERFORMANCE_MOBILE | GEOHASH_CELL | N:1 | Testes Speedtest rede móvel por geohash | UC001, UC004 |
+| GEOHASH_CRM | GEOHASH_CELL | N:1 | Dados CRM por geohash (ARPU, plano, device) | UC009 |
+| CAMADA2_FIBRA | GEOHASH_CELL | N:1 | Score e classificação fibra por geohash | UC009 |
+| CAMADA2_MOVEL | GEOHASH_CELL | N:1 | Score e classificação móvel por geohash | UC009 |
 | DIAGNOSTICO_GROWTH | GEOHASH_CELL | N:1 | Diagnóstico 4 pilares por geohash/mês | UC009 |
 | DIAGNOSTICO_GROWTH | SCORE | 1:N | Score Ookla e delta competitivo | UC009 |
+| DIAGNOSTICO_GROWTH | CAMADA2_FIBRA | 1:1 | Classificação fibra do geohash | UC009 |
+| DIAGNOSTICO_GROWTH | CAMADA2_MOVEL | 1:1 | Classificação móvel do geohash | UC009 |
+| DIAGNOSTICO_GROWTH | GEOHASH_CRM | 1:1 | ARPU relativo do geohash | UC009 |
 | DIAGNOSTICO_GROWTH | VW_GEOHASH_SUMMARY | 1:1 | Share penetração | UC009 |
 
 ## Rastreabilidade: Entidade → ALI/AIE
@@ -209,9 +288,14 @@ erDiagram
 | GEO_POR_LATLONG | AIE | D05 | UC004, UC010 |
 | **VIVO_FTTH_COVERAGE** | AIE | **D11** | UC001, UC004 (share fibra) |
 | **VIVO_MOBILE_ERB** | AIE | **D12** | UC001, UC004 (share movel) |
+| NETWORK_PERFORMANCE_FIXED | AIE | D09 | UC001, UC004 (Speedtest fixo) |
+| NETWORK_PERFORMANCE_MOBILE | AIE | D10 | UC001, UC004 (Speedtest móvel) |
 | USER_SESSION | ALI | D06 | UC011, UC012 |
 | VW_GEOHASH_SUMMARY | ALI | D07 | UC001-UC010 |
 | VW_BAIRRO_SUMMARY | ALI | D08 | UC010 |
 | BENCHMARK_CONFIG | ALI | D10 | UC001, UC004, UC007 |
 | GEOHASH_CELL | ALI | — | UC001, UC005, UC008 |
+| **GEOHASH_CRM** | ALI | **D13** | UC009 (ARPU, segmentação CRM) |
+| **CAMADA2_FIBRA** | ALI | **D14** | UC009 (score e classificação fibra) |
+| **CAMADA2_MOVEL** | ALI | **D15** | UC009 (score e classificação móvel) |
 | **DIAGNOSTICO_GROWTH** | ALI | **D16** | UC009 (diagnóstico 4 pilares) |

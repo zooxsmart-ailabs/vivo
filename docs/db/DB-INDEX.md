@@ -45,6 +45,16 @@ Arquitetura de duas camadas com dados operacionais Vivo adicionados:
    │  geo_por_latlong (PostGIS, 22col)   │
    │  vivo_ftth_coverage (NOVO, 11col)   │
    │  vivo_mobile_erb    (NOVO, 10col)   │
+   │  networkPerformanceFixed (~100col)  │
+   │  networkPerformanceMobile (~160col) │
+   └─────────────────────────────────────┘
+              │
+   ┌──────────▼──────────────────────────┐
+   │   CRM + Camada 2 (ALI — derivados)  │
+   │  geohash_crm (9col)                │
+   │  camada2_fibra (10col)             │
+   │  camada2_movel (10col)             │
+   │  diagnostico_growth (19col)        │
    └─────────────────────────────────────┘
 ```
 
@@ -52,13 +62,16 @@ Arquitetura de duas camadas com dados operacionais Vivo adicionados:
 
 | Mudança | Impacto |
 |---------|---------|
-| Quadrantes renomeados: OPORTUNIDADE, FORTALEZA, RISCO, EXPANSAO | Enum, views, UCs |
+| Quadrantes renomeados v3: GROWTH, UPSELL, RETENCAO, GROWTH_RETENCAO | Enum, views, UCs |
 | Thresholds: share 30/40%, satisfação 6.0/7.5 (com zona intermediária) | benchmark_config, views |
 | 2 novas tabelas: vivo_ftth_coverage (D11), vivo_mobile_erb (D12) | DDL, views de share |
 | Share real (FTTH/ERB), não mais proxy de testes | vw_share_real (NOVA), vw_geohash_summary |
 | Posição competitiva (5 níveis) | Novo enum + coluna na view |
 | Prioridade por score absoluto P1-P4 | Novo enum + fórmula ponderada |
-| movel_class: EXPANSAO_5G/4G → EXPANSAO_COBERTURA | Enum simplificado |
+| movel_class v3: MELHORA_QUALIDADE_5G/4G, EXPANSAO_COBERTURA_5G/4G, SAUDAVEL | Separado por trilha 5G/4G |
+| fibra_class v3: +SEM_FIBRA | Geohashes sem cobertura |
+| competitive_position v3: EMPATADO (ant. EMPAREDADA), CRITICO (ant. ISOLADA) | Renomeados |
+| Novos enums: score_label, tech_recommendation | Camada 2 |
 | geo_por_latlong v3 (+60% pontos) | Importação |
 
 ## Rastreabilidade UC → Tabelas/Views
@@ -94,6 +107,8 @@ Arquitetura de duas camadas com dados operacionais Vivo adicionados:
 | file_transfer | 3 meses | Após 6 meses | 36 meses | — |
 | video | 3 meses | Após 6 meses | 36 meses | — |
 | web_browsing | 3 meses | Após 6 meses | 36 meses | — |
+| networkPerformanceFixed | 7 dias | — | — | — |
+| networkPerformanceMobile | 7 dias | — | — | — |
 | cagg_*_monthly_gh7 (×3) | Herdado | — | — | Horário, 3 meses lookback |
 | cagg_*_monthly_gh6 (×3) | Herdado | — | — | Horário, 3 meses lookback |
 
@@ -127,4 +142,12 @@ Zoom out (11-13)                    Zoom in (14-15)
 | BTREE | **vivo_mobile_erb** | (geohash7, anomes), (geohash6, anomes) | Share MÓVEL |
 | BTREE | score | (cd_geo_hsh7), (nm_oprd, nu_ano_mes_rfrn) | Join scores |
 | BTREE | file_transfer | (attr_geohash7, ts_result DESC) | Temporal |
+| GIST | **networkPerformanceFixed** | geom | Join espacial testes fixos |
+| GIST | **networkPerformanceMobile** | geom | Join espacial testes móveis |
+| BTREE | **networkPerformanceFixed** | (attrProviderName, tsResult) | Filtro por operadora |
+| BTREE | **networkPerformanceMobile** | (attrSimOperatorCommonName, tsResult) | Filtro por operadora |
+| BTREE | **geohash_crm** | (geohash_id, period) | PK |
+| BTREE | **camada2_fibra** | (geohash_id, period) | PK |
+| BTREE | **camada2_movel** | (geohash_id, period) | PK |
+| BTREE | **diagnostico_growth** | (geohash_id, anomes), (recomendacao, anomes) | Diagnóstico |
 | BTREE | user_session | (updated_at DESC) | Cleanup |

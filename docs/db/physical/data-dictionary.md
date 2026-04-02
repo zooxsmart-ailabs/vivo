@@ -92,12 +92,134 @@ Diagnóstico pré-calculado dos 4 pilares para geohashes GROWTH. RN009-05/06/07.
 
 ---
 
-## Enums (NOVOS v3)
+## Enums (NOVOS/ATUALIZADOS v3)
 
 | Tipo | Valores | Descrição | RN |
 |------|---------|-----------|-----|
+| `quadrant_type` | **GROWTH, UPSELL, RETENCAO, GROWTH_RETENCAO** | Quadrante estratégico (renomeados v3) | RN001-01 |
+| `competitive_position` | LIDER, COMPETITIVO, **EMPATADO**, ABAIXO, **CRITICO** | Posição competitiva (renomeados v3) | Levantamento sec.4 |
+| `movel_class` | **MELHORA_QUALIDADE_5G, MELHORA_QUALIDADE_4G, EXPANSAO_COBERTURA_5G, EXPANSAO_COBERTURA_4G, SAUDAVEL** | Classificação móvel (separado 5G/4G v3) | RN004-05 |
+| `fibra_class` | AUMENTO_CAPACIDADE, EXPANSAO_NOVA_AREA, SAUDAVEL, **SEM_FIBRA** | Classificação fibra (+SEM_FIBRA v3) | RN004-04 |
+| `score_label` | **BAIXO, MEDIO, ALTO, CRITICO** | Label do score Camada 2 (NOVO v3) | Camada 2 |
+| `tech_recommendation` | **5G_PREMIUM, 4G_MASS** | Recomendação tecnológica (NOVO v3) | Camada 2 Móvel |
 | `recomendacao_type` | ATIVAR, AGUARDAR, BLOQUEADO | Decisão IA do diagnóstico Growth | RN009-06 |
 | `sinal_type` | OK, ALERTA, CRITICO | Sinal ternário dos pilares | RN009-08 |
+
+---
+
+## Tabelas CRM + Camada 2 (ALI — NOVAS)
+
+### geohash_crm (D13 — NOVO)
+
+Dados CRM agregados por geohash e período mensal.
+
+| # | Coluna | Tipo | Nulável | Default | Restrição | Descrição | Fonte |
+|---|--------|------|---------|---------|-----------|-----------|-------|
+| 1 | geohash_id | VARCHAR(12) | NO | — | PK, FK→geohash_cell | ID do geohash | geohash_cell |
+| 2 | period | VARCHAR(7) | NO | — | PK | Período YYYY-MM | — |
+| 3 | avg_arpu | NUMERIC(10,2) | YES | — | — | ARPU médio | CRM Vivo |
+| 4 | dominant_plan_type | VARCHAR(100) | YES | — | — | Plano predominante | CRM Vivo |
+| 5 | device_tier | VARCHAR(20) | YES | — | — | Tier: Premium/Mid/Basic | CRM Vivo |
+| 6 | avg_income | NUMERIC(12,2) | YES | — | — | Renda média | CRM Vivo |
+| 7 | population_density | NUMERIC(10,2) | YES | — | — | Densidade populacional | CRM Vivo |
+| 8 | income_label | VARCHAR(50) | YES | — | — | Classificação de renda | Derivado |
+| 9 | captured_at | TIMESTAMPTZ | NO | — | — | Timestamp de captura | Sistema |
+
+**Volume**: ~5k rows/mês | **PK**: (geohash_id, period)
+**Uso**: ARPU relativo para diagnóstico Growth (pilar Comportamento)
+
+### camada2_fibra (D14 — NOVO)
+
+Score e classificação da infraestrutura de fibra por geohash.
+
+| # | Coluna | Tipo | Nulável | Default | Restrição | Descrição | Fonte |
+|---|--------|------|---------|---------|-----------|-----------|-------|
+| 1 | geohash_id | VARCHAR(12) | NO | — | PK, FK→geohash_cell | ID do geohash | geohash_cell |
+| 2 | period | VARCHAR(7) | NO | — | PK | Período YYYY-MM | — |
+| 3 | classification | fibra_class | NO | — | — | Classificação da fibra | Calculado |
+| 4 | score | SMALLINT | NO | — | CHECK 0-100 | Score composto | Calculado |
+| 5 | score_label | score_label | NO | — | — | BAIXO/MEDIO/ALTO/CRITICO | Derivado |
+| 6 | taxa_ocupacao | NUMERIC(5,2) | YES | — | — | Instalações/capacidade ×100 | vivo_ftth |
+| 7 | portas_disponiveis | NUMERIC(5,2) | YES | — | — | % de portas livres | vivo_ftth |
+| 8 | potencial_mercado | NUMERIC(5,2) | YES | — | — | (renda × densidade) normalizado | geo_por_latlong |
+| 9 | sinergia_movel | NUMERIC(5,2) | YES | — | — | Penetração móvel Vivo | vw_share_real |
+| 10 | captured_at | TIMESTAMPTZ | NO | — | — | Timestamp de captura | Sistema |
+
+**Volume**: ~5k rows/mês | **PK**: (geohash_id, period)
+**Uso**: Classificação fibra para diagnóstico Growth (pilar Infraestrutura)
+
+### camada2_movel (D15 — NOVO)
+
+Score e classificação da infraestrutura móvel por geohash.
+
+| # | Coluna | Tipo | Nulável | Default | Restrição | Descrição | Fonte |
+|---|--------|------|---------|---------|-----------|-----------|-------|
+| 1 | geohash_id | VARCHAR(12) | NO | — | PK, FK→geohash_cell | ID do geohash | geohash_cell |
+| 2 | period | VARCHAR(7) | NO | — | PK | Período YYYY-MM | — |
+| 3 | classification | movel_class | NO | — | — | Classificação da rede móvel | Calculado |
+| 4 | score | SMALLINT | NO | — | CHECK 0-100 | Score composto | Calculado |
+| 5 | score_label | score_label | NO | — | — | BAIXO/MEDIO/ALTO/CRITICO | Derivado |
+| 6 | tech_recommendation | tech_recommendation | YES | — | — | 5G_PREMIUM ou 4G_MASS | Calculado |
+| 7 | speedtest_score | NUMERIC(5,2) | YES | — | — | Score de velocidade normalizado | Speedtest |
+| 8 | concentracao_renda | NUMERIC(5,2) | YES | — | — | Concentração de renda | geo_por_latlong |
+| 9 | vulnerabilidade_concorrencia | NUMERIC(5,2) | YES | — | — | Vulnerabilidade competitiva | score |
+| 10 | captured_at | TIMESTAMPTZ | NO | — | — | Timestamp de captura | Sistema |
+
+**Volume**: ~5k rows/mês | **PK**: (geohash_id, period)
+**Uso**: Classificação móvel para diagnóstico Growth, recomendação 5G/4G
+
+---
+
+## Tabelas Network Performance (AIE — NOVAS)
+
+### network_performance_fixed (D09 — NOVO)
+
+Resultados de testes Speedtest Ookla para redes fixas (banda larga/WiFi). ~100 colunas organizadas por categoria.
+
+| Categoria | Colunas | Exemplos |
+|-----------|---------|----------|
+| Identificação | 7 | idResult (PK), tsResult (PK), guidResult, idPlatform, idDevice |
+| Device | 15 | attrDeviceModel, Manufacturer, Chipset, OsVersion, RamMb, StorageMb |
+| Provider/SIM | 8 | attrProviderName, attrSimOperatorCommonName, MCC/MNC |
+| Conexão | 4 | idConnectionType, attrConnectionTypeString, LinkSpeed |
+| Teste | 4 | attrTestMethod, attrTestIpVersion, attrResultTestSource |
+| Localização | 7+3 | Latitude/Longitude/Altitude/Accuracy + Place (Name, Region, PostalCode) |
+| WiFi | 20 | Frequency, ChannelWidth, RSSI, RxLinkSpeed, TxLinkSpeed, Standard, 5/6GHz |
+| Velocidade | 4 | valDownloadMbps, valUploadMbps, Threads |
+| Latência | 12 | Min/IQM/Max (idle, download, upload), Jitter, Multiserver |
+| Packet Loss | 3 | Sent, Received, Percent |
+| Traceroute | 7 | Hops, IP/Latency/MTU (hop 0, hop 1) |
+| Rede | 4 | IPv4/IPv6, ASN, isVpn |
+| Servidor | 10 | Name, Sponsor, Lat/Lng, Distance, CountryCode, isAutoSelected |
+| Sinal/Célula | 5 | CellType, FrequencyChannel, LAC, NrPci |
+
+**PK**: (idResult, tsResult) | **Hypertable**: chunks 7 dias
+**Fonte**: Ookla Speedtest Intelligence (rede fixa/banda larga)
+
+### network_performance_mobile (D10 — NOVO)
+
+Resultados de testes Speedtest Ookla para redes móveis. ~160 colunas com dados mobile-específicos.
+
+| Categoria | Colunas | Exemplos |
+|-----------|---------|----------|
+| Identificação | 7 | idResult (PK), tsResult (PK), guidResult, idPlatform, idDevice |
+| Device (mobile) | 30 | Model, Manufacturer, Chipset, isRooted, MultiSim, ThermalStatus, eSIM |
+| Permissões | 5 | PhoneState, FineLocation, CoarseLocation, BackgroundLocation, WifiState |
+| SIM Operator | 7 | CommonName, MCC/MNC (primário + alt SIM) |
+| Network Operator | 7 | MCC/MNC, CommonName, ISP, TypeAllocationCode |
+| Conexão (mobile) | 14 | TypeStart/End, CarrierAggregation, NrState, APN, Bandwidth Up/Down |
+| Localização | 12 | Lat/Lng (final + start), Accuracy, Altitude, Speed |
+| Velocidade | 9 | DownloadKbps, UploadKbps, TestKb, Threads, Duration, isStopped |
+| Latência | 12 | Min/IQM/Max (idle, download, upload), Jitter, Multiserver |
+| Packet Loss | 3 | Sent, Received, Percent |
+| Traceroute | 7 | Hops, IP/Latency/MTU (hop 0, hop 1) |
+| Rede (mobile) | 7 | IPv4/IPv6, ASN, isRoaming, isInternationalRoaming, isVpn, isDevice5gCapable |
+| Servidor | 11 | Name, Sponsor, Lat/Lng, Distance, Country, isAutoSelected, ASN |
+| Sinal (mobile) | 15 | RSRP, RSRQ, RSSNR (LTE + CSI + SS/NR), RSSI, CQI, TimingAdvance |
+| Célula (mobile) | 17 | NrFrequencyRange, Bandwidth, PCI/NrPci, TAC/LAC, ARFCN, LTE/NR bands |
+
+**PK**: (idResult, tsResult) | **Hypertable**: chunks 7 dias
+**Fonte**: Ookla Speedtest Intelligence (rede móvel)
 
 ---
 
@@ -140,12 +262,12 @@ Colunas novas vs v1:
 | — | total_ftth_vivo | INTEGER | vw_share_real | NOVO |
 | — | total_linhas_vivo | INTEGER | vw_share_real | NOVO |
 | — | competitive_position | competitive_position | Delta Vivo vs concorrentes | NOVO |
-| — | quadrant | quadrant_type | OPORTUNIDADE/FORTALEZA/RISCO/EXPANSAO | RENOMEADO |
+| — | quadrant | quadrant_type | GROWTH/UPSELL/RETENCAO/GROWTH_RETENCAO | RENOMEADO |
 | — | priority_label | priority_label | P1-P4 por score absoluto | FORMULA NOVA |
 
 ### vw_bairro_summary (ATUALIZADA v2)
 
-JSONB keys renomeadas: OPORTUNIDADE, FORTALEZA, RISCO, EXPANSAO.
+JSONB keys renomeadas: GROWTH, UPSELL, RETENCAO, GROWTH_RETENCAO.
 
 ---
 
@@ -153,11 +275,14 @@ JSONB keys renomeadas: OPORTUNIDADE, FORTALEZA, RISCO, EXPANSAO.
 
 | Tipo | Valores v2 | Mudança vs v1 |
 |------|-----------|---------------|
-| quadrant_type | OPORTUNIDADE, FORTALEZA, EXPANSAO, RISCO | Renomeados |
+| quadrant_type | **GROWTH, UPSELL, RETENCAO, GROWTH_RETENCAO** | Renomeados v3 |
 | priority_label | P1_CRITICA, P2_ALTA, P3_MEDIA, P4_BAIXA | Score absoluto, não percentil |
-| movel_class | MELHORA_QUALIDADE, SAUDAVEL, EXPANSAO_COBERTURA | Unificou 5G/4G em trilha interna |
-| **competitive_position** | LIDER, COMPETITIVO, EMPAREDADA, ABAIXO, ISOLADA | **NOVO** |
-| **share_level** | MUITO_ALTA, ALTA, MEDIA, BAIXA | **NOVO** |
+| fibra_class | AUMENTO_CAPACIDADE, EXPANSAO_NOVA_AREA, SAUDAVEL, **SEM_FIBRA** | +SEM_FIBRA v3 |
+| movel_class | **MELHORA_QUALIDADE_5G, MELHORA_QUALIDADE_4G, EXPANSAO_COBERTURA_5G, EXPANSAO_COBERTURA_4G, SAUDAVEL** | Separado 5G/4G v3 |
+| competitive_position | LIDER, COMPETITIVO, **EMPATADO**, ABAIXO, **CRITICO** | Renomeados v3 |
+| share_level | MUITO_ALTA, ALTA, MEDIA, BAIXA | — |
+| **score_label** | **BAIXO, MEDIO, ALTO, CRITICO** | **NOVO v3** — Camada 2 |
+| **tech_recommendation** | **5G_PREMIUM, 4G_MASS** | **NOVO v3** — Camada 2 Móvel |
 
 ---
 

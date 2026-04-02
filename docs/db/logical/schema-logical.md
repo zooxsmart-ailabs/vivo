@@ -6,29 +6,33 @@
 
 | Domínio | Tipo Base | Valores | RN Origem |
 |---------|-----------|---------|-----------|
-| `quadrant_type` | ENUM | **OPORTUNIDADE, FORTALEZA, EXPANSAO, RISCO** | RN001-01 |
+| `quadrant_type` | ENUM | **GROWTH, UPSELL, RETENCAO, GROWTH_RETENCAO** | RN001-01 |
 | `tech_category` | ENUM | FIBRA, MOVEL, AMBOS | RN003-03 |
 | `operator_name` | ENUM | VIVO, TIM, CLARO, OI, OUTROS | Score table |
 | `trend_direction` | ENUM | UP, DOWN, STABLE | Levantamento sec.2 |
-| `fibra_class` | ENUM | AUMENTO_CAPACIDADE, EXPANSAO_NOVA_AREA, SAUDAVEL | RN004-04 |
-| `movel_class` | ENUM | MELHORA_QUALIDADE, SAUDAVEL, EXPANSAO_COBERTURA | RN004-05 |
-| `priority_label` | ENUM | **P1_CRITICA, P2_ALTA, P3_MEDIA, P4_BAIXA** | Levantamento sec.score |
+| `fibra_class` | ENUM | AUMENTO_CAPACIDADE, EXPANSAO_NOVA_AREA, SAUDAVEL, **SEM_FIBRA** | RN004-04 |
+| `movel_class` | ENUM | **MELHORA_QUALIDADE_5G, MELHORA_QUALIDADE_4G, EXPANSAO_COBERTURA_5G, EXPANSAO_COBERTURA_4G, SAUDAVEL** | RN004-05 |
+| `priority_label` | ENUM | P1_CRITICA, P2_ALTA, P3_MEDIA, P4_BAIXA | Levantamento sec.score |
 | `quality_label` | ENUM | EXCELENTE, BOM, REGULAR, RUIM | RN004-02 |
 | `benchmark_scope` | ENUM | NACIONAL, ESTADO, CIDADE | RN001-06 |
-| `competitive_position` | ENUM | **LIDER, COMPETITIVO, EMPAREDADA, ABAIXO, ISOLADA** | Levantamento sec.4 |
-| `share_level` | ENUM | **MUITO_ALTA, ALTA, MEDIA, BAIXA** | Levantamento sec.1 |
-| `recomendacao_type` | ENUM | **ATIVAR, AGUARDAR, BLOQUEADO** | RN009-06 |
-| `sinal_type` | ENUM | **OK, ALERTA, CRITICO** | RN009-08 |
+| `competitive_position` | ENUM | **LIDER, COMPETITIVO, EMPATADO, ABAIXO, CRITICO** | Levantamento sec.4 |
+| `share_level` | ENUM | MUITO_ALTA, ALTA, MEDIA, BAIXA | Levantamento sec.1 |
+| `score_label` | ENUM | **BAIXO, MEDIO, ALTO, CRITICO** | Camada 2 |
+| `tech_recommendation` | ENUM | **5G_PREMIUM, 4G_MASS** | Camada 2 Móvel |
+| `recomendacao_type` | ENUM | ATIVAR, AGUARDAR, BLOQUEADO | RN009-06 |
+| `sinal_type` | ENUM | OK, ALERTA, CRITICO | RN009-08 |
 
 ### Mudanças v1 → v2
 
-| Item | v1 | v2 | Motivo |
-|------|----|----|--------|
-| Quadrantes | GROWTH, UPSELL, RETENCAO, GROWTH_RETENCAO | OPORTUNIDADE, FORTALEZA, RISCO, EXPANSAO | PDF oficial v1203 |
-| Prioridade | CRITICO/ALTO/MEDIO/BAIXO (percentil) | P1-P4 (score absoluto 0-10) | Levantamento |
-| Movel class | EXPANSAO_5G, EXPANSAO_4G | EXPANSAO_COBERTURA (trilha 5G/4G e interna) | PDF Camada 2 |
-| Share thresholds | 35% único limiar | < 30% (baixa), 30-39% (média), >= 40% (alta) | Levantamento sec.1 |
-| Satisfação thresholds | 6.8 único limiar | < 6.0 (baixa), 6.0-7.4 (média), >= 7.5 (alta) | Levantamento sec.3 |
+| Item | v1 | v2 | v3 (atual) | Motivo |
+|------|----|----|------------|--------|
+| Quadrantes | OPORTUNIDADE, FORTALEZA, RISCO, EXPANSAO | (mesmos nomes) | **GROWTH, UPSELL, RETENCAO, GROWTH_RETENCAO** | Alinhamento com nomenclatura estratégica do backend |
+| Competitive position | — | EMPAREDADA, ISOLADA | **EMPATADO, CRITICO** | Renomeado para clareza |
+| Movel class | EXPANSAO_5G, EXPANSAO_4G | EXPANSAO_COBERTURA | **MELHORA_QUALIDADE_5G, MELHORA_QUALIDADE_4G, EXPANSAO_COBERTURA_5G, EXPANSAO_COBERTURA_4G, SAUDAVEL** | Separação 5G/4G por trilha |
+| Fibra class | AUMENTO_CAPACIDADE, EXPANSAO_NOVA_AREA, SAUDAVEL | (mesmos) | **+SEM_FIBRA** | Geohashes sem cobertura fibra |
+| Prioridade | CRITICO/ALTO/MEDIO/BAIXO (percentil) | P1-P4 (score absoluto 0-10) | (mesmos) | Levantamento |
+| Share thresholds | 35% único limiar | < 30% (baixa), 30-39% (média), >= 40% (alta) | (mesmos) | Levantamento sec.1 |
+| Satisfação thresholds | 6.8 único limiar | < 6.0 (baixa), 6.0-7.4 (média), >= 7.5 (alta) | (mesmos) | Levantamento sec.3 |
 
 ## 2. Camada Raw (AIE) — Tabelas Existentes
 
@@ -84,6 +88,49 @@ Sem alteração. Ver v1.
 **Uso**: Cálculo de share MÓVEL — `SUM(linhas no geohash) / populacao_residente × 100`
 **Fonte CSV**: `Ookla_visao_movel_3M_erb_casa_YYYYMM.csv` (delimitador `;`, decimal `,`)
 
+### 2.8 network_performance_fixed (AIE — Speedtest Ookla Fixo)
+
+| Coluna (resumo) | Tipo | Descrição |
+|------------------|------|-----------|
+| idResult | BIGINT | PK — ID do teste |
+| tsResult | TIMESTAMPTZ | PK — Timestamp do teste |
+| attrDeviceModel/Manufacturer | TEXT | Dados do dispositivo (~15 cols) |
+| attrProviderName/attrSimOperator* | TEXT/INT | Operadora e SIM (~8 cols) |
+| idConnectionType/attrConnectionTypeString | SMALLINT/TEXT | Tipo de conexão (~4 cols) |
+| attrLocationLatitude/Longitude | DOUBLE | Localização + geom/geohash (PostGIS) |
+| attrWifi* | TEXT/INT/BOOL | Dados WiFi (~20 cols) |
+| valDownloadMbps / valUploadMbps | DOUBLE | Velocidade medida |
+| valLatency*Ms | INT/DOUBLE | Latência (min/iqm/max, download/upload) (~12 cols) |
+| metricPacketLossPercent | DOUBLE | Perda de pacotes |
+| numTracerouteHops / attrTraceroute* | SMALLINT/TEXT/INT | Traceroute (~7 cols) |
+| attrServer* | TEXT/DOUBLE/INT | Servidor de teste (~10 cols) |
+| attrSignal*/attrCell* | SMALLINT/INT/TEXT | Sinal e célula (~5 cols) |
+
+**PK**: (idResult, tsResult) | **Hypertable**: chunks 7 dias
+**Total**: ~100 colunas | **Fonte**: Ookla Speedtest Intelligence (rede fixa/banda larga)
+
+### 2.9 network_performance_mobile (AIE — Speedtest Ookla Móvel)
+
+| Coluna (resumo) | Tipo | Descrição |
+|------------------|------|-----------|
+| idResult | BIGINT | PK — ID do teste |
+| tsResult | TIMESTAMPTZ | PK — Timestamp do teste |
+| attrDevice* | TEXT/INT/BOOL | Dados do dispositivo + mobile-específico (thermal, modem, roaming, eSIM) (~30 cols) |
+| attrSimOperator*/attrAltsim* | TEXT/INT | SIM primário e secundário (~7 cols) |
+| attrNetworkOperator*/attrIsp* | TEXT/INT | Operadora de rede (~7 cols) |
+| idConnectionType*/attrConnection* | SMALLINT/INT/TEXT/BOOL | Conexão incl. carrier aggregation, NR state, APN (~14 cols) |
+| attrLocationLatitude/Longitude + Start* | DOUBLE | Localização início/fim + geom/geohash (PostGIS) (~12 cols) |
+| valDownloadKbps / valUploadKbps | INT | Velocidade medida (Kbps) |
+| valLatency*Ms | INT/DOUBLE | Latência (min/iqm/max, download/upload) (~12 cols) |
+| metricPacketLossPercent | DOUBLE | Perda de pacotes |
+| valSignal* (RSRP, RSRQ, RSSNR, CSI, SS) | SMALLINT/INT | Métricas de sinal (~15 cols) |
+| attrCell* (NR, LTE, bands, PCI, TAC) | SMALLINT/INT/BIGINT/TEXT | Dados de célula (~17 cols) |
+| attrServer* | TEXT/DOUBLE/INT | Servidor de teste (~10 cols) |
+| isNetworkRoaming / isDevice5gCapable | BOOL | Roaming e capacidade 5G |
+
+**PK**: (idResult, tsResult) | **Hypertable**: chunks 7 dias
+**Total**: ~160 colunas | **Fonte**: Ookla Speedtest Intelligence (rede móvel)
+
 ## 3. Camada Analítica (ALI) — Tabelas Gerenciadas
 
 ### 3.1 geohash_cell
@@ -108,6 +155,65 @@ Sem alteração. Ver v1.
 ### 3.3 user_session
 Sem alteração. Ver v1.
 
+### 3.4 geohash_crm (NOVO — ALI D13)
+
+Dados CRM agregados por geohash e período mensal.
+
+| Coluna | Tipo | Restrição | Descrição |
+|--------|------|-----------|-----------|
+| geohash_id | VARCHAR(12) | PK, FK→geohash_cell | ID do geohash |
+| period | VARCHAR(7) | PK | Período YYYY-MM |
+| avg_arpu | NUMERIC(10,2) | — | ARPU médio no geohash |
+| dominant_plan_type | VARCHAR(100) | — | Plano predominante (ex: Controle, Pós) |
+| device_tier | VARCHAR(20) | — | Tier de device predominante (Premium/Mid/Basic) |
+| avg_income | NUMERIC(12,2) | — | Renda média |
+| population_density | NUMERIC(10,2) | — | Densidade populacional |
+| income_label | VARCHAR(50) | — | Classificação de renda |
+| captured_at | TIMESTAMPTZ | NOT NULL | Timestamp de captura |
+
+**PK**: (geohash_id, period)
+**Uso**: ARPU relativo para diagnóstico Growth (pilar Comportamento), segmentação por renda/device
+
+### 3.5 camada2_fibra (NOVO — ALI D14)
+
+Score e classificação da infraestrutura de fibra por geohash.
+
+| Coluna | Tipo | Restrição | Descrição |
+|--------|------|-----------|-----------|
+| geohash_id | VARCHAR(12) | PK, FK→geohash_cell | ID do geohash |
+| period | VARCHAR(7) | PK | Período YYYY-MM |
+| classification | fibra_class | NOT NULL | AUMENTO_CAPACIDADE / EXPANSAO_NOVA_AREA / SAUDAVEL / SEM_FIBRA |
+| score | SMALLINT | NOT NULL, 0-100 | Score composto da infraestrutura |
+| score_label | score_label | NOT NULL | BAIXO / MEDIO / ALTO / CRITICO |
+| taxa_ocupacao | NUMERIC(5,2) | — | Instalações ativas / capacidade total × 100 |
+| portas_disponiveis | NUMERIC(5,2) | — | % de portas livres |
+| potencial_mercado | NUMERIC(5,2) | — | Normalizado (renda × densidade) × 100 |
+| sinergia_movel | NUMERIC(5,2) | — | Penetração móvel Vivo no geohash |
+| captured_at | TIMESTAMPTZ | NOT NULL | Timestamp de captura |
+
+**PK**: (geohash_id, period)
+**Uso**: Classificação fibra para diagnóstico Growth (pilar Infraestrutura), score Camada 2
+
+### 3.6 camada2_movel (NOVO — ALI D15)
+
+Score e classificação da infraestrutura móvel por geohash.
+
+| Coluna | Tipo | Restrição | Descrição |
+|--------|------|-----------|-----------|
+| geohash_id | VARCHAR(12) | PK, FK→geohash_cell | ID do geohash |
+| period | VARCHAR(7) | PK | Período YYYY-MM |
+| classification | movel_class | NOT NULL | MELHORA_QUALIDADE_5G/4G / EXPANSAO_COBERTURA_5G/4G / SAUDAVEL |
+| score | SMALLINT | NOT NULL, 0-100 | Score composto da infraestrutura |
+| score_label | score_label | NOT NULL | BAIXO / MEDIO / ALTO / CRITICO |
+| tech_recommendation | tech_recommendation | — | 5G_PREMIUM ou 4G_MASS |
+| speedtest_score | NUMERIC(5,2) | — | Score de velocidade normalizado |
+| concentracao_renda | NUMERIC(5,2) | — | Concentração de renda no geohash |
+| vulnerabilidade_concorrencia | NUMERIC(5,2) | — | Vulnerabilidade competitiva |
+| captured_at | TIMESTAMPTZ | NOT NULL | Timestamp de captura |
+
+**PK**: (geohash_id, period)
+**Uso**: Classificação móvel para diagnóstico Growth (pilar Infraestrutura), recomendação 5G/4G
+
 ## 4. Views — Alterações Significativas
 
 ### 4.1 vw_geohash_summary (View Principal) — ALTERAÇÕES
@@ -121,33 +227,33 @@ Sem alteração. Ver v1.
 - MÓVEL: geohash tem ERBs
 - AMBOS: geohash tem ambos
 
-**Quadrante** (novos nomes e thresholds):
+**Quadrante** (nomes v3):
 ```
-share >= 40% AND satisfação >= 7.5 → FORTALEZA
-share < 30%  AND satisfação >= 7.5 → OPORTUNIDADE
-share >= 40% AND satisfação < 6.0  → RISCO
-share < 30%  AND satisfação < 6.0  → EXPANSAO
+share >= 40% AND satisfação >= 7.5 → UPSELL       (antigo FORTALEZA)
+share < 30%  AND satisfação >= 7.5 → GROWTH        (antigo OPORTUNIDADE)
+share >= 40% AND satisfação < 6.0  → RETENCAO      (antigo RISCO)
+share < 30%  AND satisfação < 6.0  → GROWTH_RETENCAO (antigo EXPANSAO)
 
 Zona intermediaria (share 30-39% ou sat 6.0-7.4):
   Classificar pelo quadrante mais proximo (distancia euclidiana normalizada aos centroides)
 ```
 
-**Posição competitiva** (NOVA coluna):
+**Posição competitiva** (nomes v3):
 ```
 delta = vivo_score - MAX(tim_score, claro_score)
 LIDER:       delta > +0.5
 COMPETITIVO: delta 0 a +0.5
-EMPAREDADA:  delta -0.5 a 0
+EMPATADO:    delta -0.5 a 0    (antigo EMPAREDADA)
 ABAIXO:      delta -1.0 a -0.5
-ISOLADA:     delta < -1.8
+CRITICO:     delta < -1.8      (antigo ISOLADA)
 ```
 
 **Prioridade** (fórmulas ponderadas novas):
 ```
-RISCO:        Share×0.30 + RiscoChurn×0.25 + DeltaShare×0.15 + ARPU×0.15 + Pontuacao×0.15
-FORTALEZA:    GrossMargin×0.30 + Satisfacao×0.25 + Share×0.20 + Renda×0.10 + Potencial×0.10 + 0.05
-OPORTUNIDADE: ShareAlvo×0.25 + Cobertura×0.25 + Satisfacao×0.20 + CrescPop×0.20 + DeltaShare×0.10
-EXPANSAO:     (Renda/1000)×3 + CrescPop×5 + Densidade/100
+RETENCAO:        Share×0.30 + RiscoChurn×0.25 + DeltaShare×0.15 + ARPU×0.15 + Pontuacao×0.15
+UPSELL:          GrossMargin×0.30 + Satisfacao×0.25 + Share×0.20 + Renda×0.10 + Potencial×0.10 + 0.05
+GROWTH:          ShareAlvo×0.25 + Cobertura×0.25 + Satisfacao×0.20 + CrescPop×0.20 + DeltaShare×0.10
+GROWTH_RETENCAO: (Renda/1000)×3 + CrescPop×5 + Densidade/100
 ```
 
 **Priority label** (score absoluto, não percentil):
@@ -160,8 +266,8 @@ P4_BAIXA:   score < 4.0
 
 **Prazo de ação** (NOVA coluna):
 ```
-P1 + RISCO:  < 7 dias
-P1 + outros: < 30 dias
+P1 + RETENCAO: < 7 dias
+P1 + outros:   < 30 dias
 P2:          < 30 dias
 P3:          30-60 dias
 P4:          90 dias
@@ -241,7 +347,7 @@ ATIVAR     = else
 ```
 
 ### 4.4 vw_bairro_summary
-- Renomear quadrantes nos JSONB keys: OPORTUNIDADE, FORTALEZA, RISCO, EXPANSAO
+- Renomear quadrantes nos JSONB keys: GROWTH, UPSELL, RETENCAO, GROWTH_RETENCAO
 - Adicionar contagem de competitive_position por bairro
 
 ## 5. Decisões de Desnormalização (atualizadas)
