@@ -7,14 +7,14 @@ describe("HealthController", () => {
   let mockRedis: any;
 
   beforeEach(() => {
-    jest.spyOn(Logger.prototype, "warn").mockImplementation();
-    mockDb = { execute: jest.fn().mockResolvedValue({ rows: [{ "?column?": 1 }] }) };
-    mockRedis = { client: { ping: jest.fn().mockResolvedValue("PONG") } };
+    vi.spyOn(Logger.prototype, "warn").mockImplementation();
+    mockDb = { execute: vi.fn().mockResolvedValue({ rows: [{ "?column?": 1 }] }) };
+    mockRedis = { client: { ping: vi.fn().mockResolvedValue("PONG") } };
     controller = new HealthController(mockDb, mockRedis);
   });
 
   afterEach(() => {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   describe("check()", () => {

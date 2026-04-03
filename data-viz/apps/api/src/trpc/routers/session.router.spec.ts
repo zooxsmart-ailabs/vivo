@@ -6,20 +6,20 @@ function mockCtx(overrides: {
 } = {}) {
   return {
     db: {
-      select: jest.fn().mockReturnValue({
-        from: jest.fn().mockReturnValue({
-          where: jest.fn().mockResolvedValue(overrides.dbSelectRows ?? []),
+      select: vi.fn().mockReturnValue({
+        from: vi.fn().mockReturnValue({
+          where: vi.fn().mockResolvedValue(overrides.dbSelectRows ?? []),
         }),
       }),
-      insert: jest.fn().mockReturnValue({
-        values: jest.fn().mockReturnValue({
-          onConflictDoUpdate: jest.fn().mockResolvedValue(undefined),
+      insert: vi.fn().mockReturnValue({
+        values: vi.fn().mockReturnValue({
+          onConflictDoUpdate: vi.fn().mockResolvedValue(undefined),
         }),
       }),
     } as any,
     redis: {
-      get: jest.fn().mockResolvedValue(overrides.redisGet ?? null),
-      set: jest.fn().mockResolvedValue("OK"),
+      get: vi.fn().mockResolvedValue(overrides.redisGet ?? null),
+      set: vi.fn().mockResolvedValue("OK"),
     } as any,
   };
 }

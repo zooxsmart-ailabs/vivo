@@ -3,10 +3,10 @@ import { AuthGuard } from "./auth.guard";
 
 describe("AuthGuard", () => {
   let guard: AuthGuard;
-  let mockConfig: { get: jest.Mock };
+  let mockConfig: { get: vi.Mock };
 
   beforeEach(() => {
-    mockConfig = { get: jest.fn().mockReturnValue("test-secret") };
+    mockConfig = { get: vi.fn().mockReturnValue("test-secret") };
     guard = new AuthGuard(mockConfig as any);
   });
 

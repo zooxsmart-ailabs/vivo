@@ -4,13 +4,13 @@ describe("CorrelationIdMiddleware", () => {
   let middleware: CorrelationIdMiddleware;
   let mockReq: any;
   let mockRes: any;
-  let mockNext: jest.Mock;
+  let mockNext: vi.Mock;
 
   beforeEach(() => {
     middleware = new CorrelationIdMiddleware();
     mockReq = { headers: {} };
-    mockRes = { setHeader: jest.fn() };
-    mockNext = jest.fn();
+    mockRes = { setHeader: vi.fn() };
+    mockNext = vi.fn();
   });
 
   it("preserves existing x-request-id from the request", () => {

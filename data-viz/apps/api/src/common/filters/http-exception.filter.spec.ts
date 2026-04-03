@@ -7,18 +7,18 @@ import { HttpExceptionFilter } from "./http-exception.filter";
 
 describe("HttpExceptionFilter", () => {
   let filter: HttpExceptionFilter;
-  let mockJson: jest.Mock;
-  let mockStatus: jest.Mock;
+  let mockJson: vi.Mock;
+  let mockStatus: vi.Mock;
   let mockResponse: any;
   let mockRequest: any;
   let mockHost: any;
 
   beforeEach(() => {
     filter = new HttpExceptionFilter();
-    jest.spyOn(Logger.prototype, "error").mockImplementation();
+    vi.spyOn(Logger.prototype, "error").mockImplementation();
 
-    mockJson = jest.fn();
-    mockStatus = jest.fn().mockReturnValue({ json: mockJson });
+    mockJson = vi.fn();
+    mockStatus = vi.fn().mockReturnValue({ json: mockJson });
     mockResponse = { status: mockStatus };
     mockRequest = { method: "GET", url: "/test" };
     mockHost = {
@@ -30,7 +30,7 @@ describe("HttpExceptionFilter", () => {
   });
 
   afterEach(() => {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   it("returns correct status for HttpException", () => {

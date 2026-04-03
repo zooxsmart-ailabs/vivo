@@ -11,7 +11,7 @@ function mockCtx(overrides: {
   let executeCallCount = 0;
   return {
     db: {
-      execute: jest.fn().mockImplementation(() => {
+      execute: vi.fn().mockImplementation(() => {
         executeCallCount++;
         if (executeCallCount === 1) return Promise.resolve({ rows: overrides.rows ?? [] });
         // getById secondary queries (used by safeQuery which calls .then())
@@ -23,8 +23,8 @@ function mockCtx(overrides: {
       }),
     } as any,
     redis: {
-      get: jest.fn().mockResolvedValue(overrides.cacheHit ?? null),
-      set: jest.fn().mockResolvedValue("OK"),
+      get: vi.fn().mockResolvedValue(overrides.cacheHit ?? null),
+      set: vi.fn().mockResolvedValue("OK"),
     } as any,
   };
 }
@@ -168,12 +168,12 @@ describe("geohashRouter", () => {
       const row2 = { geohash_id: "def", share_vivo: 20 };
       const ctx = {
         db: {
-          execute: jest
+          execute: vi
             .fn()
             .mockResolvedValueOnce({ rows: [row1] })
             .mockResolvedValueOnce({ rows: [row2] }),
         } as any,
-        redis: { get: jest.fn(), set: jest.fn() } as any,
+        redis: { get: vi.fn(), set: vi.fn() } as any,
       };
       const caller = geohashRouter.createCaller(ctx);
 
@@ -187,12 +187,12 @@ describe("geohashRouter", () => {
     it("returns null for a geohash not found", async () => {
       const ctx = {
         db: {
-          execute: jest
+          execute: vi
             .fn()
             .mockResolvedValueOnce({ rows: [{ geohash_id: "abc" }] })
             .mockResolvedValueOnce({ rows: [] }),
         } as any,
-        redis: { get: jest.fn(), set: jest.fn() } as any,
+        redis: { get: vi.fn(), set: vi.fn() } as any,
       };
       const caller = geohashRouter.createCaller(ctx);
 

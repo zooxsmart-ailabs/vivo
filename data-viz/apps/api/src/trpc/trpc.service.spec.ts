@@ -2,8 +2,8 @@ import { TrpcService } from "./trpc.service";
 
 describe("TrpcService", () => {
   let service: TrpcService;
-  const mockDb = { execute: jest.fn() } as any;
-  const mockRedisClient = { get: jest.fn(), set: jest.fn() };
+  const mockDb = { execute: vi.fn() } as any;
+  const mockRedisClient = { get: vi.fn(), set: vi.fn() };
   const mockRedis = { client: mockRedisClient } as any;
 
   beforeEach(() => {

@@ -9,7 +9,7 @@ import { UnauthorizedException } from "@nestjs/common";
 import { AuthGuard } from "../../common/guards/auth.guard";
 
 function makeGuard(jwtSecret: string | null = "secret") {
-  const config = { get: jest.fn().mockReturnValue(jwtSecret ?? undefined) };
+  const config = { get: vi.fn().mockReturnValue(jwtSecret ?? undefined) };
   return new AuthGuard(config as any);
 }
 
@@ -91,12 +91,11 @@ describe("UC012 — Autenticar Usuário", () => {
   });
 
   describe("RN012-02: Exceções de Proteção", () => {
-    it("health controller é acessível sem guard (controller separado)", () => {
+    it("health controller é acessível sem guard (controller separado)", async () => {
       // HealthController não usa AuthGuard — é registrado como
       // Controller independente, não protegido globalmente
-      // Verificação: HealthController não depende de request.user
-      const { HealthController } = require("../../health/health.controller");
-      expect(HealthController).toBeDefined();
+      const mod = await import("../../health/health.controller");
+      expect(mod.HealthController).toBeDefined();
     });
   });
 

@@ -2,8 +2,8 @@ import { appRouter } from "./trpc.router";
 
 function mockCtx() {
   return {
-    db: { execute: jest.fn() } as any,
-    redis: { get: jest.fn(), set: jest.fn() } as any,
+    db: { execute: vi.fn() } as any,
+    redis: { get: vi.fn(), set: vi.fn() } as any,
   };
 }
 

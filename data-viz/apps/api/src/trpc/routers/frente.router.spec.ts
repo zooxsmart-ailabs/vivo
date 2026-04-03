@@ -3,11 +3,11 @@ import { frenteRouter } from "./frente.router";
 function mockCtx(overrides: { cacheHit?: string; rows?: any[] } = {}) {
   return {
     db: {
-      execute: jest.fn().mockResolvedValue({ rows: overrides.rows ?? [] }),
+      execute: vi.fn().mockResolvedValue({ rows: overrides.rows ?? [] }),
     } as any,
     redis: {
-      get: jest.fn().mockResolvedValue(overrides.cacheHit ?? null),
-      set: jest.fn().mockResolvedValue("OK"),
+      get: vi.fn().mockResolvedValue(overrides.cacheHit ?? null),
+      set: vi.fn().mockResolvedValue("OK"),
     } as any,
   };
 }

@@ -23,27 +23,27 @@ export function createMockCtx(opts: {
 
   return {
     db: {
-      execute: jest.fn().mockImplementation(() => {
+      execute: vi.fn().mockImplementation(() => {
         const resp = responses[executeIdx] ?? { rows: [] };
         executeIdx++;
         return Promise.resolve(resp);
       }),
-      select: jest.fn().mockReturnValue({
-        from: jest.fn().mockReturnValue({
-          where: jest.fn().mockResolvedValue(opts.db?.selectRows ?? []),
+      select: vi.fn().mockReturnValue({
+        from: vi.fn().mockReturnValue({
+          where: vi.fn().mockResolvedValue(opts.db?.selectRows ?? []),
         }),
       }),
-      insert: jest.fn().mockReturnValue({
-        values: jest.fn().mockReturnValue({
-          onConflictDoUpdate: jest.fn().mockResolvedValue(undefined),
+      insert: vi.fn().mockReturnValue({
+        values: vi.fn().mockReturnValue({
+          onConflictDoUpdate: vi.fn().mockResolvedValue(undefined),
         }),
       }),
     } as any,
     redis: {
-      get: jest.fn().mockImplementation((key: string) =>
+      get: vi.fn().mockImplementation((key: string) =>
         Promise.resolve(cache.get(key) ?? null),
       ),
-      set: jest.fn().mockImplementation((key: string, val: string) => {
+      set: vi.fn().mockImplementation((key: string, val: string) => {
         cache.set(key, val);
         return Promise.resolve("OK");
       }),

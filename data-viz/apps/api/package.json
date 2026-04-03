@@ -8,10 +8,10 @@
     "start": "node dist/main",
     "start:prod": "NODE_ENV=production node dist/main",
     "check": "tsc --noEmit",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:cov": "vitest run --coverage",
+    "test:e2e": "vitest run --config vitest.e2e.config.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "node --env-file .env --import tsx src/database/migrate.ts",
     "db:push": "drizzle-kit push",
@@ -51,31 +51,14 @@
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.0",
     "@types/express": "^5.0.0",
-    "@types/jest": "^29.5.0",
     "@types/node": "^22.0.0",
     "@types/pg": "^8.11.0",
     "@types/ws": "^8.5.0",
     "drizzle-kit": "^0.30.0",
-    "jest": "^29.7.0",
-    "ts-jest": "^29.2.0",
     "ts-loader": "^9.5.0",
     "ts-node": "^10.9.0",
     "tsx": "^4.19.0",
-    "typescript": "^5.7.0"
-  },
-  "jest": {
-    "moduleFileExtensions": ["js", "json", "ts"],
-    "rootDir": "src",
-    "testRegex": ".*\\.spec\\.ts$",
-    "transform": { "^.+\\.(t|j)s$": "ts-jest" },
-    "collectCoverageFrom": ["**/*.(t|j)s"],
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node",
-    "moduleNameMapper": {
-      "^@vivo/shared(.*)$": "<rootDir>/../../packages/shared/src$1"
-    },
-    "transformIgnorePatterns": [
-      "node_modules/(?!.*(superjson|copy-anything|is-what))"
-    ]
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
   }
 }

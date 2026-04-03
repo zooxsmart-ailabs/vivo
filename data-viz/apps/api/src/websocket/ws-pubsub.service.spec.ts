@@ -7,22 +7,22 @@ describe("WsPubSubService", () => {
   let subscriberMessageHandler: (channel: string, message: string) => void;
 
   beforeEach(() => {
-    jest.spyOn(Logger.prototype, "debug").mockImplementation();
+    vi.spyOn(Logger.prototype, "debug").mockImplementation();
     mockRedis = {
-      client: { publish: jest.fn().mockResolvedValue(1) },
+      client: { publish: vi.fn().mockResolvedValue(1) },
       subscriber: {
-        on: jest.fn((_event: string, handler: any) => {
+        on: vi.fn((_event: string, handler: any) => {
           subscriberMessageHandler = handler;
         }),
-        subscribe: jest.fn().mockResolvedValue(1),
-        unsubscribe: jest.fn().mockResolvedValue(1),
+        subscribe: vi.fn().mockResolvedValue(1),
+        unsubscribe: vi.fn().mockResolvedValue(1),
       },
     };
     service = new WsPubSubService(mockRedis);
   });
 
   afterEach(() => {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   describe("publish", () => {
@@ -40,7 +40,7 @@ describe("WsPubSubService", () => {
 
   describe("subscribe", () => {
     it("subscribes to Redis channel on first handler", async () => {
-      const handler = jest.fn();
+      const handler = vi.fn();
 
       await service.subscribe("ch1", handler);
 
@@ -48,15 +48,15 @@ describe("WsPubSubService", () => {
     });
 
     it("does not re-subscribe to Redis for a second handler on same channel", async () => {
-      await service.subscribe("ch1", jest.fn());
-      await service.subscribe("ch1", jest.fn());
+      await service.subscribe("ch1", vi.fn());
+      await service.subscribe("ch1", vi.fn());
 
       expect(mockRedis.subscriber.subscribe).toHaveBeenCalledTimes(1);
     });
 
     it("subscribes to Redis separately for different channels", async () => {
-      await service.subscribe("ch1", jest.fn());
-      await service.subscribe("ch2", jest.fn());
+      await service.subscribe("ch1", vi.fn());
+      await service.subscribe("ch2", vi.fn());
 
       expect(mockRedis.subscriber.subscribe).toHaveBeenCalledTimes(2);
     });
@@ -64,7 +64,7 @@ describe("WsPubSubService", () => {
 
   describe("unsubscribe", () => {
     it("unsubscribes from Redis when last handler is removed", async () => {
-      const handler = jest.fn();
+      const handler = vi.fn();
       await service.subscribe("ch1", handler);
 
       await service.unsubscribe("ch1", handler);
@@ -73,8 +73,8 @@ describe("WsPubSubService", () => {
     });
 
     it("does not unsubscribe from Redis when other handlers remain", async () => {
-      const h1 = jest.fn();
-      const h2 = jest.fn();
+      const h1 = vi.fn();
+      const h2 = vi.fn();
       await service.subscribe("ch1", h1);
       await service.subscribe("ch1", h2);
 
@@ -84,7 +84,7 @@ describe("WsPubSubService", () => {
     });
 
     it("is a no-op for unknown channels", async () => {
-      await service.unsubscribe("unknown", jest.fn());
+      await service.unsubscribe("unknown", vi.fn());
 
       expect(mockRedis.subscriber.unsubscribe).not.toHaveBeenCalled();
     });
@@ -92,7 +92,7 @@ describe("WsPubSubService", () => {
 
   describe("message forwarding", () => {
     it("forwards Redis messages to registered handlers", async () => {
-      const handler = jest.fn();
+      const handler = vi.fn();
       await service.subscribe("ch1", handler);
 
       subscriberMessageHandler("ch1", '{"value":42}');
@@ -101,7 +101,7 @@ describe("WsPubSubService", () => {
     });
 
     it("does not forward messages to unregistered channels", async () => {
-      const handler = jest.fn();
+      const handler = vi.fn();
       await service.subscribe("ch1", handler);
 
       subscriberMessageHandler("ch2", "data");
@@ -110,8 +110,8 @@ describe("WsPubSubService", () => {
     });
 
     it("forwards to all handlers on the same channel", async () => {
-      const h1 = jest.fn();
-      const h2 = jest.fn();
+      const h1 = vi.fn();
+      const h2 = vi.fn();
       await service.subscribe("ch1", h1);
       await service.subscribe("ch1", h2);
 
@@ -124,7 +124,7 @@ describe("WsPubSubService", () => {
 
   describe("onModuleDestroy", () => {
     it("clears all handlers", async () => {
-      const handler = jest.fn();
+      const handler = vi.fn();
       await service.subscribe("ch1", handler);
 
       await service.onModuleDestroy();
