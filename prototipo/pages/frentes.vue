@@ -530,73 +530,64 @@ function fmtPop(v?: number): string {
       <!-- Main -->
       <div class="flex-1 overflow-y-auto bg-slate-50">
         <div v-if="displayGeo" class="p-4 space-y-4">
-          <!-- Header geohash -->
-          <div class="bg-white rounded-xl border border-slate-100 p-4 shadow-sm">
-            <div class="flex items-start justify-between gap-4">
+          <!-- Header geohash + Indicadores (card único) -->
+          <div class="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
+
+            <!-- Linha 1: nome do geohash + badge de prioridade -->
+            <div class="flex items-center justify-between gap-4 px-4 pt-3 pb-2 border-b border-slate-100">
               <div class="flex items-center gap-3">
-                <div
-                  class="w-10 h-10 rounded-xl flex items-center justify-center bg-green-50 border border-green-100"
-                >
-                  <MapPin class="w-5 h-5 text-green-600" />
+                <div class="w-8 h-8 rounded-xl flex items-center justify-center bg-green-50 border border-green-100">
+                  <MapPin class="w-4 h-4 text-green-600" />
                 </div>
                 <div>
-                  <h2 class="text-[15px] font-black text-slate-800 leading-tight">
-                    {{ displayGeo.neighborhood }}
-                  </h2>
-                  <p class="text-[10px] text-slate-400">
-                    {{ displayGeo.city }} · {{ displayGeo.id }}
-                  </p>
+                  <h2 class="text-[15px] font-black text-slate-800 leading-tight">{{ displayGeo.neighborhood }}</h2>
+                  <p class="text-[10px] text-slate-400">{{ displayGeo.city }} · {{ displayGeo.id }}</p>
                 </div>
               </div>
               <!-- Badge de Prioridade -->
               <div v-if="priority" class="shrink-0">
                 <div
-                  class="flex flex-col items-center gap-1 px-4 py-2.5 rounded-xl border-2"
+                  class="flex items-center gap-2 px-3 py-1.5 rounded-xl border-2"
                   :style="{
                     borderColor: priority.percentile >= 75 ? '#DC2626' : priority.percentile >= 40 ? '#D97706' : '#16A34A',
                     background:  priority.percentile >= 75 ? '#FEF2F2' : priority.percentile >= 40 ? '#FFFBEB' : '#F0FDF4',
                   }"
                 >
                   <span
-                    class="text-[8px] font-black uppercase tracking-widest"
-                    :style="{ color: priority.percentile >= 75 ? '#DC2626' : priority.percentile >= 40 ? '#D97706' : '#16A34A' }"
-                  >
-                    {{ priority.percentile >= 75 ? 'ALTA PRIORIDADE' : priority.percentile >= 40 ? 'MÉDIA PRIORIDADE' : 'BAIXA PRIORIDADE' }}
-                  </span>
-                  <span
-                    class="text-[22px] font-black leading-none"
+                    class="text-[20px] font-black leading-none"
                     :style="{ color: priority.percentile >= 75 ? '#DC2626' : priority.percentile >= 40 ? '#D97706' : '#16A34A' }"
                   >{{ priority.score }}</span>
-                  <span class="text-[8px] text-slate-400">#{{ priority.rank }} de {{ priority.total }}</span>
+                  <div class="flex flex-col">
+                    <span
+                      class="text-[8px] font-black uppercase tracking-widest leading-tight"
+                      :style="{ color: priority.percentile >= 75 ? '#DC2626' : priority.percentile >= 40 ? '#D97706' : '#16A34A' }"
+                    >{{ priority.percentile >= 75 ? 'ALTA' : priority.percentile >= 40 ? 'MÉDIA' : 'BAIXA' }}</span>
+                    <span
+                      class="text-[8px] font-black uppercase tracking-widest leading-tight"
+                      :style="{ color: priority.percentile >= 75 ? '#DC2626' : priority.percentile >= 40 ? '#D97706' : '#16A34A' }"
+                    >PRIORIDADE</span>
+                    <span class="text-[7px] text-slate-400 leading-tight">#{{ priority.rank }} de {{ priority.total }}</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <!-- Painel de Indicadores-Chave -->
-          <div class="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
-            <!-- Demográficos -->
+            <!-- Linha 2: Demográficos -->
             <div class="px-4 py-2 border-b border-slate-100" style="background:#F8FAFC">
-              <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2">Demográficos</p>
+              <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Demográficos</p>
               <div class="grid grid-cols-4 gap-3">
-                <!-- População -->
                 <div>
                   <p class="text-[8px] text-slate-400 mb-0.5">População</p>
                   <p class="text-[13px] font-black text-slate-800">{{ fmtPop(displayGeo.marketShare.totalPopulation) }}</p>
                 </div>
-                <!-- Densidade -->
                 <div>
                   <p class="text-[8px] text-slate-400 mb-0.5">Densidade</p>
-                  <p class="text-[13px] font-black text-slate-800">
-                    {{ displayGeo.demographics?.populationDensity ? displayGeo.demographics.populationDensity.toLocaleString('pt-BR') + ' hab/km²' : '—' }}
-                  </p>
+                  <p class="text-[13px] font-black text-slate-800">{{ displayGeo.demographics?.populationDensity ? displayGeo.demographics.populationDensity.toLocaleString('pt-BR') + ' hab/km²' : '—' }}</p>
                 </div>
-                <!-- Renda Média -->
                 <div>
                   <p class="text-[8px] text-slate-400 mb-0.5">Renda Média</p>
                   <p class="text-[13px] font-black text-slate-800">{{ fmtCurrency(displayGeo.demographics?.avgIncome) }}</p>
                 </div>
-                <!-- Classe Social -->
                 <div>
                   <p class="text-[8px] text-slate-400 mb-0.5">Classe Social</p>
                   <span
@@ -607,18 +598,17 @@ function fmtPop(v?: number): string {
               </div>
             </div>
 
-            <!-- Móvel + Fibra -->
+            <!-- Linha 3: Móvel + Fibra -->
             <div class="grid grid-cols-2 divide-x divide-slate-100">
               <!-- Móvel -->
               <div class="px-4 py-2">
-                <div class="flex items-center gap-1.5 mb-2">
+                <div class="flex items-center gap-1.5 mb-1.5">
                   <div class="w-4 h-4 rounded-full flex items-center justify-center" style="background:#EFF6FF">
                     <span class="text-[7px] font-black" style="color:#1D4ED8">M</span>
                   </div>
-                  <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Móvel</p>
+                  <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest">Móvel</p>
                 </div>
                 <div class="grid grid-cols-3 gap-2">
-                  <!-- Share Móvel + Delta -->
                   <div>
                     <p class="text-[8px] text-slate-400 mb-0.5">Share Vivo</p>
                     <p class="text-[13px] font-black text-slate-800">{{ displayGeo.shareTrend.shareMovel != null ? displayGeo.shareTrend.shareMovel + '%' : (displayGeo.marketShare.percentage + '%') }}</p>
@@ -626,29 +616,25 @@ function fmtPop(v?: number): string {
                       {{ fmtDeltaShare(displayGeo.shareTrend.deltaMovel ?? displayGeo.shareTrend.delta) }}
                     </p>
                   </div>
-                  <!-- Plano Móvel -->
                   <div>
                     <p class="text-[8px] text-slate-400 mb-0.5">Plano Principal</p>
                     <p class="text-[11px] font-black text-slate-800">{{ displayGeo.crm?.planoMovel ?? '—' }}</p>
                   </div>
-                  <!-- ARPU Móvel -->
                   <div>
                     <p class="text-[8px] text-slate-400 mb-0.5">ARPU Móvel</p>
                     <p class="text-[13px] font-black text-slate-800">{{ fmtCurrency(displayGeo.crm?.arpuMovel) }}</p>
                   </div>
                 </div>
               </div>
-
               <!-- Fibra -->
               <div class="px-4 py-2">
-                <div class="flex items-center gap-1.5 mb-2">
+                <div class="flex items-center gap-1.5 mb-1.5">
                   <div class="w-4 h-4 rounded-full flex items-center justify-center" style="background:#F0FDF4">
                     <span class="text-[7px] font-black" style="color:#15803D">F</span>
                   </div>
-                  <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Fibra</p>
+                  <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest">Fibra</p>
                 </div>
                 <div class="grid grid-cols-2 gap-2">
-                  <!-- Share Fibra + Delta -->
                   <div>
                     <p class="text-[8px] text-slate-400 mb-0.5">Share Vivo</p>
                     <template v-if="(displayGeo.shareTrend.shareFibra ?? 0) > 0">
@@ -661,7 +647,6 @@ function fmtPop(v?: number): string {
                       <p class="text-[11px] font-bold text-slate-400">Sem cobertura</p>
                     </template>
                   </div>
-                  <!-- ARPU Fibra -->
                   <div>
                     <p class="text-[8px] text-slate-400 mb-0.5">ARPU Fibra</p>
                     <p class="text-[13px] font-black text-slate-800">{{ fmtCurrency(displayGeo.crm?.arpuFibra) }}</p>
@@ -669,6 +654,7 @@ function fmtPop(v?: number): string {
                 </div>
               </div>
             </div>
+
           </div>
 
           <!-- Diagnóstico -->
