@@ -390,6 +390,32 @@ function metricDisplay(m: PilarMetrica) {
 function vivoSat(g: any) {
   return g.satisfactionScores.find((s: any) => s.name === "Vivo")?.score?.toFixed(1) ?? "—";
 }
+
+// Classe social baseada em renda média mensal (critérios ABEP/IBGE)
+function getSocialClass(income?: number): { label: string; color: string; bg: string; border: string } {
+  if (!income) return { label: "—", color: "#94A3B8", bg: "#F1F5F9", border: "#CBD5E1" };
+  if (income > 11296) return { label: "Classe A", color: "#15803D", bg: "#F0FDF4", border: "#BBF7D0" };
+  if (income > 5648)  return { label: "Classe B", color: "#6D28D9", bg: "#F5F3FF", border: "#DDD6FE" };
+  if (income > 2824)  return { label: "Classe C", color: "#1D4ED8", bg: "#EFF6FF", border: "#BFDBFE" };
+  if (income > 1412)  return { label: "Classe D", color: "#B45309", bg: "#FFFBEB", border: "#FDE68A" };
+  return                     { label: "Classe E", color: "#6B7280", bg: "#F9FAFB", border: "#E5E7EB" };
+}
+
+function fmtCurrency(v?: number): string {
+  if (!v || v === 0) return "—";
+  return `R$\u00a0${v.toLocaleString("pt-BR", { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+}
+
+function fmtDeltaShare(v?: number): string {
+  if (v === undefined || v === null) return "—";
+  return `${v > 0 ? "+" : ""}${v.toFixed(1)}pp`;
+}
+
+function fmtPop(v?: number): string {
+  if (!v) return "—";
+  if (v >= 1000) return `${(v / 1000).toFixed(1)}k`;
+  return v.toString();
+}
 </script>
 
 <template>
@@ -546,6 +572,104 @@ function vivoSat(g: any) {
                   >
                     {{ priority.score }}
                   </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Painel de Indicadores-Chave -->
+          <div class="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
+            <!-- Demográficos -->
+            <div class="px-4 py-2 border-b border-slate-100" style="background:#F8FAFC">
+              <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2">Demográficos</p>
+              <div class="grid grid-cols-4 gap-3">
+                <!-- População -->
+                <div>
+                  <p class="text-[8px] text-slate-400 mb-0.5">População</p>
+                  <p class="text-[13px] font-black text-slate-800">{{ fmtPop(displayGeo.marketShare.totalPopulation) }}</p>
+                </div>
+                <!-- Densidade -->
+                <div>
+                  <p class="text-[8px] text-slate-400 mb-0.5">Densidade</p>
+                  <p class="text-[13px] font-black text-slate-800">
+                    {{ displayGeo.demographics?.populationDensity ? displayGeo.demographics.populationDensity.toLocaleString('pt-BR') + ' hab/km²' : '—' }}
+                  </p>
+                </div>
+                <!-- Renda Média -->
+                <div>
+                  <p class="text-[8px] text-slate-400 mb-0.5">Renda Média</p>
+                  <p class="text-[13px] font-black text-slate-800">{{ fmtCurrency(displayGeo.demographics?.avgIncome) }}</p>
+                </div>
+                <!-- Classe Social -->
+                <div>
+                  <p class="text-[8px] text-slate-400 mb-0.5">Classe Social</p>
+                  <span
+                    class="inline-block text-[10px] font-black px-2 py-0.5 rounded-full border"
+                    :style="{ color: getSocialClass(displayGeo.demographics?.avgIncome).color, background: getSocialClass(displayGeo.demographics?.avgIncome).bg, borderColor: getSocialClass(displayGeo.demographics?.avgIncome).border }"
+                  >{{ getSocialClass(displayGeo.demographics?.avgIncome).label }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Móvel + Fibra -->
+            <div class="grid grid-cols-2 divide-x divide-slate-100">
+              <!-- Móvel -->
+              <div class="px-4 py-2">
+                <div class="flex items-center gap-1.5 mb-2">
+                  <div class="w-4 h-4 rounded-full flex items-center justify-center" style="background:#EFF6FF">
+                    <span class="text-[7px] font-black" style="color:#1D4ED8">M</span>
+                  </div>
+                  <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Móvel</p>
+                </div>
+                <div class="grid grid-cols-3 gap-2">
+                  <!-- Share Móvel + Delta -->
+                  <div>
+                    <p class="text-[8px] text-slate-400 mb-0.5">Share Vivo</p>
+                    <p class="text-[13px] font-black text-slate-800">{{ displayGeo.shareTrend.shareMovel != null ? displayGeo.shareTrend.shareMovel + '%' : (displayGeo.marketShare.percentage + '%') }}</p>
+                    <p class="text-[8px] font-bold" :class="(displayGeo.shareTrend.deltaMovel ?? 0) >= 0 ? 'text-green-600' : 'text-red-500'">
+                      {{ fmtDeltaShare(displayGeo.shareTrend.deltaMovel ?? displayGeo.shareTrend.delta) }}
+                    </p>
+                  </div>
+                  <!-- Plano Móvel -->
+                  <div>
+                    <p class="text-[8px] text-slate-400 mb-0.5">Plano Principal</p>
+                    <p class="text-[11px] font-black text-slate-800">{{ displayGeo.crm?.planoMovel ?? '—' }}</p>
+                  </div>
+                  <!-- ARPU Móvel -->
+                  <div>
+                    <p class="text-[8px] text-slate-400 mb-0.5">ARPU Móvel</p>
+                    <p class="text-[13px] font-black text-slate-800">{{ fmtCurrency(displayGeo.crm?.arpuMovel) }}</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Fibra -->
+              <div class="px-4 py-2">
+                <div class="flex items-center gap-1.5 mb-2">
+                  <div class="w-4 h-4 rounded-full flex items-center justify-center" style="background:#F0FDF4">
+                    <span class="text-[7px] font-black" style="color:#15803D">F</span>
+                  </div>
+                  <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Fibra</p>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                  <!-- Share Fibra + Delta -->
+                  <div>
+                    <p class="text-[8px] text-slate-400 mb-0.5">Share Vivo</p>
+                    <template v-if="(displayGeo.shareTrend.shareFibra ?? 0) > 0">
+                      <p class="text-[13px] font-black text-slate-800">{{ displayGeo.shareTrend.shareFibra }}%</p>
+                      <p class="text-[8px] font-bold" :class="(displayGeo.shareTrend.deltaFibra ?? 0) >= 0 ? 'text-green-600' : 'text-red-500'">
+                        {{ fmtDeltaShare(displayGeo.shareTrend.deltaFibra) }}
+                      </p>
+                    </template>
+                    <template v-else>
+                      <p class="text-[11px] font-bold text-slate-400">Sem cobertura</p>
+                    </template>
+                  </div>
+                  <!-- ARPU Fibra -->
+                  <div>
+                    <p class="text-[8px] text-slate-400 mb-0.5">ARPU Fibra</p>
+                    <p class="text-[13px] font-black text-slate-800">{{ fmtCurrency(displayGeo.crm?.arpuFibra) }}</p>
+                  </div>
                 </div>
               </div>
             </div>
