@@ -26,9 +26,9 @@ export interface ConcorrenteGeohash {
 // ─── Diagnóstico Growth — 4 Pilares ─────────────────────────────────────────
 export interface DiagnosticoGrowth {
   // Pilar 01 — Percepção
-  scoreOoklaMovel: number;       // Score SpeedTest Vivo Móvel (0-10)
-  scoreOoklaFibra: number;       // Score SpeedTest Vivo Fibra (0-10)
-  scoreHAC: number;              // Score HAC — avaliação de qualidade fibra (0-10)
+  scoreOoklaMovel?: number;      // Score SpeedTest Vivo Móvel (0-10)
+  scoreOoklaFibra?: number;      // Score SpeedTest Vivo Fibra (0-10)
+  scoreHAC?: number;             // Score HAC — avaliação de qualidade fibra (0-10)
   scoreOokla: number;            // Score SpeedTest Vivo geral (0-10) — mantido para compatibilidade
   taxaChamados: number;          // (RAC + SAC 30d) / Base Ativa (%) ex: 2.1 — mantido para compatibilidade
   // Pilar 02 — Concorrência

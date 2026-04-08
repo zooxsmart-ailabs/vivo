@@ -61,31 +61,37 @@ function worstSig(...sigs: Sig3[]): Sig3 {
 }
 
 function avaliarPercep(d: DiagnosticoGrowth): PilarResult {
-  const sm: Sig3 = d.scoreOoklaMovel >= 8 ? "ok" : d.scoreOoklaMovel >= 6 ? "alerta" : "critico";
-  const sf: Sig3 = d.scoreOoklaFibra === 0 ? "ok" : d.scoreOoklaFibra >= 8 ? "ok" : d.scoreOoklaFibra >= 6 ? "alerta" : "critico";
-  const sh: Sig3 = d.scoreHAC === 0 ? "ok" : d.scoreHAC >= 8 ? "ok" : d.scoreHAC >= 6 ? "alerta" : "critico";
+  // Fallback para geohashes sem os novos campos: usa scoreOokla geral
+  const movel = d.scoreOoklaMovel ?? d.scoreOokla;
+  const fibra = d.scoreOoklaFibra ?? 0;
+  const hac   = d.scoreHAC ?? 0;
+
+  const sm: Sig3 = movel >= 8 ? "ok" : movel >= 6 ? "alerta" : "critico";
+  const sf: Sig3 = fibra === 0 ? "ok" : fibra >= 8 ? "ok" : fibra >= 6 ? "alerta" : "critico";
+  const sh: Sig3 = hac   === 0 ? "ok" : hac   >= 8 ? "ok" : hac   >= 6 ? "alerta" : "critico";
+
   const metricas: PilarMetrica[] = [
     {
       label: "SpeedTest Móvel",
-      value: d.scoreOoklaMovel.toFixed(1),
+      value: movel.toFixed(1),
       formula: "Score Ookla — SpeedTest Vivo Móvel no Geohash",
       signal: sm,
       detail: sm === "ok" ? "≥ 8.0 — Excelente" : sm === "alerta" ? "6.0–7.9 — Regular" : "< 6.0 — Crítico",
     },
   ];
-  if (d.scoreOoklaFibra > 0) {
+  if (fibra > 0) {
     metricas.push({
       label: "SpeedTest Fibra",
-      value: d.scoreOoklaFibra.toFixed(1),
+      value: fibra.toFixed(1),
       formula: "Score Ookla — SpeedTest Vivo Fibra no Geohash",
       signal: sf,
       detail: sf === "ok" ? "≥ 8.0 — Excelente" : sf === "alerta" ? "6.0–7.9 — Regular" : "< 6.0 — Crítico",
     });
   }
-  if (d.scoreHAC > 0) {
+  if (hac > 0) {
     metricas.push({
       label: "Score HAC",
-      value: d.scoreHAC.toFixed(1),
+      value: hac.toFixed(1),
       formula: "Avaliação de qualidade HAC — Fibra",
       signal: sh,
       detail: sh === "ok" ? "≥ 8.0 — Excelente" : sh === "alerta" ? "6.0–7.9 — Regular" : "< 6.0 — Crítico",
