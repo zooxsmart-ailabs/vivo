@@ -548,30 +548,26 @@ function fmtPop(v?: number): string {
                   </p>
                 </div>
               </div>
-              <div class="flex items-center gap-4 shrink-0">
-                <div class="text-center">
-                  <p class="text-[8px] text-slate-400 mb-0.5">Share</p>
-                  <p class="text-[14px] font-black text-slate-800">
-                    {{ displayGeo.marketShare.percentage }}%
-                  </p>
-                </div>
-                <div class="text-center">
-                  <p class="text-[8px] text-slate-400 mb-0.5">Satisfação</p>
-                  <div class="flex items-center gap-0.5">
-                    <Star class="w-3 h-3 text-amber-400" />
-                    <p class="text-[14px] font-black text-slate-800">
-                      {{ vivoSat(displayGeo) }}
-                    </p>
-                  </div>
-                </div>
-                <div v-if="priority" class="text-center">
-                  <p class="text-[8px] text-slate-400 mb-0.5">Prioridade</p>
-                  <p
-                    class="text-[14px] font-black"
-                    :style="{ color: priority.color }"
+              <!-- Badge de Prioridade -->
+              <div v-if="priority" class="shrink-0">
+                <div
+                  class="flex flex-col items-center gap-1 px-4 py-2.5 rounded-xl border-2"
+                  :style="{
+                    borderColor: priority.percentile >= 75 ? '#DC2626' : priority.percentile >= 40 ? '#D97706' : '#16A34A',
+                    background:  priority.percentile >= 75 ? '#FEF2F2' : priority.percentile >= 40 ? '#FFFBEB' : '#F0FDF4',
+                  }"
+                >
+                  <span
+                    class="text-[8px] font-black uppercase tracking-widest"
+                    :style="{ color: priority.percentile >= 75 ? '#DC2626' : priority.percentile >= 40 ? '#D97706' : '#16A34A' }"
                   >
-                    {{ priority.score }}
-                  </p>
+                    {{ priority.percentile >= 75 ? 'ALTA PRIORIDADE' : priority.percentile >= 40 ? 'MÉDIA PRIORIDADE' : 'BAIXA PRIORIDADE' }}
+                  </span>
+                  <span
+                    class="text-[22px] font-black leading-none"
+                    :style="{ color: priority.percentile >= 75 ? '#DC2626' : priority.percentile >= 40 ? '#D97706' : '#16A34A' }"
+                  >{{ priority.score }}</span>
+                  <span class="text-[8px] text-slate-400">#{{ priority.rank }} de {{ priority.total }}</span>
                 </div>
               </div>
             </div>
