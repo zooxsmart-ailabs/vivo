@@ -12,7 +12,7 @@ export type ShareTrend = "UP" | "DOWN" | "STABLE";
 // Camada 2 — Infraestrutura (6 classificações da apresentação)
 // Fibra: AUMENTO_CAPACIDADE (tem fibra, saturada >85%) | EXPANSAO_NOVA_AREA (sem fibra, greenfield) | SAUDAVEL (tem fibra, OK)
 // Móvel: MELHORA_QUALIDADE (tem cobertura, SpeedTest ruim) | SAUDAVEL (tem cobertura, OK) | EXPANSAO_5G | EXPANSAO_4G (sem cobertura)
-export type FibraClassification = "AUMENTO_CAPACIDADE" | "EXPANSAO_NOVA_AREA" | "SAUDAVEL";
+export type FibraClassification = "AUMENTO_CAPACIDADE" | "EXPANSAO_NOVA_AREA" | "SAUDAVEL" | "MELHORA_QUALIDADE";
 export type MovelClassification = "MELHORA_QUALIDADE" | "SAUDAVEL" | "EXPANSAO_5G" | "EXPANSAO_4G";
 
 // Concorrente no geohash (para tabela comparativa)

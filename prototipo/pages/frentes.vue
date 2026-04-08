@@ -20,7 +20,6 @@ import {
   getPriorityInfo,
   type Camada2,
   type DiagnosticoGrowth,
-  type ConcorrenteGeohash,
 } from "~/utils/geohashData";
 
 type Sig3 = "ok" | "alerta" | "critico";
