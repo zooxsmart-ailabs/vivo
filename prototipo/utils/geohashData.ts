@@ -15,14 +15,26 @@ export type ShareTrend = "UP" | "DOWN" | "STABLE";
 export type FibraClassification = "AUMENTO_CAPACIDADE" | "EXPANSAO_NOVA_AREA" | "SAUDAVEL";
 export type MovelClassification = "MELHORA_QUALIDADE" | "SAUDAVEL" | "EXPANSAO_5G" | "EXPANSAO_4G";
 
+// Concorrente no geohash (para tabela comparativa)
+export interface ConcorrenteGeohash {
+  nome: string;                  // Ex: "TIM", "Claro", "NET"
+  temCobertura: boolean;         // Tem cobertura fibra ou móvel na área
+  planoPrioritario: string;      // Ex: "Fibra 300Mbps", "Pós-pago 5G"
+  preco: number;                 // Preço do plano prioritário (R$)
+}
+
 // ─── Diagnóstico Growth — 4 Pilares ─────────────────────────────────────────
 export interface DiagnosticoGrowth {
   // Pilar 01 — Percepção
-  scoreOokla: number;            // Score SpeedTest Vivo (0-10)
-  taxaChamados: number;          // (RAC + SAC 30d) / Base Ativa (%) ex: 2.1
+  scoreOoklaMovel: number;       // Score SpeedTest Vivo Móvel (0-10)
+  scoreOoklaFibra: number;       // Score SpeedTest Vivo Fibra (0-10)
+  scoreHAC: number;              // Score HAC — avaliação de qualidade fibra (0-10)
+  scoreOokla: number;            // Score SpeedTest Vivo geral (0-10) — mantido para compatibilidade
+  taxaChamados: number;          // (RAC + SAC 30d) / Base Ativa (%) ex: 2.1 — mantido para compatibilidade
   // Pilar 02 — Concorrência
   sharePenetracao: number;       // % share Vivo (Base / Total Domicílios)
   deltaVsLider: number;          // Score Vivo - Score líder (ex: -2.1)
+  concorrentes?: ConcorrenteGeohash[]; // Tabela comparativa de concorrentes
   // Pilar 04 — Comportamento
   arpuRelativo: number;          // ARPU geohash / ARPU médio cidade (ex: 1.15)
   canalDominante: string;        // Ex: "Digital", "Loja Física", "Televendas"
@@ -199,7 +211,16 @@ export const GEOHASH_DATA: GeohashData[] = [
     crm: { arpu: 89, deviceTier: "Mid", planType: "Pós-pago 4G" },
     speedtest: { downloadMbps: 42, latencyMs: 38, qualityLabel: "Regular" },
     demographics: { avgIncome: 5200, incomeLabel: "Médio", populationDensity: 9200, populationGrowth: 2.8, growthLabel: "Moderado", technology: "4G", severity: "Média" },
-    diagnostico: { scoreOokla: 6.1, taxaChamados: 4.2, sharePenetracao: 25, deltaVsLider: -2.1, arpuRelativo: 0.92, canalDominante: "Televendas", canalPct: 48 },
+    diagnostico: {
+      scoreOokla: 6.1, scoreOoklaMovel: 5.8, scoreOoklaFibra: 0.0, scoreHAC: 0.0,
+      taxaChamados: 4.2, sharePenetracao: 25, deltaVsLider: -2.1,
+      arpuRelativo: 0.92, canalDominante: "Televendas", canalPct: 48,
+      concorrentes: [
+        { nome: "TIM",   temCobertura: true,  planoPrioritario: "Pós-pago 5G",   preco: 79.99 },
+        { nome: "Claro", temCobertura: true,  planoPrioritario: "Pós-pago 4G",   preco: 74.90 },
+        { nome: "NET",   temCobertura: false, planoPrioritario: "Fibra 300Mbps", preco: 99.90 },
+      ],
+    },
     camada2: {
       fibra: { classification: "EXPANSAO_NOVA_AREA", score: 72, scoreLabel: "Alto", potencialMercado: 68, sinergiaMovel: 28 },
       movel: { classification: "MELHORA_QUALIDADE", score: 65, scoreLabel: "Alto"},
@@ -235,7 +256,16 @@ export const GEOHASH_DATA: GeohashData[] = [
     crm: { arpu: 76, deviceTier: "Mid", planType: "Pós-pago 4G" },
     speedtest: { downloadMbps: 55, latencyMs: 32, qualityLabel: "Bom" },
     demographics: { avgIncome: 4800, incomeLabel: "Médio", populationDensity: 7800, populationGrowth: 3.1, growthLabel: "Alto", technology: "4G + Fibra", severity: "Média" },
-    diagnostico: { scoreOokla: 6.8, taxaChamados: 3.1, sharePenetracao: 31, deltaVsLider: -1.1, arpuRelativo: 0.85, canalDominante: "Digital", canalPct: 55 },
+    diagnostico: {
+      scoreOokla: 6.8, scoreOoklaMovel: 6.5, scoreOoklaFibra: 7.2, scoreHAC: 7.0,
+      taxaChamados: 3.1, sharePenetracao: 31, deltaVsLider: -1.1,
+      arpuRelativo: 0.85, canalDominante: "Digital", canalPct: 55,
+      concorrentes: [
+        { nome: "TIM",   temCobertura: true,  planoPrioritario: "Pós-pago 4G",   preco: 74.90 },
+        { nome: "Claro", temCobertura: true,  planoPrioritario: "Fibra 300Mbps", preco: 89.90 },
+        { nome: "NET",   temCobertura: true,  planoPrioritario: "Fibra 200Mbps", preco: 84.90 },
+      ],
+    },
     camada2: {
       fibra: { classification: "EXPANSAO_NOVA_AREA", score: 68, scoreLabel: "Alto", potencialMercado: 62, sinergiaMovel: 31 },
       movel: { classification: "SAUDAVEL", score: 30, scoreLabel: "Baixo"},
@@ -271,7 +301,16 @@ export const GEOHASH_DATA: GeohashData[] = [
     crm: { arpu: 82, deviceTier: "Mid", planType: "Pós-pago 4G" },
     speedtest: { downloadMbps: 61, latencyMs: 29, qualityLabel: "Bom" },
     demographics: { avgIncome: 5500, incomeLabel: "Médio", populationDensity: 6900, populationGrowth: 1.9, growthLabel: "Moderado", technology: "4G", severity: "Média" },
-    diagnostico: { scoreOokla: 7.0, taxaChamados: 2.8, sharePenetracao: 29, deltaVsLider: -1.0, arpuRelativo: 0.95, canalDominante: "Loja Física", canalPct: 42 },
+    diagnostico: {
+      scoreOokla: 7.0, scoreOoklaMovel: 7.0, scoreOoklaFibra: 0.0, scoreHAC: 0.0,
+      taxaChamados: 2.8, sharePenetracao: 29, deltaVsLider: -1.0,
+      arpuRelativo: 0.95, canalDominante: "Loja Física", canalPct: 42,
+      concorrentes: [
+        { nome: "TIM",   temCobertura: true,  planoPrioritario: "Pós-pago 4G",   preco: 74.90 },
+        { nome: "Claro", temCobertura: false, planoPrioritario: "Pós-pago 4G",   preco: 69.90 },
+        { nome: "NET",   temCobertura: false, planoPrioritario: "Fibra 300Mbps", preco: 99.90 },
+      ],
+    },
     camada2: {
       fibra: { classification: "EXPANSAO_NOVA_AREA", score: 61, scoreLabel: "Médio", potencialMercado: 55, sinergiaMovel: 29 },
       movel: { classification: "SAUDAVEL", score: 25, scoreLabel: "Baixo"},
@@ -307,7 +346,16 @@ export const GEOHASH_DATA: GeohashData[] = [
     crm: { arpu: 71, deviceTier: "Basic", planType: "Pós-pago 4G" },
     speedtest: { downloadMbps: 38, latencyMs: 44, qualityLabel: "Regular" },
     demographics: { avgIncome: 4100, incomeLabel: "Médio", populationDensity: 6300, populationGrowth: 1.4, growthLabel: "Moderado", technology: "4G", severity: "Baixa" },
-    diagnostico: { scoreOokla: 6.4, taxaChamados: 3.9, sharePenetracao: 26, deltaVsLider: -1.6, arpuRelativo: 0.88, canalDominante: "Televendas", canalPct: 38 },
+    diagnostico: {
+      scoreOokla: 6.4, scoreOoklaMovel: 6.2, scoreOoklaFibra: 0.0, scoreHAC: 0.0,
+      taxaChamados: 3.9, sharePenetracao: 26, deltaVsLider: -1.6,
+      arpuRelativo: 0.88, canalDominante: "Televendas", canalPct: 38,
+      concorrentes: [
+        { nome: "TIM",   temCobertura: true,  planoPrioritario: "Pós-pago 4G",   preco: 74.90 },
+        { nome: "Claro", temCobertura: true,  planoPrioritario: "Pós-pago 4G",   preco: 69.90 },
+        { nome: "NET",   temCobertura: false, planoPrioritario: "Fibra 300Mbps", preco: 99.90 },
+      ],
+    },
     camada2: {
       fibra: { classification: "EXPANSAO_NOVA_AREA", score: 45, scoreLabel: "Médio", potencialMercado: 42 },
       movel: { classification: "MELHORA_QUALIDADE", score: 58, scoreLabel: "Médio"},

@@ -20,6 +20,7 @@ import {
   getPriorityInfo,
   type Camada2,
   type DiagnosticoGrowth,
+  type ConcorrenteGeohash,
 } from "~/utils/geohashData";
 
 type Sig3 = "ok" | "alerta" | "critico";
@@ -61,28 +62,41 @@ function worstSig(...sigs: Sig3[]): Sig3 {
 }
 
 function avaliarPercep(d: DiagnosticoGrowth): PilarResult {
-  const s1: Sig3 = d.scoreOokla >= 8 ? "ok" : d.scoreOokla >= 6 ? "alerta" : "critico";
-  const s2: Sig3 = d.taxaChamados < 3 ? "ok" : d.taxaChamados <= 5 ? "alerta" : "critico";
+  const sm: Sig3 = d.scoreOoklaMovel >= 8 ? "ok" : d.scoreOoklaMovel >= 6 ? "alerta" : "critico";
+  const sf: Sig3 = d.scoreOoklaFibra === 0 ? "ok" : d.scoreOoklaFibra >= 8 ? "ok" : d.scoreOoklaFibra >= 6 ? "alerta" : "critico";
+  const sh: Sig3 = d.scoreHAC === 0 ? "ok" : d.scoreHAC >= 8 ? "ok" : d.scoreHAC >= 6 ? "alerta" : "critico";
+  const metricas: PilarMetrica[] = [
+    {
+      label: "SpeedTest Móvel",
+      value: d.scoreOoklaMovel.toFixed(1),
+      formula: "Score Ookla — SpeedTest Vivo Móvel no Geohash",
+      signal: sm,
+      detail: sm === "ok" ? "≥ 8.0 — Excelente" : sm === "alerta" ? "6.0–7.9 — Regular" : "< 6.0 — Crítico",
+    },
+  ];
+  if (d.scoreOoklaFibra > 0) {
+    metricas.push({
+      label: "SpeedTest Fibra",
+      value: d.scoreOoklaFibra.toFixed(1),
+      formula: "Score Ookla — SpeedTest Vivo Fibra no Geohash",
+      signal: sf,
+      detail: sf === "ok" ? "≥ 8.0 — Excelente" : sf === "alerta" ? "6.0–7.9 — Regular" : "< 6.0 — Crítico",
+    });
+  }
+  if (d.scoreHAC > 0) {
+    metricas.push({
+      label: "Score HAC",
+      value: d.scoreHAC.toFixed(1),
+      formula: "Avaliação de qualidade HAC — Fibra",
+      signal: sh,
+      detail: sh === "ok" ? "≥ 8.0 — Excelente" : sh === "alerta" ? "6.0–7.9 — Regular" : "< 6.0 — Crítico",
+    });
+  }
   return {
     id: "01",
     title: "Percepção",
-    signal: worstSig(s1, s2),
-    metricas: [
-      {
-        label: "Score Ookla",
-        value: d.scoreOokla.toFixed(1),
-        formula: "Score SpeedTest Vivo no Geohash",
-        signal: s1,
-        detail: s1 === "ok" ? "≥ 8.0 — Excelente" : s1 === "alerta" ? "6.0–7.9 — Regular" : "< 6.0 — Crítico",
-      },
-      {
-        label: "Vol. Chamados",
-        value: `${d.taxaChamados.toFixed(1)}%`,
-        formula: "(RAC + SAC 30d) / Base Ativa Vivo",
-        signal: s2,
-        detail: s2 === "ok" ? "< 3% — Saudável" : s2 === "alerta" ? "3–5% — Alerta" : "> 5% — Crítico",
-      },
-    ],
+    signal: worstSig(sm, sf, sh),
+    metricas,
   };
 }
 
@@ -125,18 +139,22 @@ function avaliarConcorrencia(d: DiagnosticoGrowth): PilarResult {
 function avaliarInfra(c2: Camada2 | undefined): PilarResult {
   const fc = c2?.fibra?.classification ?? "SAUDAVEL";
   const mc = c2?.movel?.classification ?? "SAUDAVEL";
-  const s1: Sig3 = fc === "SAUDAVEL" ? "ok" : fc === "AUMENTO_CAPACIDADE" ? "alerta" : "critico";
+  // Fibra: Saudável=ok | Melhora da Qualidade=alerta | Aumento de Capacidade=alerta | Expansão Nova Área=critico
+  const s1: Sig3 = fc === "SAUDAVEL" ? "ok" : fc === "EXPANSAO_NOVA_AREA" ? "critico" : "alerta";
+  // Móvel: Saudável=ok | Melhora na Qualidade=critico | Expansão de Cobertura=alerta
   const s2: Sig3 = mc === "SAUDAVEL" ? "ok" : mc === "MELHORA_QUALIDADE" ? "critico" : "alerta";
   const FL: Record<string, string> = {
-    SAUDAVEL: "Saudável — Growth Liberado",
+    SAUDAVEL:           "Saudável — Growth Liberado",
+    MELHORA_QUALIDADE:  "Melhora da Qualidade — Intervenção Recomendada",
     AUMENTO_CAPACIDADE: "Aumento de Capacidade — Controlado",
     EXPANSAO_NOVA_AREA: "Expansão Nova Área — Bloqueado",
   };
   const ML: Record<string, string> = {
-    SAUDAVEL: "Saudável — Growth Liberado",
-    MELHORA_QUALIDADE: "Melhora na Qualidade — Controlado",
-    EXPANSAO_5G: "Expansão 5G — Controlado",
-    EXPANSAO_4G: "Expansão 4G — Controlado",
+    SAUDAVEL:           "Saudável — Growth Liberado",
+    MELHORA_QUALIDADE:  "Melhora na Qualidade — Crítico",
+    EXPANSAO_COBERTURA: "Expansão de Cobertura — Controlado",
+    EXPANSAO_5G:        "Expansão de Cobertura — Controlado",
+    EXPANSAO_4G:        "Expansão de Cobertura — Controlado",
   };
   return {
     id: "03",
@@ -146,7 +164,7 @@ function avaliarInfra(c2: Camada2 | undefined): PilarResult {
       {
         label: "Fibra (Status)",
         value: fc,
-        formula: "Saudável / Aumento de Capacidade / Expansão Nova Área",
+        formula: "Saudável / Melhora da Qualidade / Aumento de Capacidade / Expansão Nova Área",
         signal: s1,
         detail: FL[fc] ?? fc,
       },
@@ -594,6 +612,47 @@ function vivoSat(g: any) {
                     >
                       {{ m.detail }}
                     </p>
+                  </div>
+
+                  <!-- Tabela comparativa de concorrêntes (apenas no pilar 02) -->
+                  <div
+                    v-if="pilar.id === '02' && displayGeo?.diagnostico?.concorrentes?.length"
+                    class="rounded-lg border border-slate-200 overflow-hidden"
+                  >
+                    <div class="flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 border-b border-slate-200">
+                      <TrendingUp class="w-3 h-3 text-slate-400" />
+                      <span class="text-[8px] font-bold text-slate-500 uppercase tracking-wider">Comparativo de Concorrência</span>
+                    </div>
+                    <table class="w-full text-[8px]">
+                      <thead>
+                        <tr class="border-b border-slate-100 bg-slate-50">
+                          <th class="text-left px-3 py-1.5 font-bold text-slate-500">Operadora</th>
+                          <th class="text-center px-2 py-1.5 font-bold text-slate-500">Cobertura</th>
+                          <th class="text-left px-2 py-1.5 font-bold text-slate-500">Plano Prioritário</th>
+                          <th class="text-right px-3 py-1.5 font-bold text-slate-500">Preço</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          v-for="(c, ci) in displayGeo.diagnostico.concorrentes"
+                          :key="ci"
+                          class="border-b border-slate-50 last:border-0"
+                          :class="ci % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'"
+                        >
+                          <td class="px-3 py-1.5 font-black text-slate-700">{{ c.nome }}</td>
+                          <td class="px-2 py-1.5 text-center">
+                            <span
+                              class="inline-block px-1.5 py-0.5 rounded-full text-[7px] font-bold"
+                              :class="c.temCobertura ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-400'"
+                            >{{ c.temCobertura ? 'Sim' : 'Não' }}</span>
+                          </td>
+                          <td class="px-2 py-1.5 text-slate-600">{{ c.planoPrioritario }}</td>
+                          <td class="px-3 py-1.5 text-right font-bold text-slate-700">
+                            R$ {{ c.preco.toFixed(2).replace('.', ',') }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>

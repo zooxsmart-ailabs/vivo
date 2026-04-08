@@ -39,18 +39,19 @@ const TECH_META: Record<TechCategory, { label: string; color: string }> = {
 };
 
 const FIBRA_CLASS: Record<string, { label: string; color: string; bg: string }> = {
+  SAUDAVEL:           { label: "Saudável",              color: "#16A34A", bg: "#F0FDF4" },
+  OK:                 { label: "Saudável",              color: "#16A34A", bg: "#F0FDF4" },
+  MELHORA_QUALIDADE:  { label: "Melhora da Qualidade",  color: "#2563EB", bg: "#EFF6FF" },
   AUMENTO_CAPACIDADE: { label: "Aumento de Capacidade", color: "#DC2626", bg: "#FEF2F2" },
-  EXPANSAO_NOVA_AREA: { label: "Expansão Nova Área", color: "#D97706", bg: "#FFFBEB" },
-  SAUDAVEL: { label: "Rede Saudável", color: "#16A34A", bg: "#F0FDF4" },
-  OK: { label: "Rede Saudável", color: "#16A34A", bg: "#F0FDF4" },
-  SEM_FIBRA: { label: "Sem Fibra", color: "#94A3B8", bg: "#F8FAFC" },
+  EXPANSAO_NOVA_AREA: { label: "Expansão Nova Área",    color: "#D97706", bg: "#FFFBEB" },
+  SEM_FIBRA:          { label: "Sem Fibra",              color: "#94A3B8", bg: "#F8FAFC" },
 };
 const MOVEL_CLASS: Record<string, { label: string; color: string; bg: string }> = {
-  MELHORA_QUALIDADE: { label: "Melhora na Qualidade", color: "#DC2626", bg: "#FEF2F2" },
+  SAUDAVEL:           { label: "Saudável",              color: "#16A34A", bg: "#F0FDF4" },
+  MELHORA_QUALIDADE:  { label: "Melhora na Qualidade",  color: "#DC2626", bg: "#FEF2F2" },
   EXPANSAO_COBERTURA: { label: "Expansão de Cobertura", color: "#D97706", bg: "#FFFBEB" },
-  SAUDAVEL: { label: "Rede Saudável", color: "#16A34A", bg: "#F0FDF4" },
-  EXPANSAO_5G: { label: "Expansão 5G", color: "#7C3AED", bg: "#F5F3FF" },
-  EXPANSAO_4G: { label: "Expansão 4G", color: "#2563EB", bg: "#EFF6FF" },
+  EXPANSAO_5G:        { label: "Expansão de Cobertura", color: "#D97706", bg: "#FFFBEB" },
+  EXPANSAO_4G:        { label: "Expansão de Cobertura", color: "#D97706", bg: "#FFFBEB" },
 };
 const CARRIER: Record<string, { bar: string; bg: string }> = {
   Vivo: { bar: "#F59E0B", bg: "#FEF3C7" },
@@ -535,27 +536,7 @@ function insightIcon(type: string) {
               }}</span
             >
           </div>
-          <div class="px-2 py-1.5 space-y-1">
-            <div class="flex items-center justify-between mb-0.5">
-              <span class="text-[7px] text-slate-400">Score de Intervenção</span>
-              <span
-                class="text-[8px] font-black"
-                :style="{
-                  color: (FIBRA_CLASS[data.camada2.fibra.classification] ?? FIBRA_CLASS.SAUDAVEL).color,
-                }"
-                >{{ data.camada2.fibra.score }}/100</span
-              >
-            </div>
-            <div class="relative h-2.5 rounded-full overflow-hidden bg-slate-100">
-              <div
-                class="h-full rounded-full"
-                :style="{
-                  width: `${Math.min(100, data.camada2.fibra.score)}%`,
-                  backgroundColor: (FIBRA_CLASS[data.camada2.fibra.classification] ?? FIBRA_CLASS.SAUDAVEL).color,
-                }"
-              />
-            </div>
-          </div>
+
         </div>
 
         <div
@@ -594,27 +575,7 @@ function insightIcon(type: string) {
               }}</span
             >
           </div>
-          <div class="px-2 py-1.5 space-y-1">
-            <div class="flex items-center justify-between mb-0.5">
-              <span class="text-[7px] text-slate-400">Score de Intervenção</span>
-              <span
-                class="text-[8px] font-black"
-                :style="{
-                  color: (MOVEL_CLASS[data.camada2.movel.classification] ?? MOVEL_CLASS.SAUDAVEL).color,
-                }"
-                >{{ data.camada2.movel.score }}/100</span
-              >
-            </div>
-            <div class="relative h-2.5 rounded-full overflow-hidden bg-slate-100">
-              <div
-                class="h-full rounded-full"
-                :style="{
-                  width: `${Math.min(100, data.camada2.movel.score)}%`,
-                  backgroundColor: (MOVEL_CLASS[data.camada2.movel.classification] ?? MOVEL_CLASS.SAUDAVEL).color,
-                }"
-              />
-            </div>
-          </div>
+
         </div>
 
         <div
