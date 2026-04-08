@@ -127,6 +127,20 @@ const view = computed(() => {
   return { d, qColor, tech, ins, prio, qLabel, share, vivo, tim, claro, delta, dColor, DIcon };
 });
 
+// Classificação socioeconômica baseada em renda média mensal domiciliar (critério ABEP/IBGE)
+const SOCIAL_CLASS: Array<{ max: number; label: string; color: string; bg: string }> = [
+  { max: 1412,  label: "Classe E",   color: "#6B7280", bg: "#F3F4F6" },
+  { max: 2824,  label: "Classe D",   color: "#D97706", bg: "#FFFBEB" },
+  { max: 5648,  label: "Classe C",   color: "#2563EB", bg: "#EFF6FF" },
+  { max: 11296, label: "Classe B",   color: "#7C3AED", bg: "#F5F3FF" },
+  { max: Infinity, label: "Classe A", color: "#16A34A", bg: "#F0FDF4" },
+];
+
+function getSocialClass(income: number | undefined) {
+  if (!income) return null;
+  return SOCIAL_CLASS.find((c) => income <= c.max) ?? SOCIAL_CLASS[SOCIAL_CLASS.length - 1];
+}
+
 function carrierMeta(label: string) {
   return CARRIER[label] ?? { bar: "#818CF8", bg: "#EDE9FE" };
 }
@@ -412,6 +426,19 @@ function insightIcon(type: string) {
               >R$
               {{ data.demographics?.avgIncome?.toLocaleString("pt-BR") ?? "—" }}</span
             >
+          </div>
+          <div class="flex items-center justify-between col-span-2">
+            <span class="text-[7.5px] text-slate-400">Classe Social</span>
+            <template v-if="getSocialClass(data.demographics?.avgIncome)">
+              <span
+                class="text-[7px] font-black px-1.5 py-0.5 rounded-full"
+                :style="{
+                  color: getSocialClass(data.demographics?.avgIncome)!.color,
+                  backgroundColor: getSocialClass(data.demographics?.avgIncome)!.bg,
+                }"
+              >{{ getSocialClass(data.demographics?.avgIncome)!.label }}</span>
+            </template>
+            <span v-else class="text-[8px] font-bold text-slate-700">—</span>
           </div>
           <div class="flex items-center justify-between">
             <span class="text-[7.5px] text-slate-400">Densidade</span>
