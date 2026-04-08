@@ -107,11 +107,24 @@ function avaliarPercep(d: DiagnosticoGrowth): PilarResult {
 
 function avaliarConcorrencia(d: DiagnosticoGrowth): PilarResult {
   const s1: Sig3 = d.sharePenetracao < 20 ? "ok" : d.sharePenetracao <= 40 ? "alerta" : "critico";
-  const s2: Sig3 = d.deltaVsLider > 0 ? "ok" : d.deltaVsLider >= -1 ? "alerta" : "critico";
+
+  // Vantagem Satisfação Fibra
+  const dvf = d.deltaVsLiderFibra ?? d.deltaVsLider;
+  const s2f: Sig3 = dvf > 0 ? "ok" : dvf >= -1 ? "alerta" : "critico";
+
+  // Vantagem Satisfação Móvel
+  const dvm = d.deltaVsLiderMovel ?? d.deltaVsLider;
+  const s2m: Sig3 = dvm > 0 ? "ok" : dvm >= -1 ? "alerta" : "critico";
+
+  function fmtDelta(v: number) { return `${v > 0 ? "+" : ""}${v.toFixed(1)}`; }
+  function detailDelta(s: Sig3) {
+    return s === "ok" ? "Delta > 0 — Vantagem" : s === "alerta" ? "−1.0 a 0 — Empate Técnico" : "Delta < −1.0 — Desvantagem";
+  }
+
   return {
     id: "02",
     title: "Concorrência",
-    signal: worstSig(s1, s2),
+    signal: worstSig(s1, s2f, s2m),
     metricas: [
       {
         label: "Share / Penetração",
@@ -126,16 +139,18 @@ function avaliarConcorrencia(d: DiagnosticoGrowth): PilarResult {
               : "> 40% — Saturado",
       },
       {
-        label: "Vantagem vs Líder",
-        value: `${d.deltaVsLider > 0 ? "+" : ""}${d.deltaVsLider.toFixed(1)}`,
-        formula: "Delta score Vivo − score líder (Ookla)",
-        signal: s2,
-        detail:
-          s2 === "ok"
-            ? "Delta > 0 — Vantagem"
-            : s2 === "alerta"
-              ? "−1.0 a 0 — Empate Técnico"
-              : "Delta < −1.0 — Desvantagem",
+        label: "Vantagem Satisfação Fibra",
+        value: fmtDelta(dvf),
+        formula: "Score Vivo Fibra − score líder Fibra (Ookla)",
+        signal: s2f,
+        detail: detailDelta(s2f),
+      },
+      {
+        label: "Vantagem Satisfação Móvel",
+        value: fmtDelta(dvm),
+        formula: "Score Vivo Móvel − score líder Móvel (Ookla)",
+        signal: s2m,
+        detail: detailDelta(s2m),
       },
     ],
   };
