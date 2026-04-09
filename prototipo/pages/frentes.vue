@@ -576,28 +576,28 @@ function fmtPop(v?: number): string {
                 </div>
               </div>
               <!-- Badge de Prioridade -->
-              <div v-if="priority" class="shrink-0">
+              <div v-if="recomendacao" class="shrink-0">
                 <div
                   class="flex items-center gap-2 px-3 py-1.5 rounded-xl border-2"
                   :style="{
-                    borderColor: priority.percentile >= 75 ? '#DC2626' : priority.percentile >= 40 ? '#D97706' : '#16A34A',
-                    background:  priority.percentile >= 75 ? '#FEF2F2' : priority.percentile >= 40 ? '#FFFBEB' : '#F0FDF4',
+                    borderColor: recomendacao.prioTotal === 'ALTA' ? '#DC2626' : recomendacao.prioTotal === 'MÉDIA' ? '#D97706' : '#16A34A',
+                    background:  recomendacao.prioTotal === 'ALTA' ? '#FEF2F2' : recomendacao.prioTotal === 'MÉDIA' ? '#FFFBEB' : '#F0FDF4',
                   }"
                 >
                   <span
                     class="text-[20px] font-black leading-none"
-                    :style="{ color: priority.percentile >= 75 ? '#DC2626' : priority.percentile >= 40 ? '#D97706' : '#16A34A' }"
-                  >{{ priority.score }}</span>
+                    :style="{ color: recomendacao.prioTotal === 'ALTA' ? '#DC2626' : recomendacao.prioTotal === 'MÉDIA' ? '#D97706' : '#16A34A' }"
+                  >{{ recomendacao.scoreTotal.toFixed(1) }}</span>
                   <div class="flex flex-col">
                     <span
                       class="text-[8px] font-black uppercase tracking-widest leading-tight"
-                      :style="{ color: priority.percentile >= 75 ? '#DC2626' : priority.percentile >= 40 ? '#D97706' : '#16A34A' }"
-                    >{{ priority.percentile >= 75 ? 'ALTA' : priority.percentile >= 40 ? 'MÉDIA' : 'BAIXA' }}</span>
+                      :style="{ color: recomendacao.prioTotal === 'ALTA' ? '#DC2626' : recomendacao.prioTotal === 'MÉDIA' ? '#D97706' : '#16A34A' }"
+                    >{{ recomendacao.prioTotal }}</span>
                     <span
                       class="text-[8px] font-black uppercase tracking-widest leading-tight"
-                      :style="{ color: priority.percentile >= 75 ? '#DC2626' : priority.percentile >= 40 ? '#D97706' : '#16A34A' }"
+                      :style="{ color: recomendacao.prioTotal === 'ALTA' ? '#DC2626' : recomendacao.prioTotal === 'MÉDIA' ? '#D97706' : '#16A34A' }"
                     >PRIORIDADE</span>
-                    <span class="text-[7px] text-slate-400 leading-tight">#{{ priority.rank }} de {{ priority.total }}</span>
+                    <span class="text-[7px] text-slate-400 leading-tight">#{{ priority?.rank }} de {{ priority?.total }}</span>
                   </div>
                 </div>
               </div>
