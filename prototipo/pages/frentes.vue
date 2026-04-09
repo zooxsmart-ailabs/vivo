@@ -47,8 +47,12 @@ interface PilarResult {
   metricas: PilarMetrica[];
 }
 interface AIRec {
-  decisao: "ATIVAR" | "AGUARDAR" | "BLOQUEADO";
+  decisao: "AGUARDAR" | "ATACAR";
   decisaoColor: string;
+  decisaoMovel: "AGUARDAR" | "ATACAR";
+  decisaoFibra: "AGUARDAR" | "ATACAR";
+  prioMovel: "ALTA" | "MÉDIA" | "BAIXA";
+  prioFibra: "ALTA" | "MÉDIA" | "BAIXA";
   canal: string;
   abordagem: string;
   raciocinio: string;
@@ -235,6 +239,12 @@ function avaliarComportamento(d: DiagnosticoGrowth): PilarResult {
   };
 }
 
+function calcPrio(score: number): "ALTA" | "MÉDIA" | "BAIXA" {
+  if (score >= 7.5) return "ALTA";
+  if (score >= 5.5) return "MÉDIA";
+  return "BAIXA";
+}
+
 function gerarRec(d: DiagnosticoGrowth, c2: Camada2 | undefined): AIRec {
   const fc = c2?.fibra?.classification ?? "SAUDAVEL";
   const mc = c2?.movel?.classification ?? "SAUDAVEL";
@@ -247,18 +257,26 @@ function gerarRec(d: DiagnosticoGrowth, c2: Camada2 | undefined): AIRec {
   const concCritica = d.deltaVsLider < -1;
   const infraControle = fibraGargalo || movelProblema;
 
+  // Decisão geral (Totalização)
   let decisao: AIRec["decisao"];
   let decisaoColor: string;
-  if (fibraBloqueada || (percCritica && concCritica)) {
-    decisao = "BLOQUEADO";
-    decisaoColor = "#DC2626";
-  } else if (infraControle || percCritica || concCritica) {
+  if (infraControle || percCritica || concCritica || fibraBloqueada) {
     decisao = "AGUARDAR";
     decisaoColor = "#D97706";
   } else {
-    decisao = "ATIVAR";
+    decisao = "ATACAR";
     decisaoColor = "#16A34A";
   }
+
+  // Decisão por tecnologia
+  const decisaoMovel: AIRec["decisaoMovel"] = (movelProblema || movelExpansao || percCritica) ? "AGUARDAR" : "ATACAR";
+  const decisaoFibra: AIRec["decisaoFibra"] = (fibraBloqueada || fibraGargalo) ? "AGUARDAR" : "ATACAR";
+
+  // Prioridade por tecnologia (baseada nos scores Ookla)
+  const scoreMovel = d.scoreOoklaMovel ?? d.scoreOokla;
+  const scoreFibra = d.scoreOoklaFibra ?? 0;
+  const prioMovel = calcPrio(scoreMovel);
+  const prioFibra = scoreFibra > 0 ? calcPrio(scoreFibra) : "BAIXA";
 
   let canal: string;
   if (d.canalPct >= 50) canal = `${d.canalDominante} (dominante — priorizar 80% da verba)`;
@@ -312,7 +330,7 @@ function gerarRec(d: DiagnosticoGrowth, c2: Camada2 | undefined): AIRec {
       ? `Decisão baseada em: ${reasons.join("; ")}.`
       : "Geohash com perfil equilibrado. Ativar growth com oferta adequada ao perfil de preço.";
 
-  return { decisao, decisaoColor, canal, abordagem, raciocinio };
+  return { decisao, decisaoColor, decisaoMovel, decisaoFibra, prioMovel, prioFibra, canal, abordagem, raciocinio };
 }
 
 const INFRA_LABELS: Record<string, string> = {
@@ -332,9 +350,14 @@ const PILAR_ICONS: Record<string, any> = {
 };
 
 const DECISAO_ICONS: Record<string, any> = {
-  ATIVAR: CheckCircle2,
+  ATACAR: CheckCircle2,
   AGUARDAR: AlertTriangle,
-  BLOQUEADO: TrendingDown,
+};
+
+const PRIO_STYLE: Record<string, { color: string; bg: string; border: string }> = {
+  ALTA:  { color: '#DC2626', bg: '#FEF2F2', border: '#FECACA' },
+  MÉDIA: { color: '#D97706', bg: '#FFFBEB', border: '#FDE68A' },
+  BAIXA: { color: '#16A34A', bg: '#F0FDF4', border: '#BBF7D0' },
 };
 
 const search = ref("");
@@ -838,24 +861,24 @@ function fmtPop(v?: number): string {
                   <div class="px-3 py-2.5">
                     <!-- Score de Priorização Móvel -->
                     <p class="text-[7px] font-bold text-slate-400 uppercase tracking-widest mb-1">Score de Priorização</p>
-                    <div class="flex items-center gap-1.5 mb-2">
+                    <div class="flex items-center gap-2 mb-2">
                       <span class="text-[18px] font-black leading-none"
-                        :style="{ color: (displayGeo.diagnostico?.scoreOoklaMovel ?? displayGeo.diagnostico?.scoreOokla ?? 0) >= 7 ? '#16A34A' : (displayGeo.diagnostico?.scoreOoklaMovel ?? displayGeo.diagnostico?.scoreOokla ?? 0) >= 5 ? '#D97706' : '#DC2626' }"
+                        :style="{ color: PRIO_STYLE[recomendacao.prioMovel].color }"
                       >{{ (displayGeo.diagnostico?.scoreOoklaMovel ?? displayGeo.diagnostico?.scoreOokla ?? 0).toFixed(1) }}</span>
-                      <span class="text-[8px] font-bold"
-                        :style="{ color: (displayGeo.diagnostico?.scoreOoklaMovel ?? displayGeo.diagnostico?.scoreOokla ?? 0) >= 7 ? '#16A34A' : (displayGeo.diagnostico?.scoreOoklaMovel ?? displayGeo.diagnostico?.scoreOokla ?? 0) >= 5 ? '#D97706' : '#DC2626' }"
-                      >{{ (displayGeo.diagnostico?.scoreOoklaMovel ?? displayGeo.diagnostico?.scoreOokla ?? 0) >= 7 ? 'Bom' : (displayGeo.diagnostico?.scoreOoklaMovel ?? displayGeo.diagnostico?.scoreOokla ?? 0) >= 5 ? 'Regular' : 'Crítico' }}</span>
+                      <span class="text-[8px] font-black px-1.5 py-0.5 rounded-full"
+                        :style="{ color: PRIO_STYLE[recomendacao.prioMovel].color, backgroundColor: PRIO_STYLE[recomendacao.prioMovel].bg, border: '1px solid ' + PRIO_STYLE[recomendacao.prioMovel].border }"
+                      >{{ recomendacao.prioMovel }} PRIORIDADE</span>
                     </div>
                     <!-- Decisão Móvel -->
                     <p class="text-[7px] font-bold text-slate-400 uppercase tracking-widest mb-1">Decisão</p>
                     <div class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg border"
                       :style="{
-                        backgroundColor: recomendacao.decisaoColor + '12',
-                        borderColor: recomendacao.decisaoColor + '40',
+                        backgroundColor: (recomendacao.decisaoMovel === 'ATACAR' ? '#16A34A' : '#D97706') + '12',
+                        borderColor: (recomendacao.decisaoMovel === 'ATACAR' ? '#16A34A' : '#D97706') + '40',
                       }"
                     >
-                      <component :is="DECISAO_ICONS[recomendacao.decisao]" class="w-3.5 h-3.5" :style="{ color: recomendacao.decisaoColor }" />
-                      <span class="text-[10px] font-black" :style="{ color: recomendacao.decisaoColor }">{{ recomendacao.decisao }}</span>
+                      <component :is="DECISAO_ICONS[recomendacao.decisaoMovel]" class="w-3.5 h-3.5" :style="{ color: recomendacao.decisaoMovel === 'ATACAR' ? '#16A34A' : '#D97706' }" />
+                      <span class="text-[10px] font-black" :style="{ color: recomendacao.decisaoMovel === 'ATACAR' ? '#16A34A' : '#D97706' }">{{ recomendacao.decisaoMovel }}</span>
                     </div>
                   </div>
                 </div>
@@ -869,14 +892,14 @@ function fmtPop(v?: number): string {
                   <div class="px-3 py-2.5">
                     <!-- Score de Priorização Fibra -->
                     <p class="text-[7px] font-bold text-slate-400 uppercase tracking-widest mb-1">Score de Priorização</p>
-                    <div class="flex items-center gap-1.5 mb-2">
+                    <div class="flex items-center gap-2 mb-2">
                       <template v-if="(displayGeo.diagnostico?.scoreOoklaFibra ?? 0) > 0">
                         <span class="text-[18px] font-black leading-none"
-                          :style="{ color: (displayGeo.diagnostico?.scoreOoklaFibra ?? 0) >= 7 ? '#16A34A' : (displayGeo.diagnostico?.scoreOoklaFibra ?? 0) >= 5 ? '#D97706' : '#DC2626' }"
+                          :style="{ color: PRIO_STYLE[recomendacao.prioFibra].color }"
                         >{{ (displayGeo.diagnostico?.scoreOoklaFibra ?? 0).toFixed(1) }}</span>
-                        <span class="text-[8px] font-bold"
-                          :style="{ color: (displayGeo.diagnostico?.scoreOoklaFibra ?? 0) >= 7 ? '#16A34A' : (displayGeo.diagnostico?.scoreOoklaFibra ?? 0) >= 5 ? '#D97706' : '#DC2626' }"
-                        >{{ (displayGeo.diagnostico?.scoreOoklaFibra ?? 0) >= 7 ? 'Bom' : (displayGeo.diagnostico?.scoreOoklaFibra ?? 0) >= 5 ? 'Regular' : 'Crítico' }}</span>
+                        <span class="text-[8px] font-black px-1.5 py-0.5 rounded-full"
+                          :style="{ color: PRIO_STYLE[recomendacao.prioFibra].color, backgroundColor: PRIO_STYLE[recomendacao.prioFibra].bg, border: '1px solid ' + PRIO_STYLE[recomendacao.prioFibra].border }"
+                        >{{ recomendacao.prioFibra }} PRIORIDADE</span>
                       </template>
                       <span v-else class="text-[11px] text-slate-400">Sem cobertura</span>
                     </div>
@@ -884,16 +907,12 @@ function fmtPop(v?: number): string {
                     <p class="text-[7px] font-bold text-slate-400 uppercase tracking-widest mb-1">Decisão</p>
                     <div class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg border"
                       :style="{
-                        backgroundColor: displayGeo.camada2?.fibra?.classification === 'EXPANSAO_NOVA_AREA' ? '#FEF2F2' : displayGeo.camada2?.fibra?.classification === 'AUMENTO_CAPACIDADE' ? '#FFFBEB' : '#F0FDF4',
-                        borderColor:     displayGeo.camada2?.fibra?.classification === 'EXPANSAO_NOVA_AREA' ? '#FECACA' : displayGeo.camada2?.fibra?.classification === 'AUMENTO_CAPACIDADE' ? '#FDE68A' : '#BBF7D0',
+                        backgroundColor: (recomendacao.decisaoFibra === 'ATACAR' ? '#16A34A' : '#D97706') + '12',
+                        borderColor: (recomendacao.decisaoFibra === 'ATACAR' ? '#16A34A' : '#D97706') + '40',
                       }"
                     >
-                      <Layers class="w-3.5 h-3.5"
-                        :style="{ color: displayGeo.camada2?.fibra?.classification === 'EXPANSAO_NOVA_AREA' ? '#DC2626' : displayGeo.camada2?.fibra?.classification === 'AUMENTO_CAPACIDADE' ? '#D97706' : '#16A34A' }"
-                      />
-                      <span class="text-[9px] font-black"
-                        :style="{ color: displayGeo.camada2?.fibra?.classification === 'EXPANSAO_NOVA_AREA' ? '#DC2626' : displayGeo.camada2?.fibra?.classification === 'AUMENTO_CAPACIDADE' ? '#D97706' : '#16A34A' }"
-                      >{{ INFRA_LABELS[displayGeo.camada2?.fibra?.classification ?? 'SAUDAVEL'] }}</span>
+                      <component :is="DECISAO_ICONS[recomendacao.decisaoFibra]" class="w-3.5 h-3.5" :style="{ color: recomendacao.decisaoFibra === 'ATACAR' ? '#16A34A' : '#D97706' }" />
+                      <span class="text-[9px] font-black" :style="{ color: recomendacao.decisaoFibra === 'ATACAR' ? '#16A34A' : '#D97706' }">{{ recomendacao.decisaoFibra }}</span>
                     </div>
                   </div>
                 </div>

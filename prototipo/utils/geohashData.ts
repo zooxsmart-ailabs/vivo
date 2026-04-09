@@ -272,9 +272,9 @@ export const GEOHASH_DATA: GeohashData[] = [
     speedtest: { downloadMbps: 55, latencyMs: 32, qualityLabel: "Bom" },
     demographics: { avgIncome: 4800, incomeLabel: "Médio", populationDensity: 7800, populationGrowth: 3.1, growthLabel: "Alto", technology: "4G + Fibra", severity: "Média" },
     diagnostico: {
-      scoreOokla: 6.8, scoreOoklaMovel: 6.5, scoreOoklaFibra: 7.2, scoreHAC: 7.0,
-      taxaChamados: 3.1, sharePenetracao: 31, deltaVsLider: -1.1,
-      deltaVsLiderFibra: -0.7, deltaVsLiderMovel: -1.4,
+      scoreOokla: 8.1, scoreOoklaMovel: 7.8, scoreOoklaFibra: 8.3, scoreHAC: 8.1,
+      taxaChamados: 2.4, sharePenetracao: 31, deltaVsLider: 0.6,
+      deltaVsLiderFibra: +0.5, deltaVsLiderMovel: +0.8,
       arpuRelativo: 0.85, canalDominante: "Digital", canalPct: 55,
       concorrentes: [
         { nome: "TIM",   coberturaFibra: false, planoFibra: "",              precoFibra: 0,      coberturaMovel: true,  planoMovel: "Pós-pago 4G",   precoMovel: 74.90 },
@@ -318,9 +318,9 @@ export const GEOHASH_DATA: GeohashData[] = [
     speedtest: { downloadMbps: 61, latencyMs: 29, qualityLabel: "Bom" },
     demographics: { avgIncome: 5500, incomeLabel: "Médio", populationDensity: 6900, populationGrowth: 1.9, growthLabel: "Moderado", technology: "4G", severity: "Média" },
     diagnostico: {
-      scoreOokla: 7.0, scoreOoklaMovel: 7.0, scoreOoklaFibra: 6.4, scoreHAC: 6.1,
-      taxaChamados: 2.8, sharePenetracao: 29, deltaVsLider: -1.0,
-      deltaVsLiderFibra: -1.6, deltaVsLiderMovel: -1.0,
+      scoreOokla: 7.9, scoreOoklaMovel: 7.6, scoreOoklaFibra: 7.8, scoreHAC: 7.5,
+      taxaChamados: 2.2, sharePenetracao: 29, deltaVsLider: 0.3,
+      deltaVsLiderFibra: +0.4, deltaVsLiderMovel: +0.3,
       arpuRelativo: 0.95, canalDominante: "Loja Física", canalPct: 42,
       concorrentes: [
         { nome: "TIM",   coberturaFibra: false, planoFibra: "",              precoFibra: 0,      coberturaMovel: true,  planoMovel: "Pós-pago 4G",   precoMovel: 74.90 },
