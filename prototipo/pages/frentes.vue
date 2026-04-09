@@ -53,6 +53,8 @@ interface AIRec {
   decisaoFibra: "AGUARDAR" | "ATACAR";
   prioMovel: "ALTA" | "MÉDIA" | "BAIXA";
   prioFibra: "ALTA" | "MÉDIA" | "BAIXA";
+  scoreTotal: number;
+  prioTotal: "ALTA" | "MÉDIA" | "BAIXA";
   canal: string;
   abordagem: string;
   raciocinio: string;
@@ -330,7 +332,13 @@ function gerarRec(d: DiagnosticoGrowth, c2: Camada2 | undefined): AIRec {
       ? `Decisão baseada em: ${reasons.join("; ")}.`
       : "Geohash com perfil equilibrado. Ativar growth com oferta adequada ao perfil de preço.";
 
-  return { decisao, decisaoColor, decisaoMovel, decisaoFibra, prioMovel, prioFibra, canal, abordagem, raciocinio };
+  // Score de Totalização: média ponderada Móvel + Fibra (escala 0–10)
+  const scoreTotal = scoreFibra > 0
+    ? parseFloat(((scoreMovel + scoreFibra) / 2).toFixed(1))
+    : parseFloat(scoreMovel.toFixed(1));
+  const prioTotal = calcPrio(scoreTotal);
+
+  return { decisao, decisaoColor, decisaoMovel, decisaoFibra, prioMovel, prioFibra, scoreTotal, prioTotal, canal, abordagem, raciocinio };
 }
 
 const INFRA_LABELS: Record<string, string> = {
@@ -930,8 +938,14 @@ function fmtPop(v?: number): string {
                   <div class="grid grid-cols-2 gap-3">
                     <div>
                       <p class="text-[7px] font-bold text-slate-400 uppercase tracking-widest mb-1">Score de Priorização</p>
-                      <span class="text-[22px] font-black leading-none" :style="{ color: recomendacao.decisaoColor }">{{ priority?.score }}</span>
-                      <span class="ml-1 text-[8px] font-bold" :style="{ color: recomendacao.decisaoColor }">#{{ priority?.rank }} de {{ priority?.total }}</span>
+                      <div class="flex items-center gap-2">
+                        <span class="text-[22px] font-black leading-none"
+                          :style="{ color: PRIO_STYLE[recomendacao.prioTotal].color }"
+                        >{{ recomendacao.scoreTotal.toFixed(1) }}</span>
+                        <span class="text-[8px] font-black px-1.5 py-0.5 rounded-full"
+                          :style="{ color: PRIO_STYLE[recomendacao.prioTotal].color, backgroundColor: PRIO_STYLE[recomendacao.prioTotal].bg, border: '1px solid ' + PRIO_STYLE[recomendacao.prioTotal].border }"
+                        >{{ recomendacao.prioTotal }} PRIORIDADE</span>
+                      </div>
                     </div>
                     <div>
                       <p class="text-[7px] font-bold text-slate-400 uppercase tracking-widest mb-1">Decisão</p>
