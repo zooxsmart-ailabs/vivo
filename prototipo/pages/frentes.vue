@@ -740,7 +740,7 @@ function fmtPop(v?: number): string {
                     </p>
                   </div>
 
-                  <!-- Tabela comparativa de concorrêntes (apenas no pilar 02) -->
+                  <!-- Tabela comparativa de concorrentes (apenas no pilar 02) -->
                   <div
                     v-if="pilar.id === '02' && displayGeo?.diagnostico?.concorrentes?.length"
                     class="rounded-lg border border-slate-200 overflow-hidden"
@@ -751,11 +751,29 @@ function fmtPop(v?: number): string {
                     </div>
                     <table class="w-full text-[8px]">
                       <thead>
+                        <tr class="border-b border-slate-100">
+                          <!-- Header vazio para operadora -->
+                          <th class="text-left px-3 py-1.5 font-bold text-slate-500" rowspan="2">Operadora</th>
+                          <!-- Grupo Fibra -->
+                          <th colspan="2" class="text-center px-2 py-1 font-bold text-green-700 bg-green-50 border-b border-green-100 border-l border-green-100">
+                            <span class="flex items-center justify-center gap-1">
+                              <span class="w-3 h-3 rounded-full bg-green-100 flex items-center justify-center text-[6px] font-black text-green-700">F</span>
+                              Fibra
+                            </span>
+                          </th>
+                          <!-- Grupo Móvel -->
+                          <th colspan="2" class="text-center px-2 py-1 font-bold text-blue-700 bg-blue-50 border-b border-blue-100 border-l border-blue-100">
+                            <span class="flex items-center justify-center gap-1">
+                              <span class="w-3 h-3 rounded-full bg-blue-100 flex items-center justify-center text-[6px] font-black text-blue-700">M</span>
+                              Móvel
+                            </span>
+                          </th>
+                        </tr>
                         <tr class="border-b border-slate-100 bg-slate-50">
-                          <th class="text-left px-3 py-1.5 font-bold text-slate-500">Operadora</th>
-                          <th class="text-center px-2 py-1.5 font-bold text-slate-500">Cobertura</th>
-                          <th class="text-left px-2 py-1.5 font-bold text-slate-500">Plano Prioritário</th>
-                          <th class="text-right px-3 py-1.5 font-bold text-slate-500">Preço</th>
+                          <th class="text-center px-2 py-1.5 font-bold text-slate-500 border-l border-slate-100">Cobertura</th>
+                          <th class="text-right px-2 py-1.5 font-bold text-slate-500">Valor</th>
+                          <th class="text-center px-2 py-1.5 font-bold text-slate-500 border-l border-slate-100">Cobertura</th>
+                          <th class="text-right px-3 py-1.5 font-bold text-slate-500">Valor</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -766,15 +784,33 @@ function fmtPop(v?: number): string {
                           :class="ci % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'"
                         >
                           <td class="px-3 py-1.5 font-black text-slate-700">{{ c.nome }}</td>
-                          <td class="px-2 py-1.5 text-center">
+                          <!-- Fibra -->
+                          <td class="px-2 py-1.5 text-center border-l border-slate-100">
                             <span
                               class="inline-block px-1.5 py-0.5 rounded-full text-[7px] font-bold"
-                              :class="c.temCobertura ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-400'"
-                            >{{ c.temCobertura ? 'Sim' : 'Não' }}</span>
+                              :class="c.coberturaFibra ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-400'"
+                            >{{ c.coberturaFibra ? 'Sim' : 'Não' }}</span>
                           </td>
-                          <td class="px-2 py-1.5 text-slate-600">{{ c.planoPrioritario }}</td>
+                          <td class="px-2 py-1.5 text-right font-bold text-slate-700">
+                            <template v-if="c.coberturaFibra && c.precoFibra">
+                              <span class="block text-[8px] font-black text-slate-700">R$ {{ c.precoFibra.toFixed(2).replace('.', ',') }}</span>
+                              <span class="block text-[7px] text-slate-400">{{ c.planoFibra }}</span>
+                            </template>
+                            <span v-else class="text-slate-300">—</span>
+                          </td>
+                          <!-- Móvel -->
+                          <td class="px-2 py-1.5 text-center border-l border-slate-100">
+                            <span
+                              class="inline-block px-1.5 py-0.5 rounded-full text-[7px] font-bold"
+                              :class="c.coberturaMovel ? 'bg-blue-100 text-blue-700' : 'bg-slate-100 text-slate-400'"
+                            >{{ c.coberturaMovel ? 'Sim' : 'Não' }}</span>
+                          </td>
                           <td class="px-3 py-1.5 text-right font-bold text-slate-700">
-                            R$ {{ c.preco.toFixed(2).replace('.', ',') }}
+                            <template v-if="c.coberturaMovel && c.precoMovel">
+                              <span class="block text-[8px] font-black text-slate-700">R$ {{ c.precoMovel.toFixed(2).replace('.', ',') }}</span>
+                              <span class="block text-[7px] text-slate-400">{{ c.planoMovel }}</span>
+                            </template>
+                            <span v-else class="text-slate-300">—</span>
                           </td>
                         </tr>
                       </tbody>
@@ -788,98 +824,142 @@ function fmtPop(v?: number): string {
             <div class="space-y-3">
               <div class="flex items-center gap-2">
                 <Brain class="w-4 h-4 text-slate-400" />
-                <h3
-                  class="text-[11px] font-black text-slate-600 uppercase tracking-wide"
-                >
-                  Recomendação
-                </h3>
+                <h3 class="text-[11px] font-black text-slate-600 uppercase tracking-wide">Recomendação</h3>
               </div>
-              <div
-                class="bg-white rounded-xl border border-slate-100 overflow-hidden shadow-sm flex flex-col"
-              >
-                <div
-                  class="px-4 py-3 border-b border-slate-100 flex items-center gap-2"
-                  :style="{
-                    background: `linear-gradient(135deg, ${recomendacao.decisaoColor}15, ${recomendacao.decisaoColor}05)`,
-                  }"
+
+              <!-- Linha 1: Móvel + Fibra lado a lado -->
+              <div class="grid grid-cols-2 gap-3">
+                <!-- Móvel -->
+                <div class="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
+                  <div class="flex items-center gap-2 px-3 py-2 border-b border-slate-100 bg-blue-50">
+                    <span class="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center text-[8px] font-black text-blue-700">M</span>
+                    <span class="text-[10px] font-black text-blue-700 uppercase tracking-wide">Móvel</span>
+                  </div>
+                  <div class="px-3 py-2.5">
+                    <!-- Score de Priorização Móvel -->
+                    <p class="text-[7px] font-bold text-slate-400 uppercase tracking-widest mb-1">Score de Priorização</p>
+                    <div class="flex items-center gap-1.5 mb-2">
+                      <span class="text-[18px] font-black leading-none"
+                        :style="{ color: (displayGeo.diagnostico?.scoreOoklaMovel ?? displayGeo.diagnostico?.scoreOokla ?? 0) >= 7 ? '#16A34A' : (displayGeo.diagnostico?.scoreOoklaMovel ?? displayGeo.diagnostico?.scoreOokla ?? 0) >= 5 ? '#D97706' : '#DC2626' }"
+                      >{{ (displayGeo.diagnostico?.scoreOoklaMovel ?? displayGeo.diagnostico?.scoreOokla ?? 0).toFixed(1) }}</span>
+                      <span class="text-[8px] font-bold"
+                        :style="{ color: (displayGeo.diagnostico?.scoreOoklaMovel ?? displayGeo.diagnostico?.scoreOokla ?? 0) >= 7 ? '#16A34A' : (displayGeo.diagnostico?.scoreOoklaMovel ?? displayGeo.diagnostico?.scoreOokla ?? 0) >= 5 ? '#D97706' : '#DC2626' }"
+                      >{{ (displayGeo.diagnostico?.scoreOoklaMovel ?? displayGeo.diagnostico?.scoreOokla ?? 0) >= 7 ? 'Bom' : (displayGeo.diagnostico?.scoreOoklaMovel ?? displayGeo.diagnostico?.scoreOokla ?? 0) >= 5 ? 'Regular' : 'Crítico' }}</span>
+                    </div>
+                    <!-- Decisão Móvel -->
+                    <p class="text-[7px] font-bold text-slate-400 uppercase tracking-widest mb-1">Decisão</p>
+                    <div class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg border"
+                      :style="{
+                        backgroundColor: recomendacao.decisaoColor + '12',
+                        borderColor: recomendacao.decisaoColor + '40',
+                      }"
+                    >
+                      <component :is="DECISAO_ICONS[recomendacao.decisao]" class="w-3.5 h-3.5" :style="{ color: recomendacao.decisaoColor }" />
+                      <span class="text-[10px] font-black" :style="{ color: recomendacao.decisaoColor }">{{ recomendacao.decisao }}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Fibra -->
+                <div class="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
+                  <div class="flex items-center gap-2 px-3 py-2 border-b border-slate-100 bg-green-50">
+                    <span class="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center text-[8px] font-black text-green-700">F</span>
+                    <span class="text-[10px] font-black text-green-700 uppercase tracking-wide">Fibra</span>
+                  </div>
+                  <div class="px-3 py-2.5">
+                    <!-- Score de Priorização Fibra -->
+                    <p class="text-[7px] font-bold text-slate-400 uppercase tracking-widest mb-1">Score de Priorização</p>
+                    <div class="flex items-center gap-1.5 mb-2">
+                      <template v-if="(displayGeo.diagnostico?.scoreOoklaFibra ?? 0) > 0">
+                        <span class="text-[18px] font-black leading-none"
+                          :style="{ color: (displayGeo.diagnostico?.scoreOoklaFibra ?? 0) >= 7 ? '#16A34A' : (displayGeo.diagnostico?.scoreOoklaFibra ?? 0) >= 5 ? '#D97706' : '#DC2626' }"
+                        >{{ (displayGeo.diagnostico?.scoreOoklaFibra ?? 0).toFixed(1) }}</span>
+                        <span class="text-[8px] font-bold"
+                          :style="{ color: (displayGeo.diagnostico?.scoreOoklaFibra ?? 0) >= 7 ? '#16A34A' : (displayGeo.diagnostico?.scoreOoklaFibra ?? 0) >= 5 ? '#D97706' : '#DC2626' }"
+                        >{{ (displayGeo.diagnostico?.scoreOoklaFibra ?? 0) >= 7 ? 'Bom' : (displayGeo.diagnostico?.scoreOoklaFibra ?? 0) >= 5 ? 'Regular' : 'Crítico' }}</span>
+                      </template>
+                      <span v-else class="text-[11px] text-slate-400">Sem cobertura</span>
+                    </div>
+                    <!-- Decisão Fibra -->
+                    <p class="text-[7px] font-bold text-slate-400 uppercase tracking-widest mb-1">Decisão</p>
+                    <div class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg border"
+                      :style="{
+                        backgroundColor: displayGeo.camada2?.fibra?.classification === 'EXPANSAO_NOVA_AREA' ? '#FEF2F2' : displayGeo.camada2?.fibra?.classification === 'AUMENTO_CAPACIDADE' ? '#FFFBEB' : '#F0FDF4',
+                        borderColor:     displayGeo.camada2?.fibra?.classification === 'EXPANSAO_NOVA_AREA' ? '#FECACA' : displayGeo.camada2?.fibra?.classification === 'AUMENTO_CAPACIDADE' ? '#FDE68A' : '#BBF7D0',
+                      }"
+                    >
+                      <Layers class="w-3.5 h-3.5"
+                        :style="{ color: displayGeo.camada2?.fibra?.classification === 'EXPANSAO_NOVA_AREA' ? '#DC2626' : displayGeo.camada2?.fibra?.classification === 'AUMENTO_CAPACIDADE' ? '#D97706' : '#16A34A' }"
+                      />
+                      <span class="text-[9px] font-black"
+                        :style="{ color: displayGeo.camada2?.fibra?.classification === 'EXPANSAO_NOVA_AREA' ? '#DC2626' : displayGeo.camada2?.fibra?.classification === 'AUMENTO_CAPACIDADE' ? '#D97706' : '#16A34A' }"
+                      >{{ INFRA_LABELS[displayGeo.camada2?.fibra?.classification ?? 'SAUDAVEL'] }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Linha 2: Totalização Móvel + Fibra -->
+              <div class="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
+                <div class="flex items-center gap-2 px-3 py-2 border-b border-slate-100"
+                  :style="{ background: `linear-gradient(135deg, ${recomendacao.decisaoColor}15, ${recomendacao.decisaoColor}05)` }"
+                >
+                  <BarChart3 class="w-4 h-4" :style="{ color: recomendacao.decisaoColor }" />
+                  <span class="text-[10px] font-black uppercase tracking-wide" :style="{ color: recomendacao.decisaoColor }">Totalização (Móvel + Fibra)</span>
+                </div>
+                <div class="px-3 py-2.5">
+                  <div class="grid grid-cols-2 gap-3">
+                    <div>
+                      <p class="text-[7px] font-bold text-slate-400 uppercase tracking-widest mb-1">Score de Priorização</p>
+                      <span class="text-[22px] font-black leading-none" :style="{ color: recomendacao.decisaoColor }">{{ priority?.score }}</span>
+                      <span class="ml-1 text-[8px] font-bold" :style="{ color: recomendacao.decisaoColor }">#{{ priority?.rank }} de {{ priority?.total }}</span>
+                    </div>
+                    <div>
+                      <p class="text-[7px] font-bold text-slate-400 uppercase tracking-widest mb-1">Decisão</p>
+                      <div class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg border"
+                        :style="{ backgroundColor: recomendacao.decisaoColor + '12', borderColor: recomendacao.decisaoColor + '40' }"
+                      >
+                        <component :is="DECISAO_ICONS[recomendacao.decisao]" class="w-4 h-4" :style="{ color: recomendacao.decisaoColor }" />
+                        <span class="text-[12px] font-black" :style="{ color: recomendacao.decisaoColor }">{{ recomendacao.decisao }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Linha 3: Recomendação AI -->
+              <div class="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
+                <div class="px-3 py-2 border-b border-slate-100 flex items-center gap-2"
+                  :style="{ background: 'linear-gradient(135deg, #7C3AED15, #7C3AED05)' }"
                 >
                   <Brain class="w-4 h-4 text-purple-600" />
-                  <span
-                    class="text-[11px] font-black text-slate-700 uppercase tracking-wide"
-                    >Recomendação IA</span
-                  >
-                  <span class="ml-auto text-[8px] text-slate-400"
-                    >Gerado automaticamente</span
-                  >
+                  <span class="text-[10px] font-black text-purple-700 uppercase tracking-wide">Recomendação AI</span>
+                  <span class="ml-auto text-[7px] text-slate-400">Gerado automaticamente</span>
                 </div>
-                <div class="px-4 py-3 border-b border-slate-100">
-                  <p
-                    class="text-[8px] font-bold text-slate-400 uppercase tracking-widest mb-2"
-                  >
-                    Decisão
-                  </p>
-                  <div
-                    class="flex items-center gap-2 px-3 py-2 rounded-lg border"
-                    :style="{
-                      backgroundColor: recomendacao.decisaoColor + '12',
-                      borderColor: recomendacao.decisaoColor + '40',
-                    }"
-                  >
-                    <component
-                      :is="DECISAO_ICONS[recomendacao.decisao]"
-                      class="w-5 h-5"
-                      :style="{ color: recomendacao.decisaoColor }"
-                    />
-                    <span
-                      class="text-[14px] font-black"
-                      :style="{ color: recomendacao.decisaoColor }"
-                      >{{ recomendacao.decisao }}</span
-                    >
+                <div class="px-3 py-2 space-y-2">
+                  <!-- Canal -->
+                  <div>
+                    <p class="text-[7px] font-bold text-slate-400 uppercase tracking-widest mb-1">Canal Recomendado</p>
+                    <div class="flex items-start gap-2 bg-slate-50 rounded-lg px-2.5 py-1.5 border border-slate-100">
+                      <ShoppingBag class="w-3 h-3 text-purple-600 mt-0.5 shrink-0" />
+                      <p class="text-[9px] text-slate-700 leading-snug">{{ recomendacao.canal }}</p>
+                    </div>
                   </div>
-                </div>
-                <div class="px-4 py-3 border-b border-slate-100">
-                  <p
-                    class="text-[8px] font-bold text-slate-400 uppercase tracking-widest mb-1.5"
-                  >
-                    Canal Recomendado
-                  </p>
-                  <div
-                    class="flex items-start gap-2 bg-slate-50 rounded-lg px-3 py-2 border border-slate-100"
-                  >
-                    <ShoppingBag class="w-3.5 h-3.5 text-purple-600 mt-0.5 shrink-0" />
-                    <p class="text-[10px] text-slate-700 leading-snug">
-                      {{ recomendacao.canal }}
-                    </p>
+                  <!-- Abordagem -->
+                  <div>
+                    <p class="text-[7px] font-bold text-slate-400 uppercase tracking-widest mb-1">Abordagem Comercial</p>
+                    <div class="flex items-start gap-2 bg-slate-50 rounded-lg px-2.5 py-1.5 border border-slate-100">
+                      <Zap class="w-3 h-3 text-amber-500 mt-0.5 shrink-0" />
+                      <p class="text-[9px] text-slate-700 leading-snug">{{ recomendacao.abordagem }}</p>
+                    </div>
                   </div>
-                </div>
-                <div class="px-4 py-3 border-b border-slate-100">
-                  <p
-                    class="text-[8px] font-bold text-slate-400 uppercase tracking-widest mb-1.5"
-                  >
-                    Abordagem Comercial
-                  </p>
-                  <div
-                    class="flex items-start gap-2 bg-slate-50 rounded-lg px-3 py-2 border border-slate-100"
-                  >
-                    <Zap class="w-3.5 h-3.5 text-amber-500 mt-0.5 shrink-0" />
-                    <p class="text-[10px] text-slate-700 leading-snug">
-                      {{ recomendacao.abordagem }}
-                    </p>
-                  </div>
-                </div>
-                <div class="px-4 py-3 flex-1">
-                  <p
-                    class="text-[8px] font-bold text-slate-400 uppercase tracking-widest mb-1.5"
-                  >
-                    Raciocínio
-                  </p>
-                  <div
-                    class="flex items-start gap-2 bg-purple-50 rounded-lg px-3 py-2 border border-purple-100"
-                  >
-                    <Brain class="w-3.5 h-3.5 text-purple-600 mt-0.5 shrink-0" />
-                    <p class="text-[10px] text-purple-700 leading-snug">
-                      {{ recomendacao.raciocinio }}
-                    </p>
+                  <!-- Raciocínio -->
+                  <div>
+                    <p class="text-[7px] font-bold text-slate-400 uppercase tracking-widest mb-1">Raciocínio</p>
+                    <div class="flex items-start gap-2 bg-purple-50 rounded-lg px-2.5 py-1.5 border border-purple-100">
+                      <Brain class="w-3 h-3 text-purple-600 mt-0.5 shrink-0" />
+                      <p class="text-[9px] text-purple-700 leading-snug">{{ recomendacao.raciocinio }}</p>
+                    </div>
                   </div>
                 </div>
               </div>

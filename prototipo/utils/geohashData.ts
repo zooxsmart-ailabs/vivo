@@ -17,10 +17,15 @@ export type MovelClassification = "MELHORA_QUALIDADE" | "SAUDAVEL" | "EXPANSAO_5
 
 // Concorrente no geohash (para tabela comparativa)
 export interface ConcorrenteGeohash {
-  nome: string;                  // Ex: "TIM", "Claro", "NET"
-  temCobertura: boolean;         // Tem cobertura fibra ou móvel na área
-  planoPrioritario: string;      // Ex: "Fibra 300Mbps", "Pós-pago 5G"
-  preco: number;                 // Preço do plano prioritário (R$)
+  nome: string;              // Ex: "TIM", "Claro", "NET"
+  // Fibra
+  coberturaFibra: boolean;   // Tem cobertura fibra na área
+  planoFibra: string;        // Plano fibra prioritário (ex: "Fibra 500Mbps") — vazio se sem cobertura
+  precoFibra: number;        // Preço fibra (R$) — 0 se sem cobertura
+  // Móvel
+  coberturaMovel: boolean;   // Tem cobertura móvel na área
+  planoMovel: string;        // Plano móvel prioritário (ex: "Pós-pago 5G") — vazio se sem cobertura
+  precoMovel: number;        // Preço móvel (R$) — 0 se sem cobertura
 }
 
 // ─── Diagnóstico Growth — 4 Pilares ─────────────────────────────────────────
@@ -226,9 +231,9 @@ export const GEOHASH_DATA: GeohashData[] = [
       deltaVsLiderFibra: -2.2, deltaVsLiderMovel: -2.4,
       arpuRelativo: 0.92, canalDominante: "Televendas", canalPct: 48,
       concorrentes: [
-        { nome: "TIM",   temCobertura: true,  planoPrioritario: "Pós-pago 5G",   preco: 79.99 },
-        { nome: "Claro", temCobertura: true,  planoPrioritario: "Pós-pago 4G",   preco: 74.90 },
-        { nome: "NET",   temCobertura: false, planoPrioritario: "Fibra 300Mbps", preco: 99.90 },
+        { nome: "TIM",   coberturaFibra: false, planoFibra: "",              precoFibra: 0,      coberturaMovel: true,  planoMovel: "Pós-pago 5G",   precoMovel: 79.99 },
+        { nome: "Claro", coberturaFibra: false, planoFibra: "",              precoFibra: 0,      coberturaMovel: true,  planoMovel: "Pós-pago 4G",   precoMovel: 74.90 },
+        { nome: "NET",   coberturaFibra: false, planoFibra: "Fibra 300Mbps", precoFibra: 99.90,  coberturaMovel: false, planoMovel: "",              precoMovel: 0     },
       ],
     },
     camada2: {
@@ -272,9 +277,9 @@ export const GEOHASH_DATA: GeohashData[] = [
       deltaVsLiderFibra: -0.7, deltaVsLiderMovel: -1.4,
       arpuRelativo: 0.85, canalDominante: "Digital", canalPct: 55,
       concorrentes: [
-        { nome: "TIM",   temCobertura: true,  planoPrioritario: "Pós-pago 4G",   preco: 74.90 },
-        { nome: "Claro", temCobertura: true,  planoPrioritario: "Fibra 300Mbps", preco: 89.90 },
-        { nome: "NET",   temCobertura: true,  planoPrioritario: "Fibra 200Mbps", preco: 84.90 },
+        { nome: "TIM",   coberturaFibra: false, planoFibra: "",              precoFibra: 0,      coberturaMovel: true,  planoMovel: "Pós-pago 4G",   precoMovel: 74.90 },
+        { nome: "Claro", coberturaFibra: true,  planoFibra: "Fibra 300Mbps", precoFibra: 89.90,  coberturaMovel: true,  planoMovel: "Pós-pago 4G",   precoMovel: 69.90 },
+        { nome: "NET",   coberturaFibra: true,  planoFibra: "Fibra 200Mbps", precoFibra: 84.90,  coberturaMovel: false, planoMovel: "",              precoMovel: 0     },
       ],
     },
     camada2: {
@@ -318,9 +323,9 @@ export const GEOHASH_DATA: GeohashData[] = [
       deltaVsLiderFibra: -1.6, deltaVsLiderMovel: -1.0,
       arpuRelativo: 0.95, canalDominante: "Loja Física", canalPct: 42,
       concorrentes: [
-        { nome: "TIM",   temCobertura: true,  planoPrioritario: "Pós-pago 4G",   preco: 74.90 },
-        { nome: "Claro", temCobertura: false, planoPrioritario: "Pós-pago 4G",   preco: 69.90 },
-        { nome: "NET",   temCobertura: false, planoPrioritario: "Fibra 300Mbps", preco: 99.90 },
+        { nome: "TIM",   coberturaFibra: false, planoFibra: "",              precoFibra: 0,      coberturaMovel: true,  planoMovel: "Pós-pago 4G",   precoMovel: 74.90 },
+        { nome: "Claro", coberturaFibra: false, planoFibra: "",              precoFibra: 0,      coberturaMovel: false, planoMovel: "Pós-pago 4G",   precoMovel: 69.90 },
+        { nome: "NET",   coberturaFibra: false, planoFibra: "Fibra 300Mbps", precoFibra: 99.90,  coberturaMovel: false, planoMovel: "",              precoMovel: 0     },
       ],
     },
     camada2: {
@@ -364,9 +369,9 @@ export const GEOHASH_DATA: GeohashData[] = [
       deltaVsLiderFibra: -1.4, deltaVsLiderMovel: -1.6,
       arpuRelativo: 0.88, canalDominante: "Televendas", canalPct: 38,
       concorrentes: [
-        { nome: "TIM",   temCobertura: true,  planoPrioritario: "Pós-pago 4G",   preco: 74.90 },
-        { nome: "Claro", temCobertura: true,  planoPrioritario: "Pós-pago 4G",   preco: 69.90 },
-        { nome: "NET",   temCobertura: false, planoPrioritario: "Fibra 300Mbps", preco: 99.90 },
+        { nome: "TIM",   coberturaFibra: false, planoFibra: "",              precoFibra: 0,      coberturaMovel: true,  planoMovel: "Pós-pago 4G",   precoMovel: 74.90 },
+        { nome: "Claro", coberturaFibra: false, planoFibra: "",              precoFibra: 0,      coberturaMovel: true,  planoMovel: "Pós-pago 4G",   precoMovel: 69.90 },
+        { nome: "NET",   coberturaFibra: false, planoFibra: "Fibra 300Mbps", precoFibra: 99.90,  coberturaMovel: false, planoMovel: "",              precoMovel: 0     },
       ],
     },
     camada2: {
@@ -1026,9 +1031,9 @@ export const GEOHASH_DATA: GeohashData[] = [
       deltaVsLiderFibra: +0.7, deltaVsLiderMovel: +0.2,
       arpuRelativo: 1.18, canalDominante: "Loja Física", canalPct: 58,
       concorrentes: [
-        { nome: "TIM",   temCobertura: true,  planoPrioritario: "Pós-pago 5G",   preco: 84.90 },
-        { nome: "Claro", temCobertura: true,  planoPrioritario: "Fibra 500Mbps", preco: 109.90 },
-        { nome: "NET",   temCobertura: true,  planoPrioritario: "Fibra 1Gbps",   preco: 139.90 },
+        { nome: "TIM",   coberturaFibra: false, planoFibra: "",              precoFibra: 0,       coberturaMovel: true,  planoMovel: "Pós-pago 5G",   precoMovel: 84.90  },
+        { nome: "Claro", coberturaFibra: true,  planoFibra: "Fibra 500Mbps", precoFibra: 109.90,  coberturaMovel: true,  planoMovel: "Pós-pago 5G",   precoMovel: 89.90  },
+        { nome: "NET",   coberturaFibra: true,  planoFibra: "Fibra 1Gbps",   precoFibra: 139.90,  coberturaMovel: false, planoMovel: "",              precoMovel: 0      },
       ],
     },
     lat: -23.5630, lng: -46.6860,
@@ -1070,9 +1075,9 @@ export const GEOHASH_DATA: GeohashData[] = [
       deltaVsLiderFibra: +1.2, deltaVsLiderMovel: +0.9,
       arpuRelativo: 1.22, canalDominante: "Digital", canalPct: 52,
       concorrentes: [
-        { nome: "TIM",   temCobertura: true,  planoPrioritario: "Pós-pago 5G",   preco: 84.90 },
-        { nome: "Claro", temCobertura: true,  planoPrioritario: "Fibra 500Mbps", preco: 109.90 },
-        { nome: "NET",   temCobertura: true,  planoPrioritario: "Fibra 500Mbps", preco: 99.90 },
+        { nome: "TIM",   coberturaFibra: false, planoFibra: "",              precoFibra: 0,       coberturaMovel: true,  planoMovel: "Pós-pago 5G",   precoMovel: 84.90  },
+        { nome: "Claro", coberturaFibra: true,  planoFibra: "Fibra 500Mbps", precoFibra: 109.90,  coberturaMovel: true,  planoMovel: "Pós-pago 5G",   precoMovel: 89.90  },
+        { nome: "NET",   coberturaFibra: true,  planoFibra: "Fibra 500Mbps", precoFibra: 99.90,   coberturaMovel: false, planoMovel: "",              precoMovel: 0      },
       ],
     },
     lat: -23.5370, lng: -46.6710,
@@ -1351,9 +1356,9 @@ export const GEOHASH_DATA: GeohashData[] = [
       deltaVsLiderFibra: -0.9, deltaVsLiderMovel: -0.7,
       arpuRelativo: 0.88, canalDominante: "Porta a Porta", canalPct: 44,
       concorrentes: [
-        { nome: "TIM",   temCobertura: true,  planoPrioritario: "Pós-pago 4G",   preco: 74.90 },
-        { nome: "Claro", temCobertura: true,  planoPrioritario: "Pós-pago 4G",   preco: 69.90 },
-        { nome: "NET",   temCobertura: false, planoPrioritario: "Fibra 300Mbps", preco: 99.90 },
+        { nome: "TIM",   coberturaFibra: false, planoFibra: "",              precoFibra: 0,      coberturaMovel: true,  planoMovel: "Pós-pago 4G",   precoMovel: 74.90 },
+        { nome: "Claro", coberturaFibra: false, planoFibra: "",              precoFibra: 0,      coberturaMovel: true,  planoMovel: "Pós-pago 4G",   precoMovel: 69.90 },
+        { nome: "NET",   coberturaFibra: false, planoFibra: "Fibra 300Mbps", precoFibra: 99.90,  coberturaMovel: false, planoMovel: "",              precoMovel: 0     },
       ],
     },
     lat: -23.4560, lng: -46.5330,
@@ -1395,9 +1400,9 @@ export const GEOHASH_DATA: GeohashData[] = [
       deltaVsLiderFibra: -1.0, deltaVsLiderMovel: -0.5,
       arpuRelativo: 0.85, canalDominante: "Porta a Porta", canalPct: 47,
       concorrentes: [
-        { nome: "TIM",   temCobertura: true,  planoPrioritario: "Pós-pago 4G",   preco: 74.90 },
-        { nome: "Claro", temCobertura: true,  planoPrioritario: "Pós-pago 4G",   preco: 69.90 },
-        { nome: "NET",   temCobertura: false, planoPrioritario: "Fibra 300Mbps", preco: 99.90 },
+        { nome: "TIM",   coberturaFibra: false, planoFibra: "",              precoFibra: 0,      coberturaMovel: true,  planoMovel: "Pós-pago 4G",   precoMovel: 74.90 },
+        { nome: "Claro", coberturaFibra: false, planoFibra: "",              precoFibra: 0,      coberturaMovel: true,  planoMovel: "Pós-pago 4G",   precoMovel: 69.90 },
+        { nome: "NET",   coberturaFibra: false, planoFibra: "Fibra 300Mbps", precoFibra: 99.90,  coberturaMovel: false, planoMovel: "",              precoMovel: 0     },
       ],
     },
     lat: -23.5329, lng: -46.7920,
@@ -1439,9 +1444,9 @@ export const GEOHASH_DATA: GeohashData[] = [
       deltaVsLiderFibra: -1.5, deltaVsLiderMovel: -0.7,
       arpuRelativo: 0.82, canalDominante: "Televendas", canalPct: 38,
       concorrentes: [
-        { nome: "TIM",   temCobertura: true,  planoPrioritario: "Pós-pago 4G",   preco: 74.90 },
-        { nome: "Claro", temCobertura: true,  planoPrioritario: "Pós-pago 4G",   preco: 69.90 },
-        { nome: "NET",   temCobertura: false, planoPrioritario: "Fibra 300Mbps", preco: 99.90 },
+        { nome: "TIM",   coberturaFibra: false, planoFibra: "",              precoFibra: 0,      coberturaMovel: true,  planoMovel: "Pós-pago 4G",   precoMovel: 74.90 },
+        { nome: "Claro", coberturaFibra: false, planoFibra: "",              precoFibra: 0,      coberturaMovel: true,  planoMovel: "Pós-pago 4G",   precoMovel: 69.90 },
+        { nome: "NET",   coberturaFibra: false, planoFibra: "Fibra 300Mbps", precoFibra: 99.90,  coberturaMovel: false, planoMovel: "",              precoMovel: 0     },
       ],
     },
     lat: -23.5430, lng: -46.4580,
