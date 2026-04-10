@@ -41,6 +41,8 @@ export interface DiagnosticoGrowth {
   deltaVsLider: number;          // Score Vivo - Score líder geral (mantido para compatibilidade)
   deltaVsLiderFibra?: number;    // Score Vivo Fibra - Score líder Fibra (ex: -1.5)
   deltaVsLiderMovel?: number;    // Score Vivo Móvel - Score líder Móvel (ex: -2.1)
+  scoreLiderFibra?: number;      // Score Ookla do concorrente líder em Fibra (0-10)
+  scoreLiderMovel?: number;      // Score Ookla do concorrente líder em Móvel (0-10)
   concorrentes?: ConcorrenteGeohash[]; // Tabela comparativa de concorrentes
   // Pilar 04 — Comportamento
   arpuRelativo: number;          // ARPU geohash / ARPU médio cidade (ex: 1.15)
@@ -229,6 +231,7 @@ export const GEOHASH_DATA: GeohashData[] = [
       scoreOokla: 6.1, scoreOoklaMovel: 5.8, scoreOoklaFibra: 5.2, scoreHAC: 5.5,
       taxaChamados: 4.2, sharePenetracao: 25, deltaVsLider: -2.1,
       deltaVsLiderFibra: -2.2, deltaVsLiderMovel: -2.4,
+      scoreLiderFibra: 7.4, scoreLiderMovel: 8.2,
       arpuRelativo: 0.92, canalDominante: "Televendas", canalPct: 48,
       concorrentes: [
         { nome: "TIM",   coberturaFibra: false, planoFibra: "",              precoFibra: 0,      coberturaMovel: true,  planoMovel: "Pós-pago 5G",   precoMovel: 79.99 },
@@ -275,6 +278,7 @@ export const GEOHASH_DATA: GeohashData[] = [
       scoreOokla: 8.1, scoreOoklaMovel: 7.8, scoreOoklaFibra: 8.3, scoreHAC: 8.1,
       taxaChamados: 2.4, sharePenetracao: 31, deltaVsLider: 0.6,
       deltaVsLiderFibra: +0.5, deltaVsLiderMovel: +0.8,
+      scoreLiderFibra: 7.8, scoreLiderMovel: 7.0,
       arpuRelativo: 0.85, canalDominante: "Digital", canalPct: 55,
       concorrentes: [
         { nome: "TIM",   coberturaFibra: false, planoFibra: "",              precoFibra: 0,      coberturaMovel: true,  planoMovel: "Pós-pago 4G",   precoMovel: 74.90 },
@@ -321,6 +325,7 @@ export const GEOHASH_DATA: GeohashData[] = [
       scoreOokla: 7.9, scoreOoklaMovel: 7.6, scoreOoklaFibra: 7.8, scoreHAC: 7.5,
       taxaChamados: 2.2, sharePenetracao: 29, deltaVsLider: 0.3,
       deltaVsLiderFibra: +0.4, deltaVsLiderMovel: +0.3,
+      scoreLiderFibra: 7.4, scoreLiderMovel: 7.3,
       arpuRelativo: 0.95, canalDominante: "Loja Física", canalPct: 42,
       concorrentes: [
         { nome: "TIM",   coberturaFibra: false, planoFibra: "",              precoFibra: 0,      coberturaMovel: true,  planoMovel: "Pós-pago 4G",   precoMovel: 74.90 },
@@ -367,6 +372,7 @@ export const GEOHASH_DATA: GeohashData[] = [
       scoreOokla: 6.4, scoreOoklaMovel: 6.2, scoreOoklaFibra: 5.8, scoreHAC: 5.6,
       taxaChamados: 3.9, sharePenetracao: 26, deltaVsLider: -1.6,
       deltaVsLiderFibra: -1.4, deltaVsLiderMovel: -1.6,
+      scoreLiderFibra: 7.2, scoreLiderMovel: 7.8,
       arpuRelativo: 0.88, canalDominante: "Televendas", canalPct: 38,
       concorrentes: [
         { nome: "TIM",   coberturaFibra: false, planoFibra: "",              precoFibra: 0,      coberturaMovel: true,  planoMovel: "Pós-pago 4G",   precoMovel: 74.90 },
@@ -1029,6 +1035,7 @@ export const GEOHASH_DATA: GeohashData[] = [
       scoreOokla: 7.8, scoreOoklaMovel: 7.4, scoreOoklaFibra: 8.2, scoreHAC: 8.0,
       taxaChamados: 3.2, sharePenetracao: 18, deltaVsLider: 0.4,
       deltaVsLiderFibra: +0.7, deltaVsLiderMovel: +0.2,
+      scoreLiderFibra: 7.5, scoreLiderMovel: 7.2,
       arpuRelativo: 1.18, canalDominante: "Loja Física", canalPct: 58,
       concorrentes: [
         { nome: "TIM",   coberturaFibra: false, planoFibra: "",              precoFibra: 0,       coberturaMovel: true,  planoMovel: "Pós-pago 5G",   precoMovel: 84.90  },
@@ -1073,6 +1080,7 @@ export const GEOHASH_DATA: GeohashData[] = [
       scoreOokla: 8.3, scoreOoklaMovel: 7.9, scoreOoklaFibra: 8.5, scoreHAC: 8.3,
       taxaChamados: 2.6, sharePenetracao: 22, deltaVsLider: 0.9,
       deltaVsLiderFibra: +1.2, deltaVsLiderMovel: +0.9,
+      scoreLiderFibra: 7.3, scoreLiderMovel: 7.0,
       arpuRelativo: 1.22, canalDominante: "Digital", canalPct: 52,
       concorrentes: [
         { nome: "TIM",   coberturaFibra: false, planoFibra: "",              precoFibra: 0,       coberturaMovel: true,  planoMovel: "Pós-pago 5G",   precoMovel: 84.90  },
@@ -1354,6 +1362,7 @@ export const GEOHASH_DATA: GeohashData[] = [
       scoreOokla: 6.4, scoreOoklaMovel: 6.1, scoreOoklaFibra: 5.9, scoreHAC: 5.7,
       taxaChamados: 4.8, sharePenetracao: 27, deltaVsLider: -0.6,
       deltaVsLiderFibra: -0.9, deltaVsLiderMovel: -0.7,
+      scoreLiderFibra: 6.8, scoreLiderMovel: 6.8,
       arpuRelativo: 0.88, canalDominante: "Porta a Porta", canalPct: 44,
       concorrentes: [
         { nome: "TIM",   coberturaFibra: false, planoFibra: "",              precoFibra: 0,      coberturaMovel: true,  planoMovel: "Pós-pago 4G",   precoMovel: 74.90 },
@@ -1398,6 +1407,7 @@ export const GEOHASH_DATA: GeohashData[] = [
       scoreOokla: 6.1, scoreOoklaMovel: 5.9, scoreOoklaFibra: 5.5, scoreHAC: 5.3,
       taxaChamados: 4.5, sharePenetracao: 24, deltaVsLider: -0.8,
       deltaVsLiderFibra: -1.0, deltaVsLiderMovel: -0.5,
+      scoreLiderFibra: 6.5, scoreLiderMovel: 6.4,
       arpuRelativo: 0.85, canalDominante: "Porta a Porta", canalPct: 47,
       concorrentes: [
         { nome: "TIM",   coberturaFibra: false, planoFibra: "",              precoFibra: 0,      coberturaMovel: true,  planoMovel: "Pós-pago 4G",   precoMovel: 74.90 },
@@ -1442,6 +1452,7 @@ export const GEOHASH_DATA: GeohashData[] = [
       scoreOokla: 5.9, scoreOoklaMovel: 5.6, scoreOoklaFibra: 5.1, scoreHAC: 4.9,
       taxaChamados: 5.4, sharePenetracao: 19, deltaVsLider: -1.3,
       deltaVsLiderFibra: -1.5, deltaVsLiderMovel: -0.7,
+      scoreLiderFibra: 6.6, scoreLiderMovel: 6.3,
       arpuRelativo: 0.82, canalDominante: "Televendas", canalPct: 38,
       concorrentes: [
         { nome: "TIM",   coberturaFibra: false, planoFibra: "",              precoFibra: 0,      coberturaMovel: true,  planoMovel: "Pós-pago 4G",   precoMovel: 74.90 },

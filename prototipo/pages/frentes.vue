@@ -111,20 +111,43 @@ function avaliarPercep(d: DiagnosticoGrowth): PilarResult {
   };
 }
 
+// Classifica score em categoria (0=Crítico, 1=Regular, 2=Excelente)
+function scoreCategoria(score: number): number {
+  if (score >= 8.0) return 2; // Excelente
+  if (score >= 6.0) return 1; // Regular
+  return 0;                   // Crítico
+}
+function categoriaLabel(score: number): string {
+  if (score >= 8.0) return "Excelente";
+  if (score >= 6.0) return "Regular";
+  return "Crítico";
+}
+
 function avaliarConcorrencia(d: DiagnosticoGrowth): PilarResult {
   const s1: Sig3 = d.sharePenetracao < 20 ? "ok" : d.sharePenetracao <= 40 ? "alerta" : "critico";
 
-  // Vantagem Satisfação Fibra
-  const dvf = d.deltaVsLiderFibra ?? d.deltaVsLider;
-  const s2f: Sig3 = dvf > 0 ? "ok" : dvf >= -1 ? "alerta" : "critico";
+  // Vantagem Satisfação Fibra — comparação por categoria
+  const vivoFibra  = d.scoreOoklaFibra  ?? d.scoreOokla;
+  const liderFibra = d.scoreLiderFibra  ?? (vivoFibra - (d.deltaVsLiderFibra ?? d.deltaVsLider));
+  const catVivoF  = scoreCategoria(vivoFibra);
+  const catLiderF = scoreCategoria(liderFibra);
+  const s2f: Sig3 = catVivoF > catLiderF ? "ok" : catVivoF === catLiderF ? "alerta" : "critico";
+  const labelVivoF  = categoriaLabel(vivoFibra);
+  const labelLiderF = categoriaLabel(liderFibra);
 
-  // Vantagem Satisfação Móvel
-  const dvm = d.deltaVsLiderMovel ?? d.deltaVsLider;
-  const s2m: Sig3 = dvm > 0 ? "ok" : dvm >= -1 ? "alerta" : "critico";
+  // Vantagem Satisfação Móvel — comparação por categoria
+  const vivoMovel  = d.scoreOoklaMovel  ?? d.scoreOokla;
+  const liderMovel = d.scoreLiderMovel  ?? (vivoMovel - (d.deltaVsLiderMovel ?? d.deltaVsLider));
+  const catVivoM  = scoreCategoria(vivoMovel);
+  const catLiderM = scoreCategoria(liderMovel);
+  const s2m: Sig3 = catVivoM > catLiderM ? "ok" : catVivoM === catLiderM ? "alerta" : "critico";
+  const labelVivoM  = categoriaLabel(vivoMovel);
+  const labelLiderM = categoriaLabel(liderMovel);
 
-  function fmtDelta(v: number) { return `${v > 0 ? "+" : ""}${v.toFixed(1)}`; }
-  function detailDelta(s: Sig3) {
-    return s === "ok" ? "Delta > 0 — Vantagem" : s === "alerta" ? "−1.0 a 0 — Empate Técnico" : "Delta < −1.0 — Desvantagem";
+  function detailCategoria(catVivo: number, catLider: number, labelV: string, labelL: string) {
+    if (catVivo > catLider) return `Vivo ${labelV} vs Líder ${labelL} — Vantagem`;
+    if (catVivo === catLider) return `Vivo ${labelV} = Líder ${labelL} — Empate`;
+    return `Vivo ${labelV} vs Líder ${labelL} — Desvantagem`;
   }
 
   return {
@@ -146,17 +169,17 @@ function avaliarConcorrencia(d: DiagnosticoGrowth): PilarResult {
       },
       {
         label: "Vantagem Satisfação Fibra",
-        value: fmtDelta(dvf),
-        formula: "Score Vivo Fibra − score líder Fibra (Ookla)",
+        value: s2f === "ok" ? "Vantagem" : s2f === "alerta" ? "Empate" : "Desvantagem",
+        formula: "Comparação por categoria: Excelente / Regular / Crítico (Ookla)",
         signal: s2f,
-        detail: detailDelta(s2f),
+        detail: detailCategoria(catVivoF, catLiderF, labelVivoF, labelLiderF),
       },
       {
         label: "Vantagem Satisfação Móvel",
-        value: fmtDelta(dvm),
-        formula: "Score Vivo Móvel − score líder Móvel (Ookla)",
+        value: s2m === "ok" ? "Vantagem" : s2m === "alerta" ? "Empate" : "Desvantagem",
+        formula: "Comparação por categoria: Excelente / Regular / Crítico (Ookla)",
         signal: s2m,
-        detail: detailDelta(s2m),
+        detail: detailCategoria(catVivoM, catLiderM, labelVivoM, labelLiderM),
       },
     ],
   };
