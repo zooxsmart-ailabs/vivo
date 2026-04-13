@@ -1,0 +1,1700 @@
+[
+  {
+    "id": "6gyf4b",
+    "neighborhood": "Santana",
+    "city": "São Paulo",
+    "quadrant": "GROWTH",
+    "technology": "MOVEL",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 6.1
+      },
+      {
+        "name": "TIM",
+        "score": 8.2
+      },
+      {
+        "name": "CLARO",
+        "score": 7.4
+      }
+    ],
+    "marketShare": {
+      "percentage": 28
+    },
+    "shareTrend": {
+      "direction": "UP",
+      "delta": 2.1
+    },
+    "crm": {
+      "deviceTier": "Mid"
+    },
+    "speedtest": {
+      "downloadMbps": 42,
+      "latencyMs": 38,
+      "qualityLabel": "Regular"
+    },
+    "demographics": {
+      "avgIncome": 5200,
+      "incomeLabel": "Médio"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "EXPANSAO_NOVA_AREA"
+      },
+      "movel": {
+        "classification": "MELHORA_QUALIDADE"
+      },
+      "decisaoIntegrada": "Expandir fibra aproveitando base móvel existente. Melhorar qualidade 4G para reduzir gap de satisfação vs TIM."
+    }
+  },
+  {
+    "id": "6gyf4c",
+    "neighborhood": "Tucuruvi",
+    "city": "São Paulo",
+    "quadrant": "GROWTH",
+    "technology": "AMBOS",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 6.8
+      },
+      {
+        "name": "TIM",
+        "score": 7.9
+      },
+      {
+        "name": "CLARO",
+        "score": 7.1
+      }
+    ],
+    "marketShare": {
+      "percentage": 31
+    },
+    "shareTrend": {
+      "direction": "UP",
+      "delta": 1.4
+    },
+    "crm": {
+      "deviceTier": "Mid"
+    },
+    "speedtest": {
+      "downloadMbps": 55,
+      "latencyMs": 32,
+      "qualityLabel": "Bom"
+    },
+    "demographics": {
+      "avgIncome": 4800,
+      "incomeLabel": "Médio"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "EXPANSAO_NOVA_AREA"
+      },
+      "movel": {
+        "classification": "SAUDAVEL"
+      },
+      "decisaoIntegrada": "Priorizar expansão de fibra. Rede móvel estável, sem intervenção urgente."
+    }
+  },
+  {
+    "id": "6gyf4f",
+    "neighborhood": "Vila Guilherme",
+    "city": "São Paulo",
+    "quadrant": "GROWTH",
+    "technology": "MOVEL",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 7
+      },
+      {
+        "name": "TIM",
+        "score": 8
+      },
+      {
+        "name": "CLARO",
+        "score": 6.9
+      }
+    ],
+    "marketShare": {
+      "percentage": 29
+    },
+    "shareTrend": {
+      "direction": "STABLE",
+      "delta": 0.3
+    },
+    "crm": {
+      "deviceTier": "Mid"
+    },
+    "speedtest": {
+      "downloadMbps": 61,
+      "latencyMs": 29,
+      "qualityLabel": "Bom"
+    },
+    "demographics": {
+      "avgIncome": 5500,
+      "incomeLabel": "Médio"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "EXPANSAO_NOVA_AREA"
+      },
+      "movel": {
+        "classification": "SAUDAVEL"
+      },
+      "decisaoIntegrada": "Avaliar viabilidade de expansão de fibra. Rede móvel sem necessidade de intervenção."
+    }
+  },
+  {
+    "id": "6gyf4g",
+    "neighborhood": "Mandaqui",
+    "city": "São Paulo",
+    "quadrant": "GROWTH",
+    "technology": "MOVEL",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 6.5
+      },
+      {
+        "name": "TIM",
+        "score": 7.8
+      },
+      {
+        "name": "CLARO",
+        "score": 7.2
+      }
+    ],
+    "marketShare": {
+      "percentage": 25
+    },
+    "shareTrend": {
+      "direction": "DOWN",
+      "delta": -1.2
+    },
+    "crm": {
+      "deviceTier": "Basic"
+    },
+    "speedtest": {
+      "downloadMbps": 38,
+      "latencyMs": 44,
+      "qualityLabel": "Regular"
+    },
+    "demographics": {
+      "avgIncome": 4100,
+      "incomeLabel": "Médio"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "EXPANSAO_NOVA_AREA"
+      },
+      "movel": {
+        "classification": "MELHORA_QUALIDADE"
+      },
+      "decisaoIntegrada": "Melhorar qualidade 4G como prioridade. Fibra com potencial moderado para fase posterior."
+    }
+  },
+  {
+    "id": "6gyf48",
+    "neighborhood": "Pinheiros",
+    "city": "São Paulo",
+    "quadrant": "UPSELL",
+    "technology": "FIBRA",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 8.1
+      },
+      {
+        "name": "TIM",
+        "score": 7.6
+      },
+      {
+        "name": "CLARO",
+        "score": 7
+      }
+    ],
+    "marketShare": {
+      "percentage": 48
+    },
+    "shareTrend": {
+      "direction": "UP",
+      "delta": 3.2
+    },
+    "crm": {
+      "deviceTier": "Premium"
+    },
+    "speedtest": {
+      "downloadMbps": 920,
+      "latencyMs": 8,
+      "qualityLabel": "Excelente"
+    },
+    "demographics": {
+      "avgIncome": 14200,
+      "incomeLabel": "Alto"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "AUMENTO_CAPACIDADE"
+      },
+      "movel": {
+        "classification": "MELHORA_QUALIDADE"
+      },
+      "decisaoIntegrada": "Ampliar capacidade de fibra (ocupação crítica). Upgrade urgente para 5G para atender perfil premium insatisfeito com latência."
+    }
+  },
+  {
+    "id": "6gyf49",
+    "neighborhood": "Vila Madalena",
+    "city": "São Paulo",
+    "quadrant": "UPSELL",
+    "technology": "FIBRA",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 8.4
+      },
+      {
+        "name": "TIM",
+        "score": 7.8
+      },
+      {
+        "name": "CLARO",
+        "score": 7.3
+      }
+    ],
+    "marketShare": {
+      "percentage": 45
+    },
+    "shareTrend": {
+      "direction": "UP",
+      "delta": 1.8
+    },
+    "crm": {
+      "deviceTier": "Premium"
+    },
+    "speedtest": {
+      "downloadMbps": 880,
+      "latencyMs": 9,
+      "qualityLabel": "Excelente"
+    },
+    "demographics": {
+      "avgIncome": 12800,
+      "incomeLabel": "Alto"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "AUMENTO_CAPACIDADE"
+      },
+      "movel": {
+        "classification": "MELHORA_QUALIDADE"
+      },
+      "decisaoIntegrada": "Priorizar expansão de fibra aproveitando base móvel existente. Upgrade urgente para 5G para atender público de alta renda insatisfeito com a latência atual."
+    }
+  },
+  {
+    "id": "6gyf4d",
+    "neighborhood": "Consolação",
+    "city": "São Paulo",
+    "quadrant": "UPSELL",
+    "technology": "FIBRA",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 7.9
+      },
+      {
+        "name": "TIM",
+        "score": 7.5
+      },
+      {
+        "name": "CLARO",
+        "score": 6.5
+      }
+    ],
+    "marketShare": {
+      "percentage": 44
+    },
+    "shareTrend": {
+      "direction": "STABLE",
+      "delta": 0.5
+    },
+    "crm": {
+      "deviceTier": "Premium"
+    },
+    "speedtest": {
+      "downloadMbps": 580,
+      "latencyMs": 11,
+      "qualityLabel": "Excelente"
+    },
+    "demographics": {
+      "avgIncome": 11500,
+      "incomeLabel": "Alto"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "SAUDAVEL"
+      },
+      "movel": {
+        "classification": "MELHORA_QUALIDADE"
+      },
+      "decisaoIntegrada": "Fibra estável, sem intervenção urgente. Priorizar upgrade 5G para manter satisfação da base premium."
+    }
+  },
+  {
+    "id": "6gyf4e",
+    "neighborhood": "Bela Vista",
+    "city": "São Paulo",
+    "quadrant": "UPSELL",
+    "technology": "AMBOS",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 7.6
+      },
+      {
+        "name": "TIM",
+        "score": 7.4
+      },
+      {
+        "name": "CLARO",
+        "score": 6.8
+      }
+    ],
+    "marketShare": {
+      "percentage": 41
+    },
+    "shareTrend": {
+      "direction": "DOWN",
+      "delta": -0.9
+    },
+    "crm": {
+      "deviceTier": "Premium"
+    },
+    "speedtest": {
+      "downloadMbps": 490,
+      "latencyMs": 13,
+      "qualityLabel": "Excelente"
+    },
+    "demographics": {
+      "avgIncome": 9800,
+      "incomeLabel": "Alto"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "SAUDAVEL"
+      },
+      "movel": {
+        "classification": "EXPANSAO_4G"
+      },
+      "decisaoIntegrada": "Fibra estável. Expandir cobertura 5G para manter liderança em região de alta densidade."
+    }
+  },
+  {
+    "id": "6gyf46",
+    "neighborhood": "Lapa",
+    "city": "São Paulo",
+    "quadrant": "UPSELL",
+    "technology": "FIBRA",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 7.8
+      },
+      {
+        "name": "TIM",
+        "score": 7.2
+      },
+      {
+        "name": "CLARO",
+        "score": 6.6
+      }
+    ],
+    "marketShare": {
+      "percentage": 39
+    },
+    "shareTrend": {
+      "direction": "UP",
+      "delta": 2.4
+    },
+    "crm": {
+      "deviceTier": "Premium"
+    },
+    "speedtest": {
+      "downloadMbps": 510,
+      "latencyMs": 12,
+      "qualityLabel": "Excelente"
+    },
+    "demographics": {
+      "avgIncome": 8900,
+      "incomeLabel": "Alto"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "SAUDAVEL"
+      },
+      "movel": {
+        "classification": "MELHORA_QUALIDADE"
+      },
+      "decisaoIntegrada": "Manter fibra. Melhorar qualidade 5G para reter base premium e evitar migração para concorrência."
+    }
+  },
+  {
+    "id": "6gyf47",
+    "neighborhood": "Perdizes",
+    "city": "São Paulo",
+    "quadrant": "UPSELL",
+    "technology": "AMBOS",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 8
+      },
+      {
+        "name": "TIM",
+        "score": 7.3
+      },
+      {
+        "name": "CLARO",
+        "score": 6.9
+      }
+    ],
+    "marketShare": {
+      "percentage": 43
+    },
+    "shareTrend": {
+      "direction": "UP",
+      "delta": 1.1
+    },
+    "crm": {
+      "deviceTier": "Premium"
+    },
+    "speedtest": {
+      "downloadMbps": 620,
+      "latencyMs": 10,
+      "qualityLabel": "Excelente"
+    },
+    "demographics": {
+      "avgIncome": 10200,
+      "incomeLabel": "Alto"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "SAUDAVEL"
+      },
+      "movel": {
+        "classification": "MELHORA_QUALIDADE"
+      },
+      "decisaoIntegrada": "Fibra estável. Upgrade 5G para manter experiência premium e maximizar ARPU."
+    }
+  },
+  {
+    "id": "6gyf4bf",
+    "neighborhood": "Jardins",
+    "city": "São Paulo",
+    "quadrant": "UPSELL",
+    "technology": "FIBRA",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 8.6
+      },
+      {
+        "name": "TIM",
+        "score": 7.9
+      },
+      {
+        "name": "CLARO",
+        "score": 7.4
+      }
+    ],
+    "marketShare": {
+      "percentage": 52
+    },
+    "shareTrend": {
+      "direction": "UP",
+      "delta": 4.1
+    },
+    "crm": null,
+    "speedtest": null,
+    "demographics": null,
+    "camada2": null
+  },
+  {
+    "id": "6gyf1u",
+    "neighborhood": "Santo André",
+    "city": "São Paulo",
+    "quadrant": "GROWTH_RETENCAO",
+    "technology": "AMBOS",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 6.9
+      },
+      {
+        "name": "TIM",
+        "score": 7.1
+      },
+      {
+        "name": "CLARO",
+        "score": 7
+      }
+    ],
+    "marketShare": {
+      "percentage": 35
+    },
+    "shareTrend": {
+      "direction": "STABLE",
+      "delta": 0.2
+    },
+    "crm": {
+      "deviceTier": "Mid"
+    },
+    "speedtest": {
+      "downloadMbps": 48,
+      "latencyMs": 36,
+      "qualityLabel": "Regular"
+    },
+    "demographics": {
+      "avgIncome": 4200,
+      "incomeLabel": "Médio"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "EXPANSAO_NOVA_AREA"
+      },
+      "movel": {
+        "classification": "EXPANSAO_4G"
+      },
+      "decisaoIntegrada": "Expandir cobertura 4G para reduzir white spots. Avaliar fibra após consolidação móvel."
+    }
+  },
+  {
+    "id": "6gyf1v",
+    "neighborhood": "São Bernardo do Campo",
+    "city": "São Paulo",
+    "quadrant": "GROWTH_RETENCAO",
+    "technology": "FIBRA",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 7.1
+      },
+      {
+        "name": "TIM",
+        "score": 7.3
+      },
+      {
+        "name": "CLARO",
+        "score": 6.8
+      }
+    ],
+    "marketShare": {
+      "percentage": 33
+    },
+    "shareTrend": {
+      "direction": "UP",
+      "delta": 2.7
+    },
+    "crm": {
+      "deviceTier": "Mid"
+    },
+    "speedtest": {
+      "downloadMbps": 280,
+      "latencyMs": 18,
+      "qualityLabel": "Bom"
+    },
+    "demographics": {
+      "avgIncome": 5800,
+      "incomeLabel": "Médio-Alto"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "EXPANSAO_NOVA_AREA"
+      },
+      "movel": {
+        "classification": "EXPANSAO_4G"
+      },
+      "decisaoIntegrada": "Expandir fibra em região industrial de alto crescimento. Ampliar cobertura 4G para segmento corporativo."
+    }
+  },
+  {
+    "id": "6gyf1y",
+    "neighborhood": "Ipiranga",
+    "city": "São Paulo",
+    "quadrant": "GROWTH_RETENCAO",
+    "technology": "MOVEL",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 6.7
+      },
+      {
+        "name": "TIM",
+        "score": 7
+      },
+      {
+        "name": "CLARO",
+        "score": 6.9
+      }
+    ],
+    "marketShare": {
+      "percentage": 30
+    },
+    "shareTrend": {
+      "direction": "DOWN",
+      "delta": -1.5
+    },
+    "crm": {
+      "deviceTier": "Basic"
+    },
+    "speedtest": {
+      "downloadMbps": 35,
+      "latencyMs": 48,
+      "qualityLabel": "Regular"
+    },
+    "demographics": {
+      "avgIncome": 3900,
+      "incomeLabel": "Médio"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "EXPANSAO_NOVA_AREA"
+      },
+      "movel": {
+        "classification": "MELHORA_QUALIDADE"
+      },
+      "decisaoIntegrada": "Melhorar qualidade 4G como prioridade. Avaliar viabilidade de fibra em fase posterior."
+    }
+  },
+  {
+    "id": "6gyf1z",
+    "neighborhood": "Saúde",
+    "city": "São Paulo",
+    "quadrant": "GROWTH_RETENCAO",
+    "technology": "FIBRA",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 7.2
+      },
+      {
+        "name": "TIM",
+        "score": 7.4
+      },
+      {
+        "name": "CLARO",
+        "score": 7.1
+      }
+    ],
+    "marketShare": {
+      "percentage": 34
+    },
+    "shareTrend": {
+      "direction": "UP",
+      "delta": 1.3
+    },
+    "crm": {
+      "deviceTier": "Mid"
+    },
+    "speedtest": {
+      "downloadMbps": 310,
+      "latencyMs": 16,
+      "qualityLabel": "Bom"
+    },
+    "demographics": {
+      "avgIncome": 6200,
+      "incomeLabel": "Alto"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "AUMENTO_CAPACIDADE"
+      },
+      "movel": {
+        "classification": "EXPANSAO_4G"
+      },
+      "decisaoIntegrada": "Ampliar capacidade de fibra (ocupação elevada). Expandir cobertura 5G em região de alta renda."
+    }
+  },
+  {
+    "id": "6gyf4n",
+    "neighborhood": "Itaim Bibi",
+    "city": "São Paulo",
+    "quadrant": "GROWTH_RETENCAO",
+    "technology": "FIBRA",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 7.3
+      },
+      {
+        "name": "TIM",
+        "score": 7.5
+      },
+      {
+        "name": "CLARO",
+        "score": 7.2
+      }
+    ],
+    "marketShare": {
+      "percentage": 36
+    },
+    "shareTrend": {
+      "direction": "UP",
+      "delta": 3.8
+    },
+    "crm": {
+      "deviceTier": "Premium"
+    },
+    "speedtest": {
+      "downloadMbps": 580,
+      "latencyMs": 11,
+      "qualityLabel": "Excelente"
+    },
+    "demographics": {
+      "avgIncome": 12500,
+      "incomeLabel": "Alto"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "AUMENTO_CAPACIDADE"
+      },
+      "movel": {
+        "classification": "MELHORA_QUALIDADE"
+      },
+      "decisaoIntegrada": "Ampliar capacidade de fibra urgente (ocupação crítica). Upgrade 5G para atender demanda de alta renda."
+    }
+  },
+  {
+    "id": "6gyf5b",
+    "neighborhood": "Penha",
+    "city": "São Paulo",
+    "quadrant": "RETENCAO",
+    "technology": "MOVEL",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 5.8
+      },
+      {
+        "name": "TIM",
+        "score": 7.9
+      },
+      {
+        "name": "CLARO",
+        "score": 7.2
+      }
+    ],
+    "marketShare": {
+      "percentage": 38
+    },
+    "shareTrend": {
+      "direction": "DOWN",
+      "delta": -2.8
+    },
+    "crm": {
+      "deviceTier": "Mid"
+    },
+    "speedtest": {
+      "downloadMbps": 28,
+      "latencyMs": 62,
+      "qualityLabel": "Ruim"
+    },
+    "demographics": {
+      "avgIncome": 3800,
+      "incomeLabel": "Médio"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "EXPANSAO_NOVA_AREA"
+      },
+      "movel": {
+        "classification": "MELHORA_QUALIDADE"
+      },
+      "decisaoIntegrada": "Intervenção urgente na rede 4G. Qualidade crítica gerando churn acelerado. Prioridade máxima."
+    }
+  },
+  {
+    "id": "6gyf5c",
+    "neighborhood": "Ermelino Matarazzo",
+    "city": "São Paulo",
+    "quadrant": "RETENCAO",
+    "technology": "MOVEL",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 5.5
+      },
+      {
+        "name": "TIM",
+        "score": 8.1
+      },
+      {
+        "name": "CLARO",
+        "score": 7
+      }
+    ],
+    "marketShare": {
+      "percentage": 36
+    },
+    "shareTrend": {
+      "direction": "DOWN",
+      "delta": -3.1
+    },
+    "crm": {
+      "deviceTier": "Basic"
+    },
+    "speedtest": {
+      "downloadMbps": 22,
+      "latencyMs": 74,
+      "qualityLabel": "Ruim"
+    },
+    "demographics": {
+      "avgIncome": 2900,
+      "incomeLabel": "Baixo"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "EXPANSAO_NOVA_AREA"
+      },
+      "movel": {
+        "classification": "MELHORA_QUALIDADE"
+      },
+      "decisaoIntegrada": "Situação crítica. Qualidade 4G muito abaixo do aceitável. Ação imediata para evitar churn em massa."
+    }
+  },
+  {
+    "id": "6gyf58",
+    "neighborhood": "Itaquera",
+    "city": "São Paulo",
+    "quadrant": "RETENCAO",
+    "technology": "AMBOS",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 5.2
+      },
+      {
+        "name": "TIM",
+        "score": 7.8
+      },
+      {
+        "name": "CLARO",
+        "score": 6.9
+      }
+    ],
+    "marketShare": {
+      "percentage": 40
+    },
+    "shareTrend": {
+      "direction": "DOWN",
+      "delta": -2.2
+    },
+    "crm": {
+      "deviceTier": "Mid"
+    },
+    "speedtest": {
+      "downloadMbps": 31,
+      "latencyMs": 58,
+      "qualityLabel": "Ruim"
+    },
+    "demographics": {
+      "avgIncome": 3200,
+      "incomeLabel": "Médio"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "EXPANSAO_NOVA_AREA"
+      },
+      "movel": {
+        "classification": "MELHORA_QUALIDADE"
+      },
+      "decisaoIntegrada": "Prioridade máxima. Alto volume de clientes em risco. Intervenção imediata na qualidade 4G."
+    }
+  },
+  {
+    "id": "6gyf59",
+    "neighborhood": "Guaianases",
+    "city": "São Paulo",
+    "quadrant": "RETENCAO",
+    "technology": "MOVEL",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 5.6
+      },
+      {
+        "name": "TIM",
+        "score": 7.6
+      },
+      {
+        "name": "CLARO",
+        "score": 7.1
+      }
+    ],
+    "marketShare": {
+      "percentage": 37
+    },
+    "shareTrend": {
+      "direction": "DOWN",
+      "delta": -1.9
+    },
+    "crm": {
+      "deviceTier": "Basic"
+    },
+    "speedtest": {
+      "downloadMbps": 25,
+      "latencyMs": 68,
+      "qualityLabel": "Ruim"
+    },
+    "demographics": {
+      "avgIncome": 2600,
+      "incomeLabel": "Baixo"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "EXPANSAO_NOVA_AREA"
+      },
+      "movel": {
+        "classification": "MELHORA_QUALIDADE"
+      },
+      "decisaoIntegrada": "Qualidade 4G crítica em região periférica. Intervenção urgente para evitar churn."
+    }
+  },
+  {
+    "id": "6gyf56",
+    "neighborhood": "São Mateus",
+    "city": "São Paulo",
+    "quadrant": "RETENCAO",
+    "technology": "MOVEL",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 5.9
+      },
+      {
+        "name": "TIM",
+        "score": 7.5
+      },
+      {
+        "name": "CLARO",
+        "score": 6.8
+      }
+    ],
+    "marketShare": {
+      "percentage": 35
+    },
+    "shareTrend": {
+      "direction": "DOWN",
+      "delta": -1.6
+    },
+    "crm": {
+      "deviceTier": "Basic"
+    },
+    "speedtest": {
+      "downloadMbps": 29,
+      "latencyMs": 65,
+      "qualityLabel": "Ruim"
+    },
+    "demographics": {
+      "avgIncome": 3100,
+      "incomeLabel": "Médio"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "EXPANSAO_NOVA_AREA"
+      },
+      "movel": {
+        "classification": "MELHORA_QUALIDADE"
+      },
+      "decisaoIntegrada": "Gap de qualidade significativo vs concorrência. Programa de melhoria de rede 4G prioritário."
+    }
+  },
+  {
+    "id": "6gyf3u",
+    "neighborhood": "Pinheiros",
+    "city": "São Paulo",
+    "quadrant": "GROWTH",
+    "technology": "FIBRA",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 7.8
+      },
+      {
+        "name": "TIM",
+        "score": 7.2
+      },
+      {
+        "name": "CLARO",
+        "score": 7.5
+      }
+    ],
+    "marketShare": {
+      "percentage": 27
+    },
+    "shareTrend": {
+      "direction": "UP",
+      "delta": 1.8
+    },
+    "crm": {
+      "deviceTier": "Premium"
+    },
+    "speedtest": {
+      "downloadMbps": 210,
+      "latencyMs": 12,
+      "qualityLabel": "Excelente"
+    },
+    "demographics": {
+      "avgIncome": 14500,
+      "incomeLabel": "Alto"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "AUMENTO_CAPACIDADE"
+      },
+      "movel": {
+        "classification": "SAUDAVEL"
+      },
+      "decisaoIntegrada": "Aumentar capacidade de fibra para suportar crescimento. Móvel saudável com 5G disponível."
+    }
+  },
+  {
+    "id": "6gyf3v",
+    "neighborhood": "Perdizes",
+    "city": "São Paulo",
+    "quadrant": "GROWTH",
+    "technology": "FIBRA",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 7.5
+      },
+      {
+        "name": "TIM",
+        "score": 7
+      },
+      {
+        "name": "CLARO",
+        "score": 7.3
+      }
+    ],
+    "marketShare": {
+      "percentage": 30
+    },
+    "shareTrend": {
+      "direction": "UP",
+      "delta": 1.2
+    },
+    "crm": {
+      "deviceTier": "Premium"
+    },
+    "speedtest": {
+      "downloadMbps": 185,
+      "latencyMs": 14,
+      "qualityLabel": "Excelente"
+    },
+    "demographics": {
+      "avgIncome": 12800,
+      "incomeLabel": "Alto"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "EXPANSAO_NOVA_AREA"
+      },
+      "movel": {
+        "classification": "SAUDAVEL"
+      },
+      "decisaoIntegrada": "Expandir fibra em área de alto potencial. Móvel saudável com 5G."
+    }
+  },
+  {
+    "id": "6gyf2s",
+    "neighborhood": "Moema",
+    "city": "São Paulo",
+    "quadrant": "UPSELL",
+    "technology": "FIBRA",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 8.4
+      },
+      {
+        "name": "TIM",
+        "score": 7.8
+      },
+      {
+        "name": "CLARO",
+        "score": 7.6
+      }
+    ],
+    "marketShare": {
+      "percentage": 48
+    },
+    "shareTrend": {
+      "direction": "UP",
+      "delta": 2.4
+    },
+    "crm": {
+      "deviceTier": "Premium"
+    },
+    "speedtest": {
+      "downloadMbps": 320,
+      "latencyMs": 8,
+      "qualityLabel": "Excelente"
+    },
+    "demographics": {
+      "avgIncome": 18500,
+      "incomeLabel": "Alto"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "AUMENTO_CAPACIDADE"
+      },
+      "movel": {
+        "classification": "SAUDAVEL"
+      },
+      "decisaoIntegrada": "Ampliar capacidade de fibra para suportar crescimento. Upsell para 2.5Gbps e serviços premium."
+    }
+  },
+  {
+    "id": "6gyf2q",
+    "neighborhood": "Campo Belo",
+    "city": "São Paulo",
+    "quadrant": "UPSELL",
+    "technology": "FIBRA",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 8.1
+      },
+      {
+        "name": "TIM",
+        "score": 7.5
+      },
+      {
+        "name": "CLARO",
+        "score": 7.4
+      }
+    ],
+    "marketShare": {
+      "percentage": 44
+    },
+    "shareTrend": {
+      "direction": "STABLE",
+      "delta": 0.5
+    },
+    "crm": {
+      "deviceTier": "Premium"
+    },
+    "speedtest": {
+      "downloadMbps": 280,
+      "latencyMs": 10,
+      "qualityLabel": "Excelente"
+    },
+    "demographics": {
+      "avgIncome": 16200,
+      "incomeLabel": "Alto"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "SAUDAVEL"
+      },
+      "movel": {
+        "classification": "SAUDAVEL"
+      },
+      "decisaoIntegrada": "Rede saudável. Foco em upsell e fidelização da base premium."
+    }
+  },
+  {
+    "id": "6gyf5x",
+    "neighborhood": "Bela Vista",
+    "city": "São Paulo",
+    "quadrant": "GROWTH_RETENCAO",
+    "technology": "AMBOS",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 6.2
+      },
+      {
+        "name": "TIM",
+        "score": 7.6
+      },
+      {
+        "name": "CLARO",
+        "score": 7.1
+      }
+    ],
+    "marketShare": {
+      "percentage": 29
+    },
+    "shareTrend": {
+      "direction": "DOWN",
+      "delta": -1.4
+    },
+    "crm": {
+      "deviceTier": "Mid"
+    },
+    "speedtest": {
+      "downloadMbps": 35,
+      "latencyMs": 52,
+      "qualityLabel": "Regular"
+    },
+    "demographics": {
+      "avgIncome": 6800,
+      "incomeLabel": "Médio-Alto"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "EXPANSAO_NOVA_AREA"
+      },
+      "movel": {
+        "classification": "MELHORA_QUALIDADE"
+      },
+      "decisaoIntegrada": "Melhorar qualidade 4G e expandir fibra simultaneamente para recuperar satisfação e share."
+    }
+  },
+  {
+    "id": "6gyf5y",
+    "neighborhood": "Liberdade",
+    "city": "São Paulo",
+    "quadrant": "GROWTH_RETENCAO",
+    "technology": "MOVEL",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 6
+      },
+      {
+        "name": "TIM",
+        "score": 7.4
+      },
+      {
+        "name": "CLARO",
+        "score": 6.9
+      }
+    ],
+    "marketShare": {
+      "percentage": 31
+    },
+    "shareTrend": {
+      "direction": "DOWN",
+      "delta": -2.1
+    },
+    "crm": {
+      "deviceTier": "Mid"
+    },
+    "speedtest": {
+      "downloadMbps": 28,
+      "latencyMs": 61,
+      "qualityLabel": "Ruim"
+    },
+    "demographics": {
+      "avgIncome": 5900,
+      "incomeLabel": "Médio"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "EXPANSAO_NOVA_AREA"
+      },
+      "movel": {
+        "classification": "MELHORA_QUALIDADE"
+      },
+      "decisaoIntegrada": "Qualidade 4G crítica. Iniciar expansão de fibra após estabilizar rede móvel."
+    }
+  },
+  {
+    "id": "6gyf6u",
+    "neighborhood": "Tatuapé",
+    "city": "São Paulo",
+    "quadrant": "RETENCAO",
+    "technology": "AMBOS",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 6.1
+      },
+      {
+        "name": "TIM",
+        "score": 7.8
+      },
+      {
+        "name": "CLARO",
+        "score": 7.2
+      }
+    ],
+    "marketShare": {
+      "percentage": 42
+    },
+    "shareTrend": {
+      "direction": "DOWN",
+      "delta": -2.8
+    },
+    "crm": {
+      "deviceTier": "Mid"
+    },
+    "speedtest": {
+      "downloadMbps": 32,
+      "latencyMs": 58,
+      "qualityLabel": "Regular"
+    },
+    "demographics": {
+      "avgIncome": 7200,
+      "incomeLabel": "Médio-Alto"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "AUMENTO_CAPACIDADE"
+      },
+      "movel": {
+        "classification": "MELHORA_QUALIDADE"
+      },
+      "decisaoIntegrada": "Capacidade de fibra crítica e qualidade móvel comprometida. Intervenção dupla urgente."
+    }
+  },
+  {
+    "id": "6gyf6v",
+    "neighborhood": "Penha",
+    "city": "São Paulo",
+    "quadrant": "RETENCAO",
+    "technology": "MOVEL",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 5.8
+      },
+      {
+        "name": "TIM",
+        "score": 7.6
+      },
+      {
+        "name": "CLARO",
+        "score": 6.9
+      }
+    ],
+    "marketShare": {
+      "percentage": 38
+    },
+    "shareTrend": {
+      "direction": "DOWN",
+      "delta": -1.9
+    },
+    "crm": {
+      "deviceTier": "Mid"
+    },
+    "speedtest": {
+      "downloadMbps": 27,
+      "latencyMs": 64,
+      "qualityLabel": "Ruim"
+    },
+    "demographics": {
+      "avgIncome": 5400,
+      "incomeLabel": "Médio"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "EXPANSAO_NOVA_AREA"
+      },
+      "movel": {
+        "classification": "MELHORA_QUALIDADE"
+      },
+      "decisaoIntegrada": "Qualidade 4G crítica. Iniciar programa de melhoria de rede e retenção proativa."
+    }
+  },
+  {
+    "id": "6gyf4x",
+    "neighborhood": "Consolação",
+    "city": "São Paulo",
+    "quadrant": "UPSELL",
+    "technology": "FIBRA",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 8
+      },
+      {
+        "name": "TIM",
+        "score": 7.4
+      },
+      {
+        "name": "CLARO",
+        "score": 7.6
+      }
+    ],
+    "marketShare": {
+      "percentage": 46
+    },
+    "shareTrend": {
+      "direction": "UP",
+      "delta": 1.1
+    },
+    "crm": {
+      "deviceTier": "Premium"
+    },
+    "speedtest": {
+      "downloadMbps": 290,
+      "latencyMs": 9,
+      "qualityLabel": "Excelente"
+    },
+    "demographics": {
+      "avgIncome": 15800,
+      "incomeLabel": "Alto"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "SAUDAVEL"
+      },
+      "movel": {
+        "classification": "SAUDAVEL"
+      },
+      "decisaoIntegrada": "Rede saudável. Foco em upsell para 1Gbps e serviços premium."
+    }
+  },
+  {
+    "id": "6gyf1n",
+    "neighborhood": "Guarulhos",
+    "city": "Guarulhos",
+    "quadrant": "GROWTH",
+    "technology": "MOVEL",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 7.1
+      },
+      {
+        "name": "TIM",
+        "score": 7.8
+      },
+      {
+        "name": "CLARO",
+        "score": 7
+      }
+    ],
+    "marketShare": {
+      "percentage": 26
+    },
+    "shareTrend": {
+      "direction": "UP",
+      "delta": 0.9
+    },
+    "crm": {
+      "deviceTier": "Mid"
+    },
+    "speedtest": {
+      "downloadMbps": 48,
+      "latencyMs": 36,
+      "qualityLabel": "Regular"
+    },
+    "demographics": {
+      "avgIncome": 4200,
+      "incomeLabel": "Médio"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "EXPANSAO_NOVA_AREA"
+      },
+      "movel": {
+        "classification": "MELHORA_QUALIDADE"
+      },
+      "decisaoIntegrada": "Expandir fibra e melhorar qualidade 4G para capturar mercado de alto volume."
+    }
+  },
+  {
+    "id": "6gyf0p",
+    "neighborhood": "Osasco",
+    "city": "Osasco",
+    "quadrant": "GROWTH",
+    "technology": "MOVEL",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 7
+      },
+      {
+        "name": "TIM",
+        "score": 7.5
+      },
+      {
+        "name": "CLARO",
+        "score": 6.8
+      }
+    ],
+    "marketShare": {
+      "percentage": 28
+    },
+    "shareTrend": {
+      "direction": "STABLE",
+      "delta": 0.4
+    },
+    "crm": {
+      "deviceTier": "Mid"
+    },
+    "speedtest": {
+      "downloadMbps": 52,
+      "latencyMs": 34,
+      "qualityLabel": "Bom"
+    },
+    "demographics": {
+      "avgIncome": 4600,
+      "incomeLabel": "Médio"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "EXPANSAO_NOVA_AREA"
+      },
+      "movel": {
+        "classification": "SAUDAVEL"
+      },
+      "decisaoIntegrada": "Expandir fibra como alavanca de crescimento. Móvel estável."
+    }
+  },
+  {
+    "id": "6gyf7k",
+    "neighborhood": "Itaquera",
+    "city": "São Paulo",
+    "quadrant": "GROWTH",
+    "technology": "MOVEL",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 6.9
+      },
+      {
+        "name": "TIM",
+        "score": 7.6
+      },
+      {
+        "name": "CLARO",
+        "score": 7
+      }
+    ],
+    "marketShare": {
+      "percentage": 23
+    },
+    "shareTrend": {
+      "direction": "UP",
+      "delta": 1.5
+    },
+    "crm": {
+      "deviceTier": "Basic"
+    },
+    "speedtest": {
+      "downloadMbps": 40,
+      "latencyMs": 42,
+      "qualityLabel": "Regular"
+    },
+    "demographics": {
+      "avgIncome": 3400,
+      "incomeLabel": "Médio"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "EXPANSAO_NOVA_AREA"
+      },
+      "movel": {
+        "classification": "MELHORA_QUALIDADE"
+      },
+      "decisaoIntegrada": "Expandir fibra e melhorar 4G para capturar mercado de grande volume."
+    }
+  },
+  {
+    "id": "6gyf3k",
+    "neighborhood": "Lapa",
+    "city": "São Paulo",
+    "quadrant": "UPSELL",
+    "technology": "FIBRA",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 7.9
+      },
+      {
+        "name": "TIM",
+        "score": 7.3
+      },
+      {
+        "name": "CLARO",
+        "score": 7.5
+      }
+    ],
+    "marketShare": {
+      "percentage": 43
+    },
+    "shareTrend": {
+      "direction": "UP",
+      "delta": 0.8
+    },
+    "crm": {
+      "deviceTier": "Premium"
+    },
+    "speedtest": {
+      "downloadMbps": 240,
+      "latencyMs": 11,
+      "qualityLabel": "Excelente"
+    },
+    "demographics": {
+      "avgIncome": 11200,
+      "incomeLabel": "Alto"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "SAUDAVEL"
+      },
+      "movel": {
+        "classification": "SAUDAVEL"
+      },
+      "decisaoIntegrada": "Rede saudável. Foco em upsell e fidelização."
+    }
+  },
+  {
+    "id": "6gyf2n",
+    "neighborhood": "Jabaquara",
+    "city": "São Paulo",
+    "quadrant": "RETENCAO",
+    "technology": "MOVEL",
+    "satisfactionScores": [
+      {
+        "name": "VIVO",
+        "score": 6
+      },
+      {
+        "name": "TIM",
+        "score": 7.4
+      },
+      {
+        "name": "CLARO",
+        "score": 6.8
+      }
+    ],
+    "marketShare": {
+      "percentage": 37
+    },
+    "shareTrend": {
+      "direction": "DOWN",
+      "delta": -1.7
+    },
+    "crm": {
+      "deviceTier": "Mid"
+    },
+    "speedtest": {
+      "downloadMbps": 31,
+      "latencyMs": 56,
+      "qualityLabel": "Regular"
+    },
+    "demographics": {
+      "avgIncome": 5800,
+      "incomeLabel": "Médio"
+    },
+    "camada2": {
+      "fibra": {
+        "classification": "EXPANSAO_NOVA_AREA"
+      },
+      "movel": {
+        "classification": "MELHORA_QUALIDADE"
+      },
+      "decisaoIntegrada": "Melhorar qualidade 4G para reter base. Avaliar expansão de fibra em fase posterior."
+    }
+  }
+]
