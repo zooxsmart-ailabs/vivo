@@ -12,6 +12,7 @@ COPY apps/api ./apps/api
 RUN pnpm --filter @vivo/zoox-map-api build
 
 FROM node:22-alpine
+RUN corepack enable
 RUN addgroup -S app && adduser -S app -G app
 WORKDIR /app
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
