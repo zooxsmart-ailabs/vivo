@@ -52,6 +52,7 @@ services:
     environment:
       - NUXT_PUBLIC_API_BASE=${NUXT_PUBLIC_API_BASE:-http://localhost/trpc}
       - NUXT_PUBLIC_WS_URL=${NUXT_PUBLIC_WS_URL:-ws://localhost}
+      - NUXT_PUBLIC_GOOGLE_MAPS_KEY=${NUXT_PUBLIC_GOOGLE_MAPS_KEY:-}
     networks:
       - vivo-net
     restart: unless-stopped

@@ -1,6 +1,9 @@
 /**
  * Diagnóstico Growth — Avaliação dos 4 Pilares + Recomendação IA
  *
+ * v5.1 (2026-04-13): Pilar Concorrência usa comparação por categoria
+ *  (Excelente/Regular/Crítico) em vez de delta numérico — alinhado ao protótipo.
+ *
  * v5 (2026-04-10): Port do prototipo/pages/frentes.vue com:
  *  - Pilar Percepção: até 4 métricas (SpeedTest Móvel/Fibra, Score HAC, Chamados)
  *  - Pilar Concorrência: delta competitivo per-tech (fibra + móvel)
@@ -85,6 +88,10 @@ export interface DiagnosticoGrowth {
   deltaVsLiderFibra?: number | null;
   /** v5: Delta competitivo Móvel (fallback: deltaVsLider) */
   deltaVsLiderMovel?: number | null;
+  /** v5.1: Score absoluto do líder Fibra (fallback: scoreOoklaFibra - deltaVsLiderFibra) */
+  scoreLiderFibra?: number | null;
+  /** v5.1: Score absoluto do líder Móvel (fallback: scoreOoklaMovel - deltaVsLiderMovel) */
+  scoreLiderMovel?: number | null;
   arpuRelativo: number;
   canalDominante: string;
   canalPct: number;
@@ -111,16 +118,28 @@ function scoreDetail(s: Sig3): string {
       : "< 6.0 — Crítico";
 }
 
-function fmtDelta(v: number): string {
-  return `${v > 0 ? "+" : ""}${v.toFixed(1)}`;
+/** Classifica score QoE em categoria numérica: 2=Excelente, 1=Regular, 0=Crítico */
+function scoreCategoria(score: number): number {
+  if (score >= 8.0) return 2;
+  if (score >= 6.0) return 1;
+  return 0;
 }
 
-function deltaDetail(s: Sig3): string {
-  return s === "ok"
-    ? "Delta > 0 — Vantagem"
-    : s === "alerta"
-      ? "−1.0 a 0 — Empate Técnico"
-      : "Delta < −1.0 — Desvantagem";
+function categoriaLabel(score: number): string {
+  if (score >= 8.0) return "Excelente";
+  if (score >= 6.0) return "Regular";
+  return "Crítico";
+}
+
+function detailCategoria(
+  catVivo: number,
+  catLider: number,
+  labelV: string,
+  labelL: string,
+): string {
+  if (catVivo > catLider) return `Vivo ${labelV} vs Líder ${labelL} — Vantagem`;
+  if (catVivo === catLider) return `Vivo ${labelV} = Líder ${labelL} — Empate`;
+  return `Vivo ${labelV} vs Líder ${labelL} — Desvantagem`;
 }
 
 // ─── Avaliação dos pilares ───────────────────────────────────────────────────
@@ -198,12 +217,18 @@ export function avaliarConcorrencia(d: DiagnosticoGrowth): PilarResult {
         ? "alerta"
         : "critico";
 
-  // v5: Delta competitivo per-tech com fallback para delta geral
-  const dvf = d.deltaVsLiderFibra ?? d.deltaVsLider;
-  const dvm = d.deltaVsLiderMovel ?? d.deltaVsLider;
+  // v5.1: Comparação por categoria (Excelente/Regular/Crítico) em vez de delta numérico
+  const vivoFibra  = d.scoreOoklaFibra ?? d.scoreOokla;
+  const liderFibra = d.scoreLiderFibra ?? (vivoFibra - (d.deltaVsLiderFibra ?? d.deltaVsLider));
+  const catVivoF   = scoreCategoria(vivoFibra);
+  const catLiderF  = scoreCategoria(liderFibra);
+  const sf: Sig3   = catVivoF > catLiderF ? "ok" : catVivoF === catLiderF ? "alerta" : "critico";
 
-  const sf: Sig3 = dvf > 0 ? "ok" : dvf >= -1 ? "alerta" : "critico";
-  const sm: Sig3 = dvm > 0 ? "ok" : dvm >= -1 ? "alerta" : "critico";
+  const vivoMovel  = d.scoreOoklaMovel ?? d.scoreOokla;
+  const liderMovel = d.scoreLiderMovel ?? (vivoMovel - (d.deltaVsLiderMovel ?? d.deltaVsLider));
+  const catVivoM   = scoreCategoria(vivoMovel);
+  const catLiderM  = scoreCategoria(liderMovel);
+  const sm: Sig3   = catVivoM > catLiderM ? "ok" : catVivoM === catLiderM ? "alerta" : "critico";
 
   return {
     id: "02",
@@ -224,17 +249,17 @@ export function avaliarConcorrencia(d: DiagnosticoGrowth): PilarResult {
       },
       {
         label: "Vantagem Satisfação Fibra",
-        value: fmtDelta(dvf),
-        formula: "Score Vivo Fibra − score líder Fibra (Ookla)",
+        value: sf === "ok" ? "Vantagem" : sf === "alerta" ? "Empate" : "Desvantagem",
+        formula: "Comparação por categoria: Excelente / Regular / Crítico (Ookla)",
         signal: sf,
-        detail: deltaDetail(sf),
+        detail: detailCategoria(catVivoF, catLiderF, categoriaLabel(vivoFibra), categoriaLabel(liderFibra)),
       },
       {
         label: "Vantagem Satisfação Móvel",
-        value: fmtDelta(dvm),
-        formula: "Score Vivo Móvel − score líder Móvel (Ookla)",
+        value: sm === "ok" ? "Vantagem" : sm === "alerta" ? "Empate" : "Desvantagem",
+        formula: "Comparação por categoria: Excelente / Regular / Crítico (Ookla)",
         signal: sm,
-        detail: deltaDetail(sm),
+        detail: detailCategoria(catVivoM, catLiderM, categoriaLabel(vivoMovel), categoriaLabel(liderMovel)),
       },
     ],
   };
