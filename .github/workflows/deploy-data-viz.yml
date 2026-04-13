@@ -48,7 +48,7 @@ jobs:
         run: |
           echo "Aguardando services..."
           for i in $(seq 1 30); do
-            if curl -sf "http://localhost:${{ secrets.NGINX_PORT }}/health" > /dev/null 2>&1; then
+            if curl -sf "http://localhost:${{ secrets.NGINX_PORT }}/health/live" > /dev/null 2>&1; then
               echo "Health check OK"
               docker compose ps
               exit 0
