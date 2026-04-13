@@ -7,5 +7,8 @@ export default defineConfig({
     environment: "happy-dom",
     globals: true,
     include: ["**/*.{test,spec}.{ts,tsx}"],
+    typecheck: {
+      tsconfig: "./tsconfig.test.json",
+    },
   },
 });

@@ -198,35 +198,51 @@ O sinal do pilar é o **pior sinal** entre suas métricas (worst-signal aggregat
 
 Mede como o cliente percebe a qualidade do serviço Vivo no geohash.
 
-| Métrica | Fórmula | OK | Alerta | Crítico |
-|---------|---------|-----|--------|---------|
-| Score Ookla | Score SpeedTest Vivo no geohash (0-10) | ≥ 8.0 | 6.0–7.9 | < 6.0 |
-| Vol. Chamados | (RAC + SAC 30d) / Base Ativa Vivo (%) | < 3% | 3–5% | > 5% |
+> **v5 (2026-04-10)**: Pilar expandido para até 4 métricas com exibição condicional por tecnologia (fonte: `prototipo/pages/frentes.vue:67-110`).
 
-**Sinal do pilar**: `worstSignal(scoreOokla, volChamados)`
-**Fonte de dados**: `score.vl_cntv_scre` (Ookla), **taxaChamados ainda não disponível no banco** (stub = 0).
+| Métrica | Fórmula | OK | Alerta | Crítico | Exibição |
+|---------|---------|-----|--------|---------|----------|
+| SpeedTest Móvel | `scoreOoklaMovel` (0-10) — fallback: `scoreOokla` | ≥ 8.0 | 6.0–7.9 | < 6.0 | Sempre |
+| SpeedTest Fibra | `scoreOoklaFibra` (0-10) | ≥ 8.0 | 6.0–7.9 | < 6.0 | Se > 0 (geohash tem fibra) |
+| Score HAC | `scoreHac` (0-10) — avaliação qualidade fibra | ≥ 8.0 | 6.0–7.9 | < 6.0 | Se > 0 (dado disponível) |
+| Vol. Chamados | (RAC + SAC 30d) / Base Ativa Vivo (%) | < 3% | 3–5% | > 5% | Sempre (stub = 0) |
+
+**Sinal do pilar**: `worstSignal(sigMovel, sigFibra, sigHAC, sigChamados)`
+
+**Fonte de dados (v5)**:
+- `score_ookla_movel` = `vw_score_mobile.score_final / 10` (VIVO, normalizado 0–10)
+- `score_ookla_fibra` = `vw_score_fibra.score_final / 10` (VIVO, normalizado 0–10)
+- `score_hac` = Score HAC de qualidade fibra (fonte: **a definir** — stub = 0)
+- `score_ookla` = Score consolidado (mantido para compatibilidade / fallback)
+- `taxa_chamados` = Ainda não disponível (stub = 0)
 
 ### Pilar 02 — Concorrência
 
 Avalia a posição competitiva da Vivo no geohash.
 
+> **v5 (2026-04-10)**: Delta competitivo separado por tecnologia (fonte: `prototipo/pages/frentes.vue:112-161`).
+
 | Métrica | Fórmula | OK | Alerta | Crítico |
 |---------|---------|-----|--------|---------|
 | Share / Penetração | Base Vivo / Total Domicílios (Zoox) (%) | < 20% | 20–40% | > 40% |
-| Vantagem vs Líder | Delta score Vivo − score líder (Ookla) | > 0 | −1.0 a 0 | < −1.0 |
+| Vantagem Satisfação **Fibra** | `deltaVsLiderFibra` = Score Vivo Fibra − Score líder Fibra | > 0 | −1.0 a 0 | < −1.0 |
+| Vantagem Satisfação **Móvel** | `deltaVsLiderMovel` = Score Vivo Móvel − Score líder Móvel | > 0 | −1.0 a 0 | < −1.0 |
 
-**Sinal do pilar**: `worstSignal(sharePenetracao, deltaVsLider)`
+**Sinal do pilar**: `worstSignal(sharePenetracao, deltaFibra, deltaMovel)`
 **Interpretação inversa para GROWTH**: share baixo (< 20%) = "Alta Oportunidade", share alto (> 40%) = "Saturado".
-**Fonte de dados**: `vw_share_real` (share), `score` (delta).
+**Fallback**: Se `deltaVsLiderFibra` ou `deltaVsLiderMovel` não disponíveis, usa `deltaVsLider` geral.
+**Fonte de dados**: `vw_share_real` (share), `vw_score_fibra` / `vw_score_mobile` (deltas per-tech).
 
 ### Pilar 03 — Infraestrutura
 
 Avalia disponibilidade e saúde da infraestrutura de rede no geohash.
 
+> **v5 (2026-04-10)**: Fibra inclui novo estado MELHORA_QUALIDADE (fonte: `prototipo/pages/frentes.vue:163-203`).
+
 | Métrica | Classificação Camada 2 | OK | Alerta | Crítico |
 |---------|------------------------|-----|--------|---------|
-| Fibra (Status) | `camada2_fibra.classification` | SAUDAVEL | AUMENTO_CAPACIDADE | EXPANSAO_NOVA_AREA |
-| Móvel (Status) | `camada2_movel.classification` | SAUDAVEL | EXPANSAO_5G / EXPANSAO_4G | MELHORA_QUALIDADE |
+| Fibra (Status) | `camada2_fibra.classification` | SAUDAVEL | MELHORA_QUALIDADE / AUMENTO_CAPACIDADE | EXPANSAO_NOVA_AREA |
+| Móvel (Status) | `camada2_movel.classification` | SAUDAVEL | EXPANSAO_COBERTURA_5G / EXPANSAO_COBERTURA_4G | MELHORA_QUALIDADE_5G / MELHORA_QUALIDADE_4G |
 
 **Sinal do pilar**: `worstSignal(fibra, movel)`
 **Fonte de dados**: `camada2_fibra`, `camada2_movel`.
@@ -264,24 +280,53 @@ Avalia perfil econômico e afinidade de canal do geohash.
 O motor de recomendação IA combina os sinais dos 4 pilares e classificações de Camada 2
 para gerar uma decisão estratégica com 3 estados possíveis:
 
-### Decisão
+### Decisão Geral (Totalização)
+
+> **v5 (2026-04-10)**: Renomeado ATIVAR → ATACAR. Adicionadas decisões per-tech e prioridade (fonte: `prototipo/pages/frentes.vue:248-334`).
 
 | Estado | Cor | Condição |
 |--------|-----|----------|
 | **BLOQUEADO** | #DC2626 (Vermelho) | Fibra = EXPANSAO_NOVA_AREA **OU** (percepção crítica **E** concorrência crítica) |
-| **AGUARDAR** | #D97706 (Âmbar) | Infraestrutura com gargalo (fibra AUMENTO_CAPACIDADE ou móvel MELHORA_QUALIDADE) **OU** percepção crítica **OU** concorrência crítica |
-| **ATIVAR** | #16A34A (Verde) | Nenhuma das condições acima — infraestrutura saudável, percepção e concorrência adequadas |
+| **AGUARDAR** | #D97706 (Âmbar) | Infraestrutura com gargalo **OU** percepção crítica **OU** concorrência crítica **OU** fibra bloqueada |
+| **ATACAR** | #16A34A (Verde) | Nenhuma das condições acima — infraestrutura saudável, percepção e concorrência adequadas |
 
 **Critérios detalhados:**
 - `percepção crítica` = scoreOokla < 6.0 **OU** taxaChamados > 5%
 - `concorrência crítica` = deltaVsLider < −1.0
 - `infraestrutura com gargalo` = fibra AUMENTO_CAPACIDADE **OU** móvel MELHORA_QUALIDADE
+- `fibra bloqueada` = fibra EXPANSAO_NOVA_AREA
+
+> **Nota**: No banco, BLOQUEADO é um estado separado. Na UI do protótipo, BLOQUEADO é exibido como AGUARDAR.
+
+### Decisões por Tecnologia (v5)
+
+| Campo | Valores | Lógica |
+|-------|---------|--------|
+| `decisaoMovel` | ATACAR / AGUARDAR | AGUARDAR se: movelProblema **OU** movelExpansao **OU** percCritica. Senão: ATACAR |
+| `decisaoFibra` | ATACAR / AGUARDAR | AGUARDAR se: fibraBloqueada **OU** fibraGargalo. Senão: ATACAR |
+
+### Prioridade por Tecnologia (v5)
+
+Baseada nos scores Ookla per-tech. Função `calcPrio(score)`:
+
+| Prioridade | Score Ookla | Cor |
+|------------|-------------|-----|
+| **ALTA** | ≥ 7.5 | #DC2626 (Vermelho) |
+| **MÉDIA** | 5.5–7.4 | #D97706 (Âmbar) |
+| **BAIXA** | < 5.5 | #16A34A (Verde) |
+
+- `prioMovel` = `calcPrio(scoreOoklaMovel ?? scoreOokla)`
+- `prioFibra` = `scoreOoklaFibra > 0 ? calcPrio(scoreOoklaFibra) : BAIXA`
 
 ### Saída da Recomendação
 
 | Campo | Descrição |
 |-------|-----------|
-| decisão | ATIVAR, AGUARDAR ou BLOQUEADO |
+| decisão | ATACAR, AGUARDAR ou BLOQUEADO |
+| decisaoMovel | ATACAR ou AGUARDAR (per-tech) |
+| decisaoFibra | ATACAR ou AGUARDAR (per-tech) |
+| prioMovel | ALTA, MÉDIA ou BAIXA |
+| prioFibra | ALTA, MÉDIA ou BAIXA |
 | canal | Canal recomendado + alocação de verba |
 | abordagem | Texto prescritivo com estratégia de abordagem comercial |
 | raciocínio | Justificativa composta pelos sinais avaliados |

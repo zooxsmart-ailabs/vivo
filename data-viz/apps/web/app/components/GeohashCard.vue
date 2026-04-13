@@ -5,14 +5,14 @@
       <div class="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center">
         <MapPin class="w-4 h-4 text-purple-300" />
       </div>
-      <p class="text-[10px] font-semibold text-slate-400">Nenhum geohash selecionado</p>
-      <p class="text-[9px] text-slate-300">Passe o cursor sobre uma célula no mapa.</p>
+      <p class="text-xs font-semibold text-slate-400">Nenhum geohash selecionado</p>
+      <p class="text-xs text-slate-300">Passe o cursor sobre uma célula no mapa.</p>
     </div>
 
     <template v-else>
       <!-- ══ HEADER ══ -->
       <div
-        class="shrink-0 px-3 pt-2.5 pb-2 relative"
+        class="shrink-0 px-4 pt-3 pb-3 relative"
         :style="{
           background: `linear-gradient(150deg, ${qColor.hex}22 0%, ${qColor.hex}06 100%)`,
           borderBottom: `1px solid ${qColor.hex}20`,
@@ -21,15 +21,15 @@
         <div class="absolute left-0 top-0 bottom-0 w-0.5 rounded-r" :style="{ backgroundColor: qColor.hex }" />
 
         <!-- Badges -->
-        <div class="flex items-center gap-1 mb-1.5 pl-1">
-          <span class="text-[7px] font-black px-1.5 py-0.5 rounded-full text-white" :style="{ backgroundColor: qColor.hex }">
+        <div class="flex items-center gap-1.5 mb-2 pl-1">
+          <span class="text-xs font-black px-2 py-0.5 rounded-full text-white" :style="{ backgroundColor: qColor.hex }">
             {{ qColor.label }}
           </span>
-          <span class="text-[7px] font-bold px-1.5 py-0.5 rounded-full text-white" :style="{ backgroundColor: techMeta.color }">
+          <span class="text-xs font-bold px-2 py-0.5 rounded-full text-white" :style="{ backgroundColor: techMeta.color }">
             {{ techMeta.label }}
           </span>
           <span
-            class="ml-auto text-[7px] font-bold px-1.5 py-0.5 rounded-full border"
+            class="ml-auto text-xs font-bold px-2 py-0.5 rounded-full border"
             :style="{ color: priorityColor, borderColor: priorityColor + '40', backgroundColor: priorityColor + '10' }"
           >
             {{ priorityLabel }}
@@ -37,67 +37,67 @@
         </div>
 
         <!-- Name -->
-        <div class="pl-1 mb-1.5">
-          <h3 class="text-[12px] font-black text-slate-800 leading-tight">{{ data.neighborhood ?? data.geohash_id }}</h3>
-          <p class="text-[7.5px] text-slate-400">{{ data.city }} · <span class="font-mono">{{ data.geohash_id }}</span></p>
+        <div class="pl-1 mb-2">
+          <h3 class="text-base font-black text-slate-800 leading-tight">{{ displayTitle }} <span class="text-xs font-mono font-medium text-slate-400">({{ data.geohash_id }})</span></h3>
+          <p class="text-sm text-slate-400 mt-0.5">{{ displaySubtitle }}</p>
         </div>
 
         <!-- 3 metric boxes -->
-        <div class="grid grid-cols-3 gap-1.5 pl-1">
-          <div class="rounded-lg p-1.5 text-center" :style="{ backgroundColor: qColor.hex + '12', border: `1px solid ${qColor.hex}20` }">
-            <div class="text-[6.5px] text-slate-400 font-semibold mb-0.5">Share Vivo</div>
-            <div class="text-[13px] font-black leading-none" :style="{ color: qColor.hex }">{{ Math.round(data.share_vivo) }}%</div>
-            <div class="flex items-center justify-center gap-0.5 mt-0.5">
-              <span class="text-[6.5px] font-bold" :style="{ color: trendColor }">
-                {{ trendArrow }} {{ Math.abs(data.trend_delta).toFixed(1) }}pp
+        <div class="grid grid-cols-3 gap-2 pl-1">
+          <div class="rounded-lg p-2 text-center" :style="{ backgroundColor: qColor.hex + '12', border: `1px solid ${qColor.hex}20` }">
+            <div class="text-xs text-slate-400 font-semibold mb-1">Share Vivo</div>
+            <div class="text-lg font-black leading-none" :style="{ color: qColor.hex }">{{ Math.round(data.share_vivo) }}%</div>
+            <div class="flex items-center justify-center gap-0.5 mt-1">
+              <span class="text-xs font-bold" :style="{ color: trendColor }">
+                {{ trendArrow }} {{ Math.abs(Number(data.trend_delta)).toFixed(1) }}pp
               </span>
             </div>
           </div>
-          <div class="rounded-lg p-1.5 text-center" style="background-color: #FFFBEB; border: 1px solid #FDE68A">
-            <div class="text-[6.5px] text-slate-400 font-semibold mb-0.5">Sat. Vivo</div>
-            <div class="text-[13px] font-black leading-none text-amber-500">{{ vivoScore.toFixed(1) }}</div>
-            <div class="text-[6.5px] text-amber-400 font-semibold mt-0.5">
+          <div class="rounded-lg p-2 text-center" style="background-color: #FFFBEB; border: 1px solid #FDE68A">
+            <div class="text-xs text-slate-400 font-semibold mb-1">Sat. Vivo</div>
+            <div class="text-lg font-black leading-none text-amber-500">{{ vivoScore.toFixed(1) }}</div>
+            <div class="text-xs text-amber-400 font-semibold mt-1">
               {{ vivoScore >= 7.5 ? "Alta" : vivoScore >= 6 ? "Média" : "Crítica" }}
             </div>
           </div>
-          <div class="rounded-lg p-1.5 text-center" :style="{ backgroundColor: priorityColor + '10', border: `1px solid ${priorityColor}30` }">
-            <div class="text-[6.5px] text-slate-400 font-semibold mb-0.5">Prioridade</div>
-            <div class="text-[13px] font-black leading-none" :style="{ color: priorityColor }">{{ data.priority_score.toFixed(1) }}</div>
-            <div class="text-[6.5px] font-bold mt-0.5" :style="{ color: priorityColor }">/10</div>
+          <div class="rounded-lg p-2 text-center" :style="{ backgroundColor: priorityColor + '10', border: `1px solid ${priorityColor}30` }">
+            <div class="text-xs text-slate-400 font-semibold mb-1">Prioridade</div>
+            <div class="text-lg font-black leading-none" :style="{ color: priorityColor }">{{ Number(data.priority_score).toFixed(1) }}</div>
+            <div class="text-xs font-bold mt-1" :style="{ color: priorityColor }">/10</div>
           </div>
         </div>
       </div>
 
       <!-- ══ TABS ══ -->
-      <div class="shrink-0 flex gap-0.5 bg-slate-100 mx-3 my-1.5 rounded-lg p-0.5">
+      <div class="shrink-0 flex gap-1 bg-slate-100 mx-4 my-2 rounded-lg p-1">
         <button
           v-for="t in TABS"
           :key="t.key"
           @click="tab = t.key"
-          class="flex-1 flex items-center justify-center gap-0.5 text-[7px] font-bold py-1 rounded-md transition-all"
+          class="flex-1 flex items-center justify-center gap-1 text-xs font-bold py-1.5 rounded-md transition-all"
           :style="tab === t.key ? { backgroundColor: '#660099', color: 'white' } : { color: '#64748b' }"
         >
-          <component :is="t.icon" class="w-2 h-2" />
+          <component :is="t.icon" class="w-3 h-3" />
           {{ t.label }}
         </button>
       </div>
 
       <!-- ══ TAB C1 — COMERCIAL ══ -->
-      <div v-if="tab === 'c1'" class="flex-1 px-3 pb-2 flex flex-col gap-1.5 overflow-hidden">
+      <div v-if="tab === 'c1'" class="flex-1 px-4 pb-3 flex flex-col gap-2 overflow-hidden">
         <!-- Satisfação Comparativa -->
         <div class="rounded-lg border border-slate-100 overflow-hidden">
           <div class="flex items-center gap-1 px-2 py-1 bg-slate-50 border-b border-slate-100">
-            <Activity class="w-2.5 h-2.5 text-slate-400" />
-            <span class="text-[7px] font-bold text-slate-400 uppercase tracking-widest">Satisfação Comparativa</span>
+            <Activity class="w-3.5 h-3.5 text-slate-400" />
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Satisfação Comparativa</span>
           </div>
           <div class="px-2 py-1.5 space-y-1">
             <div v-for="op in operatorScores" :key="op.name" class="flex items-center gap-1.5">
-              <span class="text-[8px] font-black w-7 shrink-0" :style="{ color: op.bar }">{{ op.name }}</span>
+              <span class="text-xs font-black w-7 shrink-0" :style="{ color: op.bar }">{{ op.name }}</span>
               <div class="flex-1 h-2.5 rounded-full overflow-hidden" :style="{ backgroundColor: op.bg }">
                 <div class="h-full rounded-full" :style="{ width: `${Math.min(100, (op.score / 10) * 100)}%`, backgroundColor: op.bar }" />
               </div>
-              <span class="text-[9px] font-black text-slate-700 w-5 text-right shrink-0">{{ op.score.toFixed(1) }}</span>
-              <span class="text-[6.5px] font-bold w-5 shrink-0" :style="{ color: qualityColor(op.score) }">
+              <span class="text-xs font-black text-slate-700 w-5 text-right shrink-0">{{ op.score.toFixed(1) }}</span>
+              <span class="text-xs font-bold w-5 shrink-0" :style="{ color: qualityColor(op.score) }">
                 {{ qualityLabel(op.score) }}
               </span>
             </div>
@@ -108,19 +108,19 @@
         <div class="grid grid-cols-2 gap-1.5">
           <div v-if="hasSpeedtest" class="rounded-lg border border-slate-100 p-1.5">
             <div class="flex items-center gap-1 mb-1">
-              <Zap class="w-2.5 h-2.5 text-sky-400" />
-              <span class="text-[6.5px] font-bold text-slate-400 uppercase tracking-wider">SpeedTest</span>
+              <Zap class="w-3.5 h-3.5 text-sky-400" />
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">SpeedTest</span>
             </div>
-            <DataRow label="Download" :value="`${detailData?.download_mbps ?? 0} Mbps`" />
-            <DataRow label="Latência" :value="`${detailData?.latency_ms ?? 0} ms`" />
+            <DataRow label="Download" :value="`${Number(detailData?.download_mbps ?? 0).toFixed(1)} Mbps`" />
+            <DataRow label="Latência" :value="`${Number(detailData?.latency_ms ?? 0).toFixed(0)} ms`" />
             <DataRow label="Qualidade" :value="detailData?.quality_label ?? '—'" />
           </div>
           <div v-if="hasCrm" class="rounded-lg border border-slate-100 p-1.5">
             <div class="flex items-center gap-1 mb-1">
-              <DollarSign class="w-2.5 h-2.5 text-emerald-400" />
-              <span class="text-[6.5px] font-bold text-slate-400 uppercase tracking-wider">CRM Vivo</span>
+              <DollarSign class="w-3.5 h-3.5 text-emerald-400" />
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">CRM Vivo</span>
             </div>
-            <DataRow label="ARPU" :value="`R$ ${detailData?.crm?.avg_arpu ?? '—'}`" />
+            <DataRow label="ARPU" :value="detailData?.crm?.avg_arpu != null ? `R$ ${Number(detailData.crm.avg_arpu).toFixed(2)}` : '—'" />
             <DataRow label="Device" :value="detailData?.crm?.device_tier ?? '—'" />
             <DataRow label="Plano" :value="detailData?.crm?.dominant_plan_type ?? '—'" />
           </div>
@@ -129,8 +129,8 @@
         <!-- Perfil da Área -->
         <div class="rounded-lg border border-slate-100 p-1.5">
           <div class="flex items-center gap-1 mb-1">
-            <Users class="w-2.5 h-2.5 text-orange-400" />
-            <span class="text-[6.5px] font-bold text-slate-400 uppercase tracking-wider">Perfil da Área</span>
+            <Users class="w-3.5 h-3.5 text-orange-400" />
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Perfil da Área</span>
           </div>
           <div class="grid grid-cols-2 gap-x-3">
             <DataRow label="Pop. BK" :value="formatPop(detailData?.populacao_residente)" />
@@ -149,10 +149,10 @@
           >
             <component
               :is="ins.type === 'positive' ? TrendingUp : AlertTriangle"
-              class="w-2.5 h-2.5 mt-0.5 shrink-0"
+              class="w-3.5 h-3.5 mt-0.5 shrink-0"
               :style="{ color: INSIGHT_STYLES[ins.type].icon }"
             />
-            <p class="text-[7.5px] leading-snug font-medium" :style="{ color: INSIGHT_STYLES[ins.type].text }">
+            <p class="text-xs leading-snug font-medium" :style="{ color: INSIGHT_STYLES[ins.type].text }">
               {{ ins.text }}
             </p>
           </div>
@@ -160,7 +160,7 @@
       </div>
 
       <!-- ══ TAB C2 — INFRAESTRUTURA ══ -->
-      <div v-if="tab === 'c2'" class="flex-1 px-3 pb-2 flex flex-col gap-1.5 overflow-hidden">
+      <div v-if="tab === 'c2'" class="flex-1 px-4 pb-3 flex flex-col gap-2 overflow-hidden">
         <template v-if="detailData?.camada2">
           <!-- Fibra -->
           <div v-if="detailData.camada2.fibra" class="rounded-lg border overflow-hidden" :style="{ borderColor: fibraClass.color + '30' }">
@@ -170,16 +170,16 @@
             >
               <div class="flex items-center gap-1">
                 <Wifi class="w-3 h-3" :style="{ color: fibraClass.color }" />
-                <span class="text-[7px] font-bold text-slate-600 uppercase tracking-wider">Fibra Óptica</span>
+                <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">Fibra Óptica</span>
               </div>
-              <span class="text-[7px] font-black px-1.5 py-0.5 rounded-full text-white" :style="{ backgroundColor: fibraClass.color }">
+              <span class="text-xs font-black px-1.5 py-0.5 rounded-full text-white" :style="{ backgroundColor: fibraClass.color }">
                 {{ fibraClass.label }}
               </span>
             </div>
             <div class="px-2 py-1.5 space-y-1">
               <div class="flex items-center justify-between mb-0.5">
-                <span class="text-[7px] text-slate-400">Score de Intervenção</span>
-                <span class="text-[8px] font-black" :style="{ color: fibraClass.color }">{{ detailData.camada2.fibra.score }}/100</span>
+                <span class="text-xs text-slate-400">Score de Intervenção</span>
+                <span class="text-xs font-black" :style="{ color: fibraClass.color }">{{ detailData.camada2.fibra.score }}/100</span>
               </div>
               <div class="relative h-2.5 rounded-full overflow-hidden bg-slate-100">
                 <div class="h-full rounded-full" :style="{ width: `${Math.min(100, detailData.camada2.fibra.score)}%`, backgroundColor: fibraClass.color }" />
@@ -199,16 +199,16 @@
             >
               <div class="flex items-center gap-1">
                 <Signal class="w-3 h-3" :style="{ color: movelClass.color }" />
-                <span class="text-[7px] font-bold text-slate-600 uppercase tracking-wider">Rede Móvel</span>
+                <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">Rede Móvel</span>
               </div>
-              <span class="text-[7px] font-black px-1.5 py-0.5 rounded-full text-white" :style="{ backgroundColor: movelClass.color }">
+              <span class="text-xs font-black px-1.5 py-0.5 rounded-full text-white" :style="{ backgroundColor: movelClass.color }">
                 {{ movelClass.label }}
               </span>
             </div>
             <div class="px-2 py-1.5 space-y-1">
               <div class="flex items-center justify-between mb-0.5">
-                <span class="text-[7px] text-slate-400">Score de Intervenção</span>
-                <span class="text-[8px] font-black" :style="{ color: movelClass.color }">{{ detailData.camada2.movel.score }}/100</span>
+                <span class="text-xs text-slate-400">Score de Intervenção</span>
+                <span class="text-xs font-black" :style="{ color: movelClass.color }">{{ detailData.camada2.movel.score }}/100</span>
               </div>
               <div class="relative h-2.5 rounded-full overflow-hidden bg-slate-100">
                 <div class="h-full rounded-full" :style="{ width: `${Math.min(100, detailData.camada2.movel.score)}%`, backgroundColor: movelClass.color }" />
@@ -225,8 +225,8 @@
           <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">
             <Layers class="w-4 h-4 text-slate-300" />
           </div>
-          <p class="text-[9px] text-slate-400 font-bold">Sem dados de Camada 2</p>
-          <p class="text-[8px] text-slate-300">Infraestrutura não mapeada</p>
+          <p class="text-xs text-slate-400 font-bold">Sem dados de Camada 2</p>
+          <p class="text-xs text-slate-300">Infraestrutura não mapeada</p>
         </div>
       </div>
     </template>
@@ -245,9 +245,9 @@ const DataRow = defineComponent({
   props: { label: String, value: String },
   setup(props) {
     return () =>
-      h("div", { class: "flex items-center justify-between" }, [
-        h("span", { class: "text-[7.5px] text-slate-400" }, props.label),
-        h("span", { class: "text-[8px] font-bold text-slate-700" }, props.value),
+      h("div", { class: "flex items-center justify-between py-0.5" }, [
+        h("span", { class: "text-[13px] text-slate-400" }, props.label),
+        h("span", { class: "text-[13px] font-bold text-slate-700" }, props.value),
       ]);
   },
 });
@@ -256,6 +256,9 @@ const DataRow = defineComponent({
 
 interface GeohashSummary {
   geohash_id: string;
+  precision: number;
+  center_lat: number;
+  center_lng: number;
   neighborhood: string | null;
   city: string;
   state: string;
@@ -333,16 +336,21 @@ const CARRIER: Record<string, { bar: string; bg: string }> = {
 };
 
 const FIBRA_CLASS_MAP: Record<string, { label: string; color: string; bg: string }> = {
-  AUMENTO_CAPACIDADE: { label: "Aumento de Capacidade", color: "#DC2626", bg: "#FEF2F2" },
-  EXPANSAO_NOVA_AREA: { label: "Expansão Nova Área", color: "#D97706", bg: "#FFFBEB" },
+  AUMENTO_CAPACIDADE: { label: "Aumento de Capacidade", color: "#D97706", bg: "#FFFBEB" },
+  EXPANSAO_NOVA_AREA: { label: "Expansão Nova Área", color: "#2563EB", bg: "#EFF6FF" },
+  MELHORA_QUALIDADE: { label: "Melhora na Qualidade", color: "#DC2626", bg: "#FEF2F2" },
   SAUDAVEL: { label: "Rede Saudável", color: "#16A34A", bg: "#F0FDF4" },
   OK: { label: "Rede Saudável", color: "#16A34A", bg: "#F0FDF4" },
-  SEM_FIBRA: { label: "Sem Fibra", color: "#94A3B8", bg: "#F8FAFC" },
+  SEM_FIBRA: { label: "Sem Fibra", color: "#6B7280", bg: "#F8FAFC" },
 };
 
 const MOVEL_CLASS_MAP: Record<string, { label: string; color: string; bg: string }> = {
   MELHORA_QUALIDADE: { label: "Melhora na Qualidade", color: "#DC2626", bg: "#FEF2F2" },
+  MELHORA_QUALIDADE_5G: { label: "Melhora na Qualidade 5G", color: "#DC2626", bg: "#FEF2F2" },
+  MELHORA_QUALIDADE_4G: { label: "Melhora na Qualidade 4G", color: "#DC2626", bg: "#FEF2F2" },
   EXPANSAO_COBERTURA: { label: "Expansão de Cobertura", color: "#D97706", bg: "#FFFBEB" },
+  EXPANSAO_COBERTURA_5G: { label: "Expansão Cobertura 5G", color: "#7C3AED", bg: "#F5F3FF" },
+  EXPANSAO_COBERTURA_4G: { label: "Expansão Cobertura 4G", color: "#2563EB", bg: "#EFF6FF" },
   SAUDAVEL: { label: "Rede Saudável", color: "#16A34A", bg: "#F0FDF4" },
   EXPANSAO_5G: { label: "Expansão 5G", color: "#7C3AED", bg: "#F5F3FF" },
   EXPANSAO_4G: { label: "Expansão 4G", color: "#2563EB", bg: "#EFF6FF" },
@@ -381,8 +389,88 @@ const priorityLabel = computed(() =>
 );
 
 const vivoScore = computed(() =>
-  props.data?.vivo_score ?? props.data?.avg_satisfaction_vivo ?? 0,
+  Number(props.data?.vivo_score ?? props.data?.avg_satisfaction_vivo ?? 0),
 );
+
+// ─── Reverse Geocoding ────────────────────────────────────────────────────
+const geocodeCache = new Map<string, { name: string; route: string | null }>();
+const locationName = ref<string | null>(null);
+const locationRoute = ref<string | null>(null);
+
+watch(
+  () => props.data?.geohash_id,
+  async (id) => {
+    if (!id || !props.data) {
+      locationName.value = null;
+      locationRoute.value = null;
+      return;
+    }
+    const cached = geocodeCache.get(id);
+    if (cached) {
+      locationName.value = cached.name;
+      locationRoute.value = cached.route;
+      return;
+    }
+    if (!window.google?.maps?.Geocoder) {
+      locationName.value = null;
+      locationRoute.value = null;
+      return;
+    }
+    try {
+      const geocoder = new google.maps.Geocoder();
+      const { results } = await geocoder.geocode({
+        location: { lat: Number(props.data.center_lat), lng: Number(props.data.center_lng) },
+      });
+      if (results?.length) {
+        // Extract neighborhood/sublocality and route
+        let neighborhood: string | null = null;
+        let route: string | null = null;
+        for (const r of results) {
+          for (const c of r.address_components) {
+            if (!neighborhood && (c.types.includes("sublocality_level_1") || c.types.includes("neighborhood"))) {
+              neighborhood = c.long_name;
+            }
+            if (!route && c.types.includes("route")) {
+              route = c.long_name;
+            }
+          }
+          if (neighborhood) break;
+        }
+        const entry = { name: neighborhood ?? results[0].formatted_address.split(",")[0], route };
+        geocodeCache.set(id, entry);
+        // Only update if still the same geohash
+        if (props.data?.geohash_id === id) {
+          locationName.value = entry.name;
+          locationRoute.value = entry.route;
+        }
+      }
+    } catch {
+      locationName.value = null;
+      locationRoute.value = null;
+    }
+  },
+  { immediate: true },
+);
+
+const displayTitle = computed(() => {
+  const gh = props.data;
+  if (!gh) return "";
+  const name = locationName.value;
+  if (!name) return gh.geohash_id;
+  return name;
+});
+
+const displaySubtitle = computed(() => {
+  const gh = props.data;
+  if (!gh) return "";
+  const parts: string[] = [];
+  // For precision 7 (smaller area), show route if available
+  if (gh.precision >= 7 && locationRoute.value) {
+    parts.push(locationRoute.value);
+  }
+  if (gh.city) parts.push(gh.city);
+  return parts.join(" · ");
+});
 
 const trendArrow = computed(() => {
   const d = props.data?.trend_direction;
@@ -395,11 +483,13 @@ const trendColor = computed(() => {
 });
 
 const operatorScores = computed(() => {
-  if (!props.data) return [];
+  // detailData (getById) has all operator scores; data (list) only has vivo
+  const d = props.detailData ?? props.data;
+  if (!d) return [];
   return [
-    { name: "Vivo", score: props.data.vivo_score ?? props.data.avg_satisfaction_vivo, ...CARRIER.Vivo },
-    { name: "TIM", score: props.data.tim_score ?? 0, ...CARRIER.TIM },
-    { name: "Claro", score: props.data.claro_score ?? 0, ...CARRIER.Claro },
+    { name: "Vivo", score: Number(d.vivo_score ?? d.avg_satisfaction_vivo ?? 0), ...CARRIER.Vivo },
+    { name: "TIM", score: Number(d.tim_score ?? 0), ...CARRIER.TIM },
+    { name: "Claro", score: Number(d.claro_score ?? 0), ...CARRIER.Claro },
   ].filter((op) => op.score > 0);
 });
 
@@ -422,19 +512,26 @@ const movelClass = computed(() => {
 const insights = computed(() => {
   if (!props.data) return [];
   const ins: Array<{ type: "positive" | "negative" | "warning" | "neutral"; text: string }> = [];
-  const share = props.data.share_vivo;
+  const share = Number(props.data.share_vivo ?? 0);
   const vivo = vivoScore.value;
-  const best = Math.max(props.data.tim_score ?? 0, props.data.claro_score ?? 0);
+  const d = props.detailData ?? props.data;
+  const best = Math.max(Number(d.tim_score ?? 0), Number(d.claro_score ?? 0));
+  const quadrant = props.data.quadrant_type;
 
-  if (share >= 40) ins.push({ type: "positive", text: "Share dominante — foco em upsell e retenção" });
-  else if (share < 25) ins.push({ type: "warning", text: "Share baixo — oportunidade de crescimento" });
-  if (vivo >= 7.5) ins.push({ type: "positive", text: "Satisfação alta — base estável, baixo churn" });
-  else if (vivo < 6.0) ins.push({ type: "negative", text: "Satisfação crítica — risco elevado de churn" });
+  // Insight alinhado ao quadrante
+  if (quadrant === "UPSELL") ins.push({ type: "positive", text: "Share alto + satisfação alta — maximizar receita com upsell premium" });
+  else if (quadrant === "GROWTH") ins.push({ type: "warning", text: "Share baixo + satisfação alta — janela de ataque para aquisição" });
+  else if (quadrant === "RETENCAO") ins.push({ type: "negative", text: "Share alto + satisfação baixa — risco iminente de churn, ação urgente" });
+  else if (quadrant === "GROWTH_RETENCAO") ins.push({ type: "negative", text: "Share baixo + satisfação baixa — dupla frente: aquisição + infraestrutura" });
+
+  // Insights competitivos
   if (best > vivo + 0.5) ins.push({ type: "negative", text: "Concorrente com satisfação superior" });
   else if (vivo > best + 0.5) ins.push({ type: "positive", text: "Vivo lidera satisfação no geohash" });
-  if (props.detailData?.avg_income && props.detailData.avg_income > 8000)
+
+  // Renda
+  if (props.detailData?.avg_income && Number(props.detailData.avg_income) > 8000)
     ins.push({ type: "positive", text: "Renda alta — potencial para planos premium" });
-  return ins.slice(0, 2);
+  return ins.slice(0, 3);
 });
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -447,13 +544,13 @@ function qualityColor(score: number): string {
   return score >= 8 ? "#16A34A" : score >= 7 ? "#0EA5E9" : score >= 6 ? "#D97706" : "#DC2626";
 }
 
-function formatPop(val?: number | null): string {
+function formatPop(val?: number | string | null): string {
   if (val == null) return "—";
-  return val.toLocaleString("pt-BR");
+  return Number(val).toLocaleString("pt-BR");
 }
 
-function formatIncome(val?: number | null): string {
+function formatIncome(val?: number | string | null): string {
   if (val == null) return "—";
-  return `R$ ${val.toLocaleString("pt-BR", { maximumFractionDigits: 0 })}`;
+  return `R$ ${Number(val).toLocaleString("pt-BR", { maximumFractionDigits: 0 })}`;
 }
 </script>

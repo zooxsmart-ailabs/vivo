@@ -132,9 +132,14 @@ export function movelRow(overrides: Record<string, any> = {}) {
 export function growthDiagRow(overrides: Record<string, any> = {}) {
   return {
     score_ookla: 8.5,
+    score_ookla_movel: 8.2,
+    score_ookla_fibra: 8.6,
+    score_hac: 8.0,
     taxa_chamados: 2.1,
     share_penetracao: 18.5,
     delta_vs_lider: 1.5,
+    delta_vs_lider_fibra: 0.8,
+    delta_vs_lider_movel: 1.2,
     fibra_class: "SAUDAVEL",
     movel_class: "SAUDAVEL",
     arpu_relativo: 1.15,
@@ -144,7 +149,11 @@ export function growthDiagRow(overrides: Record<string, any> = {}) {
     sinal_concorrencia: "OK",
     sinal_infraestrutura: "OK",
     sinal_comportamento: "OK",
-    recomendacao: "ATIVAR",
+    recomendacao: "ATACAR",
+    decisao_movel: "ATACAR",
+    decisao_fibra: "ATACAR",
+    prio_movel: "ALTA",
+    prio_fibra: "ALTA",
     recomendacao_razao: null,
     ...overrides,
   };

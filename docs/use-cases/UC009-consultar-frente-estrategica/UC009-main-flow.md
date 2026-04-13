@@ -12,7 +12,7 @@
 
 ## Objetivo
 
-O Analista consulta a frente estratégica Growth para visualizar o ranking de geohashes, diagnóstico dos 4 pilares (Percepção, Concorrência, Infraestrutura, Comportamento) e recomendação IA (ATIVAR/AGUARDAR/BLOQUEADO).
+O Analista consulta a frente estratégica Growth para visualizar o ranking de geohashes, diagnóstico dos 4 pilares (Percepção, Concorrência, Infraestrutura, Comportamento) e recomendação IA (ATACAR/AGUARDAR/BLOQUEADO).
 
 ## Pré-condições
 
@@ -23,7 +23,7 @@ O Analista consulta a frente estratégica Growth para visualizar o ranking de ge
 
 - PS01: Lista de geohashes GROWTH rankada por prioridade na sidebar esquerda
 - PS02: Painel de diagnóstico com 4 cards de pilar + card de recomendação IA exibido para o geohash selecionado
-- PS03: Recomendação IA (ATIVAR/AGUARDAR/BLOQUEADO) com canal, abordagem e raciocínio
+- PS03: Recomendação IA (ATACAR/AGUARDAR/BLOQUEADO) com canal, abordagem e raciocínio
 
 ## Pós-condições (Falha)
 
@@ -72,7 +72,11 @@ Cada card exibe: título do pilar, badge de sinal (OK/Alerta/Crítico) com cor, 
 
 | Campo | Conteúdo | Exemplo |
 |-------|----------|---------|
-| Decisão | ATIVAR / AGUARDAR / BLOQUEADO | Badge colorido com estado |
+| Decisão | ATACAR / AGUARDAR / BLOQUEADO | Badge colorido com estado |
+| Decisão Móvel | ATACAR / AGUARDAR | Badge per-tech (v5) |
+| Decisão Fibra | ATACAR / AGUARDAR | Badge per-tech (v5) |
+| Prioridade Móvel | ALTA / MÉDIA / BAIXA | Badge com cor (v5) |
+| Prioridade Fibra | ALTA / MÉDIA / BAIXA | Badge com cor (v5) |
 | Canal | Canal recomendado + alocação | "Digital (dominante — priorizar 80% da verba)" |
 | Abordagem | Texto prescritivo de abordagem comercial | "Oferta de totalização (Fibra + Móvel + Streaming)..." |
 | Raciocínio | Justificativa composta dos sinais avaliados | "Decisão baseada em: percepção excelente; alta oportunidade..." |

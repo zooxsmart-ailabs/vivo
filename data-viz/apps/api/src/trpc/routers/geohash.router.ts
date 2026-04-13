@@ -55,49 +55,113 @@ async function listGeohashes(
     period: string;
     is_top10: boolean;
   }>(sql`
-    SELECT
-      s.geohash_id,
-      gc.precision,
-      gc.center_lat,
-      gc.center_lng,
-      gc.neighborhood,
-      gc.city,
-      gc.state,
-      s.quadrant_type,
-      s.share_vivo,
-      s.avg_satisfaction_vivo,
-      s.priority_score,
-      s.priority_label,
-      s.tech_category,
-      s.trend_direction,
-      s.trend_delta,
-      s.competitive_position,
-      s.period,
-      (RANK() OVER (ORDER BY s.priority_score DESC) <= 10) AS is_top10
-    FROM vw_geohash_summary s
-    JOIN geohash_cell gc ON gc.geohash_id = s.geohash_id
-    WHERE gc.precision = ${input.precision}
-      ${input.period ? sql`AND s.period = ${input.period}` : sql`AND s.period = (SELECT MAX(period) FROM vw_geohash_summary)`}
-      ${input.state ? sql`AND gc.state = ${input.state}` : sql``}
-      ${input.city ? sql`AND gc.city = ${input.city}` : sql``}
-      ${input.neighborhood ? sql`AND gc.neighborhood = ${input.neighborhood}` : sql``}
-      ${
-        input.quadrants && input.quadrants.length > 0
-          ? sql`AND s.quadrant_type = ANY(${input.quadrants})`
-          : sql``
-      }
-      ${
-        input.tech && input.tech !== "TODOS"
-          ? sql`AND (s.tech_category = ${input.tech} OR s.tech_category = 'AMBOS')`
-          : sql``
-      }
-      ${
-        input.viewport
-          ? sql`AND gc.center_lat BETWEEN ${input.viewport.swLat} AND ${input.viewport.neLat}
-               AND gc.center_lng BETWEEN ${input.viewport.swLng} AND ${input.viewport.neLng}`
-          : sql``
-      }
-    ORDER BY s.priority_score DESC
+    WITH target_period AS (
+      SELECT ${input.period ? sql`${input.period}::date` : sql`(SELECT MAX(period) FROM vw_geohash_summary)`} AS p
+    ),
+    -- Primary: geohashes at requested precision
+    primary_results AS (
+      SELECT
+        s.geohash_id,
+        gc.precision,
+        gc.center_lat,
+        gc.center_lng,
+        gc.neighborhood,
+        gc.city,
+        gc.state,
+        s.quadrant_type,
+        s.share_vivo,
+        s.avg_satisfaction_vivo,
+        s.priority_score,
+        s.priority_label,
+        s.tech_category,
+        s.trend_direction,
+        s.trend_delta,
+        s.competitive_position,
+        s.period
+      FROM vw_geohash_summary s
+      JOIN geohash_cell gc ON gc.geohash_id = s.geohash_id
+      CROSS JOIN target_period tp
+      WHERE gc.precision = ${input.precision}
+        AND s.period = tp.p
+        ${input.state ? sql`AND gc.state = ${input.state}` : sql``}
+        ${input.city ? sql`AND gc.city = ${input.city}` : sql``}
+        ${input.neighborhood ? sql`AND gc.neighborhood = ${input.neighborhood}` : sql``}
+        ${
+          input.quadrants && input.quadrants.length > 0
+            ? sql`AND s.quadrant_type = ANY(${input.quadrants})`
+            : sql``
+        }
+        ${
+          input.tech && input.tech !== "TODOS"
+            ? sql`AND (s.tech_category = ${input.tech} OR s.tech_category = 'AMBOS')`
+            : sql``
+        }
+        ${
+          input.viewport
+            ? sql`AND gc.center_lat BETWEEN ${input.viewport.swLat} AND ${input.viewport.neLat}
+                 AND gc.center_lng BETWEEN ${input.viewport.swLng} AND ${input.viewport.neLng}`
+            : sql``
+        }
+    )${
+      input.precision === 7
+        ? sql`,
+    -- Fallback: precision-6 geohashes that have NO children at precision 7
+    fallback_parents AS (
+      SELECT
+        s.geohash_id,
+        gc.precision,
+        gc.center_lat,
+        gc.center_lng,
+        gc.neighborhood,
+        gc.city,
+        gc.state,
+        s.quadrant_type,
+        s.share_vivo,
+        s.avg_satisfaction_vivo,
+        s.priority_score,
+        s.priority_label,
+        s.tech_category,
+        s.trend_direction,
+        s.trend_delta,
+        s.competitive_position,
+        s.period
+      FROM vw_geohash_summary s
+      JOIN geohash_cell gc ON gc.geohash_id = s.geohash_id
+      CROSS JOIN target_period tp
+      WHERE gc.precision = 6
+        AND s.period = tp.p
+        AND NOT EXISTS (
+          SELECT 1 FROM primary_results pr
+          WHERE pr.geohash_id LIKE gc.geohash_id || '%'
+        )
+        ${input.state ? sql`AND gc.state = ${input.state}` : sql``}
+        ${input.city ? sql`AND gc.city = ${input.city}` : sql``}
+        ${input.neighborhood ? sql`AND gc.neighborhood = ${input.neighborhood}` : sql``}
+        ${
+          input.quadrants && input.quadrants.length > 0
+            ? sql`AND s.quadrant_type = ANY(${input.quadrants})`
+            : sql``
+        }
+        ${
+          input.tech && input.tech !== "TODOS"
+            ? sql`AND (s.tech_category = ${input.tech} OR s.tech_category = 'AMBOS')`
+            : sql``
+        }
+        ${
+          input.viewport
+            ? sql`AND gc.center_lat BETWEEN ${input.viewport.swLat} AND ${input.viewport.neLat}
+                 AND gc.center_lng BETWEEN ${input.viewport.swLng} AND ${input.viewport.neLng}`
+            : sql``
+        }
+    )`
+        : sql``
+    }
+    SELECT *, (RANK() OVER (ORDER BY priority_score DESC) <= 10) AS is_top10
+    FROM (
+      SELECT * FROM primary_results
+      ${input.precision === 7 ? sql`UNION ALL SELECT * FROM fallback_parents` : sql``}
+    ) combined
+    ORDER BY priority_score DESC
     LIMIT ${input.limit ?? 500}
     OFFSET ${input.offset ?? 0}
   `);
@@ -189,14 +253,18 @@ export const geohashRouter = t.router({
       const [crm, fibra2, movel2, growthDiag] = await Promise.all([
         safeQuery<{
           avg_arpu: number | null;
+          arpu_movel: number | null;
+          arpu_fibra: number | null;
           dominant_plan_type: string | null;
+          plan_type_movel: string | null;
           device_tier: string | null;
           avg_income: number | null;
           population_density: number | null;
           income_label: string | null;
         }>(
           ctx.db.execute(sql`
-            SELECT avg_arpu, dominant_plan_type, device_tier,
+            SELECT avg_arpu, arpu_movel, arpu_fibra,
+                   dominant_plan_type, plan_type_movel, device_tier,
                    avg_income, population_density, income_label
             FROM geohash_crm
             WHERE geohash_id = ${input.geohashId}
@@ -240,9 +308,14 @@ export const geohashRouter = t.router({
         ),
         safeQuery<{
           score_ookla: number;
+          score_ookla_movel: number | null;
+          score_ookla_fibra: number | null;
+          score_hac: number | null;
           taxa_chamados: number;
           share_penetracao: number;
           delta_vs_lider: number;
+          delta_vs_lider_fibra: number | null;
+          delta_vs_lider_movel: number | null;
           fibra_class: string;
           movel_class: string;
           arpu_relativo: number;
@@ -253,16 +326,25 @@ export const geohashRouter = t.router({
           sinal_infraestrutura: string;
           sinal_comportamento: string;
           recomendacao: string;
+          decisao_movel: string | null;
+          decisao_fibra: string | null;
+          prio_movel: string | null;
+          prio_fibra: string | null;
           recomendacao_razao: string | null;
         }>(
           ctx.db.execute(sql`
-            SELECT score_ookla, taxa_chamados,
+            SELECT score_ookla,
+                   score_ookla_movel, score_ookla_fibra, score_hac,
+                   taxa_chamados,
                    share_penetracao, delta_vs_lider,
+                   delta_vs_lider_fibra, delta_vs_lider_movel,
                    fibra_class, movel_class,
                    arpu_relativo, canal_dominante, canal_pct,
                    sinal_percepcao, sinal_concorrencia,
                    sinal_infraestrutura, sinal_comportamento,
-                   recomendacao, recomendacao_razao
+                   recomendacao,
+                   decisao_movel, decisao_fibra, prio_movel, prio_fibra,
+                   recomendacao_razao
             FROM diagnostico_growth
             WHERE geohash_id = ${input.geohashId}
               ${input.period ? sql`AND anomes = ${input.period}` : sql`AND anomes = (SELECT MAX(anomes) FROM diagnostico_growth WHERE geohash_id = ${input.geohashId})`}

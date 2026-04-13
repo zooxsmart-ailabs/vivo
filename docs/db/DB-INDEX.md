@@ -2,7 +2,7 @@
 
 **Stack**: PostgreSQL 18 + TimescaleDB + PostGIS
 **ORM**: Drizzle (app) + SQL nativo (views/aggregates)
-**Versão**: 3.0 | **Data**: 2026-04-01
+**Versão**: 4.0 | **Data**: 2026-04-09
 **Fonte**: Levantamento v1203 + CSVs operacionais Vivo
 
 ## Visão Geral
@@ -26,8 +26,10 @@ Arquitetura de duas camadas com dados operacionais Vivo adicionados:
    │   Views (Analitica) │  │  Redis   │  │  Tabelas (ALI)     │
    │  vw_share_real      │  │  Cache + │  │  geohash_cell      │
    │  vw_geohash_summary │  │  Session │  │  benchmark_config  │
-   │  vw_bairro_summary  │  └──────────┘  │  user_session      │
-   └──────────┬──────────┘                └────────────────────┘
+   │  vw_score_mobile ◄──NEW  ──────┘  │  user_session      │
+   │  vw_score_fibra  ◄──NEW           │                    │
+   │  vw_bairro_summary  │                └────────────────────┘
+   └──────────┬──────────┘
               │
    ┌──────────▼──────────────────────────┐
    │   Continuous Aggregates(TimescaleDB)│
@@ -58,6 +60,32 @@ Arquitetura de duas camadas com dados operacionais Vivo adicionados:
    └─────────────────────────────────────┘
 ```
 
+## Changelog v4 → v5
+
+| Mudança | Impacto |
+|---------|---------|
+| ATIVAR → ATACAR em recomendacao_type | Enum, diagnostico_growth, UC009 RN009-06 |
+| +MELHORA_QUALIDADE em fibra_class (5 valores) | Enum, camada2_fibra, UC004 RN004-04 |
+| Novos enums: decisao_tech_type, prioridade_growth | DDL, diagnostico_growth |
+| diagnostico_growth: +score_ookla_movel/fibra, +score_hac, +delta_fibra/movel, +decisao_movel/fibra, +prio_movel/fibra | DDL, schema lógico, dicionário |
+| geohash_crm: +arpu_movel, +arpu_fibra, +plan_type_movel | DDL, schema lógico, dicionário |
+| UC004 RN004-01: Fórmulas simplificadas + prioridade por percentil | Business rules |
+| UC009 RN009-05: Pilar Percepção com 4 métricas, Concorrência com delta per-tech | Business rules |
+| UC009 RN009-06: Recomendação com decisão per-tech e prioridade per-tech | Business rules |
+| +RN004-09: Classificação classe social ABEP/IBGE | Business rules |
+| **vw_score_mobile / vw_score_fibra v5** (notebook validado 2026-04-11): filtros (wifi, location_type, latency NOT NULL), FULL OUTER JOIN, falha vídeo/web 4-tier (mobile) / 3-tier (fibra), degradação graciosa nos pilares fibra, score_resolucao com soma manual, fronteiras `<` (sem ambiguidade), classificação por percentil dinâmico (BOM/MEDIO/RUIM, threshold_medio, threshold_bom) | DDL, data-dictionary, UC004 RN004-02 |
+
+## Changelog v3 → v4
+
+| Mudança | Impacto |
+|---------|---------|
+| 2 novas views: vw_score_mobile, vw_score_fibra (scores.pdf) | DDL, vw_geohash_summary, diagnostico_growth |
+| Score QoE separado por tecnologia (MOBILE vs FIBRA) | Quadrantes por tecnologia no vw_geohash_summary |
+| Novas colunas em vw_geohash_summary: satisfacao_fibra, satisfacao_movel, quadrante_fibra, quadrante_movel | Frontend, UC004, UC009 |
+| diagnostico_growth.score_ookla usa score da tech dominante | RN009-05, cálculo mensal |
+| Variáveis exclusivas Fibra: val_tcp_connect_time, val_web_page_first_byte_time, attr_video_resolution | Views, mapeamento raw tables |
+| Variáveis de falha Mobile: is_video_fails_to_start, is_web_page_fails_to_load | Views, taxa de falha por geohash |
+
 ## Changelog v1 → v2
 
 | Mudança | Impacto |
@@ -81,12 +109,12 @@ Arquitetura de duas camadas com dados operacionais Vivo adicionados:
 | UC001 | geohash_cell, benchmark_config | — | vw_geohash_summary |
 | UC002 | — | — | (filtro local) |
 | UC003 | — | — | (filtro local) |
-| UC004 | score, geo_por_latlong, **vivo_ftth**, **vivo_erb** | — | vw_geohash_summary |
+| UC004 | score, geo_por_latlong, **vivo_ftth**, **vivo_erb** | — | vw_geohash_summary, **vw_score_mobile**, **vw_score_fibra** |
 | UC005 | geohash_cell | — | vw_geohash_summary (precisão 6 ou 7) |
 | UC006 | file_transfer (fn_available_periods) | — | Todas |
 | UC007 | — | — | vw_geohash_summary (2 períodos) |
 | UC008 | geohash_cell | — | Todas |
-| UC009 | score, geohash_crm, camada2_fibra, camada2_movel | diagnostico_growth | vw_geohash_summary, vw_share_real |
+| UC009 | score, geohash_crm, camada2_fibra, camada2_movel | diagnostico_growth | vw_geohash_summary, vw_share_real, **vw_score_mobile**, **vw_score_fibra** |
 | UC010 | — | — | vw_bairro_summary |
 | UC011 | user_session | user_session | — |
 | UC012 | — | user_session | — |

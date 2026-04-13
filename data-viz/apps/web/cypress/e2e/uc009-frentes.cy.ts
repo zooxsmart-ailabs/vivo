@@ -4,7 +4,7 @@
  * Critérios verificados:
  * - PS01: Sidebar com ranking de geohashes GROWTH
  * - PS02: Painel diagnóstico com 4 PilarCards + RecIA
- * - PS03: Recomendação IA (ATIVAR/AGUARDAR/BLOQUEADO)
+ * - PS03: Recomendação IA (ATACAR/AGUARDAR/BLOQUEADO)
  * - PF01: Frente sem geohashes → mensagem vazia
  * - Busca na sidebar
  * - Seleção de geohash → carrega detalhes
@@ -68,8 +68,8 @@ describe("UC009 — Estratégias Growth", () => {
       cy.contains("button", "6gkzm9").click();
 
       cy.contains("Recomendação IA").should("be.visible");
-      // With healthy fixtures, recommendation should be ATIVAR
-      cy.contains("ATIVAR").should("be.visible");
+      // With healthy fixtures, recommendation should be ATACAR (v5)
+      cy.contains("ATACAR").should("be.visible");
     });
 
     it("busca filtra geohashes na sidebar", () => {

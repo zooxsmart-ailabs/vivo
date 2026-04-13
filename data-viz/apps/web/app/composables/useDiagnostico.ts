@@ -1,8 +1,11 @@
 /**
  * Diagnóstico Growth — Avaliação dos 4 Pilares + Recomendação IA
- * Transposto de prototipo/client/src/pages/Frentes.tsx
  *
- * Funções puras que recebem dados da API e retornam resultado do diagnóstico.
+ * v5 (2026-04-10): Port do prototipo/pages/frentes.vue com:
+ *  - Pilar Percepção: até 4 métricas (SpeedTest Móvel/Fibra, Score HAC, Chamados)
+ *  - Pilar Concorrência: delta competitivo per-tech (fibra + móvel)
+ *  - Fibra: novo estado MELHORA_QUALIDADE
+ *  - Recomendação: ATIVAR → ATACAR, + decisões e prioridades per-tech
  */
 
 // ─── Tipos ───────────────────────────────────────────────────────────────────
@@ -51,9 +54,17 @@ export interface PilarResult {
   metricas: PilarMetrica[];
 }
 
+export type Decisao = "ATACAR" | "AGUARDAR" | "BLOQUEADO";
+export type DecisaoTech = "ATACAR" | "AGUARDAR";
+export type Prioridade = "ALTA" | "MEDIA" | "BAIXA";
+
 export interface AIRec {
-  decisao: "ATIVAR" | "AGUARDAR" | "BLOQUEADO";
+  decisao: Decisao;
   decisaoColor: string;
+  decisaoMovel: DecisaoTech;
+  decisaoFibra: DecisaoTech;
+  prioMovel: Prioridade;
+  prioFibra: Prioridade;
   canal: string;
   abordagem: string;
   raciocinio: string;
@@ -61,9 +72,19 @@ export interface AIRec {
 
 export interface DiagnosticoGrowth {
   scoreOokla: number;
+  /** v5: Score QoE Vivo Móvel (fallback: scoreOokla) */
+  scoreOoklaMovel?: number | null;
+  /** v5: Score QoE Vivo Fibra (0 se não aplicável) */
+  scoreOoklaFibra?: number | null;
+  /** v5: Score HAC qualidade fibra (0 se não aplicável) */
+  scoreHac?: number | null;
   taxaChamados: number;
   sharePenetracao: number;
   deltaVsLider: number;
+  /** v5: Delta competitivo Fibra (fallback: deltaVsLider) */
+  deltaVsLiderFibra?: number | null;
+  /** v5: Delta competitivo Móvel (fallback: deltaVsLider) */
+  deltaVsLiderMovel?: number | null;
   arpuRelativo: number;
   canalDominante: string;
   canalPct: number;
@@ -82,43 +103,90 @@ function worstSig(...sigs: Sig3[]): Sig3 {
   return "ok";
 }
 
+function scoreDetail(s: Sig3): string {
+  return s === "ok"
+    ? "≥ 8.0 — Excelente"
+    : s === "alerta"
+      ? "6.0–7.9 — Regular"
+      : "< 6.0 — Crítico";
+}
+
+function fmtDelta(v: number): string {
+  return `${v > 0 ? "+" : ""}${v.toFixed(1)}`;
+}
+
+function deltaDetail(s: Sig3): string {
+  return s === "ok"
+    ? "Delta > 0 — Vantagem"
+    : s === "alerta"
+      ? "−1.0 a 0 — Empate Técnico"
+      : "Delta < −1.0 — Desvantagem";
+}
+
 // ─── Avaliação dos pilares ───────────────────────────────────────────────────
 
 export function avaliarPercep(d: DiagnosticoGrowth): PilarResult {
-  const s1: Sig3 =
-    d.scoreOokla >= 8 ? "ok" : d.scoreOokla >= 6 ? "alerta" : "critico";
-  const s2: Sig3 =
+  // SpeedTest Móvel: fallback para scoreOokla geral quando per-tech ausente
+  const movel = d.scoreOoklaMovel ?? d.scoreOokla;
+  const fibra = d.scoreOoklaFibra ?? 0;
+  const hac = d.scoreHac ?? 0;
+
+  const sm: Sig3 = movel >= 8 ? "ok" : movel >= 6 ? "alerta" : "critico";
+  const sf: Sig3 =
+    fibra === 0 ? "ok" : fibra >= 8 ? "ok" : fibra >= 6 ? "alerta" : "critico";
+  const sh: Sig3 =
+    hac === 0 ? "ok" : hac >= 8 ? "ok" : hac >= 6 ? "alerta" : "critico";
+  const sChamados: Sig3 =
     d.taxaChamados < 3 ? "ok" : d.taxaChamados <= 5 ? "alerta" : "critico";
+
+  const metricas: PilarMetrica[] = [
+    {
+      label: "SpeedTest Móvel",
+      value: movel.toFixed(1),
+      formula: "Score Ookla — SpeedTest Vivo Móvel no Geohash",
+      signal: sm,
+      detail: scoreDetail(sm),
+    },
+  ];
+
+  if (fibra > 0) {
+    metricas.push({
+      label: "SpeedTest Fibra",
+      value: fibra.toFixed(1),
+      formula: "Score Ookla — SpeedTest Vivo Fibra no Geohash",
+      signal: sf,
+      detail: scoreDetail(sf),
+    });
+  }
+
+  if (hac > 0) {
+    metricas.push({
+      label: "Score HAC",
+      value: hac.toFixed(1),
+      formula: "Avaliação de qualidade HAC — Fibra",
+      signal: sh,
+      detail: scoreDetail(sh),
+    });
+  }
+
+  metricas.push({
+    label: "Vol. Chamados",
+    value: `${d.taxaChamados.toFixed(1)}%`,
+    formula: "(RAC + SAC 30d) / Base Ativa Vivo",
+    signal: sChamados,
+    detail:
+      sChamados === "ok"
+        ? "< 3% — Saudável"
+        : sChamados === "alerta"
+          ? "3–5% — Alerta"
+          : "> 5% — Crítico",
+  });
+
   return {
     id: "01",
     title: "Percepção",
-    signal: worstSig(s1, s2),
-    metricas: [
-      {
-        label: "Score Ookla",
-        value: d.scoreOokla.toFixed(1),
-        formula: "Score SpeedTest Vivo no Geohash",
-        signal: s1,
-        detail:
-          s1 === "ok"
-            ? "≥ 8.0 — Excelente"
-            : s1 === "alerta"
-              ? "6.0–7.9 — Regular"
-              : "< 6.0 — Crítico",
-      },
-      {
-        label: "Vol. Chamados",
-        value: `${d.taxaChamados.toFixed(1)}%`,
-        formula: "(RAC + SAC 30d) / Base Ativa Vivo",
-        signal: s2,
-        detail:
-          s2 === "ok"
-            ? "< 3% — Saudável"
-            : s2 === "alerta"
-              ? "3–5% — Alerta"
-              : "> 5% — Crítico",
-      },
-    ],
+    signal: worstSig(sm, sf, sh, sChamados),
+    metricas,
   };
 }
 
@@ -129,12 +197,18 @@ export function avaliarConcorrencia(d: DiagnosticoGrowth): PilarResult {
       : d.sharePenetracao <= 40
         ? "alerta"
         : "critico";
-  const s2: Sig3 =
-    d.deltaVsLider > 0 ? "ok" : d.deltaVsLider >= -1 ? "alerta" : "critico";
+
+  // v5: Delta competitivo per-tech com fallback para delta geral
+  const dvf = d.deltaVsLiderFibra ?? d.deltaVsLider;
+  const dvm = d.deltaVsLiderMovel ?? d.deltaVsLider;
+
+  const sf: Sig3 = dvf > 0 ? "ok" : dvf >= -1 ? "alerta" : "critico";
+  const sm: Sig3 = dvm > 0 ? "ok" : dvm >= -1 ? "alerta" : "critico";
+
   return {
     id: "02",
     title: "Concorrência",
-    signal: worstSig(s1, s2),
+    signal: worstSig(s1, sf, sm),
     metricas: [
       {
         label: "Share / Penetração",
@@ -149,16 +223,18 @@ export function avaliarConcorrencia(d: DiagnosticoGrowth): PilarResult {
               : "> 40% — Saturado",
       },
       {
-        label: "Vantagem vs Líder",
-        value: `${d.deltaVsLider > 0 ? "+" : ""}${d.deltaVsLider.toFixed(1)}`,
-        formula: "Delta score Vivo − score líder (Ookla)",
-        signal: s2,
-        detail:
-          s2 === "ok"
-            ? "Delta > 0 — Vantagem"
-            : s2 === "alerta"
-              ? "−1.0 a 0 — Empate Técnico"
-              : "Delta < −1.0 — Desvantagem",
+        label: "Vantagem Satisfação Fibra",
+        value: fmtDelta(dvf),
+        formula: "Score Vivo Fibra − score líder Fibra (Ookla)",
+        signal: sf,
+        detail: deltaDetail(sf),
+      },
+      {
+        label: "Vantagem Satisfação Móvel",
+        value: fmtDelta(dvm),
+        formula: "Score Vivo Móvel − score líder Móvel (Ookla)",
+        signal: sm,
+        detail: deltaDetail(sm),
       },
     ],
   };
@@ -167,28 +243,40 @@ export function avaliarConcorrencia(d: DiagnosticoGrowth): PilarResult {
 export function avaliarInfra(c2: Camada2Info | undefined): PilarResult {
   const fc = c2?.fibra?.classification ?? "SAUDAVEL";
   const mc = c2?.movel?.classification ?? "SAUDAVEL";
+
+  // v5: Fibra — SAUDAVEL=ok | MELHORA_QUALIDADE/AUMENTO_CAPACIDADE=alerta | EXPANSAO_NOVA_AREA=critico
   const s1: Sig3 =
     fc === "SAUDAVEL"
       ? "ok"
-      : fc === "AUMENTO_CAPACIDADE"
-        ? "alerta"
-        : "critico";
+      : fc === "EXPANSAO_NOVA_AREA"
+        ? "critico"
+        : "alerta";
+
+  // Móvel — SAUDAVEL=ok | MELHORA_QUALIDADE=critico | EXPANSAO_COBERTURA=alerta
   const s2: Sig3 =
     mc === "SAUDAVEL"
       ? "ok"
-      : mc === "MELHORA_QUALIDADE"
+      : mc === "MELHORA_QUALIDADE" ||
+          mc === "MELHORA_QUALIDADE_5G" ||
+          mc === "MELHORA_QUALIDADE_4G"
         ? "critico"
         : "alerta";
+
   const FL: Record<string, string> = {
     SAUDAVEL: "Saudável — Growth Liberado",
+    MELHORA_QUALIDADE: "Melhora da Qualidade — Intervenção Recomendada",
     AUMENTO_CAPACIDADE: "Aumento de Capacidade — Controlado",
     EXPANSAO_NOVA_AREA: "Expansão Nova Área — Bloqueado",
   };
   const ML: Record<string, string> = {
     SAUDAVEL: "Saudável — Growth Liberado",
-    MELHORA_QUALIDADE: "Melhora na Qualidade — Controlado",
+    MELHORA_QUALIDADE: "Melhora na Qualidade — Crítico",
+    MELHORA_QUALIDADE_5G: "Melhora na Qualidade 5G — Crítico",
+    MELHORA_QUALIDADE_4G: "Melhora na Qualidade 4G — Crítico",
     EXPANSAO_5G: "Expansão 5G — Controlado",
     EXPANSAO_4G: "Expansão 4G — Controlado",
+    EXPANSAO_COBERTURA_5G: "Expansão Cobertura 5G — Controlado",
+    EXPANSAO_COBERTURA_4G: "Expansão Cobertura 4G — Controlado",
   };
   return {
     id: "03",
@@ -198,15 +286,15 @@ export function avaliarInfra(c2: Camada2Info | undefined): PilarResult {
       {
         label: "Fibra (Status)",
         value: fc,
-        formula: "Saudável / Aumento de Capacidade / Expansão Nova Área",
+        formula:
+          "Saudável / Melhora da Qualidade / Aumento de Capacidade / Expansão Nova Área",
         signal: s1,
         detail: FL[fc] ?? fc,
       },
       {
         label: "Móvel (Status)",
         value: mc,
-        formula:
-          "Saudável / Melhora na Qualidade / Expansão de Cobertura",
+        formula: "Saudável / Melhora na Qualidade / Expansão de Cobertura",
         signal: s2,
         detail: ML[mc] ?? mc,
       },
@@ -254,8 +342,15 @@ export function avaliarComportamento(d: DiagnosticoGrowth): PilarResult {
 
 // ─── Recomendação IA ─────────────────────────────────────────────────────────
 
+/** v5: Prioridade per-tech baseada no score Ookla */
+export function calcPrio(score: number): Prioridade {
+  if (score >= 7.5) return "ALTA";
+  if (score >= 5.5) return "MEDIA";
+  return "BAIXA";
+}
+
 export function gerarRec(
-  pilares: PilarResult[],
+  _pilares: PilarResult[],
   d: DiagnosticoGrowth,
   c2: Camada2Info | undefined,
 ): AIRec {
@@ -263,15 +358,23 @@ export function gerarRec(
   const mc = c2?.movel?.classification ?? "SAUDAVEL";
 
   const fibraBloqueada = fc === "EXPANSAO_NOVA_AREA";
-  const fibraGargalo = fc === "AUMENTO_CAPACIDADE";
-  const movelProblema = mc === "MELHORA_QUALIDADE";
-  const movelExpansao = mc === "EXPANSAO_5G" || mc === "EXPANSAO_4G";
+  const fibraGargalo =
+    fc === "AUMENTO_CAPACIDADE" || fc === "MELHORA_QUALIDADE";
+  const movelProblema =
+    mc === "MELHORA_QUALIDADE" ||
+    mc === "MELHORA_QUALIDADE_5G" ||
+    mc === "MELHORA_QUALIDADE_4G";
+  const movelExpansao =
+    mc === "EXPANSAO_5G" ||
+    mc === "EXPANSAO_4G" ||
+    mc === "EXPANSAO_COBERTURA_5G" ||
+    mc === "EXPANSAO_COBERTURA_4G";
   const percCritica = d.scoreOokla < 6 || d.taxaChamados > 5;
   const concCritica = d.deltaVsLider < -1;
   const infraControle = fibraGargalo || movelProblema;
 
-  // 1. Decisão
-  let decisao: AIRec["decisao"];
+  // 1. Decisão geral — BLOQUEADO mantido como estado do banco
+  let decisao: Decisao;
   let decisaoColor: string;
   if (fibraBloqueada || (percCritica && concCritica)) {
     decisao = "BLOQUEADO";
@@ -280,9 +383,21 @@ export function gerarRec(
     decisao = "AGUARDAR";
     decisaoColor = "#D97706";
   } else {
-    decisao = "ATIVAR";
+    decisao = "ATACAR";
     decisaoColor = "#16A34A";
   }
+
+  // v5: Decisão por tecnologia
+  const decisaoMovel: DecisaoTech =
+    movelProblema || movelExpansao || percCritica ? "AGUARDAR" : "ATACAR";
+  const decisaoFibra: DecisaoTech =
+    fibraBloqueada || fibraGargalo ? "AGUARDAR" : "ATACAR";
+
+  // v5: Prioridade por tecnologia
+  const scoreMovel = d.scoreOoklaMovel ?? d.scoreOokla;
+  const scoreFibra = d.scoreOoklaFibra ?? 0;
+  const prioMovel = calcPrio(scoreMovel);
+  const prioFibra: Prioridade = scoreFibra > 0 ? calcPrio(scoreFibra) : "BAIXA";
 
   // 2. Canal
   let canal: string;
@@ -290,8 +405,7 @@ export function gerarRec(
     canal = `${d.canalDominante} (dominante — priorizar 80% da verba)`;
   else if (d.canalPct >= 20)
     canal = `${d.canalDominante} + canal complementar`;
-  else
-    canal = `Redefinir canal — ${d.canalDominante} ineficiente (<20%)`;
+  else canal = `Redefinir canal — ${d.canalDominante} ineficiente (<20%)`;
 
   // 3. Abordagem
   let abordagem: string;
@@ -312,7 +426,8 @@ export function gerarRec(
     abordagem =
       "Ambas as redes com restrições técnicas. Aguardar resolução de infraestrutura antes de ativar growth.";
   } else if (movelExpansao) {
-    abordagem = `Expansão de cobertura ${mc === "EXPANSAO_5G" ? "5G" : "4G"} em andamento. Abordar com oferta de fibra como produto principal.`;
+    const is5g = mc === "EXPANSAO_5G" || mc === "EXPANSAO_COBERTURA_5G";
+    abordagem = `Expansão de cobertura ${is5g ? "5G" : "4G"} em andamento. Abordar com oferta de fibra como produto principal.`;
   } else {
     // Infraestrutura saudável
     if (d.arpuRelativo > 1.1)
@@ -336,22 +451,20 @@ export function gerarRec(
     reasons.push(
       "qualidade móvel comprometida — intervenção técnica necessária",
     );
-  if (movelExpansao)
-    reasons.push(
-      `expansão de cobertura ${mc === "EXPANSAO_5G" ? "5G" : "4G"} em andamento`,
-    );
+  if (movelExpansao) {
+    const is5g = mc === "EXPANSAO_5G" || mc === "EXPANSAO_COBERTURA_5G";
+    reasons.push(`expansão de cobertura ${is5g ? "5G" : "4G"} em andamento`);
+  }
   if (d.scoreOokla >= 8) reasons.push("percepção excelente (Ookla ≥ 8.0)");
   else if (d.scoreOokla < 6) reasons.push("percepção crítica (Ookla < 6.0)");
-  if (d.taxaChamados > 5)
-    reasons.push("volume crítico de chamados (>5%)");
+  if (d.taxaChamados > 5) reasons.push("volume crítico de chamados (>5%)");
   else if (d.taxaChamados < 3)
     reasons.push("baixo volume de chamados (<3%) — base satisfeita");
   if (d.sharePenetracao < 20)
     reasons.push("alta oportunidade de mercado (share < 20%)");
   else if (d.sharePenetracao > 40)
     reasons.push("mercado saturado (share > 40%)");
-  if (d.deltaVsLider > 0)
-    reasons.push("Vivo com vantagem técnica vs líder");
+  if (d.deltaVsLider > 0) reasons.push("Vivo com vantagem técnica vs líder");
   else if (d.deltaVsLider < -1)
     reasons.push("desvantagem técnica significativa vs líder");
   if (d.canalPct < 20)
@@ -364,7 +477,17 @@ export function gerarRec(
       ? `Decisão baseada em: ${reasons.join("; ")}.`
       : "Geohash com perfil equilibrado. Infraestrutura saudável, percepção positiva e canal definido. Ativar growth com oferta adequada ao perfil de preço.";
 
-  return { decisao, decisaoColor, canal, abordagem, raciocinio };
+  return {
+    decisao,
+    decisaoColor,
+    decisaoMovel,
+    decisaoFibra,
+    prioMovel,
+    prioFibra,
+    canal,
+    abordagem,
+    raciocinio,
+  };
 }
 
 // ─── Build diagnóstico from API data ─────────────────────────────────────────
@@ -378,20 +501,37 @@ export function buildDiagnostico(detail: {
   vivo_score?: number | null;
   tim_score?: number | null;
   claro_score?: number | null;
+  diagnosticoGrowth?: {
+    score_ookla_movel?: number | null;
+    score_ookla_fibra?: number | null;
+    score_hac?: number | null;
+    delta_vs_lider_fibra?: number | null;
+    delta_vs_lider_movel?: number | null;
+    arpu_relativo?: number | null;
+    canal_dominante?: string | null;
+    canal_pct?: number | null;
+    taxa_chamados?: number | null;
+  } | null;
 }): DiagnosticoGrowth {
   const vivoScore = detail.vivo_score ?? 0;
   const bestCompetitor = Math.max(
     detail.tim_score ?? 0,
     detail.claro_score ?? 0,
   );
+  const dg = detail.diagnosticoGrowth ?? null;
   return {
     scoreOokla: vivoScore,
-    taxaChamados: 0, // stub — não existe no banco ainda
+    scoreOoklaMovel: dg?.score_ookla_movel ?? null,
+    scoreOoklaFibra: dg?.score_ookla_fibra ?? null,
+    scoreHac: dg?.score_hac ?? null,
+    taxaChamados: dg?.taxa_chamados ?? 0,
     sharePenetracao: detail.share_vivo ?? 0,
     deltaVsLider: vivoScore - bestCompetitor,
-    arpuRelativo: 1.0, // stub — não existe no banco ainda
-    canalDominante: "Digital", // stub
-    canalPct: 50, // stub
+    deltaVsLiderFibra: dg?.delta_vs_lider_fibra ?? null,
+    deltaVsLiderMovel: dg?.delta_vs_lider_movel ?? null,
+    arpuRelativo: dg?.arpu_relativo ?? 1.0,
+    canalDominante: dg?.canal_dominante ?? "Digital",
+    canalPct: dg?.canal_pct ?? 50,
   };
 }
 

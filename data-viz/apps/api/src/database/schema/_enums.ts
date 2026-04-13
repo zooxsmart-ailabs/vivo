@@ -32,6 +32,7 @@ export const fibraClass = pgEnum("fibra_class", [
   "EXPANSAO_NOVA_AREA",
   "SAUDAVEL",
   "SEM_FIBRA",
+  "MELHORA_QUALIDADE",
 ]);
 
 export const movelClass = pgEnum("movel_class", [
@@ -89,10 +90,27 @@ export const techRecommendation = pgEnum("tech_recommendation", [
   "4G_MASS",
 ]);
 
+export const scoreType = pgEnum("score_type", [
+  "MOBILE",
+  "FIBRA",
+  "CONSOLIDADO",
+]);
+
 export const recomendacaoType = pgEnum("recomendacao_type", [
-  "ATIVAR",
+  "ATACAR",
   "AGUARDAR",
   "BLOQUEADO",
+]);
+
+export const decisaoTechType = pgEnum("decisao_tech_type", [
+  "ATACAR",
+  "AGUARDAR",
+]);
+
+export const prioridadeGrowth = pgEnum("prioridade_growth", [
+  "ALTA",
+  "MEDIA",
+  "BAIXA",
 ]);
 
 export const sinalType = pgEnum("sinal_type", ["OK", "ALERTA", "CRITICO"]);

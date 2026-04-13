@@ -34,27 +34,33 @@ export async function seedGeohashCell(pool: Pool): Promise<void> {
     ON CONFLICT (geohash_id) DO NOTHING
   `);
 
-  // Precision 7 — score-only geohashes (fallback coords)
+  // Precision 7 — from file_transfer (real coords from Ookla tests)
   const gh7Score = await pool.query(`
     INSERT INTO geohash_cell (geohash_id, precision, center_lat, center_lng, city, state, created_at)
-    SELECT DISTINCT
-      cd_geo_hsh7, 7::SMALLINT, -16.6869, -49.2648,
+    SELECT DISTINCT ON (attr_geohash7)
+      attr_geohash7, 7::SMALLINT,
+      AVG(attr_location_latitude) OVER (PARTITION BY attr_geohash7),
+      AVG(attr_location_longitude) OVER (PARTITION BY attr_geohash7),
       'Goiânia', 'GO', NOW()
-    FROM score
-    WHERE cd_geo_hsh7 IS NOT NULL
-      AND NOT EXISTS (SELECT 1 FROM geohash_cell WHERE geohash_id = cd_geo_hsh7)
+    FROM file_transfer
+    WHERE attr_geohash7 IS NOT NULL
+      AND attr_location_latitude IS NOT NULL
+      AND NOT EXISTS (SELECT 1 FROM geohash_cell WHERE geohash_id = attr_geohash7)
     ON CONFLICT (geohash_id) DO NOTHING
   `);
 
-  // Precision 6 — score-only geohashes (fallback coords)
+  // Precision 6 — from file_transfer (real coords from Ookla tests)
   const gh6Score = await pool.query(`
     INSERT INTO geohash_cell (geohash_id, precision, center_lat, center_lng, city, state, created_at)
-    SELECT DISTINCT
-      LEFT(cd_geo_hsh7, 6), 6::SMALLINT, -16.6869, -49.2648,
+    SELECT DISTINCT ON (attr_geohash6)
+      attr_geohash6, 6::SMALLINT,
+      AVG(attr_location_latitude) OVER (PARTITION BY attr_geohash6),
+      AVG(attr_location_longitude) OVER (PARTITION BY attr_geohash6),
       'Goiânia', 'GO', NOW()
-    FROM score
-    WHERE cd_geo_hsh7 IS NOT NULL
-      AND NOT EXISTS (SELECT 1 FROM geohash_cell WHERE geohash_id = LEFT(cd_geo_hsh7, 6))
+    FROM file_transfer
+    WHERE attr_geohash6 IS NOT NULL
+      AND attr_location_latitude IS NOT NULL
+      AND NOT EXISTS (SELECT 1 FROM geohash_cell WHERE geohash_id = attr_geohash6)
     ON CONFLICT (geohash_id) DO NOTHING
   `);
 

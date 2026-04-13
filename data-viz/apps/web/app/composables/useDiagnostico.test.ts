@@ -16,9 +16,14 @@ import {
 function baseDiag(overrides: Partial<DiagnosticoGrowth> = {}): DiagnosticoGrowth {
   return {
     scoreOokla: 8.5,
+    scoreOoklaMovel: null,
+    scoreOoklaFibra: null,
+    scoreHac: null,
     taxaChamados: 2,
     sharePenetracao: 15,
     deltaVsLider: 1.5,
+    deltaVsLiderFibra: null,
+    deltaVsLiderMovel: null,
     arpuRelativo: 1.2,
     canalDominante: "Digital",
     canalPct: 55,
@@ -304,14 +309,58 @@ describe("gerarRec", () => {
     expect(rec.decisao).toBe("AGUARDAR");
   });
 
-  it("returns ATIVAR when everything is healthy", () => {
+  it("returns ATACAR when everything is healthy", () => {
     const d = baseDiag();
     const c2 = healthyCamada2();
 
     const rec = gerarRec(allPilares(d, c2), d, c2);
 
-    expect(rec.decisao).toBe("ATIVAR");
+    expect(rec.decisao).toBe("ATACAR");
     expect(rec.decisaoColor).toBe("#16A34A");
+    // v5: per-tech decisions and priorities
+    expect(rec.decisaoMovel).toBe("ATACAR");
+    expect(rec.decisaoFibra).toBe("ATACAR");
+    expect(rec.prioMovel).toBe("ALTA"); // scoreOokla 8.5 → ALTA
+    expect(rec.prioFibra).toBe("BAIXA"); // no scoreOoklaFibra → BAIXA
+  });
+
+  it("v5: falls back to AGUARDAR per-tech when mobile has quality issue", () => {
+    const d = baseDiag();
+    const c2: Camada2Info = {
+      fibra: { classification: "SAUDAVEL" },
+      movel: { classification: "MELHORA_QUALIDADE" },
+    };
+
+    const rec = gerarRec(allPilares(d, c2), d, c2);
+
+    expect(rec.decisaoMovel).toBe("AGUARDAR");
+    expect(rec.decisaoFibra).toBe("ATACAR");
+  });
+
+  it("v5: fibra AGUARDAR when MELHORA_QUALIDADE (new v5 state)", () => {
+    const d = baseDiag();
+    const c2: Camada2Info = {
+      fibra: { classification: "MELHORA_QUALIDADE" },
+      movel: { classification: "SAUDAVEL" },
+    };
+
+    const rec = gerarRec(allPilares(d, c2), d, c2);
+
+    expect(rec.decisaoFibra).toBe("AGUARDAR");
+    expect(rec.decisao).toBe("AGUARDAR"); // fibra gargalo
+  });
+
+  it("v5: prioridade per-tech usa scores per-tech quando disponíveis", () => {
+    const d = baseDiag({
+      scoreOoklaMovel: 6.5, // MEDIA
+      scoreOoklaFibra: 8.0, // ALTA
+    });
+    const c2 = healthyCamada2();
+
+    const rec = gerarRec(allPilares(d, c2), d, c2);
+
+    expect(rec.prioMovel).toBe("MEDIA");
+    expect(rec.prioFibra).toBe("ALTA");
   });
 
   it("recommends dominant channel when canalPct >= 50", () => {
@@ -427,6 +476,33 @@ describe("buildDiagnostico", () => {
     });
 
     expect(d.deltaVsLider).toBe(-4); // 5 - 9
+  });
+
+  it("v5: extracts per-tech fields from diagnosticoGrowth payload", () => {
+    const d = buildDiagnostico({
+      share_vivo: 25,
+      vivo_score: 7.0,
+      diagnosticoGrowth: {
+        score_ookla_movel: 6.8,
+        score_ookla_fibra: 7.5,
+        score_hac: 7.2,
+        delta_vs_lider_fibra: 0.5,
+        delta_vs_lider_movel: -0.3,
+        taxa_chamados: 4,
+        arpu_relativo: 1.2,
+        canal_dominante: "Loja",
+        canal_pct: 70,
+      },
+    });
+
+    expect(d.scoreOoklaMovel).toBe(6.8);
+    expect(d.scoreOoklaFibra).toBe(7.5);
+    expect(d.scoreHac).toBe(7.2);
+    expect(d.deltaVsLiderFibra).toBe(0.5);
+    expect(d.deltaVsLiderMovel).toBe(-0.3);
+    expect(d.taxaChamados).toBe(4);
+    expect(d.canalDominante).toBe("Loja");
+    expect(d.canalPct).toBe(70);
   });
 });
 

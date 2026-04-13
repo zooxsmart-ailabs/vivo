@@ -15,7 +15,10 @@ export const geohashCrm = pgTable(
       .references(() => geohashCell.geohashId),
     period: varchar("period", { length: 7 }).notNull(), // YYYY-MM
     avgArpu: numeric("avg_arpu", { precision: 10, scale: 2 }),
+    arpuMovel: numeric("arpu_movel", { precision: 10, scale: 2 }),
+    arpuFibra: numeric("arpu_fibra", { precision: 10, scale: 2 }),
     dominantPlanType: varchar("dominant_plan_type", { length: 100 }),
+    planTypeMovel: varchar("plan_type_movel", { length: 100 }),
     deviceTier: varchar("device_tier", { length: 20 }), // Premium | Mid | Basic
     avgIncome: numeric("avg_income", { precision: 12, scale: 2 }),
     populationDensity: numeric("population_density", { precision: 10, scale: 2 }),

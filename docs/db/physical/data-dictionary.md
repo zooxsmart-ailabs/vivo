@@ -65,10 +65,15 @@ Diagnóstico pré-calculado dos 4 pilares para geohashes GROWTH. RN009-05/06/07.
 | 1 | geohash_id | VARCHAR(12) | NO | — | PK, FK→geohash_cell | ID do geohash | geohash_cell |
 | 2 | precision | SMALLINT | NO | 6 | PK, CHECK 1-12 | Nível de precisão | — |
 | 3 | anomes | INTEGER | NO | — | PK, CHECK ≥ 202501 | Ano-mês YYYYMM | — |
-| 4 | score_ookla | NUMERIC(4,1) | NO | — | CHECK 0-10 | Score SpeedTest Vivo (0-10) | score.vl_cntv_scre |
-| 5 | taxa_chamados | NUMERIC(5,2) | NO | 0 | CHECK ≥ 0 | (RAC+SAC 30d) / Base Ativa (%) | **A definir** |
-| 6 | share_penetracao | NUMERIC(5,2) | NO | — | CHECK 0-100 | Base Vivo / Total Domicílios (%) | vw_share_real |
-| 7 | delta_vs_lider | NUMERIC(4,1) | NO | — | — | Score Vivo - Score líder (Ookla) | score |
+| 4 | score_ookla | NUMERIC(4,1) | NO | — | CHECK 0-10 | Score QoE Vivo consolidado (0-10) | score / fallback |
+| 5 | score_ookla_movel | NUMERIC(4,1) | YES | — | CHECK 0-10 | Score QoE Vivo Móvel (0-10) | **v5**: vw_score_mobile |
+| 6 | score_ookla_fibra | NUMERIC(4,1) | YES | — | CHECK 0-10 | Score QoE Vivo Fibra (0-10) | **v5**: vw_score_fibra |
+| 7 | score_hac | NUMERIC(4,1) | YES | — | CHECK 0-10 | Score HAC qualidade fibra (0-10) | **v5**: a definir |
+| 8 | taxa_chamados | NUMERIC(5,2) | NO | 0 | CHECK ≥ 0 | (RAC+SAC 30d) / Base Ativa (%) | **A definir** |
+| 9 | share_penetracao | NUMERIC(5,2) | NO | — | CHECK 0-100 | Base Vivo / Total Domicílios (%) | vw_share_real |
+| 10 | delta_vs_lider | NUMERIC(4,1) | NO | — | — | Score Vivo - Score líder geral (Ookla) | score |
+| 11 | delta_vs_lider_fibra | NUMERIC(4,1) | YES | — | — | **v5**: Score Vivo Fibra - Score líder Fibra | vw_score_fibra |
+| 12 | delta_vs_lider_movel | NUMERIC(4,1) | YES | — | — | **v5**: Score Vivo Móvel - Score líder Móvel | vw_score_mobile |
 | 8 | fibra_class | fibra_class | NO | SAUDAVEL | — | Classificação Camada 2 Fibra | camada2_fibra |
 | 9 | movel_class | movel_class | NO | SAUDAVEL | — | Classificação Camada 2 Móvel | camada2_movel |
 | 10 | arpu_relativo | NUMERIC(4,2) | NO | 1.0 | — | ARPU geohash / ARPU médio cidade | geohash_crm |
@@ -78,8 +83,12 @@ Diagnóstico pré-calculado dos 4 pilares para geohashes GROWTH. RN009-05/06/07.
 | 14 | sinal_concorrencia | sinal_type | NO | OK | — | Sinal agregado pilar Concorrência | Calculado (RN009-08) |
 | 15 | sinal_infraestrutura | sinal_type | NO | OK | — | Sinal agregado pilar Infraestrutura | Calculado (RN009-08) |
 | 16 | sinal_comportamento | sinal_type | NO | OK | — | Sinal agregado pilar Comportamento | Calculado (RN009-08) |
-| 17 | recomendacao | recomendacao_type | NO | ATIVAR | — | Decisão IA: ATIVAR/AGUARDAR/BLOQUEADO | Calculado (RN009-06) |
-| 18 | recomendacao_razao | TEXT | YES | — | — | Justificativa textual composta | Calculado (gerarRec) |
+| 17 | recomendacao | recomendacao_type | NO | ATACAR | — | Decisão IA: ATACAR/AGUARDAR/BLOQUEADO | Calculado (RN009-06) |
+| 18 | decisao_movel | decisao_tech_type | YES | — | — | **v5**: Decisão per-tech móvel (ATACAR/AGUARDAR) | Calculado |
+| 19 | decisao_fibra | decisao_tech_type | YES | — | — | **v5**: Decisão per-tech fibra (ATACAR/AGUARDAR) | Calculado |
+| 20 | prio_movel | prioridade_growth | YES | — | — | **v5**: Prioridade móvel (ALTA/MEDIA/BAIXA) | calcPrio(scoreOoklaMovel) |
+| 21 | prio_fibra | prioridade_growth | YES | — | — | **v5**: Prioridade fibra (ALTA/MEDIA/BAIXA) | calcPrio(scoreOoklaFibra) |
+| 22 | recomendacao_razao | TEXT | YES | — | — | Justificativa textual composta | Calculado (gerarRec) |
 | 19 | created_at | TIMESTAMPTZ | NO | NOW() | — | Timestamp de criação | Sistema |
 
 **Volume**: ~35 rows/mês (1 por geohash GROWTH × anomes) | **PK**: (geohash_id, precision, anomes)
@@ -99,11 +108,14 @@ Diagnóstico pré-calculado dos 4 pilares para geohashes GROWTH. RN009-05/06/07.
 | `quadrant_type` | **GROWTH, UPSELL, RETENCAO, GROWTH_RETENCAO** | Quadrante estratégico (renomeados v3) | RN001-01 |
 | `competitive_position` | LIDER, COMPETITIVO, **EMPATADO**, ABAIXO, **CRITICO** | Posição competitiva (renomeados v3) | Levantamento sec.4 |
 | `movel_class` | **MELHORA_QUALIDADE_5G, MELHORA_QUALIDADE_4G, EXPANSAO_COBERTURA_5G, EXPANSAO_COBERTURA_4G, SAUDAVEL** | Classificação móvel (separado 5G/4G v3) | RN004-05 |
-| `fibra_class` | AUMENTO_CAPACIDADE, EXPANSAO_NOVA_AREA, SAUDAVEL, **SEM_FIBRA** | Classificação fibra (+SEM_FIBRA v3) | RN004-04 |
+| `fibra_class` | AUMENTO_CAPACIDADE, EXPANSAO_NOVA_AREA, SAUDAVEL, SEM_FIBRA, **MELHORA_QUALIDADE** | Classificação fibra (+MELHORA_QUALIDADE v5) | RN004-04 |
 | `score_label` | **BAIXO, MEDIO, ALTO, CRITICO** | Label do score Camada 2 (NOVO v3) | Camada 2 |
 | `tech_recommendation` | **5G_PREMIUM, 4G_MASS** | Recomendação tecnológica (NOVO v3) | Camada 2 Móvel |
-| `recomendacao_type` | ATIVAR, AGUARDAR, BLOQUEADO | Decisão IA do diagnóstico Growth | RN009-06 |
+| `recomendacao_type` | **ATACAR**, AGUARDAR, BLOQUEADO | Decisão IA do diagnóstico Growth (v5: ATIVAR→ATACAR) | RN009-06 |
+| **`decisao_tech_type`** | **ATACAR, AGUARDAR** | **Decisão per-tech Fibra/Móvel (NOVO v5)** | RN009-06 |
+| **`prioridade_growth`** | **ALTA, MEDIA, BAIXA** | **Prioridade per-tech score Ookla (NOVO v5)** | RN009-06 |
 | `sinal_type` | OK, ALERTA, CRITICO | Sinal ternário dos pilares | RN009-08 |
+| `score_type` | MOBILE, FIBRA, CONSOLIDADO | Discriminador de tecnologia para scores QoE (v4) | scores.pdf |
 
 ---
 
@@ -117,9 +129,12 @@ Dados CRM agregados por geohash e período mensal.
 |---|--------|------|---------|---------|-----------|-----------|-------|
 | 1 | geohash_id | VARCHAR(12) | NO | — | PK, FK→geohash_cell | ID do geohash | geohash_cell |
 | 2 | period | VARCHAR(7) | NO | — | PK | Período YYYY-MM | — |
-| 3 | avg_arpu | NUMERIC(10,2) | YES | — | — | ARPU médio | CRM Vivo |
-| 4 | dominant_plan_type | VARCHAR(100) | YES | — | — | Plano predominante | CRM Vivo |
-| 5 | device_tier | VARCHAR(20) | YES | — | — | Tier: Premium/Mid/Basic | CRM Vivo |
+| 3 | avg_arpu | NUMERIC(10,2) | YES | — | — | ARPU médio consolidado | CRM Vivo |
+| 4 | arpu_movel | NUMERIC(10,2) | YES | — | — | **v5**: ARPU médio móvel (R$) | CRM Vivo |
+| 5 | arpu_fibra | NUMERIC(10,2) | YES | — | — | **v5**: ARPU médio fibra (R$) | CRM Vivo |
+| 6 | dominant_plan_type | VARCHAR(100) | YES | — | — | Plano predominante | CRM Vivo |
+| 7 | plan_type_movel | VARCHAR(100) | YES | — | — | **v5**: Tipo plano móvel (Pré/Pós/Controle) | CRM Vivo |
+| 8 | device_tier | VARCHAR(20) | YES | — | — | Tier: Premium/Mid/Basic | CRM Vivo |
 | 6 | avg_income | NUMERIC(12,2) | YES | — | — | Renda média | CRM Vivo |
 | 7 | population_density | NUMERIC(10,2) | YES | — | — | Densidade populacional | CRM Vivo |
 | 8 | income_label | VARCHAR(50) | YES | — | — | Classificação de renda | Derivado |
@@ -283,6 +298,117 @@ JSONB keys renomeadas: GROWTH, UPSELL, RETENCAO, GROWTH_RETENCAO.
 | share_level | MUITO_ALTA, ALTA, MEDIA, BAIXA | — |
 | **score_label** | **BAIXO, MEDIO, ALTO, CRITICO** | **NOVO v3** — Camada 2 |
 | **tech_recommendation** | **5G_PREMIUM, 4G_MASS** | **NOVO v3** — Camada 2 Móvel |
+
+---
+
+## Views de Score QoE (v5 — notebook validado 2026-04-11)
+
+> **Fonte**: `docs/levantamento/scores.pdf` (pag 2) + `estudo/query_score_v2.ipynb` (validado pelo time de analistas).
+>
+> **v5 (2026-04-11)**: Refinamentos do notebook de analistas aplicados:
+> - Filtros nas raw tables: `is_wifi_connected` (NOT TRUE para mobile, TRUE para fibra), `id_location_type = 1`, `val_latency_avg IS NOT NULL`, `attr_geohash7 IS NOT NULL`.
+> - **FULL OUTER JOIN** entre `file_transfer`, `video` e `web_browsing` (preserva geohashes com dados parciais).
+> - Score taxa de falha vídeo/web em **4-tier (mobile)** ou **3-tier (fibra)**, alinhado com PDF pag 2.
+> - **Degradação graciosa** nos pilares Responsividade e Vídeo (fibra): divide por N componentes disponíveis.
+> - `score_resolucao` (fibra): denominador = soma manual de todas as resoluções (não usa `val_video_quality_time_total`); `NULLIF(..., 0)` evita divisão por zero.
+> - Fronteiras de buckets com `<` (não `BETWEEN` inclusivo) para eliminar ambiguidade.
+> - **Classificação por percentil dinâmico** (p25/p75) → BOM / MEDIO / RUIM.
+
+### vw_score_mobile (Score Percepção — Rede Móvel)
+
+**Filtros**: `is_wifi_connected IS NOT TRUE`, `id_location_type = 1`, `val_latency_avg IS NOT NULL`.
+
+| # | Coluna | Tipo | Derivação |
+|---|--------|------|-----------|
+| 1 | geohash_id | VARCHAR(12) | attr_geohash7 (raw tables) |
+| 2 | operator | operator_name | `fn_normalize_operator(attr_sim_operator_common_name)` |
+| 3 | anomes | INTEGER | Ano-mês referência (YYYYMM) |
+| 4 | score_latencia | NUMERIC(5,2) | val_latency_avg normalizado: <65→100, <220→75, <350→50, else→25 |
+| 5 | score_video | NUMERIC(5,2) | (rebuffering + tempo_inicio + falha 4-tier) / 3 |
+| 6 | score_web | NUMERIC(5,2) | (carregamento + falha 4-tier) / 2 |
+| 7 | score_throughput | NUMERIC(5,2) | DL×0.70 + UL×0.20 + Lat×0.10 (DL/UL com `FILTER WHERE has_dl_test_status`) |
+| 8 | score_sinal | NUMERIC(5,2) | *A definir* (placeholder NULL) |
+| 9 | throughput_disponivel | BOOLEAN | `qtd_dl_ok / total > 0.1` |
+| 10 | score_final | NUMERIC(5,2) | Lat×0.30 + Vid×0.30 + Web×0.30 + Thr×0.10 (com redistribuição dinâmica) |
+| 11 | total_testes | INTEGER | Contagem de testes (file + video + web) |
+| 12 | classificacao | TEXT | BOM / MEDIO / RUIM (percentil dinâmico p25/p75) |
+| 13 | threshold_medio | NUMERIC(5,2) | Percentil 25 do score_final (corte RUIM/MEDIO) |
+| 14 | threshold_bom | NUMERIC(5,2) | Percentil 75 do score_final (corte MEDIO/BOM) |
+
+**Pesos (redistribuição dinâmica quando throughput indisponível):**
+
+| Pilar | Com throughput | Sem throughput |
+|-------|---------------:|---------------:|
+| Latência | 0.30 | **0.35** |
+| Vídeo    | 0.30 | 0.30 |
+| Web      | 0.30 | **0.35** |
+| Throughput | 0.10 | 0.00 |
+
+**Score taxa de falha vídeo (4-tier — PDF pag 2):**
+- 0% → 100 | ≤18.5% → 75 | >18.5% → 25
+
+**Score taxa de falha web (4-tier — PDF pag 2):**
+- <3.4% → 100 | <13.8% → 75 | <26.8% → 50 | else → 25
+
+**Mapeamento variáveis PDF → colunas raw:**
+
+| Variável PDF | Coluna Raw | Tabela | Uso |
+|-------------|------------|--------|-----|
+| val_latency_avg | val_latency_avg | file_transfer | Pilar Latência |
+| val_dl_throughput | val_dl_throughput | file_transfer | Pilar Throughput (DL) — `FILTER (has_dl_test_status)` |
+| val_ul_throughput | val_ul_throughput | file_transfer | Pilar Throughput (UL) — `FILTER (has_dl_test_status)` |
+| has_dl_test_status | has_dl_test_status | file_transfer | Disponibilidade + filtro de validade |
+| attr_video_rebuffering_count | attr_video_rebuffering_count | video | Score Vídeo — rebuffering binário |
+| val_video_time_to_start | val_video_time_to_start | video | Score Vídeo — tempo início (<2s binário) |
+| is_video_fails_to_start | is_video_fails_to_start | video | Score Vídeo — taxa de falha (4-tier) |
+| val_web_page_load_time | val_web_page_load_time | web_browsing | Score Web — carregamento (<5s binário) |
+| is_web_page_fails_to_load | is_web_page_fails_to_load | web_browsing | Score Web — taxa de falha (4-tier) |
+
+### vw_score_fibra (Score Percepção — Rede Fixa)
+
+**Filtros**: `is_wifi_connected = TRUE`, `id_location_type = 1`, `val_latency_avg IS NOT NULL`.
+
+| # | Coluna | Tipo | Derivação |
+|---|--------|------|-----------|
+| 1 | geohash_id | VARCHAR(12) | attr_geohash7 (raw tables) |
+| 2 | operator | operator_name | `fn_normalize_operator(attr_sim_operator_common_name)` |
+| 3 | anomes | INTEGER | Ano-mês referência (YYYYMM) |
+| 4 | score_responsividade | NUMERIC(5,2) | (latência + TCP connect) / 2 — **degradação graciosa** se TCP NULL |
+| 5 | score_video | NUMERIC(5,2) | **Degradação graciosa** (4/3/2/1 componentes): rebuffering + resolução + tempo_inicio + falha 3-tier |
+| 6 | score_web | NUMERIC(5,2) | (first_byte + carregamento) / 2 |
+| 7 | score_throughput | NUMERIC(5,2) | (DL + UL) / 2 |
+| 8 | throughput_disponivel | BOOLEAN | `qtd_dl_ok / total > 0.1` |
+| 9 | score_final | NUMERIC(5,2) | Resp×0.40 + Vid×0.30 + Web×0.20 + Thr×0.10 (com redistribuição dinâmica) |
+| 10 | total_testes | INTEGER | Contagem de testes (file + video + web) |
+| 11 | classificacao | TEXT | BOM / MEDIO / RUIM (percentil dinâmico p25/p75) |
+| 12 | threshold_medio | NUMERIC(5,2) | Percentil 25 do score_final |
+| 13 | threshold_bom | NUMERIC(5,2) | Percentil 75 do score_final |
+
+**Pesos (redistribuição dinâmica quando throughput indisponível):**
+
+| Pilar | Com throughput | Sem throughput |
+|-------|---------------:|---------------:|
+| Responsividade | 0.40 | **0.45** |
+| Vídeo          | 0.30 | 0.30 |
+| Web            | 0.20 | **0.25** |
+| Throughput     | 0.10 | 0.00 |
+
+**Score taxa de falha vídeo (3-tier — limiares fibra, PDF pag 2):**
+- 0% → 100 | ≤33.3% → 75 | >33.3% → 25
+
+**Score resolução (denominador = soma manual de todas as resoluções):**
+- Numerador: tempo em ≥1080p (1080p + 1440p + 2160p)
+- Denominador: tempo total classificado (144p + 240p + 360p + 480p + 720p + 1080p + 1440p + 2160p)
+- Se razão ≥0.8 → score 1, else → 0; multiplicado por 100
+- Não usa `val_video_quality_time_total` (evita inconsistência com soma das partes)
+
+**Variáveis exclusivas Fibra (ausentes no Mobile):**
+
+| Variável PDF | Coluna Raw | Tabela | Uso |
+|-------------|------------|--------|-----|
+| val_tcp_connect_time | val_tcp_connect_time | file_transfer | Pilar Responsividade — TCP connect (<24/35/61) |
+| val_video_quality_time_xxxxp | val_video_quality_time_144p..2160p | video | Score Vídeo — proporção de tempo em ≥1080p |
+| val_web_page_first_byte_time | val_web_page_first_byte_time | web_browsing | Score Web — First Byte Time (<523/753/1305) |
 
 ---
 

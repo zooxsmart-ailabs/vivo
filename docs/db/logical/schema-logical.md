@@ -10,7 +10,7 @@
 | `tech_category` | ENUM | FIBRA, MOVEL, AMBOS | RN003-03 |
 | `operator_name` | ENUM | VIVO, TIM, CLARO, OI, OUTROS | Score table |
 | `trend_direction` | ENUM | UP, DOWN, STABLE | Levantamento sec.2 |
-| `fibra_class` | ENUM | AUMENTO_CAPACIDADE, EXPANSAO_NOVA_AREA, SAUDAVEL, **SEM_FIBRA** | RN004-04 |
+| `fibra_class` | ENUM | AUMENTO_CAPACIDADE, EXPANSAO_NOVA_AREA, SAUDAVEL, SEM_FIBRA, **MELHORA_QUALIDADE** | RN004-04 |
 | `movel_class` | ENUM | **MELHORA_QUALIDADE_5G, MELHORA_QUALIDADE_4G, EXPANSAO_COBERTURA_5G, EXPANSAO_COBERTURA_4G, SAUDAVEL** | RN004-05 |
 | `priority_label` | ENUM | P1_CRITICA, P2_ALTA, P3_MEDIA, P4_BAIXA | Levantamento sec.score |
 | `quality_label` | ENUM | EXCELENTE, BOM, REGULAR, RUIM | RN004-02 |
@@ -19,8 +19,11 @@
 | `share_level` | ENUM | MUITO_ALTA, ALTA, MEDIA, BAIXA | Levantamento sec.1 |
 | `score_label` | ENUM | **BAIXO, MEDIO, ALTO, CRITICO** | Camada 2 |
 | `tech_recommendation` | ENUM | **5G_PREMIUM, 4G_MASS** | Camada 2 Móvel |
-| `recomendacao_type` | ENUM | ATIVAR, AGUARDAR, BLOQUEADO | RN009-06 |
+| `recomendacao_type` | ENUM | **ATACAR**, AGUARDAR, BLOQUEADO | RN009-06 (v5: ATIVAR→ATACAR) |
+| `decisao_tech_type` | ENUM | **ATACAR, AGUARDAR** | v5 — Decisão per-tech (Fibra/Móvel) |
+| `prioridade_growth` | ENUM | **ALTA, MEDIA, BAIXA** | v5 — Prioridade per-tech (score Ookla) |
 | `sinal_type` | ENUM | OK, ALERTA, CRITICO | RN009-08 |
+| `score_type` | ENUM | **MOBILE, FIBRA, CONSOLIDADO** | scores.pdf (v4) |
 
 ### Mudanças v1 → v2
 
@@ -39,8 +42,52 @@
 ### 2.1-2.3 file_transfer, video, web_browsing (Hypertables)
 Sem alteração. Ver v1.
 
-### 2.4 score
-Sem alteração. Ver v1.
+### 2.4 score (AIE — CS Score Calc)
+
+Tabela de importação externa (ETL). Schema inalterado. O campo `vl_cntv_scre` é o **score consolidado** por operadora/geohash/mês, sem distinção de tecnologia.
+
+> **v4 (2026-04-09)**: O racional de cálculo dos scores QoE foi formalizado no PDF `docs/levantamento/scores.pdf`, definindo **dois modelos separados** com fórmulas e pesos distintos. Os scores por tecnologia são derivados via views (`vw_score_mobile`, `vw_score_fibra`) a partir das tabelas raw — a tabela `score` permanece inalterada.
+
+#### Score Mobile — Percepção de Satisfação (Rede Móvel)
+
+**Fórmula**: `Score = Latência × 0.30 + Vídeo × 0.30 + Web × 0.30 + Sinal × 0.10 + Throughput × 0.10`
+*(se throughput indisponível, peso de 10% redistribuído para latência e web)*
+
+| Pilar | Peso | Variáveis-fonte (Ookla) | Tabela Raw | Lógica de Normalização (0–100) |
+|-------|------|-------------------------|------------|-------------------------------|
+| **Latência** | 30% | `val_latency_avg` | file_transfer | < 65ms → 100; 65–220ms → 75; 220–350ms → 50; > 350ms → 25 |
+| **Vídeo** | 30% | `val_video_rebuffering_time`, `val_video_time_to_start`, `is_video_fails_to_start` | video | Rebuffering: (sem_rebuf/total)=0→1, >0→0. Tempo início: ≥0.8→1, <0.8→0. Taxa falha: 0%→100, ≤18.5%→75, >18.5%→25 |
+| **Web** | 30% | `val_web_page_load_time`, `is_web_page_fails_to_load` | web_browsing | Carregamento <5s: ≥0.8→1, <0.8→0. Taxa falha: <3.4%→100, 3.4–13.8%→75, 13.8–26.8%→50, >26.8%→25 |
+| **Throughput** | 10% | `val_dl_throughput`, `val_ul_throughput`, `has_dl_test_status` / `valDownloadKbps`, `valUploadKbps` | file_transfer / network_performance_mobile | DL: ≥25Mbps→100, 25–10→75, 10–2→50, <2→25. UL: ≥12Mbps→100, 12–5→75, 5–1→50, <1→25 |
+| **Sinal** | 10% | *A definir* | network_performance_mobile | *A definir* |
+
+**Disponibilidade do throughput**: `(qtd_dl_ok / total > 0.1) OU (qtd_ul_ok / total > 0.1)`. Se indisponível → peso redistribuído para latência e web.
+
+**Sub-pesos do pilar SpeedTest (50%)**: 70% download + 20% upload + 10% latência.
+
+#### Score Fibra — Percepção de Satisfação (Rede Fixa)
+
+**Fórmula**: `Score = Latência × 0.40 + Vídeo × 0.30 + Web × 0.20 + Throughput × 0.10`
+*(se throughput indisponível, peso de 10% redistribuído para latência e web)*
+
+| Pilar | Peso | Variáveis-fonte (Ookla) | Tabela Raw | Lógica de Normalização (0–100) |
+|-------|------|-------------------------|------------|-------------------------------|
+| **Responsividade (Latência)** | 40% | `val_latency_avg`, **`val_tcp_connect_time`** | file_transfer | Latência: idem Mobile. TCP: <24ms→100, 24–35ms→75, 35–61ms→50, ≥61ms→25 |
+| **Vídeo** | 30% | `attr_video_resolution`, `val_video_rebuffering_time`, `val_video_time_to_start` | video | Rebuffering e tempo início: idem Mobile. **Resolução**: (tempo ≥1080p / total)≥0.8→1, <0.8→0. Taxa falha: 0%→100, ≤33.3%→75, >33.3%→25 |
+| **Web** | 20% | **`val_web_page_first_byte_time`**, `val_web_page_load_time` | web_browsing | **First Byte**: ≤523ms→100, 523–753ms→75, 753–1305ms→50, >1305ms→25. Carregamento: idem Mobile |
+| **Throughput** | 10% | `val_dl_throughput`, `val_ul_throughput`, `has_dl_test_status` / `valDownloadMbps`, `valUploadMbps` | file_transfer / network_performance_fixed | Idem Mobile |
+
+**Diferenças-chave Fibra vs Mobile:**
+- Latência com peso maior (40% vs 30%) e inclui TCP connect time
+- Web com peso menor (20% vs 30%) e inclui First Byte Time
+- Vídeo inclui score de resolução (≥ 1080p) — ausente no mobile
+- Sem pilar "Sinal" (exclusivo de rede móvel)
+- Limiares de taxa de falha de vídeo diferentes (33.3% vs 18.5%)
+
+#### Normalização Geral
+
+Todas as variáveis são normalizadas individualmente para 0–100 antes de aplicar os pesos.
+Score final = Σ (variável_normalizada × peso). Escala: 0–100.
 
 ### 2.5 geo_por_latlong (v3)
 - **Atualização**: v2 (3.092 rows) → v3 (4.958 rows), +60% cobertura
@@ -216,6 +263,45 @@ Score e classificação da infraestrutura móvel por geohash.
 
 ## 4. Views — Alterações Significativas
 
+### 4.0 vw_score_mobile e vw_score_fibra (NOVAS — v4)
+
+Duas views que materializam os scores QoE por tecnologia, derivados das tabelas raw conforme racional formalizado em `docs/levantamento/scores.pdf`.
+
+**vw_score_mobile** — Score de Percepção de Satisfação (Rede Móvel):
+
+| Coluna | Tipo | Derivação |
+|--------|------|-----------|
+| geohash_id | VARCHAR(12) | attr_geohash7 (file_transfer/video/web_browsing) |
+| operator | operator_name | nm_oprd (score) / attrSimOperatorCommonName (network_performance_mobile) |
+| anomes | INTEGER | Ano-mês de referência |
+| score_latencia | NUMERIC(5,2) | Normalizado de val_latency_avg (file_transfer) |
+| score_video | NUMERIC(5,2) | Composto: rebuffering + tempo_inicio + taxa_falha (video) |
+| score_web | NUMERIC(5,2) | Composto: carregamento + taxa_falha (web_browsing) |
+| score_throughput | NUMERIC(5,2) | Composto: DL + UL (file_transfer / network_performance_mobile) |
+| score_sinal | NUMERIC(5,2) | *A definir* (network_performance_mobile) |
+| throughput_disponivel | BOOLEAN | (qtd_dl_ok/total > 0.1) OR (qtd_ul_ok/total > 0.1) |
+| score_final | NUMERIC(5,2) | Fórmula ponderada com redistribuição dinâmica (0–100) |
+| total_testes | INTEGER | Contagem de testes no geohash/mês |
+
+**vw_score_fibra** — Score de Percepção de Satisfação (Rede Fixa):
+
+| Coluna | Tipo | Derivação |
+|--------|------|-----------|
+| geohash_id | VARCHAR(12) | attr_geohash7 (file_transfer/video/web_browsing) |
+| operator | operator_name | nm_oprd (score) / attrProviderName (network_performance_fixed) |
+| anomes | INTEGER | Ano-mês de referência |
+| score_responsividade | NUMERIC(5,2) | Composto: latência + TCP connect time (file_transfer) |
+| score_video | NUMERIC(5,2) | Composto: rebuffering + resolução + tempo_inicio + taxa_falha (video) |
+| score_web | NUMERIC(5,2) | Composto: first_byte_time + carregamento (web_browsing) |
+| score_throughput | NUMERIC(5,2) | Composto: DL + UL (file_transfer / network_performance_fixed) |
+| throughput_disponivel | BOOLEAN | (qtd_dl_ok/total > 0.1) OR (qtd_ul_ok/total > 0.1) |
+| score_final | NUMERIC(5,2) | Fórmula ponderada com redistribuição dinâmica (0–100) |
+| total_testes | INTEGER | Contagem de testes no geohash/mês |
+
+**Fontes**: CAGGs existentes (`cagg_ft_monthly_gh7`, `cagg_video_monthly_gh7`, `cagg_web_monthly_gh7`) + `network_performance_mobile` / `network_performance_fixed`.
+
+**Uso**: Alimentam `vw_geohash_summary` (quadrantes por tecnologia), `diagnostico_growth` (score da tech dominante), UC004 (inspeção de geohash), UC009 (frentes estratégicas).
+
 ### 4.1 vw_geohash_summary (View Principal) — ALTERAÇÕES
 
 **Share real** (não mais proporção de testes):
@@ -227,7 +313,10 @@ Score e classificação da infraestrutura móvel por geohash.
 - MÓVEL: geohash tem ERBs
 - AMBOS: geohash tem ambos
 
-**Quadrante** (nomes v3):
+**Quadrante** (nomes v3, **v4: por tecnologia**):
+
+> **v4 (2026-04-09)**: Quadrantes são calculados **separadamente por tecnologia** (FIBRA e MOVEL). Um mesmo geohash pode ter quadrante GROWTH em móvel e UPSELL em fibra. A satisfação usa `vw_score_mobile.score_final` (normalizado 0–10) para móvel e `vw_score_fibra.score_final` (normalizado 0–10) para fibra.
+
 ```
 share >= 40% AND satisfação >= 7.5 → UPSELL       (antigo FORTALEZA)
 share < 30%  AND satisfação >= 7.5 → GROWTH        (antigo OPORTUNIDADE)
@@ -237,6 +326,15 @@ share < 30%  AND satisfação < 6.0  → GROWTH_RETENCAO (antigo EXPANSAO)
 Zona intermediaria (share 30-39% ou sat 6.0-7.4):
   Classificar pelo quadrante mais proximo (distancia euclidiana normalizada aos centroides)
 ```
+
+**Novas colunas v4** (score por tecnologia):
+
+| Coluna | Tipo | Derivação |
+|--------|------|-----------|
+| satisfacao_fibra | NUMERIC(3,1) | vw_score_fibra.score_final / 10 (escala 0–10) |
+| satisfacao_movel | NUMERIC(3,1) | vw_score_mobile.score_final / 10 (escala 0–10) |
+| quadrante_fibra | quadrant_type | Quadrante derivado com satisfacao_fibra + share_fibra_pct |
+| quadrante_movel | quadrant_type | Quadrante derivado com satisfacao_movel + share_movel_pct |
 
 **Posição competitiva** (nomes v3):
 ```
@@ -313,7 +411,7 @@ dos 4 pilares estratégicos para geohashes GROWTH. Calculado mensalmente (anomes
 
 | Pilar | Métricas | Fonte | Status |
 |-------|----------|-------|--------|
-| Percepção | score_ookla | score.vl_cntv_scre | Disponível |
+| Percepção | score_ookla | **Score da tech dominante**: `CASE WHEN total_testes_mobile > total_testes_fibra THEN vw_score_mobile.score_final ELSE vw_score_fibra.score_final END` (normalizado 0–10). Fallback: tech disponível quando apenas uma presente. | Disponível (v4) |
 | Percepção | taxa_chamados | RAC/SAC Vivo | **A definir** (stub = 0) |
 | Concorrência | share_penetracao | vw_share_real | Disponível |
 | Concorrência | delta_vs_lider | score (Vivo - MAX(TIM,Claro)) | Disponível |
@@ -343,7 +441,7 @@ infraControle    = fibra_class == AUMENTO_CAPACIDADE OR movel_class == MELHORA_Q
 
 BLOQUEADO  = fibraBloqueada OR (percCritica AND concCritica)
 AGUARDAR   = infraControle OR percCritica OR concCritica
-ATIVAR     = else
+ATACAR     = else
 ```
 
 ### 4.4 vw_bairro_summary

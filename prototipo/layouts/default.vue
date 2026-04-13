@@ -4,7 +4,7 @@ const route = useRoute();
 const tabs = [
   { path: "/", label: "Mapa Estratégico", icon: MapIcon },
   { path: "/frentes", label: "Estratégias Growth", icon: BarChart3 },
-  { path: "/bairros", label: "Bairro", icon: Building2 },
+  { path: "/bairros", label: "Visão por Bairro", icon: Building2 },
 ];
 </script>
 

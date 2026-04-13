@@ -2,7 +2,7 @@
  * Testes de Integração — UC009: Consultar Frente Estratégica
  *
  * UC mais crítico do sistema: ranking por quadrante + diagnóstico 4 pilares
- * + recomendação IA (ATIVAR/AGUARDAR/BLOQUEADO).
+ * + recomendação IA (ATACAR/AGUARDAR/BLOQUEADO).
  *
  * Testa o fluxo completo:
  * API (frente.ranking, frente.summary) → dados → Web (useDiagnostico)

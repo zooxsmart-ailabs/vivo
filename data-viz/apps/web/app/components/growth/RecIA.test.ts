@@ -2,11 +2,11 @@
  * Testes de Componente — RecIA
  *
  * Verifica renderização de recomendação IA para cada decisão:
- * ATIVAR, AGUARDAR, BLOQUEADO.
+ * ATACAR, AGUARDAR, BLOQUEADO (v5).
  */
 
 import { mount } from "@vue/test-utils";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import RecIA from "./RecIA.vue";
 import type { AIRec } from "../../composables/useDiagnostico";
 
@@ -22,8 +22,12 @@ vi.mock("lucide-vue-next", () => ({
 
 function makeRec(overrides: Partial<AIRec> = {}): AIRec {
   return {
-    decisao: "ATIVAR",
+    decisao: "ATACAR",
     decisaoColor: "#16A34A",
+    decisaoMovel: "ATACAR",
+    decisaoFibra: "ATACAR",
+    prioMovel: "ALTA",
+    prioFibra: "ALTA",
     canal: "Digital (dominante — priorizar 80% da verba)",
     abordagem:
       "Oferta de totalização (Fibra + Móvel + Streaming). Perfil premium.",
@@ -44,11 +48,11 @@ describe("RecIA", () => {
     expect(wrapper.text()).toContain("Gerado automaticamente");
   });
 
-  it("exibe decisão ATIVAR", () => {
+  it("exibe decisão ATACAR", () => {
     const wrapper = mount(RecIA, {
-      props: { rec: makeRec({ decisao: "ATIVAR" }) },
+      props: { rec: makeRec({ decisao: "ATACAR" }) },
     });
-    expect(wrapper.text()).toContain("ATIVAR");
+    expect(wrapper.text()).toContain("ATACAR");
   });
 
   it("exibe decisão AGUARDAR", () => {
@@ -109,13 +113,33 @@ describe("RecIA", () => {
     expect(html).toContain("BLOQUEADO");
   });
 
-  it("renderiza as 4 seções: Decisão, Canal, Abordagem, Raciocínio", () => {
+  it("renderiza seções de Móvel, Fibra, Totalização, Canal, Abordagem, Raciocínio", () => {
     const wrapper = mount(RecIA, { props: { rec: makeRec() } });
     const text = wrapper.text();
 
-    expect(text).toContain("Decisão");
+    expect(text).toContain("Móvel");
+    expect(text).toContain("Fibra");
+    expect(text).toContain("Totalização");
     expect(text).toContain("Canal Recomendado");
     expect(text).toContain("Abordagem Comercial");
     expect(text).toContain("Raciocínio");
+  });
+
+  it("exibe decisões e prioridades per-tech (v5)", () => {
+    const wrapper = mount(RecIA, {
+      props: {
+        rec: makeRec({
+          decisaoMovel: "AGUARDAR",
+          decisaoFibra: "ATACAR",
+          prioMovel: "MEDIA",
+          prioFibra: "BAIXA",
+        }),
+      },
+    });
+    const text = wrapper.text();
+    expect(text).toContain("AGUARDAR");
+    expect(text).toContain("ATACAR");
+    expect(text).toContain("MEDIA");
+    expect(text).toContain("BAIXA");
   });
 });

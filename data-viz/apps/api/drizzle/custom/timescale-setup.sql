@@ -579,7 +579,8 @@ qoe_vivo AS (
     FROM vw_qoe_monthly WHERE operator LIKE '%VIVO%'
 ),
 share AS (
-    SELECT geohash_id, precision, anomes,
+    SELECT geohash_id, precision,
+        TO_DATE(anomes::TEXT, 'YYYYMM') AS period_month,
         share_pct, share_fibra_pct, share_movel_pct,
         share_level, technology, total_ftth_vivo, total_linhas_vivo
     FROM vw_share_real
@@ -600,7 +601,7 @@ base AS (
         gc.geohash_id, gc.precision,
         gc.center_lat, gc.center_lng,
         gc.neighborhood, gc.city, gc.state,
-        sp.period_month,
+        COALESCE(sp.period_month, sh.period_month) AS period_month,
         COALESCE(sp.vivo_score, 0)       AS vivo_score,
         COALESCE(sp.tim_score, 0)        AS tim_score,
         COALESCE(sp.claro_score, 0)      AS claro_score,
@@ -672,10 +673,12 @@ base AS (
         END AS priority_score
     FROM geohash_cell gc
     LEFT JOIN score_pivot sp ON gc.geohash_id = sp.geohash_id AND gc.precision = sp.precision
-    LEFT JOIN qoe_vivo qv ON gc.geohash_id = qv.geohash_id AND gc.precision = qv.precision
-                          AND qv.period_month = sp.period_month
     LEFT JOIN share sh ON gc.geohash_id = sh.geohash_id AND gc.precision = sh.precision
+                       AND (sp.period_month IS NULL OR sh.period_month = sp.period_month)
+    LEFT JOIN qoe_vivo qv ON gc.geohash_id = qv.geohash_id AND gc.precision = qv.precision
+                          AND qv.period_month = COALESCE(sp.period_month, sh.period_month)
     LEFT JOIN demo d  ON gc.geohash_id = d.geohash_id  AND gc.precision = d.precision
+    WHERE sp.geohash_id IS NOT NULL OR sh.geohash_id IS NOT NULL
 )
 SELECT
     -- Canonical columns

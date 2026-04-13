@@ -107,7 +107,7 @@ describe("geohashRouter", () => {
       const crmData = { avg_arpu: 85.0, dominant_plan_type: "Fibra 500M" };
       const fibraData = { classification: "SAUDAVEL", score: 88 };
       const movelData = { classification: "EXPANSAO_5G", score: 72 };
-      const growthData = { score_ookla: 8.5, recomendacao: "ATIVAR" };
+      const growthData = { score_ookla: 8.5, recomendacao: "ATACAR" };
       const ctx = mockCtx({
         rows: [baseRow],
         crmRows: [crmData],

@@ -258,22 +258,22 @@ describe("UC009 — RN009-06: Árvore Decisão Recomendação IA", () => {
     expect(rec.decisao).toBe("AGUARDAR");
   });
 
-  it("ATIVAR: todas condições saudáveis", () => {
+  it("ATACAR: todas condições saudáveis", () => {
     const { rec } = fullFlow(
       { share_vivo: 15, vivo_score: 8.5, tim_score: 7.0, claro_score: 6.5 },
       { camada2: { fibra: { classification: "SAUDAVEL" }, movel: { classification: "SAUDAVEL" } } },
     );
-    expect(rec.decisao).toBe("ATIVAR");
+    expect(rec.decisao).toBe("ATACAR");
     expect(rec.decisaoColor).toBe("#16A34A");
   });
 
-  it("ATIVAR: movel EXPANSAO_5G (alerta, não gargalo) e percepção OK", () => {
+  it("ATACAR: movel EXPANSAO_5G (alerta, não gargalo) e percepção OK", () => {
     const { rec } = fullFlow(
       { share_vivo: 15, vivo_score: 8.5, tim_score: 7.0, claro_score: 6.5 },
       { camada2: { fibra: { classification: "SAUDAVEL" }, movel: { classification: "EXPANSAO_5G" } } },
     );
     // EXPANSAO_5G não é considerado gargalo (não é MELHORA_QUALIDADE)
-    expect(rec.decisao).toBe("ATIVAR");
+    expect(rec.decisao).toBe("ATACAR");
   });
 });
 
@@ -400,7 +400,7 @@ describe("UC009 — RN009-08: Worst-Signal Aggregation", () => {
 // ─── Cenários Realistas End-to-End ─────────────────────────────────────────
 
 describe("UC009 — Cenários Realistas E2E", () => {
-  it("Geohash Growth saudável em Goiânia → ATIVAR com oferta totalização", () => {
+  it("Geohash Growth saudável em Goiânia → ATACAR com oferta totalização", () => {
     const { pilares, rec } = fullFlow(
       { share_vivo: 18, vivo_score: 8.5, tim_score: 7.0, claro_score: 6.5 },
       {
@@ -414,7 +414,7 @@ describe("UC009 — Cenários Realistas E2E", () => {
     expect(pilares[0].signal).toBe("ok"); // percepção
     expect(pilares[1].signal).toBe("ok"); // concorrência
     expect(pilares[2].signal).toBe("ok"); // infra
-    expect(rec.decisao).toBe("ATIVAR");
+    expect(rec.decisao).toBe("ATACAR");
     expect(rec.raciocinio).toContain("percepção excelente");
   });
 

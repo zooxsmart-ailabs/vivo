@@ -44,7 +44,8 @@ CREATE TYPE fibra_class AS ENUM (
     'AUMENTO_CAPACIDADE',  -- Fibra presente, ocupação > 85% ou < 5 portas disponíveis
     'EXPANSAO_NOVA_AREA',  -- Sem cobertura fibra (greenfield) — mas area tem fibra Vivo na região
     'SAUDAVEL',            -- Fibra presente, ocupação <= 85%, sem problemas
-    'SEM_FIBRA'            -- Area sem qualquer infraestrutura de fibra optica Vivo
+    'SEM_FIBRA',           -- Area sem qualquer infraestrutura de fibra optica Vivo
+    'MELHORA_QUALIDADE'    -- Fibra presente, qualidade abaixo do benchmark
 );
 COMMENT ON TYPE fibra_class IS
     'Classificação Camada 2 Fibra. Árvore de decisão: '
@@ -85,11 +86,11 @@ CREATE TYPE priority_label AS ENUM ('P1_CRITICA', 'P2_ALTA', 'P3_MEDIA', 'P4_BAI
 
 -- RN009-06: Decisão da recomendação IA do diagnóstico Growth
 CREATE TYPE recomendacao_type AS ENUM (
-    'ATIVAR',      -- Infraestrutura saudavel, percepção e concorrencia adequadas — growth liberado
+    'ATACAR',      -- Infraestrutura saudavel, percepção e concorrencia adequadas — growth liberado
     'AGUARDAR',    -- Gargalo de infra, percepção ou concorrencia critica — aguardar resolução
     'BLOQUEADO'    -- Fibra indisponivel (EXPANSAO_NOVA_AREA) ou percepção+concorrencia criticas
 );
-COMMENT ON TYPE recomendacao_type IS 'Decisão IA do diagnóstico Growth (RN009-06). ATIVAR=#16A34A, AGUARDAR=#D97706, BLOQUEADO=#DC2626.';
+COMMENT ON TYPE recomendacao_type IS 'Decisão IA do diagnóstico Growth (RN009-06). ATACAR=#16A34A, AGUARDAR=#D97706, BLOQUEADO=#DC2626.';
 
 -- RN009-08: Sinal ternario dos pilares do diagnóstico Growth
 CREATE TYPE sinal_type AS ENUM (
@@ -101,6 +102,20 @@ COMMENT ON TYPE sinal_type IS 'Sinal ternario dos pilares do diagnóstico Growth
 COMMENT ON TYPE priority_label IS 'P1 > 7.5 (ação imediata), P2 >= 6.0 (curto prazo), P3 >= 4.5 (medio prazo), P4 < 4.5 (monitorar). Score normalizado 0-10 por quadrante.';
 
 CREATE TYPE quality_label AS ENUM ('EXCELENTE', 'BOM', 'REGULAR', 'RUIM');
+
+-- v4: Discriminador de tecnologia para scores QoE (scores.pdf)
+CREATE TYPE score_type AS ENUM (
+    'MOBILE',       -- Score QoE rede móvel (Lat×0.30 + Vid×0.30 + Web×0.30 + Sin×0.10 + Thr×0.10)
+    'FIBRA',        -- Score QoE rede fixa  (Resp×0.40 + Vid×0.30 + Web×0.20 + Thr×0.10)
+    'CONSOLIDADO'   -- Score consolidado (tabela score AIE — vlCntvScre)
+);
+COMMENT ON TYPE score_type IS 'Discriminador de tecnologia para scores QoE. Formulas definidas em docs/levantamento/scores.pdf.';
+
+CREATE TYPE decisao_tech_type AS ENUM ('ATACAR', 'AGUARDAR');
+COMMENT ON TYPE decisao_tech_type IS 'Decisão por tecnologia (Fibra/Móvel) no diagnóstico Growth (v5). ATACAR=growth liberado, AGUARDAR=gargalo técnico.';
+
+CREATE TYPE prioridade_growth AS ENUM ('ALTA', 'MEDIA', 'BAIXA');
+COMMENT ON TYPE prioridade_growth IS 'Prioridade per-tech no diagnóstico Growth (v5). ALTA>=7.5, MEDIA 5.5-7.4, BAIXA<5.5 (score Ookla).';
 
 CREATE TYPE benchmark_scope AS ENUM ('NACIONAL', 'ESTADO', 'CIDADE');
 
@@ -305,7 +320,10 @@ CREATE TABLE IF NOT EXISTS geohash_crm (
     precision           SMALLINT         NOT NULL DEFAULT 7,
     anomes              INTEGER          NOT NULL,
     arpu                NUMERIC(10,2),               -- R$/mes medio — proxy valor do cliente
+    arpu_movel          NUMERIC(10,2),
+    arpu_fibra          NUMERIC(10,2),
     plan_type           VARCHAR(100),                -- Plano predominante na area
+    plan_type_movel     VARCHAR(100),
     device_tier         VARCHAR(20)      CHECK (device_tier IN ('BASIC', 'MID', 'PREMIUM')),
     active_clients      INTEGER          NOT NULL DEFAULT 0,
     consumo_dados_gb    NUMERIC(10,3),               -- GB/mes medio — proxy demanda capacidade 5G
@@ -483,11 +501,16 @@ CREATE TABLE IF NOT EXISTS diagnostico_growth (
 
     -- Pilar 01 — Percepção
     score_ookla      NUMERIC(4,1)  NOT NULL,  -- Score SpeedTest Vivo (0-10)
+    score_ookla_movel  NUMERIC(4,1),
+    score_ookla_fibra  NUMERIC(4,1),
+    score_hac          NUMERIC(4,1),
     taxa_chamados    NUMERIC(5,2)  NOT NULL DEFAULT 0,  -- (RAC+SAC 30d)/Base Ativa (%)
 
     -- Pilar 02 — Concorrência
     share_penetracao NUMERIC(5,2)  NOT NULL,  -- Base Vivo / Total Domicilios (%)
     delta_vs_lider   NUMERIC(4,1)  NOT NULL,  -- Score Vivo - Score lider (Ookla)
+    delta_vs_lider_fibra NUMERIC(4,1),
+    delta_vs_lider_movel NUMERIC(4,1),
 
     -- Pilar 03 — Infraestrutura (derivado de Camada 2)
     fibra_class      fibra_class   NOT NULL DEFAULT 'SAUDAVEL',
@@ -505,7 +528,11 @@ CREATE TABLE IF NOT EXISTS diagnostico_growth (
     sinal_comportamento  sinal_type NOT NULL DEFAULT 'OK',
 
     -- Recomendação IA (RN009-06)
-    recomendacao       recomendacao_type NOT NULL DEFAULT 'ATIVAR',
+    recomendacao       recomendacao_type NOT NULL DEFAULT 'ATACAR',
+    decisao_movel  decisao_tech_type,
+    decisao_fibra  decisao_tech_type,
+    prio_movel     prioridade_growth,
+    prio_fibra     prioridade_growth,
     recomendacao_razao TEXT,  -- Justificativa composta (gerada por gerarRec)
 
     -- Metadata
@@ -528,7 +555,7 @@ COMMENT ON COLUMN diagnostico_growth.delta_vs_lider IS 'Score Vivo - MAX(Score T
 COMMENT ON COLUMN diagnostico_growth.arpu_relativo IS 'ARPU geohash / ARPU medio cidade. Fonte: geohash_crm. Pilar Comportamento. Default 1.0 (stub).';
 COMMENT ON COLUMN diagnostico_growth.canal_dominante IS 'Canal de venda dominante no geohash. Fonte: a definir. Pilar Comportamento. Default Digital (stub).';
 COMMENT ON COLUMN diagnostico_growth.canal_pct IS '% de vendas pelo canal dominante. Fonte: a definir. Pilar Comportamento. Default 50 (stub).';
-COMMENT ON COLUMN diagnostico_growth.recomendacao IS 'Decisão IA: ATIVAR (growth liberado), AGUARDAR (gargalo), BLOQUEADO (infra indisponivel). RN009-06.';
+COMMENT ON COLUMN diagnostico_growth.recomendacao IS 'Decisão IA: ATACAR (growth liberado), AGUARDAR (gargalo), BLOQUEADO (infra indisponivel). RN009-06.';
 COMMENT ON COLUMN diagnostico_growth.recomendacao_razao IS 'Justificativa textual composta. Ex: "percepção excelente (Ookla >= 8.0); alta oportunidade de mercado (share < 20%)".';
 
 CREATE INDEX IF NOT EXISTS idx_dg_geohash ON diagnostico_growth (geohash_id, anomes);
@@ -703,30 +730,21 @@ COMMENT ON VIEW vw_share_real IS 'Share de mercado real Vivo (FTTH + ERB). Formu
 -- ---------------------------------------------------------------------------
 CREATE OR REPLACE VIEW vw_geohash_summary AS
 WITH
+-- Score V2: composite score from file_transfer + video + web_browsing
+-- (replaces legacy `score` table). See vw_score_mobile / vw_score_fibra.
 scores_all AS (
-    SELECT
-        cd_geo_hsh7 AS geohash_id, 7::SMALLINT AS precision,
-        TO_DATE(nu_ano_mes_rfrn::TEXT, 'YYYYMM') AS period_month,
-        UPPER(TRIM(nm_oprd)) AS operator,
-        vl_cntv_scre / 10.0 AS composite_score,  -- 0-10 scale
-        (COALESCE(qt_ltra_vdeo_scre,0) + COALESCE(qt_ltra_web_scre,0) + COALESCE(qt_ltra_sped_scre,0)) AS sample_size
-    FROM score WHERE vl_cntv_scre IS NOT NULL
+    SELECT geohash_id, precision, period_month, operator, composite_score, sample_size
+    FROM vw_score_mobile
     UNION ALL
-    SELECT
-        LEFT(cd_geo_hsh7, 6), 6::SMALLINT,
-        TO_DATE(nu_ano_mes_rfrn::TEXT, 'YYYYMM'),
-        UPPER(TRIM(nm_oprd)),
-        AVG(vl_cntv_scre / 10.0),
-        SUM(COALESCE(qt_ltra_vdeo_scre,0) + COALESCE(qt_ltra_web_scre,0) + COALESCE(qt_ltra_sped_scre,0))
-    FROM score WHERE vl_cntv_scre IS NOT NULL
-    GROUP BY LEFT(cd_geo_hsh7, 6), TO_DATE(nu_ano_mes_rfrn::TEXT, 'YYYYMM'), UPPER(TRIM(nm_oprd))
+    SELECT geohash_id, precision, period_month, operator, composite_score, sample_size
+    FROM vw_score_fibra
 ),
 score_pivot AS (
     SELECT geohash_id, precision, period_month,
-        MAX(CASE WHEN operator LIKE '%VIVO%' THEN composite_score END) AS vivo_score,
-        MAX(CASE WHEN operator LIKE '%TIM%'  THEN composite_score END) AS tim_score,
-        MAX(CASE WHEN operator LIKE '%CLARO%' THEN composite_score END) AS claro_score,
-        MAX(CASE WHEN operator LIKE '%VIVO%' THEN sample_size END) AS vivo_sample_size
+        AVG(CASE WHEN operator LIKE '%VIVO%' THEN composite_score END) AS vivo_score,
+        AVG(CASE WHEN operator LIKE '%TIM%'  THEN composite_score END) AS tim_score,
+        AVG(CASE WHEN operator LIKE '%CLARO%' THEN composite_score END) AS claro_score,
+        SUM(CASE WHEN operator LIKE '%VIVO%' THEN sample_size END)     AS vivo_sample_size
     FROM scores_all GROUP BY geohash_id, precision, period_month
 ),
 qoe_vivo AS (
@@ -735,7 +753,8 @@ qoe_vivo AS (
     FROM vw_qoe_monthly WHERE operator LIKE '%VIVO%'
 ),
 share AS (
-    SELECT geohash_id, precision, anomes,
+    SELECT geohash_id, precision,
+        TO_DATE(anomes::TEXT, 'YYYYMM') AS period_month,
         share_pct, share_fibra_pct, share_movel_pct,
         share_level, technology, total_ftth_vivo, total_linhas_vivo
     FROM vw_share_real
@@ -757,7 +776,7 @@ base AS (
         gc.geohash_id, gc.precision,
         gc.center_lat, gc.center_lng,
         gc.neighborhood, gc.city, gc.state,
-        sp.period_month,
+        COALESCE(sp.period_month, sh.period_month) AS period_month,
         -- Scores QoE (0-10)
         COALESCE(sp.vivo_score, 0)       AS vivo_score,
         COALESCE(sp.tim_score, 0)        AS tim_score,
@@ -848,10 +867,12 @@ base AS (
         END AS priority_score
     FROM geohash_cell gc
     LEFT JOIN score_pivot sp ON gc.geohash_id = sp.geohash_id AND gc.precision = sp.precision
-    LEFT JOIN qoe_vivo qv ON gc.geohash_id = qv.geohash_id AND gc.precision = qv.precision
-                          AND qv.period_month = sp.period_month
     LEFT JOIN share sh ON gc.geohash_id = sh.geohash_id AND gc.precision = sh.precision
+                       AND (sp.period_month IS NULL OR sh.period_month = sp.period_month)
+    LEFT JOIN qoe_vivo qv ON gc.geohash_id = qv.geohash_id AND gc.precision = qv.precision
+                          AND qv.period_month = COALESCE(sp.period_month, sh.period_month)
     LEFT JOIN demo d  ON gc.geohash_id = d.geohash_id  AND gc.precision = d.precision
+    WHERE sp.geohash_id IS NOT NULL OR sh.geohash_id IS NOT NULL
 )
 SELECT *,
     -- Priority label derivada do score (computado uma única vez na CTE base)
@@ -894,6 +915,418 @@ WHERE gs.neighborhood IS NOT NULL
 GROUP BY gs.neighborhood, gs.city, gs.state, gs.period_month;
 
 COMMENT ON VIEW vw_bairro_summary IS 'Agregação por bairro v3: quadrantes GROWTH/UPSELL/RETENCAO/GROWTH_RETENCAO (Levantamento v2).';
+
+-- ---------------------------------------------------------------------------
+-- 15b. VIEWS DE SCORE QoE POR TECNOLOGIA (v4 — scores.pdf)
+-- ---------------------------------------------------------------------------
+
+-- Score Mobile — Percepção de Satisfação (Rede Móvel)
+-- Fórmula: Latência×0.30 + Vídeo×0.30 + Web×0.30 + Sinal×0.10 + Throughput×0.10
+-- Se throughput indisponível, peso redistribuído para latência e web.
+CREATE OR REPLACE VIEW vw_score_mobile AS
+WITH ft AS (
+    SELECT
+        attr_geohash7 AS geohash_id,
+        fn_normalize_operator(attr_sim_operator_common_name) AS operator,
+        EXTRACT(YEAR FROM ts_result)::INT * 100 + EXTRACT(MONTH FROM ts_result)::INT AS anomes,
+        -- Latência normalizada (0-100) — fronteiras com '<' (sem ambiguidade)
+        AVG(CASE
+            WHEN val_latency_avg < 65  THEN 100
+            WHEN val_latency_avg < 220 THEN 75
+            WHEN val_latency_avg < 350 THEN 50
+            ELSE 25
+        END) AS score_latencia,
+        -- Throughput DL normalizado (0-100) — somente testes válidos (FILTER)
+        AVG(CASE
+            WHEN val_dl_throughput >= 25 THEN 100
+            WHEN val_dl_throughput >= 10 THEN 75
+            WHEN val_dl_throughput >= 2  THEN 50
+            ELSE 25
+        END) FILTER (WHERE has_dl_test_status = true) AS score_dl,
+        -- Throughput UL normalizado (0-100) — somente testes válidos (FILTER)
+        AVG(CASE
+            WHEN val_ul_throughput >= 12 THEN 100
+            WHEN val_ul_throughput >= 5  THEN 75
+            WHEN val_ul_throughput >= 1  THEN 50
+            ELSE 25
+        END) FILTER (WHERE has_dl_test_status = true) AS score_ul,
+        -- Disponibilidade throughput
+        (COUNT(*) FILTER (WHERE has_dl_test_status = true)::NUMERIC / NULLIF(COUNT(*), 0) > 0.1) AS throughput_disponivel,
+        COUNT(*) AS total_testes_ft
+    FROM file_transfer
+    -- Filtros (notebook v2): exclui WiFi, exige geohash + latência válidos, indoor
+    WHERE is_wifi_connected IS NOT TRUE
+      AND attr_geohash7 IS NOT NULL
+      AND val_latency_avg IS NOT NULL
+      AND id_location_type = 1
+    GROUP BY 1, 2, 3
+),
+vid AS (
+    SELECT
+        attr_geohash7 AS geohash_id,
+        fn_normalize_operator(attr_sim_operator_common_name) AS operator,
+        EXTRACT(YEAR FROM ts_result)::INT * 100 + EXTRACT(MONTH FROM ts_result)::INT AS anomes,
+        -- Rebuffering: % sem rebuffering
+        AVG(CASE WHEN attr_video_rebuffering_count = 0 THEN 1.0 ELSE 0.0 END) * 100 AS score_rebuffering,
+        -- Tempo de início: % com < 2s
+        AVG(CASE WHEN val_video_time_to_start < 2000 THEN 1.0 ELSE 0.0 END) * 100 AS score_tempo_inicio,
+        -- Taxa de falha (proporção bruta — score 4-tier aplicado no SELECT final)
+        AVG(CASE WHEN is_video_fails_to_start = true THEN 1.0 ELSE 0.0 END) AS taxa_falha_video,
+        COUNT(*) AS total_testes_vid
+    FROM video
+    WHERE is_wifi_connected IS NOT TRUE
+      AND attr_geohash7 IS NOT NULL
+      AND id_location_type = 1
+    GROUP BY 1, 2, 3
+),
+web AS (
+    SELECT
+        attr_geohash7 AS geohash_id,
+        fn_normalize_operator(attr_sim_operator_common_name) AS operator,
+        EXTRACT(YEAR FROM ts_result)::INT * 100 + EXTRACT(MONTH FROM ts_result)::INT AS anomes,
+        -- Carregamento: % com < 5s
+        AVG(CASE WHEN val_web_page_load_time < 5000 THEN 1.0 ELSE 0.0 END) * 100 AS score_carregamento,
+        -- Taxa de falha (proporção bruta — score 4-tier aplicado no SELECT final)
+        AVG(CASE WHEN is_web_page_fails_to_load = true THEN 1.0 ELSE 0.0 END) AS taxa_falha_web,
+        COUNT(*) AS total_testes_web
+    FROM web_browsing
+    WHERE is_wifi_connected IS NOT TRUE
+      AND attr_geohash7 IS NOT NULL
+      AND id_location_type = 1
+    GROUP BY 1, 2, 3
+),
+base AS (
+    -- FULL OUTER JOIN preserva geohashes com dados parciais (só vídeo, só web, etc.)
+    SELECT
+        COALESCE(ft.geohash_id, vid.geohash_id, web.geohash_id) AS geohash_id,
+        COALESCE(ft.operator,    vid.operator,    web.operator)    AS operator,
+        COALESCE(ft.anomes,      vid.anomes,      web.anomes)      AS anomes,
+        ft.score_latencia,
+        ft.score_dl, ft.score_ul,
+        ft.throughput_disponivel,
+        vid.score_rebuffering, vid.score_tempo_inicio, vid.taxa_falha_video,
+        web.score_carregamento, web.taxa_falha_web,
+        COALESCE(ft.total_testes_ft, 0)
+            + COALESCE(vid.total_testes_vid, 0)
+            + COALESCE(web.total_testes_web, 0) AS total_testes
+    FROM ft
+    FULL OUTER JOIN vid
+        ON ft.geohash_id = vid.geohash_id
+       AND ft.operator    = vid.operator
+       AND ft.anomes      = vid.anomes
+    FULL OUTER JOIN web
+        ON COALESCE(ft.geohash_id, vid.geohash_id) = web.geohash_id
+       AND COALESCE(ft.operator,    vid.operator)    = web.operator
+       AND COALESCE(ft.anomes,      vid.anomes)      = web.anomes
+),
+componentes AS (
+    SELECT
+        b.*,
+        -- Score taxa de falha vídeo: 4-tier (PDF pag 2)
+        CASE
+            WHEN b.taxa_falha_video IS NULL      THEN NULL
+            WHEN b.taxa_falha_video = 0          THEN 100
+            WHEN b.taxa_falha_video <= 0.185     THEN 75
+            ELSE 25
+        END AS score_falha_video,
+        -- Score taxa de falha web: 4-tier (PDF pag 2)
+        CASE
+            WHEN b.taxa_falha_web IS NULL        THEN NULL
+            WHEN b.taxa_falha_web < 0.034        THEN 100
+            WHEN b.taxa_falha_web < 0.138        THEN 75
+            WHEN b.taxa_falha_web < 0.268        THEN 50
+            ELSE 25
+        END AS score_falha_web
+    FROM base b
+),
+pilares AS (
+    SELECT
+        c.*,
+        -- Pilar Vídeo: (rebuf + tempo_inicio + falha) / 3
+        (COALESCE(c.score_rebuffering, 0)
+            + COALESCE(c.score_tempo_inicio, 0)
+            + COALESCE(c.score_falha_video, 0)) / 3.0 AS score_video,
+        -- Pilar Web: (carregamento + falha) / 2
+        (COALESCE(c.score_carregamento, 0)
+            + COALESCE(c.score_falha_web, 0)) / 2.0 AS score_web,
+        -- Pilar Throughput: DL×0.70 + UL×0.20 + Lat×0.10
+        COALESCE(c.score_dl, 0) * 0.70
+            + COALESCE(c.score_ul, 0) * 0.20
+            + COALESCE(c.score_latencia, 0) * 0.10 AS score_throughput
+    FROM componentes c
+),
+final AS (
+    SELECT
+        p.geohash_id, p.operator, p.anomes,
+        ROUND(p.score_latencia,    2) AS score_latencia,
+        ROUND(p.score_video,       2) AS score_video,
+        ROUND(p.score_web,         2) AS score_web,
+        ROUND(p.score_throughput,  2) AS score_throughput,
+        NULL::NUMERIC(5,2)            AS score_sinal,  -- A definir
+        p.throughput_disponivel,
+        -- Score final com redistribuição dinâmica
+        ROUND(CASE
+            WHEN p.throughput_disponivel THEN
+                COALESCE(p.score_latencia * 0.30, 0)
+                + p.score_video      * 0.30
+                + p.score_web        * 0.30
+                + p.score_throughput * 0.10
+            ELSE -- redistribuir 10% do throughput para latência e web
+                COALESCE(p.score_latencia * 0.35, 0)
+                + p.score_video * 0.30
+                + p.score_web   * 0.35
+        END, 2) AS score_final,
+        p.total_testes
+    FROM pilares p
+),
+percentis AS (
+    SELECT
+        PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY score_final) AS p25,
+        PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY score_final) AS p75
+    FROM final
+    WHERE score_final IS NOT NULL
+)
+SELECT
+    f.*,
+    -- Classificação por percentil dinâmico (notebook v2)
+    CASE
+        WHEN f.score_final IS NULL          THEN NULL
+        WHEN f.score_final >= p.p75         THEN 'BOM'
+        WHEN f.score_final >= p.p25         THEN 'MEDIO'
+        ELSE                                     'RUIM'
+    END AS classificacao,
+    ROUND(p.p25::NUMERIC, 2) AS threshold_medio,
+    ROUND(p.p75::NUMERIC, 2) AS threshold_bom
+FROM final f
+CROSS JOIN percentis p;
+
+COMMENT ON VIEW vw_score_mobile IS 'Score QoE Mobile v5 (notebook validado 2026-04-11): Lat×0.30 + Vid×0.30 + Web×0.30 + Sin×0.10 + Thr×0.10. Filtros (NOT WiFi, indoor, latência NOT NULL), FULL OUTER JOIN, falha vídeo/web 4-tier (PDF pag 2), classificação por percentil p25/p75. Redistribuição dinâmica se throughput indisponível.';
+
+-- Score Fibra — Percepção de Satisfação (Rede Fixa)
+-- Fórmula: Latência×0.40 + Vídeo×0.30 + Web×0.20 + Throughput×0.10
+-- Se throughput indisponível, peso redistribuído para latência e web.
+CREATE OR REPLACE VIEW vw_score_fibra AS
+WITH ft AS (
+    SELECT
+        attr_geohash7 AS geohash_id,
+        fn_normalize_operator(attr_sim_operator_common_name) AS operator,
+        EXTRACT(YEAR FROM ts_result)::INT * 100 + EXTRACT(MONTH FROM ts_result)::INT AS anomes,
+        -- Latência normalizada (0-100) — fronteiras com '<' (sem ambiguidade)
+        AVG(CASE
+            WHEN val_latency_avg < 65  THEN 100
+            WHEN val_latency_avg < 220 THEN 75
+            WHEN val_latency_avg < 350 THEN 50
+            ELSE 25
+        END) AS score_latencia,
+        -- TCP connect time normalizado (0-100) — fronteiras com '<'
+        AVG(CASE
+            WHEN val_tcp_connect_time IS NULL THEN NULL
+            WHEN val_tcp_connect_time < 24 THEN 100
+            WHEN val_tcp_connect_time < 35 THEN 75
+            WHEN val_tcp_connect_time < 61 THEN 50
+            ELSE 25
+        END) AS score_tcp_connect,
+        -- Throughput DL normalizado (0-100) — somente testes válidos
+        AVG(CASE
+            WHEN val_dl_throughput >= 25 THEN 100
+            WHEN val_dl_throughput >= 10 THEN 75
+            WHEN val_dl_throughput >= 2  THEN 50
+            ELSE 25
+        END) FILTER (WHERE has_dl_test_status = true) AS score_dl,
+        -- Throughput UL normalizado (0-100) — somente testes válidos
+        AVG(CASE
+            WHEN val_ul_throughput >= 12 THEN 100
+            WHEN val_ul_throughput >= 5  THEN 75
+            WHEN val_ul_throughput >= 1  THEN 50
+            ELSE 25
+        END) FILTER (WHERE has_dl_test_status = true) AS score_ul,
+        -- Disponibilidade throughput
+        (COUNT(*) FILTER (WHERE has_dl_test_status = true)::NUMERIC / NULLIF(COUNT(*), 0) > 0.1) AS throughput_disponivel,
+        COUNT(*) AS total_testes_ft
+    FROM file_transfer
+    -- Filtros (notebook v2): conexões WiFi (proxy fibra), geohash + latência válidos, indoor
+    WHERE is_wifi_connected = TRUE
+      AND attr_geohash7 IS NOT NULL
+      AND val_latency_avg IS NOT NULL
+      AND id_location_type = 1
+    GROUP BY 1, 2, 3
+),
+vid AS (
+    SELECT
+        attr_geohash7 AS geohash_id,
+        fn_normalize_operator(attr_sim_operator_common_name) AS operator,
+        EXTRACT(YEAR FROM ts_result)::INT * 100 + EXTRACT(MONTH FROM ts_result)::INT AS anomes,
+        -- Rebuffering: % sem rebuffering
+        AVG(CASE WHEN attr_video_rebuffering_count = 0 THEN 1.0 ELSE 0.0 END) * 100 AS score_rebuffering,
+        -- Resolução: % tempo em >= 1080p
+        -- Denominador = soma manual de todas as resoluções (mais consistente que quality_time_total)
+        -- NULLIF(..., 0) evita divisão por zero
+        AVG(
+            CASE
+                WHEN (
+                    NULLIF(
+                        COALESCE(val_video_quality_time_1080p, 0)
+                        + COALESCE(val_video_quality_time_1440p, 0)
+                        + COALESCE(val_video_quality_time_2160p, 0),
+                        0
+                    )::NUMERIC
+                    / NULLIF(
+                        COALESCE(val_video_quality_time_144p,  0)
+                        + COALESCE(val_video_quality_time_240p,  0)
+                        + COALESCE(val_video_quality_time_360p,  0)
+                        + COALESCE(val_video_quality_time_480p,  0)
+                        + COALESCE(val_video_quality_time_720p,  0)
+                        + COALESCE(val_video_quality_time_1080p, 0)
+                        + COALESCE(val_video_quality_time_1440p, 0)
+                        + COALESCE(val_video_quality_time_2160p, 0),
+                        0
+                    )
+                ) >= 0.8
+                THEN 1.0 ELSE 0.0
+            END
+        ) * 100 AS score_resolucao,
+        -- Tempo de início: % com < 2s
+        AVG(CASE WHEN val_video_time_to_start < 2000 THEN 1.0 ELSE 0.0 END) * 100 AS score_tempo_inicio,
+        -- Taxa de falha (proporção bruta — score 3-tier aplicado no SELECT final)
+        AVG(CASE WHEN is_video_fails_to_start = true THEN 1.0 ELSE 0.0 END) AS taxa_falha_video,
+        COUNT(*) AS total_testes_vid
+    FROM video
+    WHERE is_wifi_connected = TRUE
+      AND attr_geohash7 IS NOT NULL
+      AND id_location_type = 1
+    GROUP BY 1, 2, 3
+),
+web AS (
+    SELECT
+        attr_geohash7 AS geohash_id,
+        fn_normalize_operator(attr_sim_operator_common_name) AS operator,
+        EXTRACT(YEAR FROM ts_result)::INT * 100 + EXTRACT(MONTH FROM ts_result)::INT AS anomes,
+        -- First Byte Time normalizado (0-100) — fronteiras com '<'
+        AVG(CASE
+            WHEN val_web_page_first_byte_time < 523  THEN 100
+            WHEN val_web_page_first_byte_time < 753  THEN 75
+            WHEN val_web_page_first_byte_time < 1305 THEN 50
+            ELSE 25
+        END) AS score_first_byte,
+        -- Carregamento: % com < 5s
+        AVG(CASE WHEN val_web_page_load_time < 5000 THEN 1.0 ELSE 0.0 END) * 100 AS score_carregamento,
+        COUNT(*) AS total_testes_web
+    FROM web_browsing
+    WHERE is_wifi_connected = TRUE
+      AND attr_geohash7 IS NOT NULL
+      AND id_location_type = 1
+    GROUP BY 1, 2, 3
+),
+base AS (
+    -- FULL OUTER JOIN preserva geohashes com dados parciais
+    SELECT
+        COALESCE(ft.geohash_id, vid.geohash_id, web.geohash_id) AS geohash_id,
+        COALESCE(ft.operator,    vid.operator,    web.operator)    AS operator,
+        COALESCE(ft.anomes,      vid.anomes,      web.anomes)      AS anomes,
+        ft.score_latencia, ft.score_tcp_connect,
+        ft.score_dl, ft.score_ul,
+        ft.throughput_disponivel,
+        vid.score_rebuffering, vid.score_resolucao, vid.score_tempo_inicio, vid.taxa_falha_video,
+        web.score_first_byte, web.score_carregamento,
+        COALESCE(ft.total_testes_ft, 0)
+            + COALESCE(vid.total_testes_vid, 0)
+            + COALESCE(web.total_testes_web, 0) AS total_testes
+    FROM ft
+    FULL OUTER JOIN vid
+        ON ft.geohash_id = vid.geohash_id
+       AND ft.operator    = vid.operator
+       AND ft.anomes      = vid.anomes
+    FULL OUTER JOIN web
+        ON COALESCE(ft.geohash_id, vid.geohash_id) = web.geohash_id
+       AND COALESCE(ft.operator,    vid.operator)    = web.operator
+       AND COALESCE(ft.anomes,      vid.anomes)      = web.anomes
+),
+componentes AS (
+    SELECT
+        b.*,
+        -- Score taxa de falha vídeo: 3-tier (PDF pag 2 — limiares fibra)
+        CASE
+            WHEN b.taxa_falha_video IS NULL  THEN NULL
+            WHEN b.taxa_falha_video = 0      THEN 100
+            WHEN b.taxa_falha_video <= 0.333 THEN 75
+            ELSE 25
+        END AS score_falha_video
+    FROM base b
+),
+pilares AS (
+    SELECT
+        c.*,
+        -- Pilar Responsividade: (latência + tcp_connect) / 2 com degradação graciosa
+        CASE
+            WHEN c.score_latencia IS NOT NULL AND c.score_tcp_connect IS NOT NULL
+                THEN (c.score_latencia + c.score_tcp_connect) / 2.0
+            WHEN c.score_latencia IS NOT NULL THEN c.score_latencia
+            ELSE NULL
+        END AS score_responsividade,
+        -- Pilar Vídeo: degradação graciosa (4/3/2/1 componentes conforme disponibilidade)
+        CASE
+            WHEN c.score_rebuffering IS NOT NULL AND c.score_resolucao IS NOT NULL
+             AND c.score_tempo_inicio IS NOT NULL AND c.score_falha_video IS NOT NULL
+                THEN (c.score_rebuffering + c.score_resolucao + c.score_tempo_inicio + c.score_falha_video) / 4.0
+            WHEN c.score_rebuffering IS NOT NULL AND c.score_tempo_inicio IS NOT NULL
+             AND c.score_falha_video IS NOT NULL
+                THEN (c.score_rebuffering + c.score_tempo_inicio + c.score_falha_video) / 3.0
+            WHEN c.score_rebuffering IS NOT NULL AND c.score_falha_video IS NOT NULL
+                THEN (c.score_rebuffering + c.score_falha_video) / 2.0
+            WHEN c.score_falha_video IS NOT NULL THEN c.score_falha_video
+            ELSE NULL
+        END AS score_video,
+        -- Pilar Web: (first_byte + carregamento) / 2
+        (COALESCE(c.score_first_byte, 0) + COALESCE(c.score_carregamento, 0)) / 2.0 AS score_web,
+        -- Pilar Throughput: (DL + UL) / 2
+        (COALESCE(c.score_dl, 0) + COALESCE(c.score_ul, 0)) / 2.0 AS score_throughput
+    FROM componentes c
+),
+final AS (
+    SELECT
+        p.geohash_id, p.operator, p.anomes,
+        ROUND(p.score_responsividade, 2) AS score_responsividade,
+        ROUND(p.score_video,          2) AS score_video,
+        ROUND(p.score_web,            2) AS score_web,
+        ROUND(p.score_throughput,     2) AS score_throughput,
+        p.throughput_disponivel,
+        -- Score final com redistribuição dinâmica
+        ROUND(CASE
+            WHEN p.throughput_disponivel THEN
+                COALESCE(p.score_responsividade * 0.40, 0)
+                + COALESCE(p.score_video * 0.30, 0)
+                + p.score_web        * 0.20
+                + p.score_throughput * 0.10
+            ELSE -- redistribuir 10% do throughput para responsividade e web
+                COALESCE(p.score_responsividade * 0.45, 0)
+                + COALESCE(p.score_video * 0.30, 0)
+                + p.score_web * 0.25
+        END, 2) AS score_final,
+        p.total_testes
+    FROM pilares p
+),
+percentis AS (
+    SELECT
+        PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY score_final) AS p25,
+        PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY score_final) AS p75
+    FROM final
+    WHERE score_final IS NOT NULL
+)
+SELECT
+    f.*,
+    -- Classificação por percentil dinâmico (notebook v2)
+    CASE
+        WHEN f.score_final IS NULL  THEN NULL
+        WHEN f.score_final >= p.p75 THEN 'BOM'
+        WHEN f.score_final >= p.p25 THEN 'MEDIO'
+        ELSE                             'RUIM'
+    END AS classificacao,
+    ROUND(p.p25::NUMERIC, 2) AS threshold_medio,
+    ROUND(p.p75::NUMERIC, 2) AS threshold_bom
+FROM final f
+CROSS JOIN percentis p;
+
+COMMENT ON VIEW vw_score_fibra IS 'Score QoE Fibra v5 (notebook validado 2026-04-11): Resp×0.40 + Vid×0.30 + Web×0.20 + Thr×0.10. Filtros (WiFi=TRUE, indoor, latência NOT NULL), FULL OUTER JOIN, score_resolucao com soma manual de todas as resoluções, falha vídeo 3-tier (PDF pag 2), degradação graciosa nos pilares responsividade e vídeo, classificação por percentil p25/p75.';
 
 -- ---------------------------------------------------------------------------
 -- 16. FUNCOES

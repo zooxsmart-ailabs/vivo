@@ -67,7 +67,7 @@
       </div>
 
       <!-- Painel lateral direito -->
-      <div class="w-80 bg-white border-l border-slate-100 flex flex-col shrink-0 overflow-hidden" style="box-shadow: -2px 0 12px rgba(0,0,0,0.04)">
+      <div class="w-[420px] bg-white border-l border-slate-100 flex flex-col shrink-0 overflow-hidden" style="box-shadow: -2px 0 12px rgba(0,0,0,0.04)">
         <div class="px-5 py-3 border-b border-slate-100 shrink-0">
           <div class="flex items-center justify-between gap-2">
             <h2 class="text-sm font-bold text-[#660099]">
@@ -144,11 +144,11 @@ definePageMeta({ layout: "fullscreen" });
 const trpc = useTrpc();
 const filters = useFilters();
 const session = useSession();
+const { detailData, requestDetail, loadDetailImmediate, clear: clearDetail } = useHoverDetail();
 
 // Estado local do mapa
 const hoveredGeohash = ref<any>(null);
 const pinnedGeohash = ref<any>(null);
-const detailData = ref<any>(null);
 const showDiagnostic = ref(false);
 const currentPeriod = ref<string | null>(null);
 
@@ -196,21 +196,12 @@ watch([filters.activeQuadrants, filters.techFilter], () => {
   session.scheduleFlush();
 });
 
-async function loadDetail(geohashId: string) {
-  try {
-    detailData.value = await trpc.geohash.getById.query({
-      geohashId,
-      period: filters.period.value ?? undefined,
-    });
-  } catch {
-    detailData.value = null;
-  }
-}
-
 function onHover(gh: any | null) {
   hoveredGeohash.value = gh;
   if (gh && !pinnedGeohash.value) {
-    loadDetail(gh.geohash_id);
+    requestDetail(gh.geohash_id, filters.period.value ?? undefined);
+  } else if (!gh && !pinnedGeohash.value) {
+    clearDetail();
   }
 }
 
@@ -220,13 +211,13 @@ function onPin(gh: any) {
     return;
   }
   pinnedGeohash.value = gh;
-  loadDetail(gh.geohash_id);
+  loadDetailImmediate(gh.geohash_id, filters.period.value ?? undefined);
   session.scheduleFlush();
 }
 
 function unpin() {
   pinnedGeohash.value = null;
-  detailData.value = null;
+  clearDetail();
 }
 
 function onZoomChange(zoom: number) {

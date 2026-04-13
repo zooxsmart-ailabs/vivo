@@ -1,6 +1,6 @@
 # Modelo Conceitual — Zoox x Vivo GeoIntelligence
 
-**Versão**: 3.0 | **Data**: 2026-04-01
+**Versão**: 4.0 | **Data**: 2026-04-09
 **Fonte**: docs/levantamento/Zoox_+_Vivo_Estrategia_v1203.pdf + CSVs operacionais
 
 ## Diagrama ER
@@ -185,6 +185,34 @@ erDiagram
         text recomendacao_razao
     }
 
+    %% ===== VIEWS DE SCORE QoE (v4 — scores.pdf) =====
+    VW_SCORE_MOBILE {
+        varchar geohash_id PK
+        operator_name operator PK
+        integer anomes PK
+        numeric score_latencia
+        numeric score_video
+        numeric score_web
+        numeric score_throughput
+        numeric score_sinal
+        boolean throughput_disponivel
+        numeric score_final
+        integer total_testes
+    }
+
+    VW_SCORE_FIBRA {
+        varchar geohash_id PK
+        operator_name operator PK
+        integer anomes PK
+        numeric score_responsividade
+        numeric score_video
+        numeric score_web
+        numeric score_throughput
+        boolean throughput_disponivel
+        numeric score_final
+        integer total_testes
+    }
+
     %% ===== VIEWS (Camada Analitica) =====
     VW_GEOHASH_SUMMARY {
         varchar geohash_id PK
@@ -196,6 +224,10 @@ erDiagram
         varchar technology
         varchar competitive_position
         numeric priority_score
+        numeric satisfacao_fibra
+        numeric satisfacao_movel
+        quadrant_type quadrante_fibra
+        quadrant_type quadrante_movel
     }
 
     VW_BAIRRO_SUMMARY {
@@ -237,8 +269,25 @@ erDiagram
     VIVO_FTTH_COVERAGE }o--|| GEOHASH_CELL : "ST_GeoHash(x,y) -> geohash_id"
     VIVO_MOBILE_ERB }o--|| GEOHASH_CELL : "ST_GeoHash(x,y) -> geohash_id"
 
+    %% Views de Score QoE (v4) → fontes raw
+    VW_SCORE_MOBILE ||--o{ FILE_TRANSFER : "latência, throughput"
+    VW_SCORE_MOBILE ||--o{ VIDEO : "rebuffering, tempo_inicio, taxa_falha"
+    VW_SCORE_MOBILE ||--o{ WEB_BROWSING : "carregamento, taxa_falha"
+    VW_SCORE_MOBILE ||--o{ NETWORK_PERFORMANCE_MOBILE : "throughput alt"
+
+    VW_SCORE_FIBRA ||--o{ FILE_TRANSFER : "latência, TCP connect, throughput"
+    VW_SCORE_FIBRA ||--o{ VIDEO : "rebuffering, resolução, tempo_inicio"
+    VW_SCORE_FIBRA ||--o{ WEB_BROWSING : "first_byte, carregamento"
+    VW_SCORE_FIBRA ||--o{ NETWORK_PERFORMANCE_FIXED : "throughput alt"
+
+    %% Diagnóstico usa score da tech dominante (v4)
+    DIAGNOSTICO_GROWTH ||--o{ VW_SCORE_MOBILE : "score_ookla (se tech dominante = movel)"
+    DIAGNOSTICO_GROWTH ||--o{ VW_SCORE_FIBRA : "score_ookla (se tech dominante = fibra)"
+
     %% Views consomem dados
     VW_GEOHASH_SUMMARY ||--o{ SCORE : "scores por operadora"
+    VW_GEOHASH_SUMMARY ||--o{ VW_SCORE_MOBILE : "satisfacao_movel, quadrante_movel"
+    VW_GEOHASH_SUMMARY ||--o{ VW_SCORE_FIBRA : "satisfacao_fibra, quadrante_fibra"
     VW_GEOHASH_SUMMARY ||--o{ VIVO_FTTH_COVERAGE : "share fibra real"
     VW_GEOHASH_SUMMARY ||--o{ VIVO_MOBILE_ERB : "share movel real"
     VW_GEOHASH_SUMMARY ||--o{ GEO_POR_LATLONG : "demografia"
@@ -271,7 +320,12 @@ erDiagram
 | CAMADA2_FIBRA | GEOHASH_CELL | N:1 | Score e classificação fibra por geohash | UC009 |
 | CAMADA2_MOVEL | GEOHASH_CELL | N:1 | Score e classificação móvel por geohash | UC009 |
 | DIAGNOSTICO_GROWTH | GEOHASH_CELL | N:1 | Diagnóstico 4 pilares por geohash/mês | UC009 |
-| DIAGNOSTICO_GROWTH | SCORE | 1:N | Score Ookla e delta competitivo | UC009 |
+| VW_SCORE_MOBILE | FILE_TRANSFER, VIDEO, WEB_BROWSING | N:N | Score QoE Mobile (scores.pdf) | UC004, UC009 |
+| VW_SCORE_FIBRA | FILE_TRANSFER, VIDEO, WEB_BROWSING | N:N | Score QoE Fibra (scores.pdf) | UC004, UC009 |
+| VW_GEOHASH_SUMMARY | VW_SCORE_MOBILE | 1:N | Satisfação móvel e quadrante por tech | UC001-UC010 |
+| VW_GEOHASH_SUMMARY | VW_SCORE_FIBRA | 1:N | Satisfação fibra e quadrante por tech | UC001-UC010 |
+| DIAGNOSTICO_GROWTH | VW_SCORE_MOBILE/FIBRA | 1:1 | Score Ookla da tech dominante (v4) | UC009 |
+| DIAGNOSTICO_GROWTH | SCORE | 1:N | Delta competitivo (mantido) | UC009 |
 | DIAGNOSTICO_GROWTH | CAMADA2_FIBRA | 1:1 | Classificação fibra do geohash | UC009 |
 | DIAGNOSTICO_GROWTH | CAMADA2_MOVEL | 1:1 | Classificação móvel do geohash | UC009 |
 | DIAGNOSTICO_GROWTH | GEOHASH_CRM | 1:1 | ARPU relativo do geohash | UC009 |
@@ -299,3 +353,5 @@ erDiagram
 | **CAMADA2_FIBRA** | ALI | **D14** | UC009 (score e classificação fibra) |
 | **CAMADA2_MOVEL** | ALI | **D15** | UC009 (score e classificação móvel) |
 | **DIAGNOSTICO_GROWTH** | ALI | **D16** | UC009 (diagnóstico 4 pilares) |
+| **VW_SCORE_MOBILE** | ALI (View) | **—** | UC004, UC009 (Score QoE Mobile v4) |
+| **VW_SCORE_FIBRA** | ALI (View) | **—** | UC004, UC009 (Score QoE Fibra v4) |

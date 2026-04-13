@@ -13,6 +13,8 @@ import {
   fibraClass,
   movelClass,
   recomendacaoType,
+  decisaoTechType,
+  prioridadeGrowth,
   sinalType,
 } from "./_enums";
 
@@ -27,6 +29,15 @@ export const diagnosticoGrowth = pgTable(
 
     // Pilar 01 — Percepção
     scoreOokla: numeric("score_ookla", { precision: 4, scale: 1 }).notNull(),
+    scoreOoklaMovel: numeric("score_ookla_movel", {
+      precision: 4,
+      scale: 1,
+    }),
+    scoreOoklaFibra: numeric("score_ookla_fibra", {
+      precision: 4,
+      scale: 1,
+    }),
+    scoreHac: numeric("score_hac", { precision: 4, scale: 1 }),
     taxaChamados: numeric("taxa_chamados", { precision: 5, scale: 2 })
       .notNull()
       .default("0"),
@@ -40,6 +51,14 @@ export const diagnosticoGrowth = pgTable(
       precision: 4,
       scale: 1,
     }).notNull(),
+    deltaVsLiderFibra: numeric("delta_vs_lider_fibra", {
+      precision: 4,
+      scale: 1,
+    }),
+    deltaVsLiderMovel: numeric("delta_vs_lider_movel", {
+      precision: 4,
+      scale: 1,
+    }),
 
     // Pilar 03 — Infraestrutura
     fibraClassification: fibraClass("fibra_class").notNull().default("SAUDAVEL"),
@@ -69,7 +88,11 @@ export const diagnosticoGrowth = pgTable(
     // Recomendação IA
     recomendacao: recomendacaoType("recomendacao")
       .notNull()
-      .default("ATIVAR"),
+      .default("ATACAR"),
+    decisaoMovel: decisaoTechType("decisao_movel"),
+    decisaoFibra: decisaoTechType("decisao_fibra"),
+    prioMovel: prioridadeGrowth("prio_movel"),
+    prioFibra: prioridadeGrowth("prio_fibra"),
     recomendacaoRazao: text("recomendacao_razao"),
 
     // Metadata
