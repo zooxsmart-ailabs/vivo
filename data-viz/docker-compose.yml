@@ -1,5 +1,8 @@
+name: vivo-data-viz
+
 services:
   nginx:
+    container_name: vivo-dv-nginx
     image: nginx:alpine
     ports:
       - "${NGINX_PORT:-80}:80"
@@ -15,6 +18,7 @@ services:
     restart: unless-stopped
 
   api:
+    container_name: vivo-dv-api
     build:
       context: .
       dockerfile: apps/api/Dockerfile
@@ -25,8 +29,8 @@ services:
       - DATABASE_PASSWORD=${DATABASE_PASSWORD:-changeme}
       - DATABASE_NAME=${DATABASE_NAME:-vivo_geointel}
       - DATABASE_SSL=${DATABASE_SSL:-false}
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
+      - REDIS_HOST=${REDIS_HOST:-redis}
+      - REDIS_PORT=${REDIS_PORT:-6379}
       - REDIS_PASSWORD=${REDIS_PASSWORD:-}
       - PORT=3001
       - NODE_ENV=${NODE_ENV:-production}
@@ -36,14 +40,12 @@ services:
       - OTEL_SERVICE_NAME=vivo-api
       - OTEL_EXPORTER_OTLP_ENDPOINT=${OTEL_EXPORTER_OTLP_ENDPOINT:-http://host.docker.internal:4317}
       - OTEL_ENABLED=${OTEL_ENABLED:-false}
-    depends_on:
-      redis:
-        condition: service_healthy
     networks:
       - vivo-net
     restart: unless-stopped
 
   web:
+    container_name: vivo-dv-web
     build:
       context: .
       dockerfile: apps/web/Dockerfile
@@ -55,6 +57,8 @@ services:
     restart: unless-stopped
 
   redis:
+    container_name: vivo-dv-redis
+    profiles: ["redis"]
     image: redis:8-alpine
     command: redis-server --appendonly yes --requirepass "${REDIS_PASSWORD:-}"
     volumes:
