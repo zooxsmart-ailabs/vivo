@@ -11,8 +11,12 @@ import type { AppRouter } from "@vivo/zoox-map-api/src/trpc/trpc.router";
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig();
 
+  const wsUrl = config.public.apiBase
+    .replace(/^https:/, "wss:")
+    .replace(/^http:/, "ws:");
+
   const wsClient = createWSClient({
-    url: `${config.public.wsUrl}/trpc-ws`,
+    url: `${wsUrl}/trpc-ws`,
   });
 
   const client = createTRPCProxyClient<AppRouter>({
