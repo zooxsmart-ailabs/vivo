@@ -38,6 +38,7 @@ jobs:
           REDIS_PORT=${{ secrets.REDIS_PORT }}
           NUXT_PUBLIC_API_BASE=${{ secrets.NUXT_PUBLIC_API_BASE }}
           NUXT_PUBLIC_WS_URL=${{ secrets.NUXT_PUBLIC_WS_URL }}
+          NUXT_PUBLIC_GOOGLE_MAPS_KEY=${{ secrets.NUXT_PUBLIC_GOOGLE_MAPS_KEY }}
           EOF
 
       - name: Build and deploy containers
