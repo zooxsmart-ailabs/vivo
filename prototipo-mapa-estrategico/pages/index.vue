@@ -1,0 +1,1055 @@
+<script setup lang="ts">
+/// <reference types="@types/google.maps" />
+import { ref, computed, shallowRef } from "vue";
+import {
+  SlidersHorizontal,
+  Wifi,
+  Signal,
+  Rocket,
+  MapPin,
+  Star,
+  AlertTriangle,
+  CheckCircle2,
+  BarChart3,
+  Layers,
+  ShoppingBag,
+  Search,
+  Zap,
+  Brain,
+  TrendingUp,
+  Info,
+} from "lucide-vue-next";
+import {
+  QUADRANT_COLORS,
+  QUADRANT_LABELS,
+  QUADRANT_ORDER,
+  type GeohashData,
+  type Quadrant,
+  type TechCategory,
+  type DiagnosticoGrowth,
+  type Camada2,
+  geohashToPolygon,
+  calcPriorityScore,
+} from "~/utils/geohashData";
+import { GEOHASH_DATA_GOIANIA } from "~/utils/geohashDataGoiania";
+
+// ─── Dados de Goiânia ──────────────────────────────────────────────────────
+const ALL_DATA = GEOHASH_DATA_GOIANIA;
+
+// ─── Diagnóstico Bivariado — textos de legenda ────────────────────────────
+const DIAGNOSTIC_DESCRIPTIONS: Record<Quadrant, string> = {
+  GROWTH:          "Share baixo + Satisfação alta — janela de ataque, geração de leads",
+  UPSELL:          "Share alto + Satisfação alta — maximizar receita, upsell premium",
+  GROWTH_RETENCAO: "Share baixo + Satisfação baixa — dupla frente: aquisição + infraestrutura",
+  RETENCAO:        "Share alto + Satisfação baixa — risco iminente de churn, ação urgente",
+};
+
+// ─── Tipos internos ────────────────────────────────────────────────────────
+type Sig3 = "ok" | "alerta" | "critico";
+
+const SIG: Record<Sig3, { bg: string; border: string; text: string; dot: string; label: string }> = {
+  ok:      { bg: "#F0FDF4", border: "#BBF7D0", text: "#15803D", dot: "#16A34A", label: "OK" },
+  alerta:  { bg: "#FFFBEB", border: "#FDE68A", text: "#B45309", dot: "#D97706", label: "Alerta" },
+  critico: { bg: "#FEF2F2", border: "#FECACA", text: "#DC2626", dot: "#EF4444", label: "Crítico" },
+};
+
+interface PilarMetrica {
+  label: string;
+  value: string;
+  formula: string;
+  signal: Sig3;
+  detail: string;
+}
+interface PilarResult {
+  id: string;
+  title: string;
+  signal: Sig3;
+  metricas: PilarMetrica[];
+}
+interface AIRec {
+  decisao: "AGUARDAR" | "ATACAR";
+  decisaoColor: string;
+  decisaoMovel: "AGUARDAR" | "ATACAR";
+  decisaoFibra: "AGUARDAR" | "ATACAR";
+  prioMovel: "ALTA" | "MÉDIA" | "BAIXA";
+  prioFibra: "ALTA" | "MÉDIA" | "BAIXA";
+  scoreTotal: number;
+  prioTotal: "ALTA" | "MÉDIA" | "BAIXA";
+  canal: string;
+  abordagem: string;
+  raciocinio: string;
+}
+
+function worstSig(...sigs: Sig3[]): Sig3 {
+  if (sigs.includes("critico")) return "critico";
+  if (sigs.includes("alerta")) return "alerta";
+  return "ok";
+}
+
+function avaliarPercep(d: DiagnosticoGrowth): PilarResult {
+  const movel = d.scoreOoklaMovel ?? d.scoreOokla;
+  const fibra = d.scoreOoklaFibra ?? 0;
+  const hac   = d.scoreHAC ?? 0;
+  const sm: Sig3 = movel >= 8 ? "ok" : movel >= 6 ? "alerta" : "critico";
+  const sf: Sig3 = fibra === 0 ? "ok" : fibra >= 8 ? "ok" : fibra >= 6 ? "alerta" : "critico";
+  const sh: Sig3 = hac   === 0 ? "ok" : hac   >= 8 ? "ok" : hac   >= 6 ? "alerta" : "critico";
+  const metricas: PilarMetrica[] = [
+    { label: "SpeedTest Móvel", value: movel.toFixed(1), formula: "Score Ookla — SpeedTest Vivo Móvel no Geohash", signal: sm, detail: sm === "ok" ? "≥ 8.0 — Excelente" : sm === "alerta" ? "6.0–7.9 — Regular" : "< 6.0 — Crítico" },
+  ];
+  if (fibra > 0) metricas.push({ label: "SpeedTest Fibra", value: fibra.toFixed(1), formula: "Score Ookla — SpeedTest Vivo Fibra no Geohash", signal: sf, detail: sf === "ok" ? "≥ 8.0 — Excelente" : sf === "alerta" ? "6.0–7.9 — Regular" : "< 6.0 — Crítico" });
+  if (hac > 0)  metricas.push({ label: "Score HAC", value: hac.toFixed(1), formula: "Avaliação de qualidade HAC — Fibra", signal: sh, detail: sh === "ok" ? "≥ 8.0 — Excelente" : sh === "alerta" ? "6.0–7.9 — Regular" : "< 6.0 — Crítico" });
+  return { id: "01", title: "Percepção", signal: worstSig(sm, sf, sh), metricas };
+}
+
+function scoreCategoria(score: number): number { return score >= 8.0 ? 2 : score >= 6.0 ? 1 : 0; }
+function categoriaLabel(score: number): string  { return score >= 8.0 ? "Excelente" : score >= 6.0 ? "Regular" : "Crítico"; }
+
+function avaliarConcorrencia(d: DiagnosticoGrowth): PilarResult {
+  const s1: Sig3 = d.sharePenetracao < 20 ? "ok" : d.sharePenetracao <= 40 ? "alerta" : "critico";
+  const vivoFibra  = d.scoreOoklaFibra ?? d.scoreOokla;
+  const liderFibra = d.scoreLiderFibra ?? (vivoFibra - (d.deltaVsLiderFibra ?? d.deltaVsLider));
+  const catVivoF  = scoreCategoria(vivoFibra);
+  const catLiderF = scoreCategoria(liderFibra);
+  const s2f: Sig3 = catVivoF > catLiderF ? "ok" : catVivoF === catLiderF ? "alerta" : "critico";
+  const vivoMovel  = d.scoreOoklaMovel ?? d.scoreOokla;
+  const liderMovel = d.scoreLiderMovel ?? (vivoMovel - (d.deltaVsLiderMovel ?? d.deltaVsLider));
+  const catVivoM  = scoreCategoria(vivoMovel);
+  const catLiderM = scoreCategoria(liderMovel);
+  const s2m: Sig3 = catVivoM > catLiderM ? "ok" : catVivoM === catLiderM ? "alerta" : "critico";
+  function detailCategoria(cv: number, cl: number, lv: string, ll: string) {
+    return cv > cl ? `Vivo ${lv} vs Líder ${ll} — Vantagem` : cv === cl ? `Vivo ${lv} = Líder ${ll} — Empate` : `Vivo ${lv} vs Líder ${ll} — Desvantagem`;
+  }
+  return {
+    id: "02", title: "Concorrência", signal: worstSig(s1, s2f, s2m),
+    metricas: [
+      { label: "Share / Penetração", value: `${d.sharePenetracao}%`, formula: "Base Vivo / Total Domicílios (Zoox)", signal: s1, detail: s1 === "ok" ? "< 20% — Alta Oportunidade" : s1 === "alerta" ? "20–40% — Média Oportunidade" : "> 40% — Saturado" },
+      { label: "Vantagem Satisfação Fibra", value: s2f === "ok" ? "Vantagem" : s2f === "alerta" ? "Empate" : "Desvantagem", formula: "Comparação por categoria: Excelente / Regular / Crítico (Ookla)", signal: s2f, detail: detailCategoria(catVivoF, catLiderF, categoriaLabel(vivoFibra), categoriaLabel(liderFibra)) },
+      { label: "Vantagem Satisfação Móvel", value: s2m === "ok" ? "Vantagem" : s2m === "alerta" ? "Empate" : "Desvantagem", formula: "Comparação por categoria: Excelente / Regular / Crítico (Ookla)", signal: s2m, detail: detailCategoria(catVivoM, catLiderM, categoriaLabel(vivoMovel), categoriaLabel(liderMovel)) },
+    ],
+  };
+}
+
+function avaliarInfra(c2: Camada2 | undefined): PilarResult {
+  const fc = c2?.fibra?.classification ?? "SAUDAVEL";
+  const mc = c2?.movel?.classification ?? "SAUDAVEL";
+  const s1: Sig3 = fc === "SAUDAVEL" ? "ok" : fc === "EXPANSAO_NOVA_AREA" ? "critico" : "alerta";
+  const s2: Sig3 = mc === "SAUDAVEL" ? "ok" : mc === "MELHORA_QUALIDADE" ? "critico" : "alerta";
+  const FL: Record<string, string> = { SAUDAVEL: "Saudável — Growth Liberado", MELHORA_QUALIDADE: "Melhora da Qualidade — Intervenção Recomendada", AUMENTO_CAPACIDADE: "Aumento de Capacidade — Controlado", EXPANSAO_NOVA_AREA: "Expansão Nova Área — Bloqueado" };
+  const ML: Record<string, string> = { SAUDAVEL: "Saudável — Growth Liberado", MELHORA_QUALIDADE: "Melhora na Qualidade — Crítico", EXPANSAO_COBERTURA: "Expansão de Cobertura — Controlado", EXPANSAO_5G: "Expansão de Cobertura — Controlado", EXPANSAO_4G: "Expansão de Cobertura — Controlado" };
+  return { id: "03", title: "Infraestrutura", signal: worstSig(s1, s2), metricas: [
+    { label: "Fibra (Status)", value: fc, formula: "Saudável / Melhora da Qualidade / Aumento de Capacidade / Expansão Nova Área", signal: s1, detail: FL[fc] ?? fc },
+    { label: "Móvel (Status)", value: mc, formula: "Saudável / Melhora na Qualidade / Expansão de Cobertura", signal: s2, detail: ML[mc] ?? mc },
+  ]};
+}
+
+function avaliarComportamento(d: DiagnosticoGrowth): PilarResult {
+  const s1: Sig3 = d.arpuRelativo > 1.1 ? "ok" : d.arpuRelativo >= 0.9 ? "alerta" : "critico";
+  const s2: Sig3 = d.canalPct >= 50 ? "ok" : d.canalPct >= 20 ? "alerta" : "critico";
+  return { id: "04", title: "Comportamento", signal: worstSig(s1, s2), metricas: [
+    { label: "Sensibilidade a Preço", value: d.arpuRelativo.toFixed(2), formula: "ARPU Geohash / ARPU Médio da Cidade", signal: s1, detail: s1 === "ok" ? "Índice > 1.1 — Foco em Totalização" : s1 === "alerta" ? "0.9–1.1 — Mix de Ofertas" : "Índice < 0.9 — Sensível a Preço" },
+    { label: "Afinidade de Canal", value: `${d.canalDominante} (${d.canalPct}%)`, formula: "Vendas Canal X / Total Vendas no Geohash", signal: s2, detail: s2 === "ok" ? "> 50% — Canal Dominante (80% verba)" : s2 === "alerta" ? "20–50% — Canal Complementar" : "< 20% — Canal Ineficiente" },
+  ]};
+}
+
+function calcPrio(score: number): "ALTA" | "MÉDIA" | "BAIXA" {
+  return score >= 7.5 ? "ALTA" : score >= 5.5 ? "MÉDIA" : "BAIXA";
+}
+
+function gerarRec(d: DiagnosticoGrowth, c2: Camada2 | undefined): AIRec {
+  const fc = c2?.fibra?.classification ?? "SAUDAVEL";
+  const mc = c2?.movel?.classification ?? "SAUDAVEL";
+  const fibraBloqueada = fc === "EXPANSAO_NOVA_AREA";
+  const fibraGargalo = fc === "AUMENTO_CAPACIDADE";
+  const movelProblema = mc === "MELHORA_QUALIDADE";
+  const movelExpansao = mc === "EXPANSAO_5G" || mc === "EXPANSAO_4G";
+  const percCritica = d.scoreOokla < 6 || d.taxaChamados > 5;
+  const concCritica = d.deltaVsLider < -1;
+  const infraControle = fibraGargalo || movelProblema;
+  let decisao: AIRec["decisao"];
+  let decisaoColor: string;
+  if (infraControle || percCritica || concCritica || fibraBloqueada) { decisao = "AGUARDAR"; decisaoColor = "#D97706"; }
+  else { decisao = "ATACAR"; decisaoColor = "#16A34A"; }
+  const decisaoMovel: AIRec["decisaoMovel"] = (movelProblema || movelExpansao || percCritica) ? "AGUARDAR" : "ATACAR";
+  const decisaoFibra: AIRec["decisaoFibra"] = (fibraBloqueada || fibraGargalo) ? "AGUARDAR" : "ATACAR";
+  const scoreMovel = d.scoreOoklaMovel ?? d.scoreOokla;
+  const scoreFibra = d.scoreOoklaFibra ?? 0;
+  const prioMovel = calcPrio(scoreMovel);
+  const prioFibra = scoreFibra > 0 ? calcPrio(scoreFibra) : "BAIXA";
+  let canal: string;
+  if (d.canalPct >= 50) canal = `${d.canalDominante} (dominante — priorizar 80% da verba)`;
+  else if (d.canalPct >= 20) canal = `${d.canalDominante} + canal complementar`;
+  else canal = `Redefinir canal — ${d.canalDominante} ineficiente (<20%)`;
+  let abordagem: string;
+  if (fibraBloqueada) abordagem = "Não ativar growth de fibra. Aguardar expansão de cobertura na área. Focar exclusivamente em móvel enquanto infraestrutura não está disponível.";
+  else if (fibraGargalo && !movelProblema) abordagem = d.arpuRelativo >= 0.9 ? "Rede móvel saudável — priorizar aquisição via móvel enquanto capacidade de fibra é ampliada." : "Fibra com gargalo de capacidade. Abordar com planos móvel de entrada.";
+  else if (!fibraGargalo && movelProblema) abordagem = d.arpuRelativo > 1.1 ? "Rede móvel com qualidade comprometida — priorizar oferta de fibra (rede saudável). Perfil premium: bundle com streaming." : "Focar em fibra como produto principal. Rede móvel com qualidade comprometida.";
+  else if (fibraGargalo && movelProblema) abordagem = "Ambas as redes com restrições técnicas. Aguardar resolução de infraestrutura antes de ativar growth.";
+  else if (movelExpansao) abordagem = `Expansão de cobertura ${mc === "EXPANSAO_5G" ? "5G" : "4G"} em andamento. Abordar com oferta de fibra como produto principal.`;
+  else abordagem = d.arpuRelativo > 1.1 ? "Oferta de totalização (Fibra + Móvel + Streaming). Perfil premium." : d.arpuRelativo >= 0.9 ? "Mix de ofertas com ancoragem de preço." : "Oferta de entrada com preço competitivo. Cliente sensível a preço.";
+  const reasons: string[] = [];
+  if (fibraBloqueada) reasons.push("fibra bloqueada — área sem cobertura");
+  if (fibraGargalo) reasons.push("fibra com gargalo de capacidade");
+  if (movelProblema) reasons.push("qualidade móvel comprometida");
+  if (d.scoreOokla >= 8) reasons.push("percepção excelente (Ookla ≥ 8.0)");
+  else if (d.scoreOokla < 6) reasons.push("percepção crítica (Ookla < 6.0)");
+  if (d.taxaChamados < 3) reasons.push("baixo volume de chamados (<3%)");
+  if (d.sharePenetracao < 20) reasons.push("alta oportunidade (share < 20%)");
+  if (d.deltaVsLider > 0) reasons.push("Vivo com vantagem técnica");
+  else if (d.deltaVsLider < -1) reasons.push("desvantagem técnica significativa");
+  const raciocinio = reasons.length > 0 ? `Decisão baseada em: ${reasons.join("; ")}.` : "Geohash com perfil equilibrado. Ativar growth com oferta adequada ao perfil de preço.";
+  const scoreTotal = scoreFibra > 0 ? parseFloat(((scoreMovel + scoreFibra) / 2).toFixed(1)) : parseFloat(scoreMovel.toFixed(1));
+  const prioTotal = calcPrio(scoreTotal);
+  return { decisao, decisaoColor, decisaoMovel, decisaoFibra, prioMovel, prioFibra, scoreTotal, prioTotal, canal, abordagem, raciocinio };
+}
+
+// ─── Priority Info local (usa dados de Goiânia) ───────────────────────────
+interface PriorityInfo { score: number; rank: number; total: number; percentile: number; label: "Crítico" | "Alto" | "Médio" | "Baixo"; color: string; }
+
+function getVivoScoreRaw(gh: GeohashData): number {
+  return gh.satisfactionScores.find(s => s.name === "VIVO")?.score ?? gh.diagnostico?.scoreOokla ?? 0;
+}
+
+function calcPriorityScoreLocal(gh: GeohashData): number {
+  const vivoScore = getVivoScoreRaw(gh);
+  const share = gh.marketShare.percentage;
+  switch (gh.quadrant) {
+    case "RETENCAO":        return share * 0.5 + (10 - vivoScore) * 5;
+    case "UPSELL":          return vivoScore * 5 + share * 0.5;
+    case "GROWTH":          return (10 - share) * 0.5 + vivoScore * 5;
+    case "GROWTH_RETENCAO": { const d = gh.demographics; if (!d) return 0; return (d.avgIncome / 1000) * 3 + d.populationGrowth * 5 + d.populationDensity / 100; }
+    default: return 0;
+  }
+}
+
+let _priorityCacheGoiania: Map<string, PriorityInfo> | null = null;
+
+function getPriorityInfoLocal(gh: GeohashData): PriorityInfo {
+  if (!_priorityCacheGoiania) {
+    _priorityCacheGoiania = new Map();
+    const quadrants: Quadrant[] = ["GROWTH", "UPSELL", "GROWTH_RETENCAO", "RETENCAO"];
+    for (const q of quadrants) {
+      const group = ALL_DATA.filter(g => g.quadrant === q);
+      const scored = group.map(g => ({ id: g.id, score: calcPriorityScoreLocal(g) })).sort((a, b) => b.score - a.score);
+      const total = scored.length;
+      scored.forEach((item, idx) => {
+        const rank = idx + 1;
+        const percentile = total > 1 ? Math.round(((total - rank) / (total - 1)) * 100) : 100;
+        let label: PriorityInfo["label"];
+        let color: string;
+        if (percentile >= 75) { label = "Crítico"; color = "#DC2626"; }
+        else if (percentile >= 50) { label = "Alto";    color = "#D97706"; }
+        else if (percentile >= 25) { label = "Médio";   color = "#2563EB"; }
+        else                       { label = "Baixo";   color = "#64748B"; }
+        _priorityCacheGoiania!.set(item.id, { score: parseFloat(item.score.toFixed(1)), rank, total, percentile, label, color });
+      });
+    }
+  }
+  return _priorityCacheGoiania.get(gh.id) ?? { score: 0, rank: 1, total: 1, percentile: 100, label: "Crítico", color: "#DC2626" };
+}
+
+// ─── Constantes de exibição ────────────────────────────────────────────────
+const INFRA_LABELS: Record<string, string> = {
+  SAUDAVEL: "Saudável", AUMENTO_CAPACIDADE: "Aumento de Capacidade",
+  EXPANSAO_NOVA_AREA: "Expansão Nova Área", MELHORA_QUALIDADE: "Melhora na Qualidade",
+};
+
+const PILAR_ICONS: Record<string, any> = {
+  "01": Star, "02": TrendingUp, "03": Layers, "04": ShoppingBag,
+};
+
+const DECISAO_ICONS: Record<string, any> = {
+  ATACAR: CheckCircle2, AGUARDAR: AlertTriangle,
+};
+
+const PRIO_STYLE: Record<string, { color: string; bg: string; border: string }> = {
+  ALTA:  { color: "#DC2626", bg: "#FEF2F2", border: "#FECACA" },
+  MÉDIA: { color: "#D97706", bg: "#FFFBEB", border: "#FDE68A" },
+  BAIXA: { color: "#16A34A", bg: "#F0FDF4", border: "#BBF7D0" },
+};
+
+const TECH_COLORS: Record<TechCategory, { hex: string; label: string }> = {
+  FIBRA: { hex: "#0EA5E9", label: "Fibra" },
+  MOVEL: { hex: "#F97316", label: "Móvel" },
+  AMBOS: { hex: "#8B5CF6", label: "Ambos" },
+};
+
+// ─── Estado reativo ────────────────────────────────────────────────────────
+const search = ref("");
+const selectedId = ref<string | null>(null);
+const activeFilters = ref<Set<Quadrant>>(new Set(QUADRANT_ORDER));
+const techFilter = ref<TechCategory | "TODOS">("TODOS");
+const tooltipQuadrant = ref<Quadrant | null>(null);
+const tooltipX = ref(0);
+const tooltipY = ref(0);
+
+// Mapa
+const hoveredGeohash = shallowRef<GeohashData | null>(null);
+const pinnedGeohash = shallowRef<GeohashData | null>(null);
+let pinnedRef: GeohashData | null = null;
+const polygonsMap = new Map<string, google.maps.Polygon>();
+let techFilterCurrent: TechCategory | "TODOS" = "TODOS";
+let activeFiltersCurrent: Set<Quadrant> = new Set(QUADRANT_ORDER);
+
+// ─── Dados derivados ───────────────────────────────────────────────────────
+const totalGeohashes = ALL_DATA.length;
+const riscoCount = ALL_DATA.filter(d => d.quadrant === "RETENCAO").length;
+
+const visibleCount = computed(() =>
+  ALL_DATA.filter(d => isVisible(d, activeFilters.value, techFilter.value)).length
+);
+
+const growthGeos = computed(() =>
+  ALL_DATA.filter(g => g.quadrant === "GROWTH")
+    .sort((a, b) => calcPriorityScoreLocal(b) - calcPriorityScoreLocal(a))
+);
+
+const filtered = computed(() =>
+  growthGeos.value.filter(g =>
+    g.neighborhood.toLowerCase().includes(search.value.toLowerCase()) ||
+    g.id.toLowerCase().includes(search.value.toLowerCase())
+  )
+);
+
+const displayGeo = computed(() =>
+  (selectedId.value ? growthGeos.value.find(g => g.id === selectedId.value) : null) ??
+  growthGeos.value[0] ?? null
+);
+
+const pilares = computed<PilarResult[]>(() => {
+  if (!displayGeo.value?.diagnostico) return [];
+  const d = displayGeo.value.diagnostico;
+  return [
+    avaliarPercep(d),
+    avaliarConcorrencia(d),
+    avaliarInfra(displayGeo.value.camada2),
+    avaliarComportamento(d),
+  ];
+});
+
+const recomendacao = computed<AIRec | null>(() => {
+  if (!displayGeo.value?.diagnostico) return null;
+  return gerarRec(displayGeo.value.diagnostico, displayGeo.value.camada2);
+});
+
+const priority = computed(() => displayGeo.value ? getPriorityInfoLocal(displayGeo.value) : null);
+
+// ─── Funções de utilidade ──────────────────────────────────────────────────
+function priorityInfo(g: GeohashData) { return getPriorityInfoLocal(g); }
+function metricDisplay(m: PilarMetrica) { return INFRA_LABELS[m.value] ?? m.value; }
+
+function fmtCurrency(v?: number): string {
+  if (!v || v === 0) return "—";
+  return `R$\u00a0${v.toLocaleString("pt-BR", { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+}
+function fmtDeltaShare(v?: number): string {
+  if (v === undefined || v === null) return "—";
+  return `${v > 0 ? "+" : ""}${v.toFixed(1)}pp`;
+}
+function fmtPop(v?: number): string {
+  if (!v) return "—";
+  return v >= 1000 ? `${(v / 1000).toFixed(1)}k` : v.toString();
+}
+function getSocialClass(income?: number): { label: string; color: string; bg: string; border: string } {
+  if (!income) return { label: "—", color: "#94A3B8", bg: "#F1F5F9", border: "#CBD5E1" };
+  if (income > 11296) return { label: "Classe A", color: "#15803D", bg: "#F0FDF4", border: "#BBF7D0" };
+  if (income > 5648)  return { label: "Classe B", color: "#6D28D9", bg: "#F5F3FF", border: "#DDD6FE" };
+  if (income > 2824)  return { label: "Classe C", color: "#1D4ED8", bg: "#EFF6FF", border: "#BFDBFE" };
+  if (income > 1412)  return { label: "Classe D", color: "#B45309", bg: "#FFFBEB", border: "#FDE68A" };
+  return                     { label: "Classe E", color: "#6B7280", bg: "#F9FAFB", border: "#E5E7EB" };
+}
+
+// ─── Mapa ──────────────────────────────────────────────────────────────────
+function isVisible(gh: GeohashData, filters: Set<Quadrant>, tech: TechCategory | "TODOS") {
+  if (!filters.has(gh.quadrant)) return false;
+  if (tech !== "TODOS" && gh.technology !== tech && gh.technology !== "AMBOS") return false;
+  return true;
+}
+function getPolygonColor(gh: GeohashData) { return QUADRANT_COLORS[gh.quadrant].hex; }
+
+function toggleFilter(q: Quadrant) {
+  const next = new Set(activeFilters.value);
+  if (next.has(q)) next.delete(q); else next.add(q);
+  activeFilters.value = next;
+  activeFiltersCurrent = next;
+  polygonsMap.forEach((polygon, id) => {
+    const data = ALL_DATA.find(d => d.id === id);
+    if (data) polygon.setVisible(isVisible(data, next, techFilterCurrent));
+  });
+}
+
+function handleTechFilter(tech: TechCategory | "TODOS") {
+  techFilter.value = tech;
+  techFilterCurrent = tech;
+  polygonsMap.forEach((polygon, id) => {
+    const data = ALL_DATA.find(d => d.id === id);
+    if (!data) return;
+    const visible = isVisible(data, activeFiltersCurrent, tech);
+    polygon.setVisible(visible);
+    if (visible) {
+      const color = getPolygonColor(data);
+      polygon.setOptions({ fillColor: color, strokeColor: color + "CC" });
+    }
+  });
+}
+
+function unpinFromButton() {
+  if (!pinnedGeohash.value) return;
+  const prev = polygonsMap.get(pinnedGeohash.value.id);
+  if (prev) {
+    const c = getPolygonColor(pinnedGeohash.value);
+    prev.setOptions({ fillOpacity: 0.4, strokeWeight: 1.5, strokeColor: c + "CC", zIndex: 1 });
+  }
+  pinnedRef = null;
+  pinnedGeohash.value = null;
+}
+
+function onMapReady(map: google.maps.Map) {
+  map.setOptions({
+    styles: [
+      { featureType: "poi", elementType: "labels", stylers: [{ visibility: "off" }] },
+      { featureType: "transit", elementType: "labels", stylers: [{ visibility: "off" }] },
+      { featureType: "road", elementType: "labels.icon", stylers: [{ visibility: "off" }] },
+      { elementType: "geometry", stylers: [{ color: "#f5f5f5" }] },
+      { elementType: "labels.text.fill", stylers: [{ color: "#616161" }] },
+      { elementType: "labels.text.stroke", stylers: [{ color: "#f5f5f5" }] },
+      { featureType: "road", elementType: "geometry", stylers: [{ color: "#ffffff" }] },
+      { featureType: "road.highway", elementType: "geometry", stylers: [{ color: "#dadada" }] },
+      { featureType: "water", elementType: "geometry", stylers: [{ color: "#c9c9c9" }] },
+    ],
+  });
+
+  ALL_DATA.forEach((gh) => {
+    const color = getPolygonColor(gh);
+    const polygon = new google.maps.Polygon({
+      paths: geohashToPolygon(gh.id),
+      fillColor: color,
+      fillOpacity: 0.4,
+      strokeColor: color + "CC",
+      strokeWeight: 1.5,
+      map,
+      zIndex: 1,
+      visible: isVisible(gh, activeFiltersCurrent, techFilterCurrent),
+    });
+
+    polygon.addListener("mouseover", () => {
+      if (pinnedRef) return;
+      polygon.setOptions({ fillOpacity: 0.75, strokeWeight: 2.5, zIndex: 10 });
+      hoveredGeohash.value = gh;
+    });
+    polygon.addListener("mouseout", () => {
+      if (pinnedRef) return;
+      polygon.setOptions({ fillOpacity: 0.4, strokeWeight: 1.5, zIndex: 1 });
+      hoveredGeohash.value = null;
+    });
+    polygon.addListener("click", () => {
+      if (pinnedRef && pinnedRef.id !== gh.id) {
+        const prev = polygonsMap.get(pinnedRef.id);
+        if (prev) {
+          const c = getPolygonColor(pinnedRef);
+          prev.setOptions({ fillOpacity: 0.4, strokeWeight: 1.5, strokeColor: c + "CC", zIndex: 1 });
+        }
+      }
+      if (pinnedRef?.id === gh.id) {
+        polygon.setOptions({ fillOpacity: 0.4, strokeWeight: 1.5, zIndex: 1 });
+        pinnedRef = null;
+        pinnedGeohash.value = null;
+      } else {
+        polygon.setOptions({ fillOpacity: 0.85, strokeWeight: 3, strokeColor: color, zIndex: 20 });
+        pinnedRef = gh;
+        pinnedGeohash.value = gh;
+        if (gh.quadrant === "GROWTH") selectedId.value = gh.id;
+      }
+    });
+    polygonsMap.set(gh.id, polygon);
+  });
+}
+
+// ─── Tooltip de Diagnóstico Bivariado ─────────────────────────────────────
+function showTooltip(q: Quadrant, event: MouseEvent) {
+  tooltipQuadrant.value = q;
+  const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+  tooltipX.value = rect.left;
+  tooltipY.value = rect.bottom + 8;
+}
+function hideTooltip() { tooltipQuadrant.value = null; }
+
+// ─── Tabs de tecnologia ────────────────────────────────────────────────────
+const techCounts = {
+  TODOS: totalGeohashes,
+  FIBRA: ALL_DATA.filter(d => d.technology === "FIBRA").length,
+  MOVEL: ALL_DATA.filter(d => d.technology === "MOVEL").length,
+  AMBOS: ALL_DATA.filter(d => d.technology === "AMBOS").length,
+};
+
+const TECH_TABS: { key: TechCategory | "TODOS"; label: string; icon: any; color: string }[] = [
+  { key: "TODOS", label: "Todos",   icon: SlidersHorizontal, color: "#64748B" },
+  { key: "FIBRA", label: "Fibra",   icon: Wifi,              color: TECH_COLORS.FIBRA.hex },
+  { key: "MOVEL", label: "Móvel",   icon: Signal,            color: TECH_COLORS.MOVEL.hex },
+  { key: "AMBOS", label: "F+M",     icon: null,              color: TECH_COLORS.AMBOS.hex },
+];
+</script>
+
+<template>
+  <div class="h-full flex overflow-hidden" style="font-family: 'DM Sans', sans-serif; background: #f0f2f8">
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- ESQUERDA — Mapa Estratégico (55%)                                  -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <div class="flex flex-col" style="width: 55%; min-width: 0; border-right: 1px solid #e2e8f0;">
+
+      <!-- Barra de filtros -->
+      <div class="bg-white border-b border-slate-100 px-4 py-2.5 flex items-center gap-3 shrink-0 flex-wrap" style="box-shadow: 0 1px 0 rgba(0,0,0,0.04)">
+        <div class="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
+          <SlidersHorizontal class="w-3.5 h-3.5" />
+          <span>Filtrar:</span>
+        </div>
+        <div class="flex items-center gap-2 flex-wrap">
+          <button
+            v-for="q in QUADRANT_ORDER"
+            :key="q"
+            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 border"
+            :style="activeFilters.has(q)
+              ? { backgroundColor: QUADRANT_COLORS[q].hex + '20', borderColor: QUADRANT_COLORS[q].hex + '60', color: QUADRANT_COLORS[q].hex }
+              : { borderColor: '#e2e8f0', color: '#94a3b8', backgroundColor: 'white' }"
+            @click="toggleFilter(q)"
+          >
+            <span class="w-2 h-2 rounded-full" :style="{ backgroundColor: activeFilters.has(q) ? QUADRANT_COLORS[q].hex : '#cbd5e1' }" />
+            {{ QUADRANT_LABELS[q] }}
+          </button>
+        </div>
+        <div class="w-px h-5 bg-slate-200 mx-1 shrink-0" />
+        <div class="flex items-center gap-1 bg-slate-100 rounded-lg p-0.5">
+          <button
+            v-for="tab in TECH_TABS"
+            :key="tab.key"
+            class="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold transition-all duration-150"
+            :style="techFilter === tab.key
+              ? { backgroundColor: 'white', color: tab.color, boxShadow: '0 1px 3px rgba(0,0,0,0.08)' }
+              : { color: '#94a3b8' }"
+            @click="handleTechFilter(tab.key)"
+          >
+            <component v-if="tab.icon" :is="tab.icon" class="w-3 h-3" />
+            <span v-else class="text-[9px] font-bold">F+M</span>
+            {{ tab.label }}
+            <span class="text-[10px] opacity-70">{{ techCounts[tab.key] }}</span>
+          </button>
+        </div>
+        <div class="ml-auto flex items-center gap-3 text-xs text-slate-400">
+          <span>{{ visibleCount }}/{{ totalGeohashes }} visíveis</span>
+          <span v-if="riscoCount > 0" class="flex items-center gap-1 text-red-500 font-semibold">
+            <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+            {{ riscoCount }} em risco
+          </span>
+        </div>
+      </div>
+
+      <!-- Mapa Google Maps — centrado em Goiânia -->
+      <div class="flex-1 relative overflow-hidden" style="min-height: 0">
+        <ClientOnly>
+          <MapView
+            :initial-center="{ lat: -16.6869, lng: -49.2648 }"
+            :initial-zoom="13"
+            @ready="onMapReady"
+          />
+        </ClientOnly>
+        <div
+          v-if="!hoveredGeohash && !pinnedGeohash"
+          class="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow-sm border border-slate-100 flex items-center gap-2 text-xs text-slate-500 pointer-events-none"
+        >
+          <Info class="w-3.5 h-3.5 text-violet-400" />
+          Passe o cursor sobre uma célula para ver a ficha estratégica
+        </div>
+        <!-- Badge de geohash fixado -->
+        <div
+          v-if="pinnedGeohash"
+          class="absolute top-3 left-3 bg-white/95 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md border border-purple-200 flex items-center gap-2 text-xs"
+        >
+          <MapPin class="w-3 h-3 text-purple-600" />
+          <span class="font-bold text-slate-700">{{ pinnedGeohash.neighborhood }}</span>
+          <span class="text-slate-400">{{ pinnedGeohash.id }}</span>
+          <button class="ml-1 text-slate-400 hover:text-red-500 transition-colors text-[10px] font-bold" @click="unpinFromButton">✕</button>
+        </div>
+      </div>
+
+      <!-- Legenda inferior com tooltips de Diagnóstico Bivariado -->
+      <div class="bg-white border-t border-slate-100 px-4 py-2.5 shrink-0">
+        <div class="flex items-start gap-8 flex-wrap">
+          <div>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Quadrante</p>
+            <div class="flex flex-wrap gap-x-5 gap-y-1">
+              <div
+                v-for="q in QUADRANT_ORDER"
+                :key="q"
+                class="relative flex items-center gap-1.5 cursor-pointer group"
+                @mouseenter="showTooltip(q, $event)"
+                @mouseleave="hideTooltip"
+              >
+                <span class="w-3 h-3 rounded-sm shrink-0" :style="{ backgroundColor: QUADRANT_COLORS[q].hex }" />
+                <span class="text-xs text-slate-600 font-medium group-hover:text-slate-900 transition-colors underline decoration-dotted decoration-slate-400">
+                  {{ QUADRANT_LABELS[q] }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tooltip de Diagnóstico Bivariado (teleportado para o body) -->
+    <Teleport to="body">
+      <Transition name="tooltip-fade">
+        <div
+          v-if="tooltipQuadrant"
+          class="fixed z-[9999] pointer-events-none"
+          :style="{ left: tooltipX + 'px', top: tooltipY + 'px' }"
+        >
+          <div
+            class="rounded-xl shadow-2xl border px-4 py-3 max-w-xs"
+            :style="{
+              backgroundColor: 'white',
+              borderColor: QUADRANT_COLORS[tooltipQuadrant].hex + '50',
+              borderLeftWidth: '3px',
+              borderLeftColor: QUADRANT_COLORS[tooltipQuadrant].hex,
+            }"
+          >
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="w-2.5 h-2.5 rounded-sm shrink-0" :style="{ backgroundColor: QUADRANT_COLORS[tooltipQuadrant].hex }" />
+              <span class="text-[11px] font-black uppercase tracking-wide" :style="{ color: QUADRANT_COLORS[tooltipQuadrant].hex }">
+                {{ QUADRANT_LABELS[tooltipQuadrant] }}
+              </span>
+            </div>
+            <p class="text-[11px] text-slate-600 leading-snug">
+              {{ DIAGNOSTIC_DESCRIPTIONS[tooltipQuadrant] }}
+            </p>
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- DIREITA — Estratégias Growth (45%)                                 -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <div class="flex flex-col overflow-hidden" style="width: 45%; min-width: 0;">
+
+      <!-- Cabeçalho do painel Growth -->
+      <div
+        class="shrink-0 px-5 py-3 border-b border-white/10"
+        style="background: linear-gradient(135deg, #1a0a2e 0%, #0f1117 100%)"
+      >
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #660099, #9900cc)">
+              <Rocket class="w-4 h-4 text-white" />
+            </div>
+            <div>
+              <h1 class="text-[14px] font-black text-white leading-none">Estratégias Growth</h1>
+              <p class="text-[9px] text-slate-400 mt-0.5">Diagnóstico por geohash — 4 pilares de avaliação · Goiânia</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="bg-purple-500/20 border border-purple-500/30 rounded-full px-3 py-1">
+              <span class="text-[9px] font-bold text-purple-400">{{ growthGeos.length }} geohashes Growth</span>
+            </div>
+            <div class="bg-white/5 border border-white/10 rounded-full px-3 py-1">
+              <span class="text-[9px] font-bold text-slate-400">{{ growthGeos.filter(g => g.diagnostico).length }} com diagnóstico</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Corpo: sidebar + conteúdo principal -->
+      <div class="flex-1 flex overflow-hidden">
+
+        <!-- Sidebar de geohashes Growth -->
+        <div class="w-52 shrink-0 border-r border-white/10 flex flex-col bg-[#0f1117]">
+          <div class="px-3 py-2 border-b border-white/10">
+            <div class="relative">
+              <Search class="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-slate-500" />
+              <input
+                v-model="search"
+                type="text"
+                placeholder="Buscar geohash..."
+                class="w-full bg-white/5 border border-white/10 rounded-lg pl-7 pr-3 py-1.5 text-[10px] text-white placeholder-slate-500 outline-none focus:border-purple-500/50"
+              />
+            </div>
+          </div>
+          <div class="flex-1 overflow-y-auto">
+            <button
+              v-for="(geo, idx) in filtered"
+              :key="geo.id"
+              class="w-full text-left px-3 py-2.5 border-b border-white/5 transition-all hover:bg-white/5"
+              :style="(selectedId ?? growthGeos[0]?.id) === geo.id
+                ? { backgroundColor: '#66009918', borderLeft: '2px solid #660099' }
+                : {}"
+              @click="selectedId = geo.id"
+            >
+              <div class="flex items-center justify-between gap-1 mb-0.5">
+                <div class="flex items-center gap-1.5 min-w-0">
+                  <span class="text-[8px] font-black text-slate-500 shrink-0">#{{ idx + 1 }}</span>
+                  <span class="text-[10px] font-bold text-white truncate">{{ geo.neighborhood }}</span>
+                </div>
+                <span class="text-[8px] font-black shrink-0" :style="{ color: priorityInfo(geo).color }">{{ priorityInfo(geo).score }}</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-[8px] text-slate-500">{{ geo.id }}</span>
+                <div class="flex items-center gap-1">
+                  <span v-if="geo.diagnostico" class="text-[7px] font-bold text-purple-400 bg-purple-500/10 px-1 py-0.5 rounded">Diagnóstico</span>
+                  <span v-else class="text-[7px] text-slate-600 bg-white/5 px-1 py-0.5 rounded">Sem dados</span>
+                  <span class="text-[8px] text-slate-400">{{ geo.marketShare.percentage }}%</span>
+                </div>
+              </div>
+            </button>
+            <div v-if="filtered.length === 0" class="flex flex-col items-center justify-center py-10 text-center px-4">
+              <Search class="w-6 h-6 text-slate-600 mb-2" />
+              <p class="text-[10px] text-slate-500">Nenhum geohash encontrado</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Conteúdo principal -->
+        <div class="flex-1 overflow-y-auto bg-slate-50">
+          <div v-if="displayGeo" class="p-4 space-y-4">
+
+            <!-- Header geohash + indicadores -->
+            <div class="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
+              <!-- Linha 1: nome + badge prioridade -->
+              <div class="flex items-center justify-between gap-4 px-4 pt-3 pb-2 border-b border-slate-100">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-xl flex items-center justify-center bg-purple-50 border border-purple-100">
+                    <MapPin class="w-4 h-4 text-purple-600" />
+                  </div>
+                  <div>
+                    <h2 class="text-[15px] font-black text-slate-800 leading-tight">{{ displayGeo.neighborhood }}</h2>
+                    <p class="text-[10px] text-slate-400">{{ displayGeo.city }} · {{ displayGeo.id }}</p>
+                  </div>
+                </div>
+                <div v-if="recomendacao" class="shrink-0">
+                  <div
+                    class="flex items-center gap-2 px-3 py-1.5 rounded-xl border-2"
+                    :style="{
+                      borderColor: recomendacao.prioTotal === 'ALTA' ? '#DC2626' : recomendacao.prioTotal === 'MÉDIA' ? '#D97706' : '#16A34A',
+                      background:  recomendacao.prioTotal === 'ALTA' ? '#FEF2F2' : recomendacao.prioTotal === 'MÉDIA' ? '#FFFBEB' : '#F0FDF4',
+                    }"
+                  >
+                    <span
+                      class="text-[20px] font-black leading-none"
+                      :style="{ color: recomendacao.prioTotal === 'ALTA' ? '#DC2626' : recomendacao.prioTotal === 'MÉDIA' ? '#D97706' : '#16A34A' }"
+                    >{{ recomendacao.scoreTotal.toFixed(1) }}</span>
+                    <div class="flex flex-col">
+                      <span class="text-[8px] font-black uppercase tracking-widest leading-tight" :style="{ color: recomendacao.prioTotal === 'ALTA' ? '#DC2626' : recomendacao.prioTotal === 'MÉDIA' ? '#D97706' : '#16A34A' }">{{ recomendacao.prioTotal }}</span>
+                      <span class="text-[8px] font-black uppercase tracking-widest leading-tight" :style="{ color: recomendacao.prioTotal === 'ALTA' ? '#DC2626' : recomendacao.prioTotal === 'MÉDIA' ? '#D97706' : '#16A34A' }">PRIORIDADE</span>
+                      <span class="text-[7px] text-slate-400 leading-tight" v-if="priority">#{{ priority.rank }} de {{ priority.total }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Linha 2: Demográficos -->
+              <div class="px-4 py-2 border-b border-slate-100" style="background:#F8FAFC">
+                <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Demográficos</p>
+                <div class="grid grid-cols-4 gap-3">
+                  <div>
+                    <p class="text-[8px] text-slate-400 mb-0.5">População</p>
+                    <p class="text-[13px] font-black text-slate-800">{{ fmtPop(displayGeo.marketShare.totalPopulation) }}</p>
+                  </div>
+                  <div>
+                    <p class="text-[8px] text-slate-400 mb-0.5">Densidade</p>
+                    <p class="text-[13px] font-black text-slate-800">{{ displayGeo.demographics?.populationDensity ? displayGeo.demographics.populationDensity.toLocaleString('pt-BR') + ' hab/km²' : '—' }}</p>
+                  </div>
+                  <div>
+                    <p class="text-[8px] text-slate-400 mb-0.5">Renda Média</p>
+                    <p class="text-[13px] font-black text-slate-800">{{ fmtCurrency(displayGeo.demographics?.avgIncome) }}</p>
+                  </div>
+                  <div>
+                    <p class="text-[8px] text-slate-400 mb-0.5">Classe Social</p>
+                    <span
+                      class="inline-block text-[10px] font-black px-2 py-0.5 rounded-full border"
+                      :style="{ color: getSocialClass(displayGeo.demographics?.avgIncome).color, background: getSocialClass(displayGeo.demographics?.avgIncome).bg, borderColor: getSocialClass(displayGeo.demographics?.avgIncome).border }"
+                    >{{ getSocialClass(displayGeo.demographics?.avgIncome).label }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Linha 3: Móvel + Fibra -->
+              <div class="grid grid-cols-2 divide-x divide-slate-100">
+                <div class="px-4 py-2">
+                  <div class="flex items-center gap-1.5 mb-1.5">
+                    <div class="w-4 h-4 rounded-full flex items-center justify-center" style="background:#EFF6FF">
+                      <span class="text-[7px] font-black" style="color:#1D4ED8">M</span>
+                    </div>
+                    <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest">Móvel</p>
+                  </div>
+                  <div class="grid grid-cols-3 gap-2">
+                    <div>
+                      <p class="text-[8px] text-slate-400 mb-0.5">Share Vivo</p>
+                      <p class="text-[13px] font-black text-slate-800">{{ displayGeo.shareTrend.shareMovel != null ? displayGeo.shareTrend.shareMovel + '%' : displayGeo.marketShare.percentage + '%' }}</p>
+                      <p class="text-[8px] font-bold" :class="(displayGeo.shareTrend.deltaMovel ?? 0) >= 0 ? 'text-green-600' : 'text-red-500'">{{ fmtDeltaShare(displayGeo.shareTrend.deltaMovel ?? displayGeo.shareTrend.delta) }}</p>
+                    </div>
+                    <div>
+                      <p class="text-[8px] text-slate-400 mb-0.5">Plano Principal</p>
+                      <p class="text-[11px] font-black text-slate-800">{{ displayGeo.crm?.planoMovel ?? '—' }}</p>
+                    </div>
+                    <div>
+                      <p class="text-[8px] text-slate-400 mb-0.5">ARPU Móvel</p>
+                      <p class="text-[13px] font-black text-slate-800">{{ fmtCurrency(displayGeo.crm?.arpuMovel) }}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="px-4 py-2">
+                  <div class="flex items-center gap-1.5 mb-1.5">
+                    <div class="w-4 h-4 rounded-full flex items-center justify-center" style="background:#F0FDF4">
+                      <span class="text-[7px] font-black" style="color:#15803D">F</span>
+                    </div>
+                    <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest">Fibra</p>
+                  </div>
+                  <div class="grid grid-cols-2 gap-2">
+                    <div>
+                      <p class="text-[8px] text-slate-400 mb-0.5">Share Vivo</p>
+                      <template v-if="(displayGeo.shareTrend.shareFibra ?? 0) > 0">
+                        <p class="text-[13px] font-black text-slate-800">{{ displayGeo.shareTrend.shareFibra }}%</p>
+                        <p class="text-[8px] font-bold" :class="(displayGeo.shareTrend.deltaFibra ?? 0) >= 0 ? 'text-green-600' : 'text-red-500'">{{ fmtDeltaShare(displayGeo.shareTrend.deltaFibra) }}</p>
+                      </template>
+                      <template v-else>
+                        <p class="text-[11px] font-bold text-slate-400">Sem cobertura</p>
+                      </template>
+                    </div>
+                    <div>
+                      <p class="text-[8px] text-slate-400 mb-0.5">ARPU Fibra</p>
+                      <p class="text-[13px] font-black text-slate-800">{{ fmtCurrency(displayGeo.crm?.arpuFibra) }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Diagnóstico: 4 Pilares + Recomendação -->
+            <div v-if="displayGeo.diagnostico && pilares.length > 0 && recomendacao" class="grid grid-cols-3 gap-4">
+
+              <!-- 4 Pilares (col-span-2) -->
+              <div class="col-span-2 space-y-3">
+                <div class="flex items-center gap-2">
+                  <BarChart3 class="w-4 h-4 text-slate-400" />
+                  <h3 class="text-[11px] font-black text-slate-600 uppercase tracking-wide">Avaliação dos 4 Pilares</h3>
+                </div>
+                <div v-for="pilar in pilares" :key="pilar.id" class="bg-white rounded-xl border border-slate-100 overflow-hidden shadow-sm">
+                  <div class="flex items-center justify-between px-3 py-2 border-b border-slate-100" :style="{ backgroundColor: SIG[pilar.signal].bg }">
+                    <div class="flex items-center gap-2">
+                      <div class="w-6 h-6 rounded-full flex items-center justify-center text-white text-[8px] font-black" :style="{ backgroundColor: SIG[pilar.signal].dot }">{{ pilar.id }}</div>
+                      <div class="flex items-center gap-1.5" :style="{ color: SIG[pilar.signal].text }">
+                        <component :is="PILAR_ICONS[pilar.id]" class="w-3.5 h-3.5" />
+                        <span class="text-[11px] font-black uppercase tracking-wide">{{ pilar.title }}</span>
+                      </div>
+                    </div>
+                    <span class="text-[8px] font-bold px-2 py-0.5 rounded-full text-white" :style="{ backgroundColor: SIG[pilar.signal].dot }">{{ SIG[pilar.signal].label }}</span>
+                  </div>
+                  <div class="p-2 space-y-1.5">
+                    <div
+                      v-for="(m, i) in pilar.metricas" :key="i"
+                      class="rounded-lg border px-3 py-2"
+                      :style="{ backgroundColor: SIG[m.signal].bg, borderColor: SIG[m.signal].border }"
+                    >
+                      <div class="flex items-start justify-between gap-2 mb-1">
+                        <div class="min-w-0">
+                          <p class="text-[10px] font-bold text-slate-700 leading-tight">{{ m.label }}</p>
+                          <p class="text-[8px] text-slate-400 leading-tight mt-0.5">{{ m.formula }}</p>
+                        </div>
+                        <p class="text-[11px] font-black shrink-0" :style="{ color: SIG[m.signal].text }">{{ metricDisplay(m) }}</p>
+                      </div>
+                      <p class="text-[8.5px] font-medium leading-tight" :style="{ color: SIG[m.signal].text }">{{ m.detail }}</p>
+                    </div>
+
+                    <!-- Tabela comparativa de concorrentes (pilar 02) -->
+                    <div v-if="pilar.id === '02' && displayGeo?.diagnostico?.concorrentes?.length" class="rounded-lg border border-slate-200 overflow-hidden">
+                      <div class="flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 border-b border-slate-200">
+                        <TrendingUp class="w-3 h-3 text-slate-400" />
+                        <span class="text-[8px] font-bold text-slate-500 uppercase tracking-wider">Comparativo de Concorrência</span>
+                      </div>
+                      <table class="w-full text-[8px]">
+                        <thead>
+                          <tr class="border-b border-slate-100">
+                            <th class="text-left px-3 py-1.5 font-bold text-slate-500" rowspan="2">Operadora</th>
+                            <th colspan="2" class="text-center px-2 py-1 font-bold text-green-700 bg-green-50 border-b border-green-100 border-l border-green-100">
+                              <span class="flex items-center justify-center gap-1"><span class="w-3 h-3 rounded-full bg-green-100 flex items-center justify-center text-[6px] font-black text-green-700">F</span>Fibra</span>
+                            </th>
+                            <th colspan="2" class="text-center px-2 py-1 font-bold text-blue-700 bg-blue-50 border-b border-blue-100 border-l border-blue-100">
+                              <span class="flex items-center justify-center gap-1"><span class="w-3 h-3 rounded-full bg-blue-100 flex items-center justify-center text-[6px] font-black text-blue-700">M</span>Móvel</span>
+                            </th>
+                          </tr>
+                          <tr class="border-b border-slate-100 bg-slate-50">
+                            <th class="text-center px-2 py-1.5 font-bold text-slate-500 border-l border-slate-100">Cobertura</th>
+                            <th class="text-right px-2 py-1.5 font-bold text-slate-500">Valor</th>
+                            <th class="text-center px-2 py-1.5 font-bold text-slate-500 border-l border-slate-100">Cobertura</th>
+                            <th class="text-right px-3 py-1.5 font-bold text-slate-500">Valor</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="(c, ci) in displayGeo.diagnostico.concorrentes" :key="ci" class="border-b border-slate-50 last:border-0" :class="ci % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'">
+                            <td class="px-3 py-1.5 font-black text-slate-700">{{ c.nome }}</td>
+                            <td class="px-2 py-1.5 text-center border-l border-slate-100">
+                              <span class="inline-block px-1.5 py-0.5 rounded-full text-[7px] font-bold" :class="c.coberturaFibra ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-400'">{{ c.coberturaFibra ? 'Sim' : 'Não' }}</span>
+                            </td>
+                            <td class="px-2 py-1.5 text-right font-bold text-slate-700">
+                              <template v-if="c.coberturaFibra && c.precoFibra">
+                                <span class="block text-[8px] font-black text-slate-700">R$ {{ c.precoFibra.toFixed(2).replace('.', ',') }}</span>
+                                <span class="block text-[7px] text-slate-400">{{ c.planoFibra }}</span>
+                              </template>
+                              <span v-else class="text-slate-300">—</span>
+                            </td>
+                            <td class="px-2 py-1.5 text-center border-l border-slate-100">
+                              <span class="inline-block px-1.5 py-0.5 rounded-full text-[7px] font-bold" :class="c.coberturaMovel ? 'bg-blue-100 text-blue-700' : 'bg-slate-100 text-slate-400'">{{ c.coberturaMovel ? 'Sim' : 'Não' }}</span>
+                            </td>
+                            <td class="px-3 py-1.5 text-right font-bold text-slate-700">
+                              <template v-if="c.coberturaMovel && c.precoMovel">
+                                <span class="block text-[8px] font-black text-slate-700">R$ {{ c.precoMovel.toFixed(2).replace('.', ',') }}</span>
+                                <span class="block text-[7px] text-slate-400">{{ c.planoMovel }}</span>
+                              </template>
+                              <span v-else class="text-slate-300">—</span>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Recomendação IA (col-span-1) -->
+              <div class="space-y-3">
+                <div class="flex items-center gap-2">
+                  <Brain class="w-4 h-4 text-slate-400" />
+                  <h3 class="text-[11px] font-black text-slate-600 uppercase tracking-wide">Recomendação</h3>
+                </div>
+
+                <!-- Móvel + Fibra -->
+                <div class="grid grid-cols-2 gap-3">
+                  <div class="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
+                    <div class="flex items-center gap-2 px-3 py-2 border-b border-slate-100 bg-blue-50">
+                      <span class="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center text-[8px] font-black text-blue-700">M</span>
+                      <span class="text-[10px] font-black text-blue-700 uppercase tracking-wide">Móvel</span>
+                    </div>
+                    <div class="px-3 py-2.5">
+                      <p class="text-[7px] font-bold text-slate-400 uppercase tracking-widest mb-1">Score de Priorização</p>
+                      <div class="flex items-center gap-2 mb-2">
+                        <span class="text-[18px] font-black leading-none" :style="{ color: PRIO_STYLE[recomendacao.prioMovel].color }">{{ (displayGeo.diagnostico?.scoreOoklaMovel ?? displayGeo.diagnostico?.scoreOokla ?? 0).toFixed(1) }}</span>
+                        <span class="text-[8px] font-black px-1.5 py-0.5 rounded-full" :style="{ color: PRIO_STYLE[recomendacao.prioMovel].color, backgroundColor: PRIO_STYLE[recomendacao.prioMovel].bg, border: '1px solid ' + PRIO_STYLE[recomendacao.prioMovel].border }">{{ recomendacao.prioMovel }} PRIORIDADE</span>
+                      </div>
+                      <p class="text-[7px] font-bold text-slate-400 uppercase tracking-widest mb-1">Decisão</p>
+                      <div class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg border" :style="{ backgroundColor: (recomendacao.decisaoMovel === 'ATACAR' ? '#16A34A' : '#D97706') + '12', borderColor: (recomendacao.decisaoMovel === 'ATACAR' ? '#16A34A' : '#D97706') + '40' }">
+                        <component :is="DECISAO_ICONS[recomendacao.decisaoMovel]" class="w-3.5 h-3.5" :style="{ color: recomendacao.decisaoMovel === 'ATACAR' ? '#16A34A' : '#D97706' }" />
+                        <span class="text-[10px] font-black" :style="{ color: recomendacao.decisaoMovel === 'ATACAR' ? '#16A34A' : '#D97706' }">{{ recomendacao.decisaoMovel }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
+                    <div class="flex items-center gap-2 px-3 py-2 border-b border-slate-100 bg-green-50">
+                      <span class="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center text-[8px] font-black text-green-700">F</span>
+                      <span class="text-[10px] font-black text-green-700 uppercase tracking-wide">Fibra</span>
+                    </div>
+                    <div class="px-3 py-2.5">
+                      <p class="text-[7px] font-bold text-slate-400 uppercase tracking-widest mb-1">Score de Priorização</p>
+                      <div class="flex items-center gap-2 mb-2">
+                        <template v-if="(displayGeo.diagnostico?.scoreOoklaFibra ?? 0) > 0">
+                          <span class="text-[18px] font-black leading-none" :style="{ color: PRIO_STYLE[recomendacao.prioFibra].color }">{{ (displayGeo.diagnostico?.scoreOoklaFibra ?? 0).toFixed(1) }}</span>
+                          <span class="text-[8px] font-black px-1.5 py-0.5 rounded-full" :style="{ color: PRIO_STYLE[recomendacao.prioFibra].color, backgroundColor: PRIO_STYLE[recomendacao.prioFibra].bg, border: '1px solid ' + PRIO_STYLE[recomendacao.prioFibra].border }">{{ recomendacao.prioFibra }} PRIORIDADE</span>
+                        </template>
+                        <span v-else class="text-[11px] text-slate-400">Sem cobertura</span>
+                      </div>
+                      <p class="text-[7px] font-bold text-slate-400 uppercase tracking-widest mb-1">Decisão</p>
+                      <div class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg border" :style="{ backgroundColor: (recomendacao.decisaoFibra === 'ATACAR' ? '#16A34A' : '#D97706') + '12', borderColor: (recomendacao.decisaoFibra === 'ATACAR' ? '#16A34A' : '#D97706') + '40' }">
+                        <component :is="DECISAO_ICONS[recomendacao.decisaoFibra]" class="w-3.5 h-3.5" :style="{ color: recomendacao.decisaoFibra === 'ATACAR' ? '#16A34A' : '#D97706' }" />
+                        <span class="text-[9px] font-black" :style="{ color: recomendacao.decisaoFibra === 'ATACAR' ? '#16A34A' : '#D97706' }">{{ recomendacao.decisaoFibra }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Totalização -->
+                <div class="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
+                  <div class="flex items-center gap-2 px-3 py-2 border-b border-slate-100" :style="{ background: `linear-gradient(135deg, ${recomendacao.decisaoColor}15, ${recomendacao.decisaoColor}05)` }">
+                    <BarChart3 class="w-4 h-4" :style="{ color: recomendacao.decisaoColor }" />
+                    <span class="text-[10px] font-black uppercase tracking-wide" :style="{ color: recomendacao.decisaoColor }">Totalização (Móvel + Fibra)</span>
+                  </div>
+                  <div class="px-3 py-2.5">
+                    <div class="grid grid-cols-2 gap-3">
+                      <div>
+                        <p class="text-[7px] font-bold text-slate-400 uppercase tracking-widest mb-1">Score de Priorização</p>
+                        <div class="flex items-center gap-2">
+                          <span class="text-[22px] font-black leading-none" :style="{ color: PRIO_STYLE[recomendacao.prioTotal].color }">{{ recomendacao.scoreTotal.toFixed(1) }}</span>
+                          <span class="text-[8px] font-black px-1.5 py-0.5 rounded-full" :style="{ color: PRIO_STYLE[recomendacao.prioTotal].color, backgroundColor: PRIO_STYLE[recomendacao.prioTotal].bg, border: '1px solid ' + PRIO_STYLE[recomendacao.prioTotal].border }">{{ recomendacao.prioTotal }} PRIORIDADE</span>
+                        </div>
+                      </div>
+                      <div>
+                        <p class="text-[7px] font-bold text-slate-400 uppercase tracking-widest mb-1">Decisão</p>
+                        <div class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg border" :style="{ backgroundColor: recomendacao.decisaoColor + '12', borderColor: recomendacao.decisaoColor + '40' }">
+                          <component :is="DECISAO_ICONS[recomendacao.decisao]" class="w-4 h-4" :style="{ color: recomendacao.decisaoColor }" />
+                          <span class="text-[12px] font-black" :style="{ color: recomendacao.decisaoColor }">{{ recomendacao.decisao }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Recomendação AI -->
+                <div class="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
+                  <div class="px-3 py-2 border-b border-slate-100 flex items-center gap-2" style="background: linear-gradient(135deg, #7C3AED15, #7C3AED05)">
+                    <Brain class="w-4 h-4 text-purple-600" />
+                    <span class="text-[10px] font-black text-purple-700 uppercase tracking-wide">Recomendação AI</span>
+                    <span class="ml-auto text-[7px] text-slate-400">Gerado automaticamente</span>
+                  </div>
+                  <div class="px-3 py-2 space-y-2">
+                    <div>
+                      <p class="text-[7px] font-bold text-slate-400 uppercase tracking-widest mb-1">Canal Recomendado</p>
+                      <div class="flex items-start gap-2 bg-slate-50 rounded-lg px-2.5 py-1.5 border border-slate-100">
+                        <ShoppingBag class="w-3 h-3 text-purple-600 mt-0.5 shrink-0" />
+                        <p class="text-[9px] text-slate-700 leading-snug">{{ recomendacao.canal }}</p>
+                      </div>
+                    </div>
+                    <div>
+                      <p class="text-[7px] font-bold text-slate-400 uppercase tracking-widest mb-1">Abordagem Comercial</p>
+                      <div class="flex items-start gap-2 bg-slate-50 rounded-lg px-2.5 py-1.5 border border-slate-100">
+                        <Zap class="w-3 h-3 text-amber-500 mt-0.5 shrink-0" />
+                        <p class="text-[9px] text-slate-700 leading-snug">{{ recomendacao.abordagem }}</p>
+                      </div>
+                    </div>
+                    <div>
+                      <p class="text-[7px] font-bold text-slate-400 uppercase tracking-widest mb-1">Raciocínio</p>
+                      <div class="flex items-start gap-2 bg-purple-50 rounded-lg px-2.5 py-1.5 border border-purple-100">
+                        <Brain class="w-3 h-3 text-purple-600 mt-0.5 shrink-0" />
+                        <p class="text-[9px] text-purple-700 leading-snug">{{ recomendacao.raciocinio }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sem diagnóstico -->
+            <div v-else class="flex flex-col items-center justify-center py-16 text-center bg-white rounded-xl border border-slate-100">
+              <BarChart3 class="w-10 h-10 text-slate-200 mb-3" />
+              <p class="text-[12px] font-bold text-slate-400">Sem dados de diagnóstico</p>
+            </div>
+          </div>
+
+          <!-- Nenhum geohash -->
+          <div v-else class="flex flex-col items-center justify-center h-full text-center">
+            <Rocket class="w-10 h-10 text-slate-200 mb-3" />
+            <p class="text-[12px] font-bold text-slate-400">Selecione um geohash</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style>
+.tooltip-fade-enter-active,
+.tooltip-fade-leave-active {
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.tooltip-fade-enter-from,
+.tooltip-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+</style>
