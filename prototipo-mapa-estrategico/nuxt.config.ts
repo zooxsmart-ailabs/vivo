@@ -1,3 +1,4 @@
+// prototipo-mapa-estrategico — Goiânia
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineNuxtConfig({
