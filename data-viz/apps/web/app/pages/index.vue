@@ -15,8 +15,6 @@
           :visible-geohash-ids="visibleIds"
           @hover="onHover"
           @click="onPin"
-          @zoom-change="onZoomChange"
-          @viewport-change="onViewportChange"
         />
 
         <!-- Dica inicial -->
@@ -218,15 +216,6 @@ function onPin(gh: any) {
 function unpin() {
   pinnedGeohash.value = null;
   clearDetail();
-}
-
-function onZoomChange(zoom: number) {
-  // UC005 — Drill-down: zoom 11-13 = precisão 6; 14+ = precisão 7
-  filters.setPrecision(zoom >= 14 ? 7 : 6);
-}
-
-function onViewportChange(_vp: any) {
-  // O reload é gerenciado pelo watcher de precision acima
 }
 
 // Carrega sessão salva na montagem
