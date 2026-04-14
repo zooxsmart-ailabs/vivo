@@ -83,9 +83,10 @@
         </div>
       </div>
 
-      <!-- Right: Live Data badge + Vivo logo -->
+      <!-- Right: Live Data badge + logout + Vivo logo -->
       <div class="flex items-center gap-4">
         <div
+          v-if="!isLoginPage"
           class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] font-bold tracking-wider uppercase"
           :style="{
             background: 'rgba(192,132,252,0.12)',
@@ -96,6 +97,20 @@
           <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
           Live Data
         </div>
+        <button
+          v-if="!isLoginPage"
+          class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[10px] font-semibold transition-colors duration-150"
+          :style="{
+            background: 'rgba(255,255,255,0.06)',
+            border: '1px solid rgba(255,255,255,0.1)',
+            color: 'rgba(255,255,255,0.45)',
+          }"
+          title="Sair"
+          @click="handleLogout"
+        >
+          <LogOut class="w-3.5 h-3.5" />
+          Sair
+        </button>
         <img
           src="https://files.manuscdn.com/user_upload_by_module/session_file/310419663031821263/FMooUMezwbYNuWlt.png"
           alt="Vivo"
@@ -106,7 +121,7 @@
     </div>
 
     <!-- Tab navigation -->
-    <div class="relative flex gap-0 px-4">
+    <div v-if="!isLoginPage" class="relative flex gap-0 px-4">
       <NuxtLink
         v-for="tab in tabs"
         :key="tab.path"
@@ -140,9 +155,10 @@
 </template>
 
 <script setup lang="ts">
-import { Map, BarChart3, Building2 } from "lucide-vue-next";
+import { Map, BarChart3, Building2, LogOut } from "lucide-vue-next";
 
 const route = useRoute();
+const { logout } = useAuth();
 
 const noiseStyle = {
   backgroundImage:
@@ -155,7 +171,14 @@ const tabs = [
   { path: "/bairros", label: "Visão por Bairro", icon: Building2 },
 ];
 
+const isLoginPage = computed(() => route.path === "/login");
+
 function isActive(path: string): boolean {
   return route.path === path;
+}
+
+async function handleLogout() {
+  logout();
+  await navigateTo("/login");
 }
 </script>

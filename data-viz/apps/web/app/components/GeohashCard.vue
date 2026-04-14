@@ -55,15 +55,15 @@
           </div>
           <div class="rounded-lg p-2 text-center" style="background-color: #FFFBEB; border: 1px solid #FDE68A">
             <div class="text-xs text-slate-400 font-semibold mb-1">Sat. Vivo</div>
-            <div class="text-lg font-black leading-none text-amber-500">{{ vivoScore.toFixed(1) }}</div>
+            <div class="text-lg font-black leading-none text-amber-500">{{ vivoScore.toFixed(0) }}</div>
             <div class="text-xs text-amber-400 font-semibold mt-1">
-              {{ vivoScore >= 7.5 ? "Alta" : vivoScore >= 6 ? "Média" : "Crítica" }}
+              {{ vivoScore >= 75 ? "Alta" : vivoScore >= 60 ? "Média" : "Crítica" }}
             </div>
           </div>
           <div class="rounded-lg p-2 text-center" :style="{ backgroundColor: priorityColor + '10', border: `1px solid ${priorityColor}30` }">
             <div class="text-xs text-slate-400 font-semibold mb-1">Prioridade</div>
-            <div class="text-lg font-black leading-none" :style="{ color: priorityColor }">{{ Number(data.priority_score).toFixed(1) }}</div>
-            <div class="text-xs font-bold mt-1" :style="{ color: priorityColor }">/10</div>
+            <div class="text-lg font-black leading-none" :style="{ color: priorityColor }">{{ (Number(data.priority_score) * 10).toFixed(0) }}</div>
+            <div class="text-xs font-bold mt-1" :style="{ color: priorityColor }">/100</div>
           </div>
         </div>
       </div>
@@ -94,9 +94,9 @@
             <div v-for="op in operatorScores" :key="op.name" class="flex items-center gap-1.5">
               <span class="text-xs font-black w-7 shrink-0" :style="{ color: op.bar }">{{ op.name }}</span>
               <div class="flex-1 h-2.5 rounded-full overflow-hidden" :style="{ backgroundColor: op.bg }">
-                <div class="h-full rounded-full" :style="{ width: `${Math.min(100, (op.score / 10) * 100)}%`, backgroundColor: op.bar }" />
+                <div class="h-full rounded-full" :style="{ width: `${Math.min(100, op.score)}%`, backgroundColor: op.bar }" />
               </div>
-              <span class="text-xs font-black text-slate-700 w-5 text-right shrink-0">{{ op.score.toFixed(1) }}</span>
+              <span class="text-xs font-black text-slate-700 w-7 text-right shrink-0">{{ op.score.toFixed(0) }}</span>
               <span class="text-xs font-bold w-5 shrink-0" :style="{ color: qualityColor(op.score) }">
                 {{ qualityLabel(op.score) }}
               </span>
@@ -389,7 +389,7 @@ const priorityLabel = computed(() =>
 );
 
 const vivoScore = computed(() =>
-  Number(props.data?.vivo_score ?? props.data?.avg_satisfaction_vivo ?? 0),
+  Number(props.data?.vivo_score ?? props.data?.avg_satisfaction_vivo ?? 0) * 10,
 );
 
 // ─── Reverse Geocoding ────────────────────────────────────────────────────
@@ -487,9 +487,9 @@ const operatorScores = computed(() => {
   const d = props.detailData ?? props.data;
   if (!d) return [];
   return [
-    { name: "Vivo", score: Number(d.vivo_score ?? d.avg_satisfaction_vivo ?? 0), ...CARRIER.Vivo },
-    { name: "TIM", score: Number(d.tim_score ?? 0), ...CARRIER.TIM },
-    { name: "Claro", score: Number(d.claro_score ?? 0), ...CARRIER.Claro },
+    { name: "Vivo", score: Number(d.vivo_score ?? d.avg_satisfaction_vivo ?? 0) * 10, ...CARRIER.Vivo },
+    { name: "TIM", score: Number(d.tim_score ?? 0) * 10, ...CARRIER.TIM },
+    { name: "Claro", score: Number(d.claro_score ?? 0) * 10, ...CARRIER.Claro },
   ].filter((op) => op.score > 0);
 });
 
@@ -525,8 +525,8 @@ const insights = computed(() => {
   else if (quadrant === "GROWTH_RETENCAO") ins.push({ type: "negative", text: "Share baixo + satisfação baixa — dupla frente: aquisição + infraestrutura" });
 
   // Insights competitivos
-  if (best > vivo + 0.5) ins.push({ type: "negative", text: "Concorrente com satisfação superior" });
-  else if (vivo > best + 0.5) ins.push({ type: "positive", text: "Vivo lidera satisfação no geohash" });
+  if (best > vivo + 5) ins.push({ type: "negative", text: "Concorrente com satisfação superior" });
+  else if (vivo > best + 5) ins.push({ type: "positive", text: "Vivo lidera satisfação no geohash" });
 
   // Renda
   if (props.detailData?.avg_income && Number(props.detailData.avg_income) > 8000)
@@ -537,11 +537,11 @@ const insights = computed(() => {
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function qualityLabel(score: number): string {
-  return score >= 8 ? "Exc" : score >= 7 ? "Bom" : score >= 6 ? "Reg" : "Crít";
+  return score >= 80 ? "Exc" : score >= 70 ? "Bom" : score >= 60 ? "Reg" : "Crít";
 }
 
 function qualityColor(score: number): string {
-  return score >= 8 ? "#16A34A" : score >= 7 ? "#0EA5E9" : score >= 6 ? "#D97706" : "#DC2626";
+  return score >= 80 ? "#16A34A" : score >= 70 ? "#0EA5E9" : score >= 60 ? "#D97706" : "#DC2626";
 }
 
 function formatPop(val?: number | string | null): string {

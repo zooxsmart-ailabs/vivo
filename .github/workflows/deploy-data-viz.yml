@@ -38,6 +38,7 @@ jobs:
           REDIS_PORT=${{ secrets.REDIS_PORT }}
           NUXT_PUBLIC_API_BASE=${{ secrets.NUXT_PUBLIC_API_BASE }}
           NUXT_PUBLIC_WS_URL=${{ secrets.NUXT_PUBLIC_WS_URL }}
+          NUXT_PUBLIC_GOOGLE_MAPS_KEY=${{ secrets.NUXT_PUBLIC_GOOGLE_MAPS_KEY }}
           EOF
 
       - name: Build and deploy containers
@@ -47,7 +48,7 @@ jobs:
         run: |
           echo "Aguardando services..."
           for i in $(seq 1 30); do
-            if curl -sf "http://localhost:${{ secrets.NGINX_PORT }}/health" > /dev/null 2>&1; then
+            if curl -sf "http://localhost:${{ secrets.NGINX_PORT }}/health/live" > /dev/null 2>&1; then
               echo "Health check OK"
               docker compose ps
               exit 0

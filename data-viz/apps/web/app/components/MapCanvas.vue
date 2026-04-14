@@ -67,8 +67,6 @@ const props = defineProps<{
 const emit = defineEmits<{
   hover: [geohash: GeohashSummary | null];
   click: [geohash: GeohashSummary];
-  zoomChange: [zoom: number];
-  viewportChange: [viewport: { swLat: number; swLng: number; neLat: number; neLng: number }];
 }>();
 
 const mapEl = ref<HTMLDivElement | null>(null);
@@ -157,35 +155,9 @@ async function initMap() {
     streetViewControl: false,
     fullscreenControl: true,
     zoomControl: true,
+    disableDoubleClickZoom: true,
     styles: MAP_STYLES,
     mapId: "VIVO_GEOINTELLIGENCE",
-  });
-
-  // Debounce de zoom para calcular precisão
-  let zoomTimer: ReturnType<typeof setTimeout> | null = null;
-  map.addListener("zoom_changed", () => {
-    if (zoomTimer) clearTimeout(zoomTimer);
-    zoomTimer = setTimeout(() => {
-      emit("zoomChange", map!.getZoom() ?? 11);
-    }, 300);
-  });
-
-  // Debounce de bounds para drill-down
-  let boundsTimer: ReturnType<typeof setTimeout> | null = null;
-  map.addListener("bounds_changed", () => {
-    if (boundsTimer) clearTimeout(boundsTimer);
-    boundsTimer = setTimeout(() => {
-      const bounds = map!.getBounds();
-      if (!bounds) return;
-      const sw = bounds.getSouthWest();
-      const ne = bounds.getNorthEast();
-      emit("viewportChange", {
-        swLat: sw.lat(),
-        swLng: sw.lng(),
-        neLat: ne.lat(),
-        neLng: ne.lng(),
-      });
-    }, 500);
   });
 
   // Renderiza os polígonos iniciais
