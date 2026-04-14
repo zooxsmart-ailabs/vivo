@@ -26,12 +26,14 @@ export default defineNuxtConfig({
     preset: "github-pages",
     prerender: {
       crawlLinks: true,
-      routes: ["/", "/frentes", "/bairros"],
+      routes: ["/", "/frentes", "/bairros", "/login"],
     },
   },
   runtimeConfig: {
     public: {
       googleMapsApiKey: "",
+      authUser: "", // NUXT_PUBLIC_AUTH_USER
+      authPass: "", // NUXT_PUBLIC_AUTH_PASS
     },
   },
 });

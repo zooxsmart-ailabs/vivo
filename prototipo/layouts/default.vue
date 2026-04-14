@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { Map as MapIcon, BarChart3, Building2 } from "lucide-vue-next";
+import { Map as MapIcon, BarChart3, Building2, LogOut } from "lucide-vue-next";
 const route = useRoute();
+const { logout } = useAuth();
 const tabs = [
   { path: "/", label: "Mapa Estratégico", icon: MapIcon },
   { path: "/frentes", label: "Estratégias Growth", icon: BarChart3 },
@@ -100,6 +101,20 @@ const tabs = [
             class="h-8 w-auto"
             style="object-fit: contain; filter: brightness(0) invert(1)"
           />
+          <button
+            class="flex items-center justify-center w-7 h-7 rounded-lg transition-all duration-150"
+            style="
+              background: rgba(255, 255, 255, 0.05);
+              border: 1px solid rgba(255, 255, 255, 0.08);
+              color: rgba(255, 255, 255, 0.35);
+            "
+            title="Sair"
+            @click="logout(); navigateTo('/login')"
+            @mouseenter="($event.currentTarget as HTMLElement).style.color = '#fca5a5'; ($event.currentTarget as HTMLElement).style.borderColor = 'rgba(239,68,68,0.3)'"
+            @mouseleave="($event.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.35)'; ($event.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.08)'"
+          >
+            <LogOut class="w-3.5 h-3.5" />
+          </button>
         </div>
       </div>
 
