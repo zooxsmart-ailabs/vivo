@@ -16,9 +16,7 @@ async function handleSubmit() {
   error.value = "";
   loading.value = true;
 
-  await new Promise((r) => setTimeout(r, 320));
-
-  const ok = login(username.value, password.value);
+  const ok = await login(username.value, password.value);
   loading.value = false;
 
   if (ok) {

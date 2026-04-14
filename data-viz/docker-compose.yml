@@ -37,6 +37,8 @@ services:
       - CORS_ORIGINS=http://localhost,http://nginx
       - JWT_SECRET=${JWT_SECRET:-dev-secret-change-in-production}
       - JWT_EXPIRATION=${JWT_EXPIRATION:-1h}
+      - AUTH_USER=${AUTH_USER:-admin}
+      - AUTH_PASS=${AUTH_PASS}
       - OTEL_SERVICE_NAME=vivo-api
       - OTEL_EXPORTER_OTLP_ENDPOINT=${OTEL_EXPORTER_OTLP_ENDPOINT:-http://host.docker.internal:4317}
       - OTEL_ENABLED=${OTEL_ENABLED:-false}

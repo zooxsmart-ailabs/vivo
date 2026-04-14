@@ -1,9 +1,5 @@
 const AUTH_COOKIE = "geo_auth";
 
-// Credenciais fixas — altere conforme necessário
-const VALID_USER = "vivo";
-const VALID_PASS = "zoox@2025";
-
 export function useAuth() {
   const cookie = useCookie(AUTH_COOKIE, {
     maxAge: 60 * 60 * 8, // 8 horas
@@ -12,15 +8,25 @@ export function useAuth() {
     path: "/",
   });
 
-  function login(user: string, pass: string): boolean {
-    if (user.trim() === VALID_USER && pass === VALID_PASS) {
+  const config = useRuntimeConfig();
+
+  async function login(user: string, pass: string): Promise<boolean> {
+    try {
+      await $fetch(`${config.public.apiBase}/auth/login`, {
+        method: "POST",
+        body: { user, pass },
+      });
       cookie.value = "ok";
       return true;
+    } catch {
+      return false;
     }
-    return false;
   }
 
-  function logout() {
+  async function logout() {
+    await $fetch(`${config.public.apiBase}/auth/logout`, {
+      method: "POST",
+    }).catch(() => {});
     cookie.value = null;
   }
 
