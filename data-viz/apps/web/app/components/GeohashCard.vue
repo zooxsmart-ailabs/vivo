@@ -159,6 +159,15 @@
         </div>
       </div>
 
+      <!-- ══ TAB IA — RESUMO EXECUTIVO ══ -->
+      <div v-if="tab === 'ia'" class="flex-1 px-4 pb-3 pt-1 overflow-y-auto">
+        <GrowthRecIASummary
+          v-if="data"
+          :geohash-id="data.geohash_id"
+          :period="detailData?.period"
+        />
+      </div>
+
       <!-- ══ TAB C2 — INFRAESTRUTURA ══ -->
       <div v-if="tab === 'c2'" class="flex-1 px-4 pb-3 flex flex-col gap-2 overflow-hidden">
         <template v-if="detailData?.camada2">
@@ -236,7 +245,7 @@
 <script setup lang="ts">
 import {
   MapPin, Activity, Zap, DollarSign, Users,
-  TrendingUp, AlertTriangle, Layers, Wifi, Signal,
+  TrendingUp, AlertTriangle, Layers, Wifi, Signal, Sparkles,
 } from "lucide-vue-next";
 import { QUADRANT_COLORS, type Quadrant } from "../composables/useFilters";
 
@@ -278,6 +287,7 @@ interface GeohashSummary {
 }
 
 interface DetailData extends GeohashSummary {
+  period?: string | null;
   download_mbps?: number | null;
   latency_ms?: number | null;
   quality_label?: string | null;
@@ -314,11 +324,12 @@ const props = defineProps<{
 
 // ─── State ───────────────────────────────────────────────────────────────────
 
-const tab = ref<"c1" | "c2">("c1");
+const tab = ref<"c1" | "c2" | "ia">("c1");
 
 const TABS = [
-  { key: "c1" as const, icon: Activity, label: "CAMADA 1: Comercial" },
-  { key: "c2" as const, icon: Layers, label: "CAMADA 2: Infraestrutura" },
+  { key: "c1" as const, icon: Activity, label: "C1: Comercial" },
+  { key: "c2" as const, icon: Layers, label: "C2: Infraestrutura" },
+  { key: "ia" as const, icon: Sparkles, label: "Rec. IA" },
 ];
 
 // ─── Constants ───────────────────────────────────────────────────────────────

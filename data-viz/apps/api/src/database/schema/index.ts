@@ -16,3 +16,4 @@ export * from "./user-session";
 export * from "./network-performance-fixed";
 export * from "./network-performance-mobile";
 export * from "./diagnostico-growth";
+export * from "./geohash-ia-summary";

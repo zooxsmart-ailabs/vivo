@@ -39,6 +39,7 @@ services:
       - JWT_EXPIRATION=${JWT_EXPIRATION:-1h}
       - AUTH_USER=${AUTH_USER:-admin}
       - AUTH_PASS=${AUTH_PASS}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
       - OTEL_SERVICE_NAME=vivo-api
       - OTEL_EXPORTER_OTLP_ENDPOINT=${OTEL_EXPORTER_OTLP_ENDPOINT:-http://host.docker.internal:4317}
       - OTEL_ENABLED=${OTEL_ENABLED:-false}

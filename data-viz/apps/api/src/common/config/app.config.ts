@@ -8,4 +8,5 @@ export default registerAs("app", () => ({
   jwtExpiration: process.env.JWT_EXPIRATION || "1h",
   authUser: process.env.AUTH_USER,
   authPass: process.env.AUTH_PASS,
+  openaiApiKey: process.env.OPENAI_API_KEY || "",
 }));

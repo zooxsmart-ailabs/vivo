@@ -8,8 +8,8 @@ import {
 import { ConfigService } from "@nestjs/config";
 
 class LoginDto {
-  user: string;
-  pass: string;
+  user!: string;
+  pass!: string;
 }
 
 @Controller("auth")
