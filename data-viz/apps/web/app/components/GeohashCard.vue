@@ -20,6 +20,19 @@
       >
         <div class="absolute left-0 top-0 bottom-0 w-0.5 rounded-r" :style="{ backgroundColor: qColor.hex }" />
 
+        <!-- Aviso: sem dados Vivo neste geohash -->
+        <div
+          v-if="data.has_vivo_data === false"
+          class="flex items-center gap-1.5 mb-2 pl-1 pr-1 py-1 rounded-md bg-slate-100 border border-slate-200"
+        >
+          <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span class="text-[11px] text-slate-500 font-semibold">
+            Vivo sem amostras neste geohash — concorrentes presentes na área
+          </span>
+        </div>
+
         <!-- Badges -->
         <div class="flex items-center gap-1.5 mb-2 pl-1">
           <span class="text-xs font-black px-2 py-0.5 rounded-full text-white" :style="{ backgroundColor: qColor.hex }">
@@ -280,6 +293,7 @@ interface GeohashSummary {
   trend_direction: string;
   trend_delta: number;
   competitive_position: string;
+  has_vivo_data?: boolean;
   vivo_score?: number | null;
   tim_score?: number | null;
   claro_score?: number | null;

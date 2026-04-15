@@ -37,6 +37,14 @@ export const QUADRANT_COLORS: Record<
   },
 };
 
+// Color used for geohash cells where only competitors have QoE data (no Vivo samples).
+// These cells bypass the quadrant filter and always render on the map.
+export const SEM_VIVO_COLOR = {
+  hex: "#94A3B8",
+  stroke: "#64748BCC",
+  label: "Sem dados Vivo",
+};
+
 export const QUADRANT_DESCRIPTIONS: Record<Quadrant, string> = {
   GROWTH: "Share baixo + Satisfação alta — janela de ataque, geração de leads",
   UPSELL:
@@ -89,8 +97,15 @@ export function useFilters() {
     precision.value = p;
   }
 
-  function isVisible(geohash: { quadrant_type: string; tech_category: string }) {
-    if (!activeQuadrants.value.has(geohash.quadrant_type as Quadrant)) return false;
+  function isVisible(geohash: {
+    quadrant_type: string;
+    tech_category: string;
+    has_vivo_data?: boolean;
+  }) {
+    // Cells where only competitors have data bypass the quadrant filter
+    // (their quadrant would be GROWTH_RETENCAO with share=0/score=0, not meaningful).
+    const hasVivo = geohash.has_vivo_data !== false;
+    if (hasVivo && !activeQuadrants.value.has(geohash.quadrant_type as Quadrant)) return false;
     if (
       techFilter.value !== "TODOS" &&
       geohash.tech_category !== techFilter.value &&

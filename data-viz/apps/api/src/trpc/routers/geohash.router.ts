@@ -23,6 +23,7 @@ const filtersSchema = z.object({
   state: z.string().length(2).optional(),
   city: z.string().optional(),
   neighborhood: z.string().optional(),
+  viewport: viewportSchema.optional(),
 });
 
 /**
@@ -55,6 +56,7 @@ async function listGeohashes(
     trend_delta: number;
     competitive_position: string;
     period: string;
+    has_vivo_data: boolean;
     is_top10: boolean;
   }>(sql`
     WITH target_period AS (
@@ -79,7 +81,8 @@ async function listGeohashes(
         s.trend_direction,
         s.trend_delta,
         s.competitive_position,
-        s.period
+        s.period,
+        s.has_vivo_data
       FROM vw_geohash_summary s
       JOIN geohash_cell gc ON gc.geohash_id = s.geohash_id
       CROSS JOIN target_period tp
@@ -126,7 +129,8 @@ async function listGeohashes(
         s.trend_direction,
         s.trend_delta,
         s.competitive_position,
-        s.period
+        s.period,
+        s.has_vivo_data
       FROM vw_geohash_summary s
       JOIN geohash_cell gc ON gc.geohash_id = s.geohash_id
       CROSS JOIN target_period tp
@@ -177,6 +181,12 @@ export const geohashRouter = t.router({
    * tecnologia, período e localização. Cache Redis com TTL 5 min.
    */
   list: publicProcedure.input(filtersSchema).query(async ({ ctx, input }) => {
+    // Skip Redis cache for viewport-scoped requests — viewports are ephemeral and
+    // would generate too many distinct cache keys during map panning.
+    if (input.viewport) {
+      return listGeohashes(ctx.db, input);
+    }
+
     const cacheKey = `cache:geohash:list:${JSON.stringify(input)}`;
     const cached = await ctx.redis.get(cacheKey);
     if (cached) return JSON.parse(cached);

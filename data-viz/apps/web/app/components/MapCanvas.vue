@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { useGoogleMaps } from "../composables/useGoogleMaps";
-import { QUADRANT_COLORS, type Quadrant } from "../composables/useFilters";
+import { QUADRANT_COLORS, SEM_VIVO_COLOR, type Quadrant } from "../composables/useFilters";
 
 /**
  * Converte um geohash para os 4 vértices de um polígono retangular.
@@ -51,6 +51,7 @@ interface GeohashSummary {
   neighborhood: string | null;
   city: string;
   state: string;
+  has_vivo_data?: boolean;
   vivo_score?: number | null;
   tim_score?: number | null;
   claro_score?: number | null;
@@ -67,6 +68,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   hover: [geohash: GeohashSummary | null];
   click: [geohash: GeohashSummary];
+  boundsChanged: [bounds: { swLat: number; swLng: number; neLat: number; neLng: number }];
 }>();
 
 const mapEl = ref<HTMLDivElement | null>(null);
@@ -89,20 +91,22 @@ const MAP_STYLES: google.maps.MapTypeStyle[] = [
 ];
 
 function getColor(gh: GeohashSummary) {
+  if (gh.has_vivo_data === false) return SEM_VIVO_COLOR.hex;
   return QUADRANT_COLORS[gh.quadrant_type as Quadrant]?.hex ?? "#94A3B8";
 }
 
 function createPolygon(gh: GeohashSummary): google.maps.Polygon {
   const color = getColor(gh);
+  const noVivo = gh.has_vivo_data === false;
   const polygon = new google.maps.Polygon({
     paths: geohashToPolygon(gh.geohash_id),
-    strokeColor: color + "CC",
+    strokeColor: noVivo ? SEM_VIVO_COLOR.stroke : color + "CC",
     strokeOpacity: 0.9,
-    strokeWeight: 1.5,
+    strokeWeight: noVivo ? 1 : 1.5,
     fillColor: color,
-    fillOpacity: 0.4,
+    fillOpacity: noVivo ? 0.2 : 0.4,
     map: props.visibleGeohashIds.has(gh.geohash_id) ? map! : null,
-    zIndex: 1,
+    zIndex: noVivo ? 0 : 1,
   });
 
   polygon.addListener("mouseover", () => {
@@ -165,6 +169,21 @@ async function initMap() {
     const polygon = createPolygon(gh);
     polygonsMap.set(gh.geohash_id, polygon);
   }
+
+  // Emite bounds ao parar (idle dispara 1x após animação, ao contrário de
+  // bounds_changed que dispara ~30x durante um pan).
+  map.addListener("idle", () => {
+    const b = map!.getBounds();
+    if (!b) return;
+    const sw = b.getSouthWest();
+    const ne = b.getNorthEast();
+    emit("boundsChanged", {
+      swLat: sw.lat(),
+      swLng: sw.lng(),
+      neLat: ne.lat(),
+      neLng: ne.lng(),
+    });
+  });
 }
 
 // Atualiza visibilidade dos polígonos quando os filtros mudam
