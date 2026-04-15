@@ -19,7 +19,6 @@ if (!apiKey) {
 
 const full = {
   geohash_id: "6gyf4b",
-  neighborhood: "Santana",
   city: "São Paulo",
   quadrant_type: "GROWTH",
   tech_category: "MOVEL",
@@ -41,7 +40,6 @@ const full = {
 
 const minimal = {
   geohash_id: "min01",
-  neighborhood: null,
   city: "São Paulo",
   quadrant_type: "UPSELL",
   tech_category: "FIBRA",
@@ -50,26 +48,14 @@ const minimal = {
   trend_delta: 0,
 };
 
-console.log("=== Teste 1: buildPrompt (full) ===\n");
-console.log(buildPrompt(full));
-
-console.log("\n=== Teste 2: buildPrompt (minimal) ===\n");
-console.log(buildPrompt(minimal));
-
 async function main() {
-  console.log("\n=== Teste 3: generateSummary (full, chama LLM) ===\n");
-  const t0 = performance.now();
-  const summary = await generateSummary(full, apiKey);
-  const elapsed = ((performance.now() - t0) / 1000).toFixed(2);
-  console.log(summary);
-  console.log(`\n(${elapsed}s)`);
+  const ora = await generateSummary(full, apiKey);
+  console.log(ora);
 
-  console.log("\n=== Teste 4: generateSummary (minimal, chama LLM) ===\n");
-  const t1 = performance.now();
-  const summary2 = await generateSummary(minimal, apiKey);
-  const elapsed2 = ((performance.now() - t1) / 1000).toFixed(2);
-  console.log(summary2);
-  console.log(`\n(${elapsed2}s)`);
+  console.log("\n---\n");
+
+  const ora2 = await generateSummary(minimal, apiKey);
+  console.log(ora2);
 }
 
 main();
