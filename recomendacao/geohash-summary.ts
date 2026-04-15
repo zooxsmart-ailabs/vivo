@@ -1,12 +1,5 @@
 /**
  * Aceita diretamente o shape retornado por geohash.getById() da API tRPC
- * e produz um resumo executivo no formato unico OPORTUNIDADE / RISCO / ACAO.
- *
- * Pipeline:
- *   GeohashDetail -> buildDiagnostico (deterministico, com thresholds)
- *                 -> ORA_TEMPLATE (prompt)
- *                 -> callOpenAI
- *                 -> normalizeOraLabels ("ACAO" -> "AÇÃO")
  */
 
 import {
