@@ -44,8 +44,11 @@ jobs:
           AUTH_PASS=${{ secrets.AUTH_PASS }}
           EOF
 
+      - name: Stop existing containers
+        run: docker compose down --remove-orphans || true
+
       - name: Build and deploy containers
-        run: docker compose up -d --build --remove-orphans
+        run: docker compose up -d --build
 
       - name: Health check
         run: |
