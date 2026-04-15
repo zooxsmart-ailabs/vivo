@@ -1,5 +1,5 @@
 /**
- * Aceita diretamente o shape retornado por geohash.getById() da API tRPC
+ * Aceita diretamente o sape retornado por geohash.getById() da API tRPC
  */
 
 import {

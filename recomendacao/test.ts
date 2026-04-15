@@ -2,7 +2,7 @@ import { buildPrompt, generateSummary } from "./index";
 import { readFileSync } from "fs";
 import { resolve } from "path";
 
-// Carrega .env manualmente
+// Crrega .env manualmente
 const envPath = resolve(__dirname, "../.env");
 const apiKey = readFileSync(envPath, "utf-8")
   .split("\n")
