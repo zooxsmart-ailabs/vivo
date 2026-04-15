@@ -1,8 +1,10 @@
 import { z } from "zod";
 import { sql } from "drizzle-orm";
+import { TRPCError } from "@trpc/server";
 import { observable } from "@trpc/server/observable";
 import { t, publicProcedure } from "../trpc.base";
 import type { DrizzleDB } from "../../database/drizzle.provider";
+import type { GeohashDetailForSummary } from "../../ia-summary/ia-summary.types";
 
 const viewportSchema = z.object({
   swLat: z.number(),
@@ -432,6 +434,113 @@ export const geohashRouter = t.router({
       );
 
       return results.map((r) => r.rows[0] ?? null);
+    }),
+
+  /**
+   * UC-IA-01 — Busca o resumo IA persistido para um geohash.
+   * Retorna null se ainda não foi gerado.
+   */
+  iaSummary: publicProcedure
+    .input(z.object({ geohashId: z.string().min(5).max(12) }))
+    .query(async ({ ctx, input }) => {
+      return ctx.iaSummary.getSummary(input.geohashId);
+    }),
+
+  /**
+   * UC-IA-02 — Gera (ou regenera) o resumo IA para um geohash.
+   * Busca os dados do geohash internamente, chama OpenAI e persiste o resultado.
+   */
+  iaGenerate: publicProcedure
+    .input(
+      z.object({
+        geohashId: z.string().min(5).max(12),
+        period: z.string().optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const periodFilter = input.period
+        ? sql`AND s.period = ${input.period}`
+        : sql`AND s.period = (SELECT MAX(period) FROM vw_geohash_summary)`;
+
+      const baseRows = await ctx.db.execute<{
+        geohash_id: string;
+        neighborhood: string | null;
+        city: string;
+        quadrant_type: string;
+        tech_category: string;
+        share_vivo: number;
+        trend_direction: string;
+        trend_delta: number;
+        vivo_score: number | null;
+        download_mbps: number | null;
+        latency_ms: number | null;
+        quality_label: string | null;
+      }>(sql`
+        SELECT s.geohash_id, gc.neighborhood, gc.city,
+               s.quadrant_type, s.tech_category, s.share_vivo,
+               s.trend_direction, s.trend_delta,
+               s.vivo_score, s.download_mbps, s.latency_ms, s.quality_label
+        FROM vw_geohash_summary s
+        JOIN geohash_cell gc ON gc.geohash_id = s.geohash_id
+        WHERE s.geohash_id = ${input.geohashId}
+          ${periodFilter}
+      `);
+
+      if (baseRows.rows.length === 0) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Geohash não encontrado",
+        });
+      }
+
+      const safeQuery = <T>(query: Promise<{ rows: T[] }>) =>
+        query.then((r) => r.rows[0] ?? null).catch(() => null);
+
+      const crmPeriodFilter = input.period
+        ? sql`AND period = ${input.period}`
+        : sql`AND period = (SELECT MAX(period) FROM geohash_crm WHERE geohash_id = ${input.geohashId})`;
+
+      const [crm, fibra, movel] = await Promise.all([
+        safeQuery<{
+          avg_income: number | null;
+          income_label: string | null;
+          device_tier: string | null;
+        }>(
+          ctx.db.execute(sql`
+            SELECT avg_income, income_label, device_tier
+            FROM geohash_crm
+            WHERE geohash_id = ${input.geohashId} ${crmPeriodFilter}
+          `),
+        ),
+        safeQuery<{ classification: string }>(
+          ctx.db.execute(sql`
+            SELECT classification FROM camada2_fibra
+            WHERE geohash_id = ${input.geohashId}
+            ORDER BY period DESC LIMIT 1
+          `),
+        ),
+        safeQuery<{ classification: string }>(
+          ctx.db.execute(sql`
+            SELECT classification FROM camada2_movel
+            WHERE geohash_id = ${input.geohashId}
+            ORDER BY period DESC LIMIT 1
+          `),
+        ),
+      ]);
+
+      const detail: GeohashDetailForSummary = {
+        ...baseRows.rows[0],
+        crm,
+        camada2: fibra || movel ? { fibra, movel } : null,
+      };
+
+      const result = await ctx.iaSummary.generateAndPersist(detail);
+
+      // Invalida cache do getById para que a próxima busca não retorne stale
+      const cacheKey = `cache:geohash:detail:${input.geohashId}:${input.period ?? "latest"}`;
+      await ctx.redis.del(cacheKey);
+
+      return result;
     }),
 
   /**

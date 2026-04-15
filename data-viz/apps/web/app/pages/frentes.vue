@@ -20,7 +20,10 @@
         </div>
         <div class="flex items-center gap-2">
           <div class="bg-green-500/20 border border-green-500/30 rounded-full px-3 py-1">
-            <span class="text-[9px] font-bold text-green-400">{{ growthList.length }} geohashes Growth</span>
+            <span class="text-[9px] font-bold text-green-400">{{ growthOnlyCount }} Growth</span>
+          </div>
+          <div class="bg-teal-500/20 border border-teal-500/30 rounded-full px-3 py-1">
+            <span class="text-[9px] font-bold text-teal-400">{{ growthRetencaoCount }} Growth+R</span>
           </div>
           <div class="bg-white/5 border border-white/10 rounded-full px-3 py-1">
             <span class="text-[9px] font-bold text-slate-400">{{ diagCount }} com diagnóstico</span>
@@ -76,6 +79,10 @@
             <div class="flex items-center justify-between">
               <span class="text-[8px] text-slate-500">{{ geo.geohash_id }}</span>
               <div class="flex items-center gap-1">
+                <span
+                  v-if="geo._quadrant === 'GROWTH_RETENCAO'"
+                  class="text-[7px] font-bold px-1 py-0.5 rounded bg-teal-500/20 text-teal-400"
+                >+R</span>
                 <span
                   class="text-[7px] font-bold px-1 py-0.5 rounded"
                   :class="PRIORITY_CLASSES[geo.priority_label as keyof typeof PRIORITY_CLASSES]"
@@ -230,13 +237,17 @@ const { data: rankingData, pending: loading } = await useAsyncData(
   { watch: [filters.period, filters.state, filters.city] },
 );
 
-// Growth geohashes sorted by priority
+// Growth geohashes (GROWTH + GROWTH_RETENCAO) sorted by priority score desc
 const growthList = computed(() => {
-  const data = rankingData.value;
+  const data = rankingData.value as any;
   if (!data) return [];
-  return (data as any).GROWTH ?? [];
+  const g = (data.GROWTH ?? []).map((x: any) => ({ ...x, _quadrant: "GROWTH" }));
+  const gr = (data.GROWTH_RETENCAO ?? []).map((x: any) => ({ ...x, _quadrant: "GROWTH_RETENCAO" }));
+  return [...g, ...gr].sort((a, b) => Number(b.priority_score) - Number(a.priority_score));
 });
 
+const growthOnlyCount = computed(() => growthList.value.filter((g: any) => g._quadrant === "GROWTH").length);
+const growthRetencaoCount = computed(() => growthList.value.filter((g: any) => g._quadrant === "GROWTH_RETENCAO").length);
 const diagCount = computed(() => growthList.value.length);
 
 const filteredList = computed(() => {

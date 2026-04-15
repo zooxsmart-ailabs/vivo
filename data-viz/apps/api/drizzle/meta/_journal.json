@@ -50,6 +50,13 @@
       "when": 1776643200000,
       "tag": "0006_share_latest_join",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1744934400000,
+      "tag": "0007_ia_summary",
+      "breakpoints": true
     }
   ]
 }

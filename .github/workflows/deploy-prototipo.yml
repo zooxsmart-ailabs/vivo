@@ -43,6 +43,8 @@ jobs:
         env:
           NUXT_APP_BASE_URL: /${{ github.event.repository.name }}/
           NUXT_PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
+          NUXT_PUBLIC_AUTH_USER: ${{ secrets.AUTH_USER }}
+          NUXT_PUBLIC_AUTH_PASS: ${{ secrets.AUTH_PASS }}
         run: pnpm generate
 
       - uses: actions/configure-pages@v5

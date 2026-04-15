@@ -134,7 +134,7 @@ export interface GeohashData {
   speedtest?: {
     downloadMbps: number;   // Download médio (Mbps)
     latencyMs: number;      // Latência média (ms)
-    qualityLabel: "Excelente" | "Bom" | "Regular" | "Ruim";
+    qualityLabel: "Excelente" | "Bom" | "Razoável" | "Ruim";
   };
   // Dados demográficos Zoox
   demographics?: {
@@ -225,7 +225,7 @@ export const GEOHASH_DATA: GeohashData[] = [
       movel: { pessoasComErb: 3100, populacaoResidente: 11000 },
     },
     crm: { arpu: 89, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 89, arpuFibra: 0, planoMovel: "Pós" },
-    speedtest: { downloadMbps: 42, latencyMs: 38, qualityLabel: "Regular" },
+    speedtest: { downloadMbps: 42, latencyMs: 38, qualityLabel: "Razoável" },
     demographics: { avgIncome: 5200, incomeLabel: "Médio", populationDensity: 9200, populationGrowth: 2.8, growthLabel: "Moderado", technology: "4G", severity: "Média" },
     diagnostico: {
       scoreOokla: 6.1, scoreOoklaMovel: 5.8, scoreOoklaFibra: 5.2, scoreHAC: 5.5,
@@ -366,7 +366,7 @@ export const GEOHASH_DATA: GeohashData[] = [
       movel: { pessoasComErb: 1900, populacaoResidente: 7600 },
     },
     crm: { arpu: 71, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 71, arpuFibra: 0, planoMovel: "Controle" },
-    speedtest: { downloadMbps: 38, latencyMs: 44, qualityLabel: "Regular" },
+    speedtest: { downloadMbps: 38, latencyMs: 44, qualityLabel: "Razoável" },
     demographics: { avgIncome: 4100, incomeLabel: "Médio", populationDensity: 6300, populationGrowth: 1.4, growthLabel: "Moderado", technology: "4G", severity: "Baixa" },
     diagnostico: {
       scoreOokla: 6.4, scoreOoklaMovel: 6.2, scoreOoklaFibra: 5.8, scoreHAC: 5.6,
@@ -658,7 +658,7 @@ export const GEOHASH_DATA: GeohashData[] = [
       movel: { pessoasComErb: 2900, populacaoResidente: 8300 },
     },
     crm: { arpu: 94, deviceTier: "Mid", planType: "Pós-pago 4G" },
-    speedtest: { downloadMbps: 48, latencyMs: 36, qualityLabel: "Regular" },
+    speedtest: { downloadMbps: 48, latencyMs: 36, qualityLabel: "Razoável" },
     camada2: {
       fibra: { classification: "EXPANSAO_NOVA_AREA", score: 58, scoreLabel: "Médio", potencialMercado: 52, sinergiaMovel: 35 },
       movel: { classification: "EXPANSAO_4G", score: 62, scoreLabel: "Médio"},
@@ -734,7 +734,7 @@ export const GEOHASH_DATA: GeohashData[] = [
       movel: { pessoasComErb: 2600, populacaoResidente: 8700 },
     },
     crm: { arpu: 78, deviceTier: "Basic", planType: "Pós-pago 4G" },
-    speedtest: { downloadMbps: 35, latencyMs: 48, qualityLabel: "Regular" },
+    speedtest: { downloadMbps: 35, latencyMs: 48, qualityLabel: "Razoável" },
     camada2: {
       fibra: { classification: "EXPANSAO_NOVA_AREA", score: 48, scoreLabel: "Médio", potencialMercado: 44 },
       movel: { classification: "MELHORA_QUALIDADE", score: 70, scoreLabel: "Alto"},
@@ -1180,7 +1180,7 @@ export const GEOHASH_DATA: GeohashData[] = [
     },
     shareTrend: { direction: "DOWN", delta: -1.4, movel: { pessoasComErb: 3800, populacaoResidente: 13100 } },
     crm: { arpu: 92, deviceTier: "Mid", planType: "Pós-pago 4G" },
-    speedtest: { downloadMbps: 35, latencyMs: 52, qualityLabel: "Regular" },
+    speedtest: { downloadMbps: 35, latencyMs: 52, qualityLabel: "Razoável" },
     demographics: { avgIncome: 6800, incomeLabel: "Médio-Alto", populationDensity: 14200, populationGrowth: 0.8, growthLabel: "Moderado", technology: "4G + Fibra", severity: "Alta" },
     diagnostico: { scoreOokla: 6.9, taxaChamados: 3.3, sharePenetracao: 30, deltaVsLider: -1.4, arpuRelativo: 1.18, canalDominante: "Digital", canalPct: 61 },
     camada2: {
@@ -1248,7 +1248,7 @@ export const GEOHASH_DATA: GeohashData[] = [
     },
     shareTrend: { direction: "DOWN", delta: -2.8, movel: { pessoasComErb: 6100, populacaoResidente: 14500 } },
     crm: { arpu: 108, deviceTier: "Mid", planType: "Pós-pago 4G" },
-    speedtest: { downloadMbps: 32, latencyMs: 58, qualityLabel: "Regular" },
+    speedtest: { downloadMbps: 32, latencyMs: 58, qualityLabel: "Razoável" },
     demographics: { avgIncome: 7200, incomeLabel: "Médio-Alto", populationDensity: 11800, populationGrowth: 1.1, growthLabel: "Moderado", technology: "4G + Fibra", severity: "Alta" },
     camada2: {
       fibra: { classification: "AUMENTO_CAPACIDADE", score: 78, scoreLabel: "Crítico", taxaOcupacao: 93, portasDisponiveis: 7 },
@@ -1350,7 +1350,7 @@ export const GEOHASH_DATA: GeohashData[] = [
     shareTrend: { direction: "UP", delta: 0.9, deltaMovel: 0.9, deltaFibra: 0.0, shareMovel: 26, shareFibra: 0,
       movel: { pessoasComErb: 5200, populacaoResidente: 20000 } },
     crm: { arpu: 72, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 72, arpuFibra: 0, planoMovel: "Controle" },
-    speedtest: { downloadMbps: 48, latencyMs: 36, qualityLabel: "Regular" },
+    speedtest: { downloadMbps: 48, latencyMs: 36, qualityLabel: "Razoável" },
     demographics: { avgIncome: 4200, incomeLabel: "Médio", populationDensity: 8200, populationGrowth: 2.4, growthLabel: "Alto", technology: "4G", severity: "Média" },
     camada2: {
       fibra: { classification: "EXPANSAO_NOVA_AREA", score: 62, scoreLabel: "Médio", potencialMercado: 58, sinergiaMovel: 26 },
@@ -1440,7 +1440,7 @@ export const GEOHASH_DATA: GeohashData[] = [
     shareTrend: { direction: "UP", delta: 1.5, deltaMovel: 1.5, deltaFibra: 0.0, shareMovel: 23, shareFibra: 0,
       movel: { pessoasComErb: 3900, populacaoResidente: 16900 } },
     crm: { arpu: 65, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 65, arpuFibra: 0, planoMovel: "Pré" },
-    speedtest: { downloadMbps: 40, latencyMs: 42, qualityLabel: "Regular" },
+    speedtest: { downloadMbps: 40, latencyMs: 42, qualityLabel: "Razoável" },
     demographics: { avgIncome: 3400, incomeLabel: "Médio", populationDensity: 10200, populationGrowth: 2.2, growthLabel: "Alto", technology: "4G", severity: "Média" },
     camada2: {
       fibra: { classification: "EXPANSAO_NOVA_AREA", score: 70, scoreLabel: "Alto", potencialMercado: 65, sinergiaMovel: 23 },
@@ -1516,7 +1516,7 @@ export const GEOHASH_DATA: GeohashData[] = [
     },
     shareTrend: { direction: "DOWN", delta: -1.7, movel: { pessoasComErb: 4300, populacaoResidente: 11600 } },
     crm: { arpu: 95, deviceTier: "Mid", planType: "Pós-pago 4G" },
-    speedtest: { downloadMbps: 31, latencyMs: 56, qualityLabel: "Regular" },
+    speedtest: { downloadMbps: 31, latencyMs: 56, qualityLabel: "Razoável" },
     demographics: { avgIncome: 5800, incomeLabel: "Médio", populationDensity: 8900, populationGrowth: 0.8, growthLabel: "Moderado", technology: "4G", severity: "Alta" },
     camada2: {
       fibra: { classification: "EXPANSAO_NOVA_AREA", score: 35, scoreLabel: "Baixo", potencialMercado: 32 },

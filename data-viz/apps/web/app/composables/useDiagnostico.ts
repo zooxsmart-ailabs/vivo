@@ -538,25 +538,26 @@ export function buildDiagnostico(detail: {
     taxa_chamados?: number | null;
   } | null;
 }): DiagnosticoGrowth {
-  const vivoScore = detail.vivo_score ?? 0;
-  const bestCompetitor = Math.max(
-    detail.tim_score ?? 0,
-    detail.claro_score ?? 0,
-  );
+  // pg driver returns numeric columns as strings — coerce all numeric fields here
+  const n = (v: unknown, fallback = 0): number => (v != null ? Number(v) : fallback);
+  const nn = (v: unknown): number | null => (v != null ? Number(v) : null);
+
+  const vivoScore = n(detail.vivo_score);
+  const bestCompetitor = Math.max(n(detail.tim_score), n(detail.claro_score));
   const dg = detail.diagnosticoGrowth ?? null;
   return {
     scoreOokla: vivoScore,
-    scoreOoklaMovel: dg?.score_ookla_movel ?? null,
-    scoreOoklaFibra: dg?.score_ookla_fibra ?? null,
-    scoreHac: dg?.score_hac ?? null,
-    taxaChamados: dg?.taxa_chamados ?? 0,
-    sharePenetracao: detail.share_vivo ?? 0,
+    scoreOoklaMovel: nn(dg?.score_ookla_movel),
+    scoreOoklaFibra: nn(dg?.score_ookla_fibra),
+    scoreHac: nn(dg?.score_hac),
+    taxaChamados: n(dg?.taxa_chamados),
+    sharePenetracao: n(detail.share_vivo),
     deltaVsLider: vivoScore - bestCompetitor,
-    deltaVsLiderFibra: dg?.delta_vs_lider_fibra ?? null,
-    deltaVsLiderMovel: dg?.delta_vs_lider_movel ?? null,
-    arpuRelativo: dg?.arpu_relativo ?? 1.0,
+    deltaVsLiderFibra: nn(dg?.delta_vs_lider_fibra),
+    deltaVsLiderMovel: nn(dg?.delta_vs_lider_movel),
+    arpuRelativo: n(dg?.arpu_relativo, 1.0),
     canalDominante: dg?.canal_dominante ?? "Digital",
-    canalPct: dg?.canal_pct ?? 50,
+    canalPct: n(dg?.canal_pct, 50),
   };
 }
 

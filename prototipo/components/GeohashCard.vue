@@ -114,9 +114,21 @@ const view = computed(() => {
   const ins = buildInsights(d);
   const prio = getPriorityInfo(d);
   const qLabel = QUADRANT_LABELS[d.quadrant];
-  const share = d.marketShare.percentage;
-  const vivo =
+  const tf = props.techFilter;
+  const share =
+    tf === "FIBRA" && d.shareTrend?.shareFibra != null
+      ? d.shareTrend.shareFibra
+      : tf === "MOVEL" && d.shareTrend?.shareMovel != null
+        ? d.shareTrend.shareMovel
+        : d.marketShare.percentage;
+  const vivoBase =
     d.satisfactionScores.find((s) => s.name.toUpperCase() === "VIVO")?.score ?? 0;
+  const vivo =
+    tf === "FIBRA" && d.diagnostico?.scoreOoklaFibra != null
+      ? d.diagnostico.scoreOoklaFibra
+      : tf === "MOVEL" && d.diagnostico?.scoreOoklaMovel != null
+        ? d.diagnostico.scoreOoklaMovel
+        : vivoBase;
   const tim =
     d.satisfactionScores.find((s) => s.name.toUpperCase() === "TIM")?.score ?? 0;
   const claro =
@@ -125,7 +137,8 @@ const view = computed(() => {
   const delta = share - bench;
   const dColor = delta > 0 ? "#16A34A" : delta < 0 ? "#DC2626" : "#94A3B8";
   const DIcon = delta > 0 ? ArrowUp : delta < 0 ? ArrowDown : Minus;
-  return { d, qColor, tech, ins, prio, qLabel, share, vivo, tim, claro, delta, dColor, DIcon };
+  const isTechFiltered = props.techFilter === "FIBRA" || props.techFilter === "MOVEL";
+  return { d, qColor, tech, ins, prio, qLabel, share, vivo, tim, claro, delta, dColor, DIcon, isTechFiltered };
 });
 
 // Classificação socioeconômica baseada em renda média mensal domiciliar (critério ABEP/IBGE)
@@ -140,6 +153,18 @@ const SOCIAL_CLASS: Array<{ max: number; label: string; color: string; bg: strin
 function getSocialClass(income: number | undefined) {
   if (!income) return null;
   return SOCIAL_CLASS.find((c) => income <= c.max) ?? SOCIAL_CLASS[SOCIAL_CLASS.length - 1];
+}
+
+// Critério de qualidade do SpeedTest: score 0-100 (scoreOokla × 10)
+// Excelente: 80–100 | Bom: 60–80 | Razoável: 40–60 | Ruim: 0–40
+function getSpeedtestQuality(d: GeohashData): string {
+  const rawScore = d.diagnostico?.scoreOokla;
+  if (rawScore == null) return d.speedtest?.qualityLabel ?? "—";
+  const score = rawScore * 10;
+  if (score >= 80) return "Excelente";
+  if (score >= 60) return "Bom";
+  if (score >= 40) return "Razoável";
+  return "Ruim";
 }
 
 function carrierMeta(label: string) {
@@ -204,12 +229,8 @@ function insightIcon(type: string) {
         >
         <span
           class="ml-auto text-[7px] font-bold px-1.5 py-0.5 rounded-full border"
-          :style="{
-            color: view.prio.color,
-            borderColor: `${view.prio.color}40`,
-            backgroundColor: `${view.prio.color}10`,
-          }"
-          >{{ view.prio.label }}</span
+          style="color: #94A3B8; border-color: #CBD5E1; background-color: #F1F5F9"
+          >On Hold</span
         >
       </div>
       <div class="pl-1 mb-1.5">
@@ -256,21 +277,11 @@ function insightIcon(type: string) {
         </div>
         <div
           class="rounded-lg p-1.5 text-center"
-          :style="{
-            backgroundColor: `${view.prio.color}10`,
-            border: `1px solid ${view.prio.color}30`,
-          }"
+          style="background-color: #F1F5F9; border: 1px solid #CBD5E1"
         >
           <div class="text-[6.5px] text-slate-400 font-semibold mb-0.5">Prioridade</div>
-          <div
-            class="text-[13px] font-black leading-none"
-            :style="{ color: view.prio.color }"
-          >
-            {{ view.prio.score }}
-          </div>
-          <div class="text-[6.5px] font-bold mt-0.5" :style="{ color: view.prio.color }">
-            /100
-          </div>
+          <div class="text-[10px] font-black leading-none text-slate-400">ON</div>
+          <div class="text-[6.5px] font-bold mt-0.5 text-slate-400">HOLD</div>
         </div>
       </div>
     </div>
@@ -373,7 +384,7 @@ function insightIcon(type: string) {
           <div class="flex items-center justify-between">
             <span class="text-[7.5px] text-slate-400">Qualidade</span>
             <span class="text-[8px] font-bold text-slate-700">{{
-              data.speedtest.qualityLabel
+              getSpeedtestQuality(data)
             }}</span>
           </div>
         </div>
@@ -416,7 +427,7 @@ function insightIcon(type: string) {
         </div>
         <div class="grid grid-cols-2 gap-x-3">
           <div class="flex items-center justify-between">
-            <span class="text-[7.5px] text-slate-400">Pop. BK</span>
+            <span class="text-[7.5px] text-slate-400">Pop. Residente</span>
             <span class="text-[8px] font-bold text-slate-700">{{
               data.marketShare.totalPopulation.toLocaleString("pt-BR")
             }}</span>

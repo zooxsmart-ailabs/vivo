@@ -39,10 +39,16 @@ jobs:
           NUXT_PUBLIC_API_BASE=${{ secrets.NUXT_PUBLIC_API_BASE }}
           NUXT_PUBLIC_WS_URL=${{ secrets.NUXT_PUBLIC_WS_URL }}
           NUXT_PUBLIC_GOOGLE_MAPS_KEY=${{ secrets.NUXT_PUBLIC_GOOGLE_MAPS_KEY }}
+          OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
+          AUTH_USER=${{ secrets.AUTH_USER }}
+          AUTH_PASS=${{ secrets.AUTH_PASS }}
           EOF
 
+      - name: Stop existing containers
+        run: docker compose down --remove-orphans || true
+
       - name: Build and deploy containers
-        run: docker compose up -d --build --remove-orphans
+        run: docker compose up -d --build
 
       - name: Health check
         run: |
