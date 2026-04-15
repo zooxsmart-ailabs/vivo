@@ -17,6 +17,27 @@
 
 
 -- ---------------------------------------------------------------------------
+-- 0. Ensure geohash_crm table exists (schema defined in Drizzle but
+--    never created by a previous migration).
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS geohash_crm (
+    geohash_id          VARCHAR(12)     NOT NULL REFERENCES geohash_cell(geohash_id),
+    period              VARCHAR(7)      NOT NULL,
+    avg_arpu            NUMERIC(10,2),
+    arpu_movel          NUMERIC(10,2),
+    arpu_fibra          NUMERIC(10,2),
+    dominant_plan_type  VARCHAR(100),
+    plan_type_movel     VARCHAR(100),
+    device_tier         VARCHAR(20),
+    avg_income          NUMERIC(12,2),
+    population_density  NUMERIC(10,2),
+    income_label        VARCHAR(50),
+    captured_at         TIMESTAMPTZ     NOT NULL DEFAULT NOW(),
+    CONSTRAINT pk_geohash_crm PRIMARY KEY (geohash_id, period)
+);--> statement-breakpoint
+
+
+-- ---------------------------------------------------------------------------
 -- 1. MATERIALIZED VIEW: camada2_fibra
 --    Classifica infraestrutura de fibra por geohash.
 --    Árvore de decisão (RN004-04):
@@ -69,10 +90,12 @@ base AS (
     SELECT
         gc.geohash_id,
         gc.precision,
-        -- Period: prefer FTTH anomes, fall back to score period
+        -- Period: prefer FTTH anomes, fall back to score period, then latest ERB period
         COALESCE(
             TO_CHAR(TO_DATE(fp.anomes::TEXT, 'YYYYMM'), 'YYYY-MM'),
-            TO_CHAR(sf.period_month, 'YYYY-MM')
+            TO_CHAR(sf.period_month, 'YYYY-MM'),
+            (SELECT TO_CHAR(TO_DATE(MAX(anomes)::TEXT, 'YYYYMM'), 'YYYY-MM')
+             FROM vivo_mobile_erb)
         ) AS period,
         COALESCE(fp.tem_fibra, FALSE) AS tem_fibra,
         sf.composite_score AS score_qoe,  -- 0-10
@@ -100,7 +123,14 @@ base AS (
         WHERE sh2.geohash_id = gc.geohash_id AND sh2.precision = gc.precision
         ORDER BY sh2.anomes DESC LIMIT 1
     ) sh ON TRUE
-    WHERE fp.tem_fibra IS NOT NULL OR sf.composite_score IS NOT NULL
+    -- Include geohashes with FTTH, score, or ERB data (for SEM_FIBRA classification)
+    WHERE fp.tem_fibra IS NOT NULL
+       OR sf.composite_score IS NOT NULL
+       OR gc.geohash_id IN (
+            SELECT DISTINCT geohash7 FROM vivo_mobile_erb WHERE geohash7 IS NOT NULL
+            UNION
+            SELECT DISTINCT geohash6 FROM vivo_mobile_erb WHERE geohash6 IS NOT NULL
+          )
 )
 SELECT
     geohash_id,
@@ -160,7 +190,7 @@ SELECT
         ELSE NULL
     END AS potencial_mercado,
     -- sinergia_movel: share móvel Vivo no geohash
-    ROUND(COALESCE(share_movel_pct, 0), 2)::NUMERIC(5,2) AS sinergia_movel
+    ROUND(COALESCE(share_movel_pct, 0)::NUMERIC, 2)::NUMERIC(5,2) AS sinergia_movel
 FROM base
 WHERE period IS NOT NULL
 WITH DATA;--> statement-breakpoint
@@ -234,7 +264,9 @@ base AS (
         gc.precision,
         COALESCE(
             TO_CHAR(TO_DATE(ep.anomes::TEXT, 'YYYYMM'), 'YYYY-MM'),
-            TO_CHAR(sm.period_month, 'YYYY-MM')
+            TO_CHAR(sm.period_month, 'YYYY-MM'),
+            (SELECT TO_CHAR(TO_DATE(MAX(anomes)::TEXT, 'YYYYMM'), 'YYYY-MM')
+             FROM vivo_ftth_coverage)
         ) AS period,
         COALESCE(ep.tem_erb, FALSE) AS tem_erb,
         sm.composite_score AS score_qoe,  -- 0-10
@@ -271,7 +303,14 @@ base AS (
     ) sc ON TRUE
     LEFT JOIN demo d ON d.geohash_id = gc.geohash_id AND d.precision = gc.precision
     LEFT JOIN crm ON crm.geohash_id = gc.geohash_id
-    WHERE ep.tem_erb IS NOT NULL OR sm.composite_score IS NOT NULL
+    -- Include geohashes with ERB, score, or FTTH data (for EXPANSAO classification)
+    WHERE ep.tem_erb IS NOT NULL
+       OR sm.composite_score IS NOT NULL
+       OR gc.geohash_id IN (
+            SELECT DISTINCT geohash7 FROM vivo_ftth_coverage WHERE geohash7 IS NOT NULL
+            UNION
+            SELECT DISTINCT geohash6 FROM vivo_ftth_coverage WHERE geohash6 IS NOT NULL
+          )
 ),
 -- Max values for normalization
 norms AS (
@@ -332,20 +371,20 @@ SELECT
     END AS tech_recommendation,
     -- speedtest_score: QoE normalizado 0-100
     CASE
-        WHEN b.score_qoe IS NOT NULL THEN ROUND(b.score_qoe * 10, 2)::NUMERIC(5,2)
+        WHEN b.score_qoe IS NOT NULL THEN ROUND((b.score_qoe * 10)::NUMERIC, 2)::NUMERIC(5,2)
         ELSE NULL
     END AS speedtest_score,
     -- concentracao_renda: renda normalizada 0-100
     CASE
         WHEN b.renda_media IS NOT NULL AND n.max_renda > 0 THEN
-            LEAST(ROUND(b.renda_media / n.max_renda * 100, 2), 100)::NUMERIC(5,2)
+            LEAST(ROUND((b.renda_media / n.max_renda * 100)::NUMERIC, 2), 100)::NUMERIC(5,2)
         ELSE NULL
     END AS concentracao_renda,
     -- vulnerabilidade_concorrencia: 100 - score concorrente normalizado
     -- Quanto pior o concorrente, maior a janela de ataque
     CASE
         WHEN b.best_competitor_score IS NOT NULL THEN
-            ROUND((10.0 - b.best_competitor_score) * 10, 2)::NUMERIC(5,2)
+            ROUND(((10.0 - b.best_competitor_score) * 10)::NUMERIC, 2)::NUMERIC(5,2)
         ELSE NULL
     END AS vulnerabilidade_concorrencia
 FROM base b
