@@ -33,24 +33,11 @@
           </span>
         </div>
 
-        <!-- Badges -->
-        <div class="flex items-center gap-1.5 mb-2 pl-1">
+        <!-- Badges + Tech Pills (unified row) -->
+        <div class="flex items-center gap-1.5 mb-2 pl-1 flex-wrap">
           <span class="text-xs font-black px-2 py-0.5 rounded-full text-white" :style="{ backgroundColor: qColor.hex }">
             {{ qColor.label }}
           </span>
-          <span class="text-xs font-bold px-2 py-0.5 rounded-full text-white" :style="{ backgroundColor: techMeta.color }">
-            {{ techMeta.label }}
-          </span>
-          <!-- Priorização em construção — ON HOLD (feedback stakeholder) -->
-          <span
-            class="ml-auto text-xs font-bold px-2 py-0.5 rounded-full border border-slate-200 bg-slate-50 text-slate-400"
-          >
-            Prioridade: em breve
-          </span>
-        </div>
-
-        <!-- Tech Toggle Pills -->
-        <div class="flex items-center gap-1 pl-1 mb-2">
           <template v-for="tech in (['FIBRA', 'MOVEL'] as const)" :key="tech">
             <button
               v-if="isAmbos || effectiveTech === tech"
@@ -64,6 +51,11 @@
               {{ tech === 'FIBRA' ? 'Fibra' : 'Móvel' }}
             </button>
           </template>
+          <span
+            class="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full border border-slate-300 bg-slate-50 text-slate-400"
+          >
+            On Hold
+          </span>
         </div>
 
         <!-- Name -->
@@ -90,11 +82,11 @@
               {{ vivoScore >= 75 ? "Alta" : vivoScore >= 60 ? "Média" : "Crítica" }}
             </div>
           </div>
-          <!-- Priorização ON HOLD — placeholder -->
-          <div class="rounded-lg p-2 text-center bg-slate-50 border border-slate-200">
+          <!-- Priorização ON HOLD -->
+          <div class="rounded-lg p-2 text-center bg-slate-50 border border-slate-200 relative">
             <div class="text-xs text-slate-400 font-semibold mb-1">Prioridade</div>
-            <div class="text-sm font-bold leading-none text-slate-300 mt-2">--</div>
-            <div class="text-[10px] text-slate-300 font-semibold mt-1">em breve</div>
+            <div class="text-lg font-black leading-none text-slate-300">--</div>
+            <div class="text-[10px] text-slate-300 font-bold mt-1">On Hold</div>
           </div>
         </div>
       </div>
@@ -105,7 +97,7 @@
           v-for="t in TABS"
           :key="t.key"
           @click="tab = t.key"
-          class="flex-1 flex items-center justify-center gap-1 text-xs font-bold py-1.5 rounded-md transition-all"
+          class="flex-1 flex items-center justify-center gap-1.5 text-xs font-bold px-2 py-1.5 rounded-md transition-all"
           :style="tab === t.key ? { backgroundColor: '#660099', color: 'white' } : { color: '#64748b' }"
         >
           <component :is="t.icon" class="w-3 h-3" />
@@ -144,16 +136,26 @@
             </div>
             <DataRow label="Download" :value="`${Number(detailData?.download_mbps ?? 0).toFixed(1)} Mbps`" />
             <DataRow label="Latência" :value="`${Number(detailData?.latency_ms ?? 0).toFixed(0)} ms`" />
-            <DataRow label="Qualidade" :value="detailData?.quality_label ?? '—'" />
+            <DataRow label="Qualidade" :value="capitalizeQuality(detailData?.quality_label)" />
           </div>
-          <div v-if="hasCrm" class="rounded-lg border border-slate-100 p-1.5">
+          <div class="rounded-lg border border-slate-100 p-1.5 relative">
             <div class="flex items-center gap-1 mb-1">
               <DollarSign class="w-3.5 h-3.5 text-emerald-400" />
               <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">CRM Vivo</span>
             </div>
-            <DataRow label="ARPU" :value="displayArpu != null ? `R$ ${Number(displayArpu).toFixed(2)}` : '—'" />
-            <DataRow v-if="showDeviceTier" label="Device" :value="detailData?.crm?.device_tier ?? '—'" />
-            <DataRow label="Plano" :value="displayPlanType ?? '—'" />
+            <template v-if="hasCrm">
+              <DataRow label="ARPU" :value="displayArpu != null ? `R$ ${Number(displayArpu).toFixed(2)}` : '—'" />
+              <DataRow v-if="showDeviceTier" label="Device" :value="detailData?.crm?.device_tier ?? '—'" />
+              <DataRow label="Plano" :value="displayPlanType ?? '—'" />
+            </template>
+            <template v-else>
+              <DataRow label="ARPU" value="—" />
+              <DataRow label="Plano" value="—" />
+              <!-- ON HOLD overlay -->
+              <div class="absolute inset-0 rounded-lg bg-slate-50/80 flex items-center justify-center">
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border border-slate-300 bg-white text-slate-400">On Hold</span>
+              </div>
+            </template>
           </div>
         </div>
 
@@ -165,7 +167,17 @@
           </div>
           <div class="grid grid-cols-2 gap-x-3">
             <DataRow label="Pop. Residente" :value="formatPop(detailData?.populacao_residente)" />
-            <DataRow label="Renda Méd." :value="formatIncome(detailData?.avg_income)" />
+            <div>
+              <DataRow label="Renda Méd." :value="formatIncomeValue(detailData?.avg_income)" />
+              <div v-if="incomeClassStyle" class="flex justify-end -mt-0.5 mb-0.5">
+                <span
+                  class="text-[10px] font-black px-2 py-0.5 rounded-full"
+                  :style="{ color: incomeClassStyle.color, backgroundColor: incomeClassStyle.bg }"
+                >
+                  Classe {{ incomeClassLabel }}
+                </span>
+              </div>
+            </div>
             <DataRow label="Domicílios" :value="formatPop(detailData?.total_domicilios)" />
           </div>
         </div>
@@ -398,17 +410,16 @@ function techPillStyle(tech: "FIBRA" | "MOVEL") {
 }
 
 const TABS = [
-  { key: "c1" as const, icon: Activity, label: "C1: Comercial" },
-  { key: "c2" as const, icon: Layers, label: "C2: Infraestrutura" },
+  { key: "c1" as const, icon: Activity, label: "Camada 1: Comercial" },
+  { key: "c2" as const, icon: Layers, label: "Camada 2: Infraestrutura" },
   { key: "ia" as const, icon: Sparkles, label: "Rec. IA" },
 ];
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
-const TECH_META: Record<string, { label: string; color: string }> = {
-  FIBRA: { label: "Fibra", color: "#0EA5E9" },
-  MOVEL: { label: "Móvel", color: "#F97316" },
-  AMBOS: { label: "F+M", color: "#8B5CF6" },
+const TECH_COLORS: Record<string, string> = {
+  FIBRA: "#0EA5E9",
+  MOVEL: "#F97316",
 };
 
 const CARRIER: Record<string, { bar: string; bg: string }> = {
@@ -438,6 +449,14 @@ const MOVEL_CLASS_MAP: Record<string, { label: string; color: string; bg: string
   EXPANSAO_4G: { label: "Expansão 4G", color: "#2563EB", bg: "#EFF6FF" },
 };
 
+const INCOME_CLASS_STYLES: Record<string, { color: string; bg: string }> = {
+  A: { color: "#16A34A", bg: "#F0FDF4" },
+  B: { color: "#7C3AED", bg: "#F5F3FF" },
+  C: { color: "#2563EB", bg: "#EFF6FF" },
+  D: { color: "#D97706", bg: "#FFFBEB" },
+  E: { color: "#6B7280", bg: "#F3F4F6" },
+};
+
 const INSIGHT_STYLES = {
   positive: { bg: "#F0FDF4", border: "#86EFAC", text: "#15803D", icon: "#16A34A" },
   negative: { bg: "#FEF2F2", border: "#FCA5A5", text: "#DC2626", icon: "#EF4444" },
@@ -451,9 +470,6 @@ const qColor = computed(() =>
   QUADRANT_COLORS[props.data?.quadrant_type as Quadrant] ?? QUADRANT_COLORS.GROWTH,
 );
 
-const techMeta = computed(() =>
-  TECH_META[props.data?.tech_category ?? ""] ?? { label: "—", color: "#64748B" },
-);
 
 const displayShare = computed(() => {
   if (!isAmbos.value || !props.detailData) return Number(props.data?.share_vivo ?? 0);
@@ -620,7 +636,7 @@ const insights = computed(() => {
   const share = Number(props.data.share_vivo ?? 0);
   const vivo = vivoScore.value;
   const d = props.detailData ?? props.data;
-  const best = Math.max(Number(d.tim_score ?? 0), Number(d.claro_score ?? 0));
+  const best = Math.max(Number(d.tim_score ?? 0), Number(d.claro_score ?? 0)) * 10;
   const quadrant = props.data.quadrant_type;
 
   // Insight alinhado ao quadrante
@@ -649,6 +665,11 @@ function qualityColor(score: number): string {
   return score >= 80 ? "#16A34A" : score >= 60 ? "#0EA5E9" : score >= 40 ? "#D97706" : "#DC2626";
 }
 
+function capitalizeQuality(val?: string | null): string {
+  if (!val) return "—";
+  return val.charAt(0).toUpperCase() + val.slice(1).toLowerCase();
+}
+
 function formatPop(val?: number | string | null): string {
   if (val == null) return "—";
   return Number(val).toLocaleString("pt-BR");
@@ -664,9 +685,15 @@ function incomeClass(val?: number | string | null): string {
   return "E";
 }
 
-function formatIncome(val?: number | string | null): string {
+function formatIncomeValue(val?: number | string | null): string {
   if (val == null) return "—";
-  const cls = incomeClass(val);
-  return `R$ ${Number(val).toLocaleString("pt-BR", { maximumFractionDigits: 0 })}${cls ? ` (${cls})` : ""}`;
+  return `R$ ${Number(val).toLocaleString("pt-BR", { maximumFractionDigits: 0 })}`;
 }
+
+const incomeClassLabel = computed(() => incomeClass(props.detailData?.avg_income));
+
+const incomeClassStyle = computed(() => {
+  const cls = incomeClassLabel.value;
+  return cls ? INCOME_CLASS_STYLES[cls] ?? null : null;
+});
 </script>
