@@ -346,147 +346,53 @@ CREATE INDEX IF NOT EXISTS idx_crm_geohash ON geohash_crm (geohash_id, anomes);
 CREATE INDEX IF NOT EXISTS idx_crm_anomes ON geohash_crm (anomes);
 
 -- ---------------------------------------------------------------------------
--- 9. TABELA: camada2_fibra (ALI novo — D14)
--- Scores de infraestrutura de fibra por geohash/mes
+-- 9. MATERIALIZED VIEW: camada2_fibra (D14)
+-- Classificação de infraestrutura fibra por geohash, calculada a partir de
+-- vivo_ftth_coverage, vw_score_fibra, vw_share_real e geo_por_latlong.
 -- Rastreabilidade: RN004-04, Levantamento v2 Camada 2
+-- Implementação: data-viz/apps/api/drizzle/0011_camada2_materialized_views.sql
+--
+-- Classificações ativas:
+--   SEM_FIBRA          — nenhum registro FTTH no geohash
+--   MELHORA_QUALIDADE  — FTTH presente + QoE < 4.0
+--   SAUDAVEL           — FTTH presente + QoE >= 4.0
+-- Classificações pendentes (dados operacionais indisponíveis):
+--   AUMENTO_CAPACIDADE — requer taxa_ocupacao, portas_disponiveis
+--   EXPANSAO_NOVA_AREA — parcial (potencial_mercado é proxy de renda×densidade)
+--
+-- Colunas de saída (compatível com API):
+--   geohash_id, period (YYYY-MM), classification, score (0-100),
+--   score_label, taxa_ocupacao (NULL), portas_disponiveis (NULL),
+--   potencial_mercado, sinergia_movel
 -- ---------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS camada2_fibra (
-    geohash_id                  VARCHAR(12)      NOT NULL,
-    precision                   SMALLINT         NOT NULL,
-    anomes                      INTEGER          NOT NULL,
+-- Ver SQL completo em: data-viz/apps/api/drizzle/0011_camada2_materialized_views.sql
 
-    -- Estado da rede e classificação
-    classification              fibra_class      NOT NULL,
-    taxa_ocupacao               NUMERIC(5,2),
-    portas_disponiveis          INTEGER,
-
-    -- Score AUMENTO_CAPACIDADE (0-100)
-    -- Formula: (Taxa_Ocupacao, n=0.60) + (Valor_Area, n=0.40)
-    score_aumento_capacidade    NUMERIC(5,2),
-    taxa_ocupacao_norm          NUMERIC(5,2),    -- taxa normalizada 0-100 (>= 85% = max urgencia)
-    valor_area                  NUMERIC(5,2),    -- Renda Media (Zoox) + ARPU (CRM) norm 0-100
-
-    -- Score EXPANSAO_NOVA_AREA (0-100)
-    -- Formula: (Potencial_Mercado, n=0.50) + (Sinergia_Movel, n=0.50)
-    score_expansao_nova_area    NUMERIC(5,2),
-    potencial_mercado           NUMERIC(5,2),    -- Renda x Densidade normalizado 0-100
-    sinergia_movel              NUMERIC(5,2),    -- % share movel Vivo normalizado 0-100
-
-    -- Ranking dentro da classificação (ordenacao descendente por score)
-    ranking_classification      INTEGER,
-
-    -- Alerta automático: ocupação > 85% OU score_label movel = CRITICO
-    alerta_saturacao            BOOLEAN          NOT NULL DEFAULT FALSE,
-
-    created_at                  TIMESTAMPTZ      NOT NULL DEFAULT NOW(),
-    updated_at                  TIMESTAMPTZ      NOT NULL DEFAULT NOW(),
-
-    CONSTRAINT pk_camada2_fibra PRIMARY KEY (geohash_id, precision, anomes),
-    CONSTRAINT fk_c2f_geohash FOREIGN KEY (geohash_id) REFERENCES geohash_cell (geohash_id),
-    CONSTRAINT ck_c2f_taxa CHECK (taxa_ocupacao BETWEEN 0 AND 100),
-    CONSTRAINT ck_c2f_score_aum CHECK (score_aumento_capacidade BETWEEN 0 AND 100),
-    CONSTRAINT ck_c2f_score_exp CHECK (score_expansao_nova_area BETWEEN 0 AND 100),
-    CONSTRAINT ck_c2f_portas CHECK (portas_disponiveis >= 0),
-    CONSTRAINT ck_c2f_anomes CHECK (anomes >= 202501)
-);
-
-COMMENT ON TABLE camada2_fibra IS 'Scores CAPEX fibra por geohash/mes. RN004-04. Levantamento v2 Camada 2. ALI D14.';
-COMMENT ON COLUMN camada2_fibra.classification IS 'AUMENTO_CAPACIDADE: ocupação>85% ou <5 portas. EXPANSAO_NOVA_AREA: greenfield. SAUDAVEL: ok. SEM_FIBRA: sem infra.';
-COMMENT ON COLUMN camada2_fibra.score_aumento_capacidade IS '0-100: 60% taxa_ocupacao_norm + 40% valor_area. Quanto maior, maior urgencia de expansão de capacidade.';
-COMMENT ON COLUMN camada2_fibra.score_expansao_nova_area IS '0-100: 50% potencial_mercado + 50% sinergia_movel. Greenfield — ROI estimado de nova implantacao.';
-COMMENT ON COLUMN camada2_fibra.alerta_saturacao IS 'TRUE: taxa_ocupacao > 85% OU score_label movel = CRITICO. Gera alerta no dashboard ZooxMap (RN004-04).';
-
-CREATE INDEX IF NOT EXISTS idx_c2f_geohash ON camada2_fibra (geohash_id, anomes);
-CREATE INDEX IF NOT EXISTS idx_c2f_classification ON camada2_fibra (classification, anomes);
-CREATE INDEX IF NOT EXISTS idx_c2f_alerta ON camada2_fibra (alerta_saturacao) WHERE alerta_saturacao = TRUE;
+CREATE UNIQUE INDEX idx_c2f_mv_pk ON camada2_fibra (geohash_id, period);
+CREATE INDEX idx_c2f_mv_class ON camada2_fibra (classification);
 
 -- ---------------------------------------------------------------------------
--- 10. TABELA: camada2_movel (ALI novo — D15)
--- Scores de infraestrutura movel por geohash/mes
+-- 10. MATERIALIZED VIEW: camada2_movel (D15)
+-- Classificação de infraestrutura móvel por geohash, calculada a partir de
+-- vivo_mobile_erb, vw_score_mobile, geo_por_latlong e geohash_crm.
 -- Rastreabilidade: RN004-05, Levantamento v2 Camada 2
+-- Implementação: data-viz/apps/api/drizzle/0011_camada2_materialized_views.sql
+--
+-- Classificações ativas:
+--   EXPANSAO_COBERTURA_5G — sem ERB + perfil 5G (renda>=5k, device Premium/Mid)
+--   EXPANSAO_COBERTURA_4G — sem ERB + perfil 4G
+--   MELHORA_QUALIDADE_5G  — ERB presente + QoE < 4.0 + perfil 5G
+--   MELHORA_QUALIDADE_4G  — ERB presente + QoE < 4.0 + perfil 4G
+--   SAUDAVEL              — ERB presente + QoE >= 4.0
+--
+-- Colunas de saída (compatível com API):
+--   geohash_id, period (YYYY-MM), classification, score (0-100),
+--   score_label, tech_recommendation, speedtest_score,
+--   concentracao_renda, vulnerabilidade_concorrencia
 -- ---------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS camada2_movel (
-    geohash_id                      VARCHAR(12)      NOT NULL,
-    precision                       SMALLINT         NOT NULL,
-    anomes                          INTEGER          NOT NULL,
+-- Ver SQL completo em: data-viz/apps/api/drizzle/0011_camada2_materialized_views.sql
 
-    -- Classificação e estado (árvore de decisão + separação 4G/5G)
-    classification                  movel_class      NOT NULL,
-    speed_test_score                NUMERIC(5,2),    -- Score QoE SpeedTest 0-10 (replica qoe.mobile.score)
-    score_label                     score_label,     -- Faixa: BAIXO(0-39)/MEDIO(40-59)/ALTO(60-79)/CRITICO(80-100)
-    tecnologia_recomendada          tech_recommendation,
-
-    -- Variáveis de separação 4G/5G
-    renda_media                     NUMERIC(10,2),   -- R$ (fonte: Zoox/IBGE)
-    device_tier                     VARCHAR(20)      CHECK (device_tier IN ('BASIC', 'MID', 'PREMIUM')),
-    consumo_dados_gb                NUMERIC(10,3),   -- GB/mes medio (fonte: CRM Vivo)
-
-    -- -----------------------------------------------------------------------
-    -- Trilha 5G — MELHORA_QUALIDADE_5G (Perfil Premium, cobertura existe, qualidade ruim)
-    -- Score = (Score_SpeedTest_inv, n=0.40) + (ARPU, n=0.30) + (Consumo_Dados, n=0.30)
-    -- -----------------------------------------------------------------------
-    score_melhora_qualidade_5g      NUMERIC(5,2),    -- 0-100
-    score_speedtest_5g              NUMERIC(5,2),    -- Score QoE invertido (100 - qoe_norm) — gap de performance 0-100
-    arpu_5g                         NUMERIC(10,2),   -- ARPU medio R$/mes (proxy valor em risco)
-
-    -- -----------------------------------------------------------------------
-    -- Trilha 5G — EXPANSAO_COBERTURA_5G (White Spot Premium, sem cobertura 5G)
-    -- Score = (Concentracao_Renda, n=0.60) + (Vulnerabilidade_Concorrencia, n=0.40)
-    -- -----------------------------------------------------------------------
-    score_expansao_cobertura_5g     NUMERIC(5,2),    -- 0-100
-    concentracao_renda_5g           NUMERIC(5,2),    -- Renda media domiciliar normalizada 0-100
-    vulnerabilidade_concorrencia_5g NUMERIC(5,2),    -- Score QoE concorrente invertido (janela de ataque) 0-100
-
-    -- -----------------------------------------------------------------------
-    -- Trilha 4G — MELHORA_QUALIDADE_4G (Perfil Massivo, cobertura existe, qualidade ruim)
-    -- Score = (Gap_Performance, n=0.60) + (Volume_Usuarios, n=0.40)
-    -- -----------------------------------------------------------------------
-    score_melhora_qualidade_4g      NUMERIC(5,2),    -- 0-100
-    gap_performance_4g              NUMERIC(5,2),    -- Diferença SpeedTest vs benchmark mínimo 4G (0-100)
-    volume_usuarios_4g              NUMERIC(5,2),    -- Densidade populacional normalizada (0-100)
-
-    -- -----------------------------------------------------------------------
-    -- Trilha 4G — EXPANSAO_COBERTURA_4G (White Spot Massivo, sem cobertura 4G)
-    -- Score = (Densidade_Demografica, n=0.60) + (Vulnerabilidade_Concorrencia, n=0.40)
-    -- -----------------------------------------------------------------------
-    score_expansao_cobertura_4g     NUMERIC(5,2),    -- 0-100
-    densidade_demografica_4g        NUMERIC(5,2),    -- hab/km2 normalizado 0-100
-    vulnerabilidade_concorrencia_4g NUMERIC(5,2),    -- Score QoE concorrente invertido 0-100
-
-    -- -----------------------------------------------------------------------
-    -- Decisão integrada (fibra + movel consolidados)
-    -- -----------------------------------------------------------------------
-    decisao_integrada               TEXT,            -- Texto descritivo gerado pelo motor de decisão
-    score_capex_consolidado         NUMERIC(5,2),    -- max(score_fibra, score_movel) + ajuste dupla rede
-    alerta_saturacao                BOOLEAN          NOT NULL DEFAULT FALSE,
-
-    -- Ranking dentro da classificação
-    ranking_classification          INTEGER,
-
-    created_at                      TIMESTAMPTZ      NOT NULL DEFAULT NOW(),
-    updated_at                      TIMESTAMPTZ      NOT NULL DEFAULT NOW(),
-
-    CONSTRAINT pk_camada2_movel PRIMARY KEY (geohash_id, precision, anomes),
-    CONSTRAINT fk_c2m_geohash FOREIGN KEY (geohash_id) REFERENCES geohash_cell (geohash_id),
-    CONSTRAINT ck_c2m_speed_test CHECK (speed_test_score BETWEEN 0 AND 100),
-    CONSTRAINT ck_c2m_score_5g_mq CHECK (score_melhora_qualidade_5g BETWEEN 0 AND 100),
-    CONSTRAINT ck_c2m_score_5g_ec CHECK (score_expansao_cobertura_5g BETWEEN 0 AND 100),
-    CONSTRAINT ck_c2m_score_4g_mq CHECK (score_melhora_qualidade_4g BETWEEN 0 AND 100),
-    CONSTRAINT ck_c2m_score_4g_ec CHECK (score_expansao_cobertura_4g BETWEEN 0 AND 100),
-    CONSTRAINT ck_c2m_capex CHECK (score_capex_consolidado BETWEEN 0 AND 100),
-    CONSTRAINT ck_c2m_anomes CHECK (anomes >= 202501)
-);
-
-COMMENT ON TABLE camada2_movel IS 'Scores CAPEX rede movel por geohash/mes. RN004-05. Levantamento v2 Camada 2. ALI D15.';
-COMMENT ON COLUMN camada2_movel.classification IS 'MELHORA_QUALIDADE_5G/4G: cobertura existe, qualidade ruim. EXPANSAO_COBERTURA_5G/4G: white spot. SAUDAVEL: ok.';
-COMMENT ON COLUMN camada2_movel.tecnologia_recomendada IS 'SG_PREMIUM: alta renda + Premium/Mid device + alto consumo. 4G_MASS: renda media/baixa + Basic device.';
-COMMENT ON COLUMN camada2_movel.decisao_integrada IS 'Ex: "Fibra: AUMENTO_CAPACIDADE (Score 87) | Movel: MELHORA_QUALIDADE_5G (Score 74) — upgrade ERB + expansão capacidade OLT".';
-COMMENT ON COLUMN camada2_movel.score_capex_consolidado IS 'Score único CAPEX 0-100: max(score_fibra, score_movel) com peso adicional se ambas as redes precisam de intervenção.';
-
-CREATE INDEX IF NOT EXISTS idx_c2m_geohash ON camada2_movel (geohash_id, anomes);
-CREATE INDEX IF NOT EXISTS idx_c2m_classification ON camada2_movel (classification, anomes);
-CREATE INDEX IF NOT EXISTS idx_c2m_alerta ON camada2_movel (alerta_saturacao) WHERE alerta_saturacao = TRUE;
-CREATE INDEX IF NOT EXISTS idx_c2m_capex ON camada2_movel (score_capex_consolidado DESC);
+CREATE UNIQUE INDEX idx_c2m_mv_pk ON camada2_movel (geohash_id, period);
+CREATE INDEX idx_c2m_mv_class ON camada2_movel (classification);
 
 -- ---------------------------------------------------------------------------
 -- 10b. TABELA: diagnostico_growth (ALI novo — D16)

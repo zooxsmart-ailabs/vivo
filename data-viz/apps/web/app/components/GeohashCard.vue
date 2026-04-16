@@ -20,19 +20,41 @@
       >
         <div class="absolute left-0 top-0 bottom-0 w-0.5 rounded-r" :style="{ backgroundColor: qColor.hex }" />
 
-        <!-- Badges -->
-        <div class="flex items-center gap-1.5 mb-2 pl-1">
+        <!-- Aviso: sem dados Vivo neste geohash -->
+        <div
+          v-if="data.has_vivo_data === false"
+          class="flex items-center gap-1.5 mb-2 pl-1 pr-1 py-1 rounded-md bg-slate-100 border border-slate-200"
+        >
+          <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span class="text-[11px] text-slate-500 font-semibold">
+            Vivo sem amostras neste geohash — concorrentes presentes na área
+          </span>
+        </div>
+
+        <!-- Badges + Tech Pills (unified row) -->
+        <div class="flex items-center gap-1.5 mb-2 pl-1 flex-wrap">
           <span class="text-xs font-black px-2 py-0.5 rounded-full text-white" :style="{ backgroundColor: qColor.hex }">
             {{ qColor.label }}
           </span>
-          <span class="text-xs font-bold px-2 py-0.5 rounded-full text-white" :style="{ backgroundColor: techMeta.color }">
-            {{ techMeta.label }}
-          </span>
+          <template v-for="tech in (['FIBRA', 'MOVEL'] as const)" :key="tech">
+            <button
+              v-if="isAmbos || effectiveTech === tech"
+              :disabled="!isAmbos"
+              :aria-pressed="effectiveTech === tech"
+              @click="isAmbos && (selectedTech = tech)"
+              class="text-xs font-bold px-2.5 py-0.5 rounded-full transition-all"
+              :class="{ 'cursor-default': !isAmbos }"
+              :style="techPillStyle(tech)"
+            >
+              {{ tech === 'FIBRA' ? 'Fibra' : 'Móvel' }}
+            </button>
+          </template>
           <span
-            class="ml-auto text-xs font-bold px-2 py-0.5 rounded-full border"
-            :style="{ color: priorityColor, borderColor: priorityColor + '40', backgroundColor: priorityColor + '10' }"
+            class="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full border border-slate-300 bg-slate-50 text-slate-400"
           >
-            {{ priorityLabel }}
+            On Hold
           </span>
         </div>
 
@@ -46,7 +68,7 @@
         <div class="grid grid-cols-3 gap-2 pl-1">
           <div class="rounded-lg p-2 text-center" :style="{ backgroundColor: qColor.hex + '12', border: `1px solid ${qColor.hex}20` }">
             <div class="text-xs text-slate-400 font-semibold mb-1">Share Vivo</div>
-            <div class="text-lg font-black leading-none" :style="{ color: qColor.hex }">{{ Math.round(data.share_vivo) }}%</div>
+            <div class="text-lg font-black leading-none" :style="{ color: qColor.hex }">{{ Math.round(displayShare) }}%</div>
             <div class="flex items-center justify-center gap-0.5 mt-1">
               <span class="text-xs font-bold" :style="{ color: trendColor }">
                 {{ trendArrow }} {{ Math.abs(Number(data.trend_delta)).toFixed(1) }}pp
@@ -60,10 +82,11 @@
               {{ vivoScore >= 75 ? "Alta" : vivoScore >= 60 ? "Média" : "Crítica" }}
             </div>
           </div>
-          <div class="rounded-lg p-2 text-center" :style="{ backgroundColor: priorityColor + '10', border: `1px solid ${priorityColor}30` }">
+          <!-- Priorização ON HOLD -->
+          <div class="rounded-lg p-2 text-center bg-slate-50 border border-slate-200 relative">
             <div class="text-xs text-slate-400 font-semibold mb-1">Prioridade</div>
-            <div class="text-lg font-black leading-none" :style="{ color: priorityColor }">{{ (Number(data.priority_score) * 10).toFixed(0) }}</div>
-            <div class="text-xs font-bold mt-1" :style="{ color: priorityColor }">/100</div>
+            <div class="text-lg font-black leading-none text-slate-300">--</div>
+            <div class="text-[10px] text-slate-300 font-bold mt-1">On Hold</div>
           </div>
         </div>
       </div>
@@ -74,7 +97,7 @@
           v-for="t in TABS"
           :key="t.key"
           @click="tab = t.key"
-          class="flex-1 flex items-center justify-center gap-1 text-xs font-bold py-1.5 rounded-md transition-all"
+          class="flex-1 flex items-center justify-center gap-1.5 text-xs font-bold px-2 py-1.5 rounded-md transition-all"
           :style="tab === t.key ? { backgroundColor: '#660099', color: 'white' } : { color: '#64748b' }"
         >
           <component :is="t.icon" class="w-3 h-3" />
@@ -113,16 +136,26 @@
             </div>
             <DataRow label="Download" :value="`${Number(detailData?.download_mbps ?? 0).toFixed(1)} Mbps`" />
             <DataRow label="Latência" :value="`${Number(detailData?.latency_ms ?? 0).toFixed(0)} ms`" />
-            <DataRow label="Qualidade" :value="detailData?.quality_label ?? '—'" />
+            <DataRow label="Qualidade" :value="capitalizeQuality(detailData?.quality_label)" />
           </div>
-          <div v-if="hasCrm" class="rounded-lg border border-slate-100 p-1.5">
+          <div class="rounded-lg border border-slate-100 p-1.5 relative">
             <div class="flex items-center gap-1 mb-1">
               <DollarSign class="w-3.5 h-3.5 text-emerald-400" />
               <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">CRM Vivo</span>
             </div>
-            <DataRow label="ARPU" :value="detailData?.crm?.avg_arpu != null ? `R$ ${Number(detailData.crm.avg_arpu).toFixed(2)}` : '—'" />
-            <DataRow label="Device" :value="detailData?.crm?.device_tier ?? '—'" />
-            <DataRow label="Plano" :value="detailData?.crm?.dominant_plan_type ?? '—'" />
+            <template v-if="hasCrm">
+              <DataRow label="ARPU" :value="displayArpu != null ? `R$ ${Number(displayArpu).toFixed(2)}` : '—'" />
+              <DataRow v-if="showDeviceTier" label="Device" :value="detailData?.crm?.device_tier ?? '—'" />
+              <DataRow label="Plano" :value="displayPlanType ?? '—'" />
+            </template>
+            <template v-else>
+              <DataRow label="ARPU" value="—" />
+              <DataRow label="Plano" value="—" />
+              <!-- ON HOLD overlay -->
+              <div class="absolute inset-0 rounded-lg bg-slate-50/80 flex items-center justify-center">
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border border-slate-300 bg-white text-slate-400">On Hold</span>
+              </div>
+            </template>
           </div>
         </div>
 
@@ -133,8 +166,18 @@
             <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Perfil da Área</span>
           </div>
           <div class="grid grid-cols-2 gap-x-3">
-            <DataRow label="Pop. BK" :value="formatPop(detailData?.populacao_residente)" />
-            <DataRow label="Renda Méd." :value="formatIncome(detailData?.avg_income)" />
+            <DataRow label="Pop. Residente" :value="formatPop(detailData?.populacao_residente)" />
+            <div>
+              <DataRow label="Renda Méd." :value="formatIncomeValue(detailData?.avg_income)" />
+              <div v-if="incomeClassStyle" class="flex justify-end -mt-0.5 mb-0.5">
+                <span
+                  class="text-[10px] font-black px-2 py-0.5 rounded-full"
+                  :style="{ color: incomeClassStyle.color, backgroundColor: incomeClassStyle.bg }"
+                >
+                  Classe {{ incomeClassLabel }}
+                </span>
+              </div>
+            </div>
             <DataRow label="Domicílios" :value="formatPop(detailData?.total_domicilios)" />
           </div>
         </div>
@@ -280,6 +323,7 @@ interface GeohashSummary {
   trend_direction: string;
   trend_delta: number;
   competitive_position: string;
+  has_vivo_data?: boolean;
   vivo_score?: number | null;
   tim_score?: number | null;
   claro_score?: number | null;
@@ -288,6 +332,8 @@ interface GeohashSummary {
 
 interface DetailData extends GeohashSummary {
   period?: string | null;
+  share_fibra?: number | null;
+  share_movel?: number | null;
   download_mbps?: number | null;
   latency_ms?: number | null;
   quality_label?: string | null;
@@ -296,7 +342,10 @@ interface DetailData extends GeohashSummary {
   total_domicilios?: number | null;
   crm?: {
     avg_arpu: number | null;
+    arpu_fibra?: number | null;
+    arpu_movel?: number | null;
     dominant_plan_type: string | null;
+    plan_type_movel?: string | null;
     device_tier: string | null;
   } | null;
   camada2?: {
@@ -315,6 +364,17 @@ interface DetailData extends GeohashSummary {
       concentracao_renda?: number | null;
     } | null;
   } | null;
+  diagnosticoGrowth?: {
+    score_ookla: number;
+    score_ookla_fibra: number | null;
+    score_ookla_movel: number | null;
+    delta_vs_lider_fibra: number | null;
+    delta_vs_lider_movel: number | null;
+    decisao_fibra: string | null;
+    decisao_movel: string | null;
+    prio_fibra: string | null;
+    prio_movel: string | null;
+  } | null;
 }
 
 const props = defineProps<{
@@ -326,18 +386,40 @@ const props = defineProps<{
 
 const tab = ref<"c1" | "c2" | "ia">("c1");
 
+// ─── Tech Toggle (Fibra / Móvel) ────────────────────────────────────────────
+const selectedTech = ref<"FIBRA" | "MOVEL">("FIBRA");
+const isAmbos = computed(() => props.data?.tech_category === "AMBOS");
+const effectiveTech = computed(() => {
+  const tc = props.data?.tech_category;
+  if (tc === "FIBRA") return "FIBRA" as const;
+  if (tc === "MOVEL") return "MOVEL" as const;
+  return selectedTech.value;
+});
+
+watch(
+  () => props.data?.geohash_id,
+  () => { selectedTech.value = "FIBRA"; },
+);
+
+function techPillStyle(tech: "FIBRA" | "MOVEL") {
+  const isActive = effectiveTech.value === tech;
+  const color = tech === "FIBRA" ? "#0EA5E9" : "#F97316";
+  if (isActive) return { backgroundColor: color, color: "white" };
+  if (!isAmbos.value) return {};
+  return { backgroundColor: color + "15", color, border: `1px solid ${color}30`, cursor: "pointer" };
+}
+
 const TABS = [
-  { key: "c1" as const, icon: Activity, label: "C1: Comercial" },
-  { key: "c2" as const, icon: Layers, label: "C2: Infraestrutura" },
+  { key: "c1" as const, icon: Activity, label: "Camada 1: Comercial" },
+  { key: "c2" as const, icon: Layers, label: "Camada 2: Infraestrutura" },
   { key: "ia" as const, icon: Sparkles, label: "Rec. IA" },
 ];
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
-const TECH_META: Record<string, { label: string; color: string }> = {
-  FIBRA: { label: "Fibra", color: "#0EA5E9" },
-  MOVEL: { label: "Móvel", color: "#F97316" },
-  AMBOS: { label: "F+M", color: "#8B5CF6" },
+const TECH_COLORS: Record<string, string> = {
+  FIBRA: "#0EA5E9",
+  MOVEL: "#F97316",
 };
 
 const CARRIER: Record<string, { bar: string; bg: string }> = {
@@ -367,18 +449,19 @@ const MOVEL_CLASS_MAP: Record<string, { label: string; color: string; bg: string
   EXPANSAO_4G: { label: "Expansão 4G", color: "#2563EB", bg: "#EFF6FF" },
 };
 
+const INCOME_CLASS_STYLES: Record<string, { color: string; bg: string }> = {
+  A: { color: "#16A34A", bg: "#F0FDF4" },
+  B: { color: "#7C3AED", bg: "#F5F3FF" },
+  C: { color: "#2563EB", bg: "#EFF6FF" },
+  D: { color: "#D97706", bg: "#FFFBEB" },
+  E: { color: "#6B7280", bg: "#F3F4F6" },
+};
+
 const INSIGHT_STYLES = {
   positive: { bg: "#F0FDF4", border: "#86EFAC", text: "#15803D", icon: "#16A34A" },
   negative: { bg: "#FEF2F2", border: "#FCA5A5", text: "#DC2626", icon: "#EF4444" },
   warning: { bg: "#FFFBEB", border: "#FCD34D", text: "#B45309", icon: "#D97706" },
   neutral: { bg: "#F8FAFC", border: "#E2E8F0", text: "#475569", icon: "#64748B" },
-};
-
-const PRIORITY_MAP: Record<string, { color: string; label: string }> = {
-  P1_CRITICA: { color: "#DC2626", label: "P1 Crítica" },
-  P2_ALTA: { color: "#EA580C", label: "P2 Alta" },
-  P3_MEDIA: { color: "#CA8A04", label: "P3 Média" },
-  P4_BAIXA: { color: "#16A34A", label: "P4 Baixa" },
 };
 
 // ─── Computed ────────────────────────────────────────────────────────────────
@@ -387,21 +470,22 @@ const qColor = computed(() =>
   QUADRANT_COLORS[props.data?.quadrant_type as Quadrant] ?? QUADRANT_COLORS.GROWTH,
 );
 
-const techMeta = computed(() =>
-  TECH_META[props.data?.tech_category ?? ""] ?? { label: "—", color: "#64748B" },
-);
 
-const priorityColor = computed(() =>
-  PRIORITY_MAP[props.data?.priority_label ?? ""]?.color ?? "#64748B",
-);
+const displayShare = computed(() => {
+  if (!isAmbos.value || !props.detailData) return Number(props.data?.share_vivo ?? 0);
+  if (effectiveTech.value === "FIBRA") return Number(props.detailData.share_fibra ?? props.data?.share_vivo ?? 0);
+  return Number(props.detailData.share_movel ?? props.data?.share_vivo ?? 0);
+});
 
-const priorityLabel = computed(() =>
-  PRIORITY_MAP[props.data?.priority_label ?? ""]?.label ?? "—",
-);
-
-const vivoScore = computed(() =>
-  Number(props.data?.vivo_score ?? props.data?.avg_satisfaction_vivo ?? 0) * 10,
-);
+const vivoScore = computed(() => {
+  const consolidated = Number(props.data?.vivo_score ?? props.data?.avg_satisfaction_vivo ?? 0) * 10;
+  if (!isAmbos.value || !props.detailData?.diagnosticoGrowth) return consolidated;
+  const dg = props.detailData.diagnosticoGrowth;
+  if (effectiveTech.value === "FIBRA") {
+    return dg.score_ookla_fibra != null ? dg.score_ookla_fibra * 10 : consolidated;
+  }
+  return dg.score_ookla_movel != null ? dg.score_ookla_movel * 10 : consolidated;
+});
 
 // ─── Reverse Geocoding ────────────────────────────────────────────────────
 const geocodeCache = new Map<string, { name: string; route: string | null }>();
@@ -494,11 +578,21 @@ const trendColor = computed(() => {
 });
 
 const operatorScores = computed(() => {
-  // detailData (getById) has all operator scores; data (list) only has vivo
   const d = props.detailData ?? props.data;
   if (!d) return [];
+
+  let vivoOp = Number(d.vivo_score ?? d.avg_satisfaction_vivo ?? 0) * 10;
+  if (isAmbos.value && props.detailData?.diagnosticoGrowth) {
+    const dg = props.detailData.diagnosticoGrowth;
+    if (effectiveTech.value === "FIBRA" && dg.score_ookla_fibra != null) {
+      vivoOp = dg.score_ookla_fibra * 10;
+    } else if (effectiveTech.value === "MOVEL" && dg.score_ookla_movel != null) {
+      vivoOp = dg.score_ookla_movel * 10;
+    }
+  }
+
   return [
-    { name: "Vivo", score: Number(d.vivo_score ?? d.avg_satisfaction_vivo ?? 0) * 10, ...CARRIER.Vivo },
+    { name: "Vivo", score: vivoOp, ...CARRIER.Vivo },
     { name: "TIM", score: Number(d.tim_score ?? 0) * 10, ...CARRIER.TIM },
     { name: "Claro", score: Number(d.claro_score ?? 0) * 10, ...CARRIER.Claro },
   ].filter((op) => op.score > 0);
@@ -509,6 +603,22 @@ const hasSpeedtest = computed(() =>
 );
 
 const hasCrm = computed(() => props.detailData?.crm != null);
+
+const displayArpu = computed(() => {
+  const crm = props.detailData?.crm;
+  if (!crm) return null;
+  if (!isAmbos.value) return crm.avg_arpu;
+  return effectiveTech.value === "FIBRA" ? (crm.arpu_fibra ?? crm.avg_arpu) : (crm.arpu_movel ?? crm.avg_arpu);
+});
+
+const displayPlanType = computed(() => {
+  const crm = props.detailData?.crm;
+  if (!crm) return null;
+  if (!isAmbos.value) return crm.dominant_plan_type;
+  return effectiveTech.value === "FIBRA" ? crm.dominant_plan_type : (crm.plan_type_movel ?? crm.dominant_plan_type);
+});
+
+const showDeviceTier = computed(() => effectiveTech.value === "MOVEL");
 
 const fibraClass = computed(() => {
   const c = props.detailData?.camada2?.fibra?.classification ?? "";
@@ -526,7 +636,7 @@ const insights = computed(() => {
   const share = Number(props.data.share_vivo ?? 0);
   const vivo = vivoScore.value;
   const d = props.detailData ?? props.data;
-  const best = Math.max(Number(d.tim_score ?? 0), Number(d.claro_score ?? 0));
+  const best = Math.max(Number(d.tim_score ?? 0), Number(d.claro_score ?? 0)) * 10;
   const quadrant = props.data.quadrant_type;
 
   // Insight alinhado ao quadrante
@@ -548,11 +658,16 @@ const insights = computed(() => {
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function qualityLabel(score: number): string {
-  return score >= 80 ? "Exc" : score >= 70 ? "Bom" : score >= 60 ? "Reg" : "Crít";
+  return score >= 80 ? "Exc" : score >= 60 ? "Bom" : score >= 40 ? "Reg" : "Crít";
 }
 
 function qualityColor(score: number): string {
-  return score >= 80 ? "#16A34A" : score >= 70 ? "#0EA5E9" : score >= 60 ? "#D97706" : "#DC2626";
+  return score >= 80 ? "#16A34A" : score >= 60 ? "#0EA5E9" : score >= 40 ? "#D97706" : "#DC2626";
+}
+
+function capitalizeQuality(val?: string | null): string {
+  if (!val) return "—";
+  return val.charAt(0).toUpperCase() + val.slice(1).toLowerCase();
 }
 
 function formatPop(val?: number | string | null): string {
@@ -560,8 +675,25 @@ function formatPop(val?: number | string | null): string {
   return Number(val).toLocaleString("pt-BR");
 }
 
-function formatIncome(val?: number | string | null): string {
+function incomeClass(val?: number | string | null): string {
+  if (val == null) return "";
+  const v = Number(val);
+  if (v >= 11000) return "A";
+  if (v >= 5500) return "B";
+  if (v >= 2500) return "C";
+  if (v >= 1200) return "D";
+  return "E";
+}
+
+function formatIncomeValue(val?: number | string | null): string {
   if (val == null) return "—";
   return `R$ ${Number(val).toLocaleString("pt-BR", { maximumFractionDigits: 0 })}`;
 }
+
+const incomeClassLabel = computed(() => incomeClass(props.detailData?.avg_income));
+
+const incomeClassStyle = computed(() => {
+  const cls = incomeClassLabel.value;
+  return cls ? INCOME_CLASS_STYLES[cls] ?? null : null;
+});
 </script>

@@ -54,6 +54,24 @@ function formatDate(iso: string): string {
     minute: "2-digit",
   });
 }
+
+interface OraBlock {
+  label: string;
+  content: string;
+}
+
+const oraBlocks = computed<OraBlock[]>(() => {
+  if (!summary.value?.text) return [];
+  const text = summary.value.text;
+  const regex =
+    /(OPORTUNIDADE|RISCO|AÇÃO)\s*:\s*([\s\S]*?)(?=(?:OPORTUNIDADE|RISCO|AÇÃO)\s*:|$)/g;
+  const blocks: OraBlock[] = [];
+  let m: RegExpExecArray | null;
+  while ((m = regex.exec(text)) !== null) {
+    blocks.push({ label: m[1], content: m[2].trim() });
+  }
+  return blocks;
+});
 </script>
 
 <template>
@@ -123,11 +141,26 @@ function formatDate(iso: string): string {
     <!-- Summary -->
     <div v-else-if="summary" class="px-3 py-3 flex flex-col gap-2.5">
       <div
-        class="rounded-lg px-3 py-2.5 border"
+        class="rounded-lg px-3 py-2.5 border flex flex-col gap-2.5"
         style="background: #6600990a; border-color: #66009920"
       >
+        <div v-for="block in oraBlocks" :key="block.label">
+          <span
+            class="text-[10px] font-black uppercase tracking-wider"
+            style="color: #660099"
+          >
+            {{ block.label }}:
+          </span>
+          <p
+            class="text-[11px] leading-relaxed mt-0.5"
+            style="color: #3b0764"
+          >
+            {{ block.content }}
+          </p>
+        </div>
         <p
-          class="text-[11px] leading-relaxed"
+          v-if="oraBlocks.length === 0"
+          class="text-[11px] leading-relaxed whitespace-pre-line"
           style="color: #3b0764"
         >
           {{ summary.text }}

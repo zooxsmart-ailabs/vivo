@@ -23,6 +23,7 @@ const filtersSchema = z.object({
   state: z.string().length(2).optional(),
   city: z.string().optional(),
   neighborhood: z.string().optional(),
+  viewport: viewportSchema.optional(),
 });
 
 /**
@@ -55,6 +56,7 @@ async function listGeohashes(
     trend_delta: number;
     competitive_position: string;
     period: string;
+    has_vivo_data: boolean;
     is_top10: boolean;
   }>(sql`
     WITH target_period AS (
@@ -79,7 +81,8 @@ async function listGeohashes(
         s.trend_direction,
         s.trend_delta,
         s.competitive_position,
-        s.period
+        s.period,
+        s.has_vivo_data
       FROM vw_geohash_summary s
       JOIN geohash_cell gc ON gc.geohash_id = s.geohash_id
       CROSS JOIN target_period tp
@@ -126,7 +129,8 @@ async function listGeohashes(
         s.trend_direction,
         s.trend_delta,
         s.competitive_position,
-        s.period
+        s.period,
+        s.has_vivo_data
       FROM vw_geohash_summary s
       JOIN geohash_cell gc ON gc.geohash_id = s.geohash_id
       CROSS JOIN target_period tp
@@ -164,8 +168,8 @@ async function listGeohashes(
       ${input.precision === 7 ? sql`UNION ALL SELECT * FROM fallback_parents` : sql``}
     ) combined
     ORDER BY priority_score DESC
-    LIMIT ${input.limit ?? 500}
-    OFFSET ${input.offset ?? 0}
+    ${input.viewport ? sql`` : sql`LIMIT ${input.limit ?? 500}`}
+    ${input.viewport ? sql`` : sql`OFFSET ${input.offset ?? 0}`}
   `);
 
   return rows.rows;
@@ -177,6 +181,12 @@ export const geohashRouter = t.router({
    * tecnologia, período e localização. Cache Redis com TTL 5 min.
    */
   list: publicProcedure.input(filtersSchema).query(async ({ ctx, input }) => {
+    // Skip Redis cache for viewport-scoped requests — viewports are ephemeral and
+    // would generate too many distinct cache keys during map panning.
+    if (input.viewport) {
+      return listGeohashes(ctx.db, input);
+    }
+
     const cacheKey = `cache:geohash:list:${JSON.stringify(input)}`;
     const cached = await ctx.redis.get(cacheKey);
     if (cached) return JSON.parse(cached);
@@ -464,7 +474,6 @@ export const geohashRouter = t.router({
 
       const baseRows = await ctx.db.execute<{
         geohash_id: string;
-        neighborhood: string | null;
         city: string;
         quadrant_type: string;
         tech_category: string;
@@ -476,7 +485,7 @@ export const geohashRouter = t.router({
         latency_ms: number | null;
         quality_label: string | null;
       }>(sql`
-        SELECT s.geohash_id, gc.neighborhood, gc.city,
+        SELECT s.geohash_id, gc.city,
                s.quadrant_type, s.tech_category, s.share_vivo,
                s.trend_direction, s.trend_delta,
                s.vivo_score, s.download_mbps, s.latency_ms, s.quality_label

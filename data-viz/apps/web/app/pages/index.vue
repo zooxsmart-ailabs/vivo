@@ -15,6 +15,7 @@
           :visible-geohash-ids="visibleIds"
           @hover="onHover"
           @click="onPin"
+          @bounds-changed="onBoundsChanged"
         />
 
         <!-- Dica inicial -->
@@ -54,6 +55,10 @@
                 >
                   <span class="w-3 h-3 rounded-sm shrink-0" :style="{ backgroundColor: QUADRANT_COLORS[q].hex }" />
                   <span class="text-xs text-slate-600 font-medium">{{ QUADRANT_COLORS[q].label }}</span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="w-3 h-3 rounded-sm shrink-0 border border-slate-300" :style="{ backgroundColor: SEM_VIVO_COLOR.hex, opacity: 0.5 }" />
+                  <span class="text-xs text-slate-400 font-medium">{{ SEM_VIVO_COLOR.label }}</span>
                 </div>
               </div>
             </div>
@@ -135,14 +140,15 @@ import {
   QUADRANT_ORDER,
   QUADRANT_COLORS,
   QUADRANT_DESCRIPTIONS,
+  SEM_VIVO_COLOR,
 } from "../composables/useFilters";
 
 definePageMeta({ layout: "fullscreen" });
 
-const trpc = useTrpc();
 const filters = useFilters();
 const session = useSession();
 const { detailData, requestDetail, loadDetailImmediate, clear: clearDetail } = useHoverDetail();
+const { allGeohashes: geohashes, loading, onBoundsChanged } = useViewportLoader();
 
 // Estado local do mapa
 const hoveredGeohash = ref<any>(null);
@@ -151,24 +157,6 @@ const showDiagnostic = ref(false);
 const currentPeriod = ref<string | null>(null);
 
 const displayedGeohash = computed(() => pinnedGeohash.value ?? hoveredGeohash.value);
-
-// Carrega dados via tRPC
-const { data: rawGeohashes, pending: loading } = await useAsyncData(
-  "geohashes",
-  () =>
-    trpc.geohash.list.query({
-      precision: filters.precision.value,
-      period: filters.period.value ?? undefined,
-      state: filters.state.value ?? undefined,
-      city: filters.city.value ?? undefined,
-      neighborhood: filters.neighborhood.value ?? undefined,
-    }),
-  {
-    watch: [filters.precision, filters.period, filters.state, filters.city, filters.neighborhood],
-  },
-);
-
-const geohashes = computed(() => rawGeohashes.value ?? []);
 
 // IDs visíveis considerando filtros de quadrante e tech
 const visibleIds = computed(() => {
@@ -189,7 +177,7 @@ watch(geohashes, (list) => {
   if (list.length > 0) currentPeriod.value = list[0].period ?? null;
 });
 
-// Reload quando filtros de quadrante/tech mudam (apenas visibilidade, não rebusca)
+// Quadrant e tech são filtros puramente visuais — apenas persistem a sessão
 watch([filters.activeQuadrants, filters.techFilter], () => {
   session.scheduleFlush();
 });
