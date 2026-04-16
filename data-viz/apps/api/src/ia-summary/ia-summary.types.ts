@@ -1,5 +1,6 @@
 export interface GeohashDetailForSummary {
   geohash_id: string;
+  neighborhood: string | null;
   city: string;
   quadrant_type: string;
   tech_category: string;

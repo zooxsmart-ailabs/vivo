@@ -38,11 +38,24 @@ const full = {
   },
 };
 
+const minimal = {
+  geohash_id: "min01",
+  city: "São Paulo",
+  quadrant_type: "UPSELL",
+  tech_category: "FIBRA",
+  share_vivo: 45,
+  trend_direction: "STABLE",
+  trend_delta: 0,
+};
 
 async function main() {
-  console.log("=== Cenario completo ===\n");
-  const analise1 = await generateSummary(full, apiKey);
-  console.log(analise1);
+  const ora = await generateSummary(full, apiKey);
+  console.log(ora);
+
+  console.log("\n---\n");
+
+  const ora2 = await generateSummary(minimal, apiKey);
+  console.log(ora2);
 }
 
 main();

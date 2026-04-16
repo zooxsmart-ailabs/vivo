@@ -29,10 +29,5 @@ Thumbs.db
 
 # Claude
 .claude/plans/
-.claude
 tools/prototipo/package-lock.json
 tools/*
-
-# Cache
-__pycache__/
-
