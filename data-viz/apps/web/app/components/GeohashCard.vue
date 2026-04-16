@@ -595,7 +595,7 @@ const operatorScores = computed(() => {
     { name: "Vivo", score: vivoOp, ...CARRIER.Vivo },
     { name: "TIM", score: Number(d.tim_score ?? 0) * 10, ...CARRIER.TIM },
     { name: "Claro", score: Number(d.claro_score ?? 0) * 10, ...CARRIER.Claro },
-  ].filter((op) => op.score > 0);
+  ];
 });
 
 const hasSpeedtest = computed(() =>
@@ -638,6 +638,9 @@ const insights = computed(() => {
   const d = props.detailData ?? props.data;
   const best = Math.max(Number(d.tim_score ?? 0), Number(d.claro_score ?? 0)) * 10;
   const quadrant = props.data.quadrant_type;
+
+  // Sem dados de nenhuma operadora → sem insights
+  if (vivo === 0 && best === 0 && share === 0) return ins;
 
   // Insight alinhado ao quadrante
   if (quadrant === "UPSELL") ins.push({ type: "positive", text: "Share alto + satisfação alta — maximizar receita com upsell premium" });
