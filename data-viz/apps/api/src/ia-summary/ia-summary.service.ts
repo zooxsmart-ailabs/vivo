@@ -117,7 +117,7 @@ function camada2Block(d: GeohashDetailForSummary): string {
   return `- Camada 2 (Infraestrutura): ${parts.join(", ")}`;
 }
 
-const PROMPT_TEMPLATE = `Voce e um analista estrategico de telecomunicacoes. Gere um resumo executivo curto (3 a 6 frases) em portugues brasileiro sobre a area descrita abaixo.
+const PROMPT_TEMPLATE = `Voce e um analista estrategico de telecomunicacoes. Com base nos dados abaixo, produza uma analise narrativa em 3 a 4 paragrafos curtos, sem titulos, sem rotulos, sem listas, sem topicos e sem emojis.
 
 **Dados do Geohash:**
 - Bairro: {bairro}, Cidade: {cidade}
@@ -137,18 +137,31 @@ const PROMPT_TEMPLATE = `Voce e um analista estrategico de telecomunicacoes. Ger
 - Renda: Alta >= R\${rendaAlta}, Baixa < R\${rendaBaixa}
 - Tendencia: Positiva >= +{trendUp}pp, Negativa <= {trendDown}pp
 
-**Instrucoes:**
-1. Classifique explicitamente cada dimensao disponivel como ACIMA, ABAIXO ou NA MEDIA em relacao aos thresholds
-2. Use tom executivo e objetivo
-3. Mencione o bairro e a cidade no inicio
-4. Conclua com uma recomendacao estrategica alinhada ao quadrante:
-   - GROWTH = foco em aquisicao de novos clientes
-   - UPSELL = foco em cross-sell e upgrade de planos
-   - RETENCAO = foco em fidelizacao e reducao de churn
-   - GROWTH_RETENCAO = foco em estabilizacao (dupla frente: aquisicao + infraestrutura)
-5. Se o perfil da regiao estiver disponivel, incorpore-o naturalmente ao resumo (ex: "area de alta renda com consumo premium")
-6. Se algum dado nao estiver disponivel, mencione apenas os dados presentes
-7. Escreva entre 3 e 6 frases, sem usar bullet points`;
+A analise deve seguir esta progressao tematica:
+
+1) Demografia e potencial: classifique a area como alto, medio ou baixo valor; mencione a renda media em R$; compare com a media da regiao (acima, abaixo ou na media); descreva o perfil populacional; indique o potencial comercial da area. Mencione o bairro e a cidade.
+
+2) Satisfacao e competicao: avalie como esta a satisfacao da Vivo; compare com concorrentes; aponte quem se destaca em movel e quem se destaca em fibra; explique a implicacao disso para aquisicao, retencao ou upgrade.
+
+3) Share e oportunidade comercial: compare o share da Vivo em movel vs fibra; indique a tendencia do share; interprete se existe demanda reprimida, oportunidade de aquisicao, upgrade, convergencia ou risco.
+
+4) Sintese estrategica: consolide a leitura da area; aponte qual movimento faz mais sentido alinhado ao quadrante ({quadrant}):
+   - GROWTH = aquisicao de novos clientes
+   - UPSELL = cross-sell e upgrade de planos
+   - RETENCAO = fidelizacao e reducao de churn
+   - GROWTH_RETENCAO = dupla frente: aquisicao + infraestrutura
+   Use conclusao analitica, sem imperativo direto.
+
+**Regras obrigatorias:**
+1. Produza SOMENTE os paragrafos de analise, sem titulo, sem introducao, sem fechamento, sem bullets, sem numeros, sem emojis.
+2. Nao usar rotulos como "OPORTUNIDADE", "RISCO" ou "ACAO".
+3. Nao usar cabecalhos, bullets, numeracao ou formatacao visivel.
+4. Tom executivo, frases encadeadas, linguagem natural.
+5. Priorizar inferencia de negocio e relacoes de causa e efeito entre os dados.
+6. O texto deve soar como um diagnostico regional para negocio telecom.
+7. Se o perfil da regiao estiver disponivel, incorpore-o naturalmente na analise.
+8. Se algum dado nao estiver disponivel, mencione apenas os dados presentes.
+9. Produza entre 3 e 4 paragrafos curtos, separados por linha em branco.`;
 
 function buildPrompt(
   d: GeohashDetailForSummary,
