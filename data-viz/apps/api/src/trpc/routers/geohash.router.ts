@@ -474,7 +474,6 @@ export const geohashRouter = t.router({
 
       const baseRows = await ctx.db.execute<{
         geohash_id: string;
-        neighborhood: string | null;
         city: string;
         quadrant_type: string;
         tech_category: string;
@@ -486,7 +485,7 @@ export const geohashRouter = t.router({
         latency_ms: number | null;
         quality_label: string | null;
       }>(sql`
-        SELECT s.geohash_id, gc.neighborhood, gc.city,
+        SELECT s.geohash_id, gc.city,
                s.quadrant_type, s.tech_category, s.share_vivo,
                s.trend_direction, s.trend_delta,
                s.vivo_score, s.download_mbps, s.latency_ms, s.quality_label
