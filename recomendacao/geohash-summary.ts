@@ -97,7 +97,7 @@ function inferirPerfilRegiao(d: GeohashDetail): string | null {
   return consumo ? `${base}, ${consumo}` : base;
 }
 
-//  Diagnostico deterministico por dimensao (alimenta o prompt ORA)
+//  Diagnostico deterministico por dimensao (alimenta o prompt narrativo)
 
 function humanizeSnakeCase(s: string): string {
   return s
@@ -226,8 +226,8 @@ async function callOpenAI(prompt: string, apiKey: string): Promise<string> {
       Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: "gpt-4o-mini",
-      temperature: 0.3,
+      model: "gpt-5.4-mini",
+      temperature: 0.2,
       messages: [{ role: "user", content: prompt }],
     }),
   });
@@ -243,86 +243,66 @@ async function callOpenAI(prompt: string, apiKey: string): Promise<string> {
   return json.choices[0].message.content;
 }
 
-//  Formato unico: OPORTUNIDADE / RISCO / ACAO
+//  Prompt narrativo — analise em 4 blocos tematicos
 
-const ORA_TEMPLATE = `Voce e um analista estrategico de telecomunicacoes. Com base no diagnostico por dimensao abaixo, produza um resumo executivo em EXATAMENTE tres blocos rotulados, nesta ordem e com esta formatacao literal (inclusive as quebras de linha no meio de cada bloco):
+const NARRATIVE_TEMPLATE = `Voce e um analista estrategico de telecomunicacoes. Com base no diagnostico abaixo, produza uma analise narrativa em 3 a 4 paragrafos curtos, sem titulos, sem rotulos, sem listas, sem topicos e sem emojis.
 
-OPORTUNIDADE:
-<frase 1 do bloco>
-<frase 2 do bloco>.
+A analise deve seguir esta progressao tematica:
 
-RISCO:
-<frase 1 do bloco>
-<frase 2 do bloco>.
+1) Demografia e potencial: classifique a area como alto, medio ou baixo valor; mencione a renda media em R$; compare com a media da regiao (acima, abaixo ou na media); descreva o perfil populacional; indique o potencial comercial da area.
 
-ACAO:
-<frase 1 do bloco>
-<frase 2 do bloco>.
+2) Satisfacao e competicao: avalie como esta a satisfacao da Vivo; compare com concorrentes; aponte quem se destaca em movel e quem se destaca em fibra; explique a implicacao disso para aquisicao, retencao ou upgrade.
+
+3) Share e oportunidade comercial: compare o share da Vivo em movel vs fibra; indique a tendencia do share; interprete se existe demanda reprimida, oportunidade de aquisicao, upgrade, convergencia ou risco.
+
+4) Sintese estrategica: consolide a leitura da area; aponte qual movimento faz mais sentido (aquisicao, upgrade, retencao ou melhoria previa de qualidade); use conclusao analitica, sem imperativo direto.
 
 Diagnostico de referencia:
 {diagnostico}
 
+Quadrante estrategico: {quadrant}
+
 Regras obrigatorias:
-1. Produza SOMENTE os tres blocos acima, sem titulo, sem introducao, sem fechamento, sem bullets, sem numeros, sem emojis.
-2. Cada bloco deve ter entre 18 e 28 palavras distribuidas em duas linhas (quebra de linha apos ~10-14 palavras), terminando em ponto final.
-3. OPORTUNIDADE: destaque o(s) vetor(es) positivos (ex.: tendencia, expansao de fibra/movel, perfil de renda, share alto) conectando-os a uma janela de acao.
-4. RISCO: explicite as dimensoes que podem travar a conversao/retencao (ex.: satisfacao na media/abaixo, qualidade regular, share baixo, tendencia negativa).
-5. ACAO: prescreva UMA acao concreta alinhada ao quadrante ({quadrant}):
-   - GROWTH => campanha de aquisicao
-   - UPSELL => cross-sell / upgrade de planos
-   - RETENCAO => fidelizacao / reducao de churn
-   - GROWTH_RETENCAO => dupla frente: aquisicao + reforco de infraestrutura
-   Condicione a acao ao tratamento do risco identificado ("condicionada a...", "em paralelo a...", "apos...").
-6. Use linguagem executiva, portugues brasileiro, sem repetir numeros que ja constam no diagnostico.
-7. Se o perfil de renda estiver disponivel no diagnostico, referencie-o na ACAO (ex.: "perfil de renda intermediaria", "publico de alta renda").
-8. Rotulos em caixa alta, exatamente: "OPORTUNIDADE:", "RISCO:", "ACAO:" (sem acentos nos rotulos; a normalizacao para "AÇÃO" e feita em pos-processamento).`;
+1. Produza SOMENTE os paragrafos de analise, sem titulo, sem introducao, sem fechamento, sem bullets, sem numeros, sem emojis.
+2. Nao usar cabecalhos, bullets, numeracao ou formatacao visivel.
+3. Tom executivo, frases encadeadas, linguagem natural.
+4. Priorizar inferencia de negocio e relacoes de causa e efeito entre os dados.
+5. O texto deve soar como um diagnostico regional para negocio telecom.
+6. Evitar repeticao excessiva de nomes de indicadores.
+7. Cada paragrafo deve ter linguagem executiva, analitica e objetiva.
+8. Sempre que possivel, relacionar causa e efeito entre os dados.
+9. Se o perfil de renda estiver disponivel no diagnostico, incorpore-o naturalmente na analise.
+10. Produza entre 2 e 4 paragrafos curtos, com no máximo 3 linhas e no mínimo 2, separados por linha em branco.`;
 
 export function buildPrompt(
   d: GeohashDetail,
   b: BenchmarkThresholds = DEFAULT_BENCHMARKS,
 ): string {
   const diagnostico = buildDiagnostico(d, b);
-  return ORA_TEMPLATE.replace("{diagnostico}", diagnostico).replace(
+  return NARRATIVE_TEMPLATE.replace("{diagnostico}", diagnostico).replace(
     "{quadrant}",
     d.quadrant_type,
   );
 }
 
 /**
- * Normaliza o output do modelo para o formato canonico OPORTUNIDADE / RISCO / AÇÃO:
- *   1. Corrige o rotulo "ACAO" (variantes ACAO / AÇAO / ACÃO) para "AÇÃO".
- *   2. Extrai os tres blocos independentemente do espacamento devolvido pelo LLM.
- *   3. Quebra cada bloco no primeiro ponto final (sentenca 1 em uma linha, sentenca
- *      2 na linha seguinte).
- *   4. Junta com uma linha em branco entre blocos.
- *
- * Necessario porque o modelo frequentemente ignora as quebras de linha pedidas
- * no prompt e devolve cada bloco como um paragrafo unico.
+ * Normaliza o output narrativo do modelo:
+ *   1. Remove cabecalhos numerados ou com marcadores.
+ *   2. Normaliza espacamento entre paragrafos (exatamente uma linha em branco).
+ *   3. Trim geral.
  */
-function formatOra(raw: string): string {
-  const normalized = raw.replace(/A[CÇ][AÃ]O\s*:/g, "AÇÃO:").trim();
+function formatNarrative(raw: string): string {
+  let text = raw.trim();
+  // Remove cabecalhos numerados (ex: "1.", "2)", "Bloco 1 —", etc.)
+  text = text.replace(/^\s*(?:\d+[\.\)]\s*[-—]?\s*|Bloco\s+\d+\s*[-—:]\s*)/gim, "");
 
-  const blockRegex =
-    /(OPORTUNIDADE|RISCO|AÇÃO)\s*:\s*([\s\S]*?)(?=(?:OPORTUNIDADE|RISCO|AÇÃO)\s*:|$)/g;
+  // Remove linhas de marcadores (bullets, hifens iniciais)
+  text = text.replace(/^\s*[-•]\s+/gm, "");
 
-  const blocks: string[] = [];
-  let match: RegExpExecArray | null;
-  while ((match = blockRegex.exec(normalized)) !== null) {
-    const label = match[1];
-    const content = match[2].trim();
+  // Normaliza paragrafos: colapsa 3+ quebras em exatamente 2 (um paragrafo de separacao)
+  text = text.replace(/\n{3,}/g, "\n\n");
 
-    // Quebra na primeira sentenca (primeiro ". " encontrado).
-    const splitAt = content.search(/\.\s+/);
-    if (splitAt >= 0) {
-      const line1 = content.slice(0, splitAt + 1).trim();
-      const line2 = content.slice(splitAt + 1).trim();
-      blocks.push(`${label}: ${line1}\n${line2}`);
-    } else {
-      blocks.push(`${label}: ${content}`);
-    }
-  }
-
-  return blocks.join("\n\n");
+  return text.trim();
 }
 
 export async function generateSummary(
@@ -332,5 +312,5 @@ export async function generateSummary(
 ): Promise<string> {
   const prompt = buildPrompt(detail, benchmarks);
   const raw = await callOpenAI(prompt, apiKey);
-  return formatOra(raw);
+  return formatNarrative(raw);
 }
