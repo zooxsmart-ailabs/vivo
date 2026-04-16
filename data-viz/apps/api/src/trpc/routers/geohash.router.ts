@@ -168,8 +168,8 @@ async function listGeohashes(
       ${input.precision === 7 ? sql`UNION ALL SELECT * FROM fallback_parents` : sql``}
     ) combined
     ORDER BY priority_score DESC
-    LIMIT ${input.limit ?? 500}
-    OFFSET ${input.offset ?? 0}
+    ${input.viewport ? sql`` : sql`LIMIT ${input.limit ?? 500}`}
+    ${input.viewport ? sql`` : sql`OFFSET ${input.offset ?? 0}`}
   `);
 
   return rows.rows;
