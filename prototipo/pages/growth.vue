@@ -174,7 +174,7 @@ function buildPilares(g: GeohashEntry): Pilar[] {
       signal: p4Signal,
       metricas: [
         { label: "Sensibilidade a Preço", formula: "ARPU Vivo / ARPU Médio do Mercado", value: d.arpuRelativo.toFixed(2), detail: arpuDetail, signal: arpuSignal },
-        { label: "Afinidade de Canal", formula: "% de vendas pelo canal principal", value: `${d.canalPct}%`, detail: canalDetail, signal: canalSignal },
+        { label: "Afinidade de Canal", formula: "Vendas Canal X / Total Vendas no Geohash", value: `${d.canalDominante} (${d.canalPct}%)`, detail: canalDetail, signal: canalSignal },
       ],
     },
   ];
