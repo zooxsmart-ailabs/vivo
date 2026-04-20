@@ -96,10 +96,10 @@ function calcChurn(g: GeohashEntry): { churn: number; color: string } {
   return { churn, color };
 }
 function getCoberturaLabel(score: number, hasTech: boolean) {
-  if (!hasTech) return { label: "BAIXA", color: "#DC2626", bg: "rgba(220,38,38,0.08)" };
-  if (score >= 70) return { label: "ALTA", color: "#15803D", bg: "rgba(21,128,61,0.08)" };
-  if (score >= 40) return { label: "MÉDIA", color: "#B45309", bg: "rgba(180,83,9,0.08)" };
-  return { label: "BAIXA", color: "#DC2626", bg: "rgba(220,38,38,0.08)" };
+  if (!hasTech) return { label: "Baixa", color: "#DC2626", bg: "rgba(220,38,38,0.08)" };
+  if (score >= 70) return { label: "Alta", color: "#15803D", bg: "rgba(21,128,61,0.08)" };
+  if (score >= 40) return { label: "Média", color: "#B45309", bg: "rgba(180,83,9,0.08)" };
+  return { label: "Baixa", color: "#DC2626", bg: "rgba(220,38,38,0.08)" };
 }
 
 // ─── Computed para FichaTecnica ───────────────────────────────────────────────
@@ -190,8 +190,8 @@ const movelClassColor = computed(() => {
   if (c === "EXPANSAO_COBERTURA") return { color: "#1D4ED8", bg: "rgba(29,78,216,0.1)" };
   return { color: "#B45309", bg: "rgba(180,83,9,0.1)" };
 });
-const fibraCobertura = computed(() => g.value ? getCoberturaLabel(g.value.camada2.fibra.score, hasFibra.value) : { label: "BAIXA", color: "#DC2626", bg: "rgba(220,38,38,0.08)" });
-const movelCobertura = computed(() => g.value ? getCoberturaLabel(g.value.camada2.movel.score, hasMovel.value) : { label: "BAIXA", color: "#DC2626", bg: "rgba(220,38,38,0.08)" });
+const fibraCobertura = computed(() => g.value ? getCoberturaLabel(g.value.camada2.fibra.score, hasFibra.value) : { label: "Baixa", color: "#DC2626", bg: "rgba(220,38,38,0.08)" });
+const movelCobertura = computed(() => g.value ? getCoberturaLabel(g.value.camada2.movel.score, hasMovel.value) : { label: "Baixa", color: "#DC2626", bg: "rgba(220,38,38,0.08)" });
 
 // ─── OverviewTecnico computed ─────────────────────────────────────────────────
 const scoreMovel100 = computed(() => g.value ? g.value.diagnostico.scoreOoklaMovel * 10 : 0);
