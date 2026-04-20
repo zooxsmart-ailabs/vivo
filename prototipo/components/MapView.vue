@@ -3,6 +3,7 @@
 // MapView.vue — Google Maps wrapper para Nuxt
 // Usa o proxy Manus via composable useGoogleMaps
 // Emite evento "mapReady" com a instância do mapa
+import { ref, onMounted } from "vue";
 
 interface Props {
   initialCenter?: google.maps.LatLngLiteral;
@@ -22,8 +23,16 @@ const container = ref<HTMLDivElement | null>(null);
 const { loadMapScript } = useGoogleMaps();
 
 onMounted(async () => {
-  await loadMapScript();
-  if (!container.value || !window.google?.maps) return;
+  try {
+    await loadMapScript();
+  } catch (e) {
+    console.error("[MapView] Erro ao carregar Google Maps:", e);
+    return;
+  }
+  if (!container.value || !window.google?.maps) {
+    console.error("[MapView] Container ou google.maps indisponível");
+    return;
+  }
   const map = new window.google.maps.Map(container.value, {
     zoom: props.initialZoom,
     center: props.initialCenter,

@@ -212,6 +212,16 @@ function handleSelectGeohash(g: GeohashEntry) {
   selectedGeohash.value = g;
   highlightPolygon(g.id);
 }
+
+// Expor funções para debug via window
+if (typeof window !== 'undefined') {
+  (window as any).__selectGeohash = (id: string) => {
+    const g = GEOHASH_DATA.find(x => x.id === id);
+    if (g) handleSelectGeohash(g);
+    return g ? `Selecionado: ${id}` : `Geohash ${id} não encontrado`;
+  };
+  (window as any).__getFirstGeohash = () => GEOHASH_DATA[0]?.id;
+}
 </script>
 
 <template>
