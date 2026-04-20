@@ -152,7 +152,9 @@ const detail = computed(() => {
 });
 
 const sortedFrentes = computed(() => {
-  return [...GEOHASH_DATA].sort((a, b) => b.priorityScore - a.priorityScore);
+  return [...GEOHASH_DATA]
+    .filter(g => g.quadrant === rankingTab.value)
+    .sort((a, b) => b.priorityScore - a.priorityScore);
 });
 </script>
 

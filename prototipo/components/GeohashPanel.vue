@@ -679,382 +679,145 @@ const tooltipVisible = ref<string | null>(null);
              ═══════════════════════════════════════════════════════════════════ -->
         <div v-else-if="activeSubTab === 'overview'" style="padding: 14px 14px 20px;">
 
-          <!-- PERCEPÇÃO -->
-          <div style="margin-bottom: 16px;">
-            <div style="font-size: 9px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #8E8E93; margin-bottom: 4px;">Percepção</div>
+          <!-- CARD 1: ANÁLISE IA -->
+          <div style="background: #fff; border-radius: 10px; border: 1px solid rgba(0,0,0,0.07); padding: 12px 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); margin-bottom: 12px;">
+            <!-- Header do card -->
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+              <span style="display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 6px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              </span>
+              <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #1C1C1E;">Análise IA</span>
+            </div>
 
-            <!-- Score Ookla Fibra/Móvel -->
-            <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 6px;">
-              <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 10px;">
-                <span style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 5px; background: rgba(102,0,153,0.07); color: #660099; flex-shrink: 0;">
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <!-- Tópico: Share Vivo -->
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; padding: 7px 0; border-bottom: 1px solid rgba(0,0,0,0.05);">
+              <div style="display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0;">
+                <span style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 4px; background: rgba(102,0,153,0.07); color: #660099; flex-shrink: 0;">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
                 </span>
-                <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #1C1C1E;">Score Ookla</span>
+                <span style="font-size: 11px; font-weight: 600; color: #1C1C1E;">Share Vivo</span>
               </div>
-              <div style="display: flex; gap: 0;">
-                <div style="flex: 1; padding: 0 10px 0 0; display: flex; flex-direction: column; align-items: center; text-align: center;">
-                  <div style="font-size: 10px; color: #0369A1; font-weight: 700; text-transform: uppercase; margin-bottom: 4px; display: flex; align-items: center; gap: 3px;">
-                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
-                    Fibra
-                  </div>
-                  <template v-if="hasFibra && g.diagnostico.scoreOoklaFibra > 0">
-                    <div :style="{ fontSize: '20px', fontWeight: 800, color: statusStyle(speedtestFibraStatus).valueColor }">{{ scoreFibra100.toFixed(0) }}</div>
-                    <span :style="{ display: 'inline-block', padding: '2px 7px', borderRadius: '5px', fontSize: '10px', fontWeight: 700, color: statusStyle(speedtestFibraStatus).tagColor, background: statusStyle(speedtestFibraStatus).tagBg }">{{ speedtestFibraStatus === 'critico' ? 'Crítico' : speedtestFibraStatus === 'atencao' ? 'Atenção' : 'Saudável' }}</span>
-                  </template>
-                  <template v-else>
-                    <div style="font-size: 20px; font-weight: 800; color: #C7C7CC;">—</div>
-                    <span style="display: inline-block; padding: 2px 7px; border-radius: 5px; font-size: 10px; font-weight: 700; color: #1D4ED8; background: rgba(29,78,216,0.1);">EXPANSÃO NOVA ÁREA</span>
-                  </template>
-                </div>
-                <div style="width: 1px; background: rgba(0,0,0,0.07); align-self: stretch; flex-shrink: 0;"></div>
-                <div style="flex: 1; padding: 0 0 0 10px; display: flex; flex-direction: column; align-items: center; text-align: center;">
-                  <div style="font-size: 10px; color: #660099; font-weight: 700; text-transform: uppercase; margin-bottom: 4px; display: flex; align-items: center; gap: 3px;">
-                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-                    Móvel
-                  </div>
-                  <template v-if="hasMovel && g.diagnostico.scoreOoklaMovel > 0">
-                    <div :style="{ fontSize: '20px', fontWeight: 800, color: statusStyle(speedtestMovelStatus).valueColor }">{{ scoreMovel100.toFixed(0) }}</div>
-                    <span :style="{ display: 'inline-block', padding: '2px 7px', borderRadius: '5px', fontSize: '10px', fontWeight: 700, color: statusStyle(speedtestMovelStatus).tagColor, background: statusStyle(speedtestMovelStatus).tagBg }">{{ speedtestMovelStatus === 'critico' ? 'Crítico' : speedtestMovelStatus === 'atencao' ? 'Atenção' : 'Saudável' }}</span>
-                  </template>
-                  <template v-else>
-                    <div style="font-size: 20px; font-weight: 800; color: #C7C7CC;">—</div>
-                    <span style="display: inline-block; padding: 2px 7px; border-radius: 5px; font-size: 10px; font-weight: 700; color: #1D4ED8; background: rgba(29,78,216,0.1);">EXPANSÃO COBERTURA</span>
-                  </template>
-                </div>
+              <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex-shrink: 0;">
+                <span :style="{ display: 'inline-block', padding: '2px 7px', borderRadius: '5px', fontSize: '10px', fontWeight: 700, color: shareStatus === 'saturado' ? '#DC2626' : shareStatus === 'atencao' ? '#B45309' : '#15803D', background: shareStatus === 'saturado' ? 'rgba(220,38,38,0.08)' : shareStatus === 'atencao' ? 'rgba(180,83,9,0.08)' : 'rgba(21,128,61,0.08)' }">{{ shareStatus === 'saturado' ? 'Saturado' : shareStatus === 'atencao' ? 'Atenção' : 'Oportunidade' }}</span>
+                <span :style="{ fontSize: '12px', fontWeight: 700, color: shareStatus === 'saturado' ? '#DC2626' : shareStatus === 'atencao' ? '#B45309' : '#15803D' }">{{ g.diagnostico.sharePenetracao }}%</span>
               </div>
             </div>
 
-            <!-- Score HAC -->
-            <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 6px;">
-              <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px;">
-                <div style="flex: 1; min-width: 0;">
-                  <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 2px;">
-                    <span style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 5px; background: rgba(102,0,153,0.07); color: #660099; flex-shrink: 0;">
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.64 3.42 2 2 0 0 1 3.6 1.24h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8a16 16 0 0 0 6 6l.27-.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16z"/></svg>
-                    </span>
-                    <span style="font-size: 12px; font-weight: 700; color: #1C1C1E; line-height: 1.3;">Score HAC</span>
-                  </div>
-                </div>
-                <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex-shrink: 0;">
-                  <span :style="{ display: 'inline-block', padding: '2px 7px', borderRadius: '5px', fontSize: '10px', fontWeight: 700, color: statusStyle(chamadosStatus).tagColor, background: statusStyle(chamadosStatus).tagBg }">{{ chamadosStatus === 'critico' ? 'Crítico' : chamadosStatus === 'atencao' ? 'Atenção' : 'Saudável' }}</span>
-                  <div :style="{ fontSize: '13px', fontWeight: 700, color: statusStyle(chamadosStatus).valueColor, whiteSpace: 'nowrap' }">{{ g.diagnostico.taxaChamados.toFixed(1) }}%</div>
-                </div>
-              </div>
-              <div :style="{ fontSize: '10px', fontWeight: 600, color: statusStyle(chamadosStatus).diagColor, marginTop: '6px', paddingLeft: '26px' }">
-                {{ g.diagnostico.taxaChamados >= 2.5 ? '2.5–4% — Atenção' : '< 3% — Saudável' }}
-              </div>
-            </div>
-          </div>
-
-          <!-- CONCORRÊNCIA -->
-          <div style="margin-bottom: 16px;">
-            <div style="font-size: 9px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #8E8E93; margin-bottom: 4px;">Concorrência</div>
-
-            <!-- Share/Penetração -->
-            <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 6px;">
-              <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px;">
-                <div style="flex: 1; min-width: 0;">
-                  <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 2px;">
-                    <span style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 5px; background: rgba(102,0,153,0.07); color: #660099; flex-shrink: 0;">
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="14" x2="8" y2="11"/><line x1="11" y1="14" x2="11" y2="8"/><line x1="14" y1="14" x2="14" y2="10"/></svg>
-                    </span>
-                    <span style="font-size: 12px; font-weight: 700; color: #1C1C1E; line-height: 1.3;">Share / Penetração</span>
-                  </div>
-                </div>
-                <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex-shrink: 0;">
-                  <span :style="{ display: 'inline-block', padding: '2px 7px', borderRadius: '5px', fontSize: '10px', fontWeight: 700, color: statusStyle(shareStatus).tagColor, background: statusStyle(shareStatus).tagBg }">{{ shareStatus === 'saturado' ? 'Saturado' : shareStatus === 'atencao' ? 'Atenção' : 'Oportunidade' }}</span>
-                  <div :style="{ fontSize: '13px', fontWeight: 700, color: statusStyle(shareStatus).valueColor, whiteSpace: 'nowrap' }">{{ g.diagnostico.sharePenetracao }}%</div>
-                </div>
-              </div>
-              <div :style="{ fontSize: '10px', fontWeight: 600, color: statusStyle(shareStatus).diagColor, marginTop: '6px', paddingLeft: '26px' }">
-                {{ g.diagnostico.sharePenetracao > 30 ? '30–40% — Atenção' : '< 30% — Oportunidade' }}
-              </div>
-            </div>
-
-            <!-- Vantagem Satisfação Fibra -->
-            <div v-if="hasFibra" style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 6px;">
-              <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px;">
-                <div style="flex: 1; min-width: 0;">
-                  <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 2px;">
-                    <span style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 5px; background: rgba(102,0,153,0.07); color: #660099; flex-shrink: 0;">
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
-                    </span>
-                    <span style="font-size: 12px; font-weight: 700; color: #1C1C1E; line-height: 1.3;">Vantagem Satisfação Fibra</span>
-                  </div>
-                </div>
-                <div :style="{ fontSize: '13px', fontWeight: 700, color: statusStyle(fibraAdvStatus).valueColor, whiteSpace: 'nowrap', flexShrink: 0 }">{{ fibraAdvLabel }}</div>
-              </div>
-              <div :style="{ fontSize: '10px', fontWeight: 600, color: statusStyle(fibraAdvStatus).diagColor, marginTop: '6px', paddingLeft: '26px' }">{{ fibraAdvDiag }}</div>
-            </div>
-
-            <!-- Vantagem Satisfação Móvel -->
-            <div v-if="hasMovel" style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 6px;">
-              <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px;">
-                <div style="flex: 1; min-width: 0;">
-                  <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 2px;">
-                    <span style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 5px; background: rgba(102,0,153,0.07); color: #660099; flex-shrink: 0;">
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-                    </span>
-                    <span style="font-size: 12px; font-weight: 700; color: #1C1C1E; line-height: 1.3;">Vantagem Satisfação Móvel</span>
-                  </div>
-                </div>
-                <div :style="{ fontSize: '13px', fontWeight: 700, color: statusStyle(movelAdvStatus).valueColor, whiteSpace: 'nowrap', flexShrink: 0 }">{{ movelAdvLabel }}</div>
-              </div>
-              <div :style="{ fontSize: '10px', fontWeight: 600, color: statusStyle(movelAdvStatus).diagColor, marginTop: '6px', paddingLeft: '26px' }">{{ movelAdvDiag }}</div>
-            </div>
-
-            <!-- Tabela Concorrência -->
-            <div v-if="g.diagnostico.concorrentes && g.diagnostico.concorrentes.length > 0" style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 10px 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 6px;">
-              <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 10px;">
-                <span style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 5px; background: rgba(102,0,153,0.07); color: #660099; flex-shrink: 0;">
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+            <!-- Tópico: Satisfação (Score Ookla) -->
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; padding: 7px 0; border-bottom: 1px solid rgba(0,0,0,0.05);">
+              <div style="display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0;">
+                <span style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 4px; background: rgba(102,0,153,0.07); color: #660099; flex-shrink: 0;">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
                 </span>
-                <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #1C1C1E;">Comparativo de Concorrência</span>
+                <span style="font-size: 11px; font-weight: 600; color: #1C1C1E;">Score HAC</span>
               </div>
-              <div style="overflow-x: auto;">
-                <table style="width: 100%; border-collapse: collapse; font-size: 10px;">
-                  <thead>
-                    <tr>
-                      <th rowspan="2" style="text-align: left; padding: 4px 4px 4px 0; color: #8E8E93; font-weight: 600; border-bottom: 1px solid rgba(0,0,0,0.08); vertical-align: bottom; width: 20%;">Operadora</th>
-                      <th colspan="2" style="text-align: center; padding: 4px 4px 2px; color: #0369A1; font-weight: 700; background: rgba(3,105,161,0.05);">Fibra</th>
-                      <th colspan="2" style="text-align: center; padding: 4px 4px 2px; color: #660099; font-weight: 700; background: rgba(102,0,153,0.05);">Móvel</th>
-                    </tr>
-                    <tr>
-                      <th style="text-align: center; padding: 2px 4px 4px; color: #8E8E93; font-weight: 600; border-bottom: 1px solid rgba(0,0,0,0.08); background: rgba(3,105,161,0.03);">Cob.</th>
-                      <th style="text-align: right; padding: 2px 4px 4px; color: #8E8E93; font-weight: 600; border-bottom: 1px solid rgba(0,0,0,0.08); background: rgba(3,105,161,0.03);">Preço</th>
-                      <th style="text-align: center; padding: 2px 4px 4px; color: #8E8E93; font-weight: 600; border-bottom: 1px solid rgba(0,0,0,0.08); background: rgba(102,0,153,0.03);">Cob.</th>
-                      <th style="text-align: right; padding: 2px 4px 4px; color: #8E8E93; font-weight: 600; border-bottom: 1px solid rgba(0,0,0,0.08); background: rgba(102,0,153,0.03);">Preço</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="c in g.diagnostico.concorrentes" :key="c.nome" style="border-bottom: 1px solid rgba(0,0,0,0.04);">
-                      <td style="padding: 5px 4px 5px 0; font-weight: 700;" :style="{ color: getOperatorColor(c.nome) }">{{ c.nome }}</td>
-                      <td style="text-align: center; padding: 5px 4px;">
-                        <span :style="{ display: 'inline-block', padding: '2px 5px', borderRadius: '4px', fontSize: '9px', fontWeight: 700, color: c.coberturaFibra ? '#15803D' : '#8E8E93', background: c.coberturaFibra ? 'rgba(21,128,61,0.1)' : 'rgba(0,0,0,0.04)' }">{{ c.coberturaFibra ? 'Sim' : 'Não' }}</span>
-                      </td>
-                      <td style="text-align: right; padding: 5px 4px;">
-                        <template v-if="c.coberturaFibra && c.precoFibra > 0">
-                          <div style="font-weight: 700; color: #1C1C1E;">R$ {{ c.precoFibra.toFixed(0) }}</div>
-                          <div style="color: #8E8E93; font-size: 9px; white-space: nowrap;">{{ c.planoFibra }}</div>
-                        </template>
-                        <span v-else style="color: #C7C7CC;">—</span>
-                      </td>
-                      <td style="text-align: center; padding: 5px 4px;">
-                        <span :style="{ display: 'inline-block', padding: '2px 5px', borderRadius: '4px', fontSize: '9px', fontWeight: 700, color: c.coberturaMovel ? '#15803D' : '#8E8E93', background: c.coberturaMovel ? 'rgba(21,128,61,0.1)' : 'rgba(0,0,0,0.04)' }">{{ c.coberturaMovel ? 'Sim' : 'Não' }}</span>
-                      </td>
-                      <td style="text-align: right; padding: 5px 4px;">
-                        <template v-if="c.coberturaMovel && c.precoMovel > 0">
-                          <div style="font-weight: 700; color: #1C1C1E;">R$ {{ c.precoMovel.toFixed(0) }}</div>
-                          <div style="color: #8E8E93; font-size: 9px; white-space: nowrap;">{{ c.planoMovel }}</div>
-                        </template>
-                        <span v-else style="color: #C7C7CC;">—</span>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex-shrink: 0;">
+                <span :style="{ display: 'inline-block', padding: '2px 7px', borderRadius: '5px', fontSize: '10px', fontWeight: 700, color: statusStyle(chamadosStatus).tagColor, background: statusStyle(chamadosStatus).tagBg }">{{ chamadosStatus === 'critico' ? 'Crítico' : chamadosStatus === 'atencao' ? 'Atenção' : 'Saudável' }}</span>
+                <span :style="{ fontSize: '12px', fontWeight: 700, color: statusStyle(chamadosStatus).valueColor }">{{ g.diagnostico.taxaChamados.toFixed(1) }}%</span>
+              </div>
+            </div>
+
+            <!-- Tópico: SpeedTest Ookla -->
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; padding: 7px 0; border-bottom: 1px solid rgba(0,0,0,0.05);">
+              <div style="display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0;">
+                <span style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 4px; background: rgba(102,0,153,0.07); color: #660099; flex-shrink: 0;">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                </span>
+                <span style="font-size: 11px; font-weight: 600; color: #1C1C1E;">SpeedTest Ookla</span>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex-shrink: 0;">
+                <span :style="{ display: 'inline-block', padding: '2px 7px', borderRadius: '5px', fontSize: '10px', fontWeight: 700, color: statusStyle(speedtestFibraStatus).tagColor, background: statusStyle(speedtestFibraStatus).tagBg }">{{ speedtestFibraStatus === 'critico' ? 'Crítico' : speedtestFibraStatus === 'atencao' ? 'Atenção' : 'Saudável' }}</span>
+                <span :style="{ fontSize: '12px', fontWeight: 700, color: statusStyle(speedtestFibraStatus).valueColor }">{{ g.diagnostico.scoreOokla.toFixed(1) }}</span>
+              </div>
+            </div>
+
+            <!-- Tópico: Fibra -->
+            <div v-if="hasFibra" style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; padding: 7px 0; border-bottom: 1px solid rgba(0,0,0,0.05);">
+              <div style="display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0;">
+                <span style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 4px; background: rgba(3,105,161,0.07); color: #0369A1; flex-shrink: 0;">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+                </span>
+                <span style="font-size: 11px; font-weight: 600; color: #1C1C1E;">Fibra</span>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex-shrink: 0;">
+                <span :style="{ display: 'inline-block', padding: '2px 7px', borderRadius: '5px', fontSize: '10px', fontWeight: 700, color: fibraClassRow ? statusStyle(fibraClassRow.status).tagColor : '#8E8E93', background: fibraClassRow ? statusStyle(fibraClassRow.status).tagBg : 'rgba(110,110,115,0.08)' }">{{ fibraClassRow ? fibraClassRow.label : '—' }}</span>
+                <span :style="{ fontSize: '12px', fontWeight: 700, color: fibraClassRow ? statusStyle(fibraClassRow.status).valueColor : '#8E8E93' }">{{ scoreFibra100.toFixed(0) }} pts</span>
+              </div>
+            </div>
+
+            <!-- Tópico: Móvel -->
+            <div v-if="hasMovel" style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; padding: 7px 0; border-bottom: 1px solid rgba(0,0,0,0.05);">
+              <div style="display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0;">
+                <span style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 4px; background: rgba(102,0,153,0.07); color: #660099; flex-shrink: 0;">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                </span>
+                <span style="font-size: 11px; font-weight: 600; color: #1C1C1E;">Móvel</span>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex-shrink: 0;">
+                <span :style="{ display: 'inline-block', padding: '2px 7px', borderRadius: '5px', fontSize: '10px', fontWeight: 700, color: movelClassRow ? statusStyle(movelClassRow.status).tagColor : '#8E8E93', background: movelClassRow ? statusStyle(movelClassRow.status).tagBg : 'rgba(110,110,115,0.08)' }">{{ movelClassRow ? movelClassRow.label : '—' }}</span>
+                <span :style="{ fontSize: '12px', fontWeight: 700, color: movelClassRow ? statusStyle(movelClassRow.status).valueColor : '#8E8E93' }">{{ scoreMovel100.toFixed(0) }} pts</span>
+              </div>
+            </div>
+
+            <!-- Tópico: Concorrência -->
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; padding: 7px 0;">
+              <div style="display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0;">
+                <span style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 4px; background: rgba(102,0,153,0.07); color: #660099; flex-shrink: 0;">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="14" x2="8" y2="11"/><line x1="11" y1="14" x2="11" y2="8"/><line x1="14" y1="14" x2="14" y2="10"/></svg>
+                </span>
+                <span style="font-size: 11px; font-weight: 600; color: #1C1C1E;">Concorrência</span>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex-shrink: 0;">
+                <span :style="{ display: 'inline-block', padding: '2px 7px', borderRadius: '5px', fontSize: '10px', fontWeight: 700, color: fibraAdv >= 0 ? '#15803D' : '#DC2626', background: fibraAdv >= 0 ? 'rgba(21,128,61,0.08)' : 'rgba(220,38,38,0.08)' }">{{ fibraAdv >= 0 ? 'Vantagem' : 'Desvantagem' }}</span>
+                <span :style="{ fontSize: '12px', fontWeight: 700, color: fibraAdv >= 0 ? '#15803D' : '#DC2626' }">{{ fibraAdv >= 0 ? '+' : '' }}{{ (fibraAdv * 10).toFixed(0) }} pts</span>
               </div>
             </div>
           </div>
 
-          <!-- INFRAESTRUTURA -->
-          <div style="margin-bottom: 16px;">
-            <div style="font-size: 9px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #8E8E93; margin-bottom: 4px;">Infraestrutura</div>
-            <div v-if="hasFibra && fibraClassRow" style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 6px;">
-              <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px;">
-                <div style="flex: 1; min-width: 0;">
-                  <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 2px;">
-                    <span style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 5px; background: rgba(102,0,153,0.07); color: #660099; flex-shrink: 0;">
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
-                    </span>
-                    <span style="font-size: 12px; font-weight: 700; color: #1C1C1E; line-height: 1.3;">Fibra (Status)</span>
-                  </div>
-                </div>
-                <div :style="{ fontSize: '13px', fontWeight: 700, color: statusStyle(fibraClassRow.status).valueColor, whiteSpace: 'nowrap', flexShrink: 0 }">{{ fibraClassRow.label }}</div>
-              </div>
-              <div :style="{ fontSize: '10px', fontWeight: 600, color: statusStyle(fibraClassRow.status).diagColor, marginTop: '6px', paddingLeft: '26px' }">{{ fibraClassRow.diag }}</div>
-            </div>
-            <div v-if="hasMovel && movelClassRow" style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 6px;">
-              <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px;">
-                <div style="flex: 1; min-width: 0;">
-                  <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 2px;">
-                    <span style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 5px; background: rgba(102,0,153,0.07); color: #660099; flex-shrink: 0;">
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-                    </span>
-                    <span style="font-size: 12px; font-weight: 700; color: #1C1C1E; line-height: 1.3;">Móvel (Status)</span>
-                  </div>
-                </div>
-                <div :style="{ fontSize: '13px', fontWeight: 700, color: statusStyle(movelClassRow.status).valueColor, whiteSpace: 'nowrap', flexShrink: 0 }">{{ movelClassRow.label }}</div>
-              </div>
-              <div :style="{ fontSize: '10px', fontWeight: 600, color: statusStyle(movelClassRow.status).diagColor, marginTop: '6px', paddingLeft: '26px' }">{{ movelClassRow.diag }}</div>
-            </div>
-          </div>
-
-          <!-- COMPORTAMENTO -->
-          <div>
-            <div style="font-size: 9px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #8E8E93; margin-bottom: 4px;">Comportamento</div>
-            <!-- Sensibilidade a Preço -->
-            <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 6px;">
-              <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px;">
-                <div style="flex: 1; min-width: 0;">
-                  <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 2px;">
-                    <span style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 5px; background: rgba(102,0,153,0.07); color: #660099; flex-shrink: 0;">
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                    </span>
-                    <span style="font-size: 12px; font-weight: 700; color: #1C1C1E; line-height: 1.3;">Sensibilidade a Preço</span>
-                  </div>
-                </div>
-                <div :style="{ fontSize: '13px', fontWeight: 700, color: statusStyle(arpuStatus).valueColor, whiteSpace: 'nowrap', flexShrink: 0 }">{{ arpuRel.toFixed(2) }}</div>
-              </div>
-              <div :style="{ fontSize: '10px', fontWeight: 600, color: statusStyle(arpuStatus).diagColor, marginTop: '6px', paddingLeft: '26px' }">{{ arpuDiag }}</div>
-            </div>
-            <!-- Afinidade de Canal -->
-            <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 6px;">
-              <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px;">
-                <div style="flex: 1; min-width: 0;">
-                  <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 2px;">
-                    <span style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 5px; background: rgba(102,0,153,0.07); color: #660099; flex-shrink: 0;">
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
-                    </span>
-                    <span style="font-size: 12px; font-weight: 700; color: #1C1C1E; line-height: 1.3;">Afinidade de Canal</span>
-                  </div>
-                </div>
-                <div :style="{ fontSize: '13px', fontWeight: 700, color: statusStyle(canalStatus).valueColor, whiteSpace: 'nowrap', flexShrink: 0 }">{{ g.diagnostico.canalDominante }} ({{ g.diagnostico.canalPct }}%)</div>
-              </div>
-              <div :style="{ fontSize: '10px', fontWeight: 600, color: statusStyle(canalStatus).diagColor, marginTop: '6px', paddingLeft: '26px' }">{{ canalDiag }}</div>
+          <!-- CARD 2: DECISÃO INTEGRADA -->
+          <div style="background: #fff; border-radius: 10px; border: 1px solid rgba(0,0,0,0.07); padding: 12px 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.05);">
+            <!-- Header do card -->
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+              <span style="display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 6px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </span>
+              <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #1C1C1E;">Decisão Integrada</span>
             </div>
 
-            <!-- Decisão Integrada -->
-            <div v-if="g.camada2.decisaoIntegrada" style="background: #fff; border-radius: 10px; border: 1px solid rgba(102,0,153,0.15); padding: 10px 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-top: 8px;">
-              <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#660099" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-                <span style="font-size: 11px; font-weight: 800; color: #660099; text-transform: uppercase; letter-spacing: 0.06em;">Decisão Integrada</span>
+            <!-- Quadrante + Prioridade -->
+            <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+              <div v-if="qCfg" :style="{ flex: 1, padding: '6px 10px', borderRadius: '7px', background: qCfg.bg, border: '1px solid ' + qCfg.border }">
+                <div style="font-size: 9px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #8E8E93; margin-bottom: 2px;">Quadrante</div>
+                <div :style="{ fontSize: '11px', fontWeight: 700, color: qCfg.color }">{{ qCfg.label }}</div>
               </div>
-              <p style="font-size: 10px; color: #3C1A5E; line-height: 1.5; margin: 0 0 8px 0; font-weight: 500;">{{ g.camada2.decisaoIntegrada }}</p>
-              <div style="display: flex; flex-direction: column; gap: 4px;">
-                <div
-                  v-for="(h, i) in highlights"
-                  :key="i"
-                  :style="{
-                    display: 'flex', alignItems: 'flex-start', gap: '6px',
-                    background: hlBg[h.type], border: `1px solid ${hlBorder[h.type]}`,
-                    borderRadius: '6px', padding: '5px 8px',
-                  }"
-                >
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" :stroke="hlColor[h.type]" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 1px; flex-shrink: 0;">
-                    <template v-if="h.type === 'positive'"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></template>
-                    <template v-else-if="h.type === 'negative'"><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/><circle cx="12" cy="12" r="10"/></template>
-                    <template v-else><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/><circle cx="12" cy="12" r="10"/></template>
-                  </svg>
-                  <span :style="{ fontSize: '9px', fontWeight: 500, color: hlColor[h.type], lineHeight: 1.4 }">{{ h.text }}</span>
-                </div>
+              <div v-if="pCfg" :style="{ flex: 1, padding: '6px 10px', borderRadius: '7px', background: pCfg.bg, border: '1px solid ' + pCfg.border }">
+                <div style="font-size: 9px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #8E8E93; margin-bottom: 2px;">Prioridade</div>
+                <div :style="{ fontSize: '11px', fontWeight: 700, color: pCfg.color }">{{ pCfg.label }}</div>
               </div>
             </div>
-          </div>
-        </div>
 
-        <!-- RECOMENDAÇÃO IA removida conforme protótipo React final -->
-        <div v-else-if="activeSubTab === 'ia'" style="display:none;">
-          <!-- Estado: não gerado -->
-          <div v-if="!iaGerada" style="display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 32px 16px;">
-            <div style="width: 48px; height: 48px; border-radius: 14px; background: rgba(102,0,153,0.08); display: flex; align-items: center; justify-content: center;">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#660099" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
-            </div>
-            <div style="text-align: center;">
-              <div style="font-size: 14px; font-weight: 700; color: #1C1C1E; margin-bottom: 4px;">Recomendação IA</div>
-              <div style="font-size: 12px; color: #8E8E93; line-height: 1.5;">Análise automatizada de Móvel e Fibra com recomendação de ação comercial para este geohash.</div>
-            </div>
-            <button
-              :disabled="iaLoading"
-              :style="{
-                display: 'flex', alignItems: 'center', gap: '7px',
-                padding: '10px 24px', borderRadius: '10px',
-                background: '#660099', color: '#ffffff',
-                border: 'none', cursor: iaLoading ? 'default' : 'pointer',
-                fontSize: '13px', fontWeight: 700,
-                opacity: iaLoading ? 0.7 : 1,
-                transition: 'opacity 0.2s',
-                fontFamily: 'inherit',
-              }"
-              @click="handleGerarIA"
-            >
-              <span v-if="iaLoading" style="display: inline-block; animation: spin 1s linear infinite; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%;"></span>
-              {{ iaLoading ? 'Gerando...' : 'Gerar' }}
-            </button>
-          </div>
-
-          <!-- Estado: gerado -->
-          <div v-else-if="ia" style="display: flex; flex-direction: column; gap: 8px;">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
-              <div style="display: flex; align-items: center; gap: 6px;">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#660099" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
-                <span style="font-size: 12px; font-weight: 700; color: #660099;">Recomendação IA</span>
-              </div>
-              <span style="font-size: 10px; color: #8E8E93;">Gerado automaticamente</span>
-            </div>
-
-            <!-- Fibra + Móvel cards -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <!-- Highlights -->
+            <div style="display: flex; flex-direction: column; gap: 5px;">
               <div
-                v-for="item in [
-                  { label: 'FIBRA', decisao: ia.fibra.decisao, prioridade: ia.fibra.prioridade, score: scoreFibraIA },
-                  { label: 'MÓVEL', decisao: ia.movel.decisao, prioridade: ia.movel.prioridade, score: scoreMovelIA },
-                ]"
-                :key="item.label"
-                style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);"
+                v-for="(h, i) in highlights"
+                :key="i"
+                :style="{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '7px',
+                  padding: '6px 8px',
+                  borderRadius: '6px',
+                  background: hlBg[h.type],
+                  border: '1px solid ' + hlBorder[h.type],
+                }"
               >
-                <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 10px;">
-                  <span style="font-size: 10px; font-weight: 700; color: #8E8E93; letter-spacing: 0.06em;">{{ item.label }}</span>
-                </div>
-                <div style="font-size: 8px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #8E8E93; margin-bottom: 2px;">Score de Priorização</div>
-                <div style="font-size: 22px; font-weight: 800; color: #1C1C1E; line-height: 1; margin-bottom: 8px;">{{ item.score }}</div>
-                <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 6px;">
-                  <span :style="{ fontSize: '12px', fontWeight: 800, color: DECISAO_CONFIG[item.decisao].color }">{{ DECISAO_CONFIG[item.decisao].label }}</span>
-                </div>
-                <span :style="{ display: 'inline-block', fontSize: '9px', fontWeight: 700, color: PRIORIDADE_CONFIG[item.prioridade].color, border: `1px solid ${PRIORIDADE_CONFIG[item.prioridade].color}`, padding: '2px 7px', borderRadius: '5px' }">{{ PRIORIDADE_CONFIG[item.prioridade].label }}</span>
-              </div>
-            </div>
-
-            <!-- Totalização -->
-            <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
-              <div style="font-size: 10px; font-weight: 700; color: #8E8E93; letter-spacing: 0.06em; margin-bottom: 8px;">TOTALIZAÇÃO (MÓVEL + FIBRA)</div>
-              <div style="font-size: 8px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #8E8E93; margin-bottom: 2px;">Score de Priorização</div>
-              <div style="font-size: 28px; font-weight: 800; color: #1C1C1E; line-height: 1; margin-bottom: 8px;">{{ scoreTotalIA }}</div>
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <span :style="{ fontSize: '20px', fontWeight: 800, color: DECISAO_CONFIG[ia.total.decisao].color }">{{ DECISAO_CONFIG[ia.total.decisao].label }}</span>
-              </div>
-            </div>
-
-            <!-- Canal Recomendado -->
-            <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
-              <div style="display: flex; align-items: center; gap: 7px; margin-bottom: 8px;">
-                <span style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 5px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                <span :style="{ color: hlColor[h.type], flexShrink: 0, marginTop: '1px' }">
+                  <svg v-if="h.type === 'positive'" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  <svg v-else-if="h.type === 'negative'" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  <svg v-else width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                 </span>
-                <span style="font-size: 9px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8E8E93;">Canal Recomendado</span>
+                <span :style="{ fontSize: '11px', fontWeight: 500, color: hlColor[h.type], lineHeight: '1.4' }">{{ h.text }}</span>
               </div>
-              <div style="font-size: 13px; color: #1C1C1E; line-height: 1.4;">{{ ia.canalRecomendado }}</div>
-            </div>
-
-            <!-- Abordagem Comercial -->
-            <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
-              <div style="display: flex; align-items: center; gap: 7px; margin-bottom: 8px;">
-                <span style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 5px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg>
-                </span>
-                <span style="font-size: 9px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8E8E93;">Abordagem Comercial</span>
-              </div>
-              <div style="font-size: 13px; color: #1C1C1E; line-height: 1.4;">{{ ia.abordagemComercial }}</div>
-            </div>
-
-            <!-- Raciocínio -->
-            <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
-              <div style="display: flex; align-items: center; gap: 7px; margin-bottom: 8px;">
-                <span style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 5px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
-                </span>
-                <span style="font-size: 9px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #660099;">Raciocínio</span>
-              </div>
-              <div style="font-size: 12px; color: #3D0066; line-height: 1.5;">{{ ia.raciocinio }}</div>
             </div>
           </div>
         </div>

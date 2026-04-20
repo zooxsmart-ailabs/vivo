@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { Map as MapIcon, Building2, TrendingUp, LogOut } from "lucide-vue-next";
+import { Map as MapIcon, MapPin as MapPinIcon, TrendingUp, LogOut } from "lucide-vue-next";
 const route = useRoute();
 const { logout } = useAuth();
 const tabs = [
   { path: "/", label: "Mapa Estratégico", icon: MapIcon },
   { path: "/growth", label: "Estratégias Growth", icon: TrendingUp },
-  { path: "/bairros", label: "Visão de Bairros", icon: Building2 },
+  { path: "/bairros", label: "Visão de Bairros", icon: MapPinIcon },
 ];
 </script>
 

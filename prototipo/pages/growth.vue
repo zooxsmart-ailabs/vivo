@@ -389,7 +389,7 @@ const pilaresOrdenados = computed(() => {
                   </div>
                   <div style="text-align:center;">
                     <div style="font-size:7px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">ARPU</div>
-                    <div style="font-size:10px;font-weight:800;color:#1C1C1E;line-height:1;">{{ (() => { const v = displayGeo.crm?.arpuFibra; return v && v > 0 ? fmtCurrency(v) : fmtCurrency(Math.round(displayGeo.demographics.avgIncome * 0.12)); })() }}</div>
+                    <div style="font-size:10px;font-weight:800;color:#1C1C1E;line-height:1;">R$ {{ displayGeo.crm?.arpuFibra > 0 ? displayGeo.crm.arpuFibra : (displayGeo.crm?.arpu ?? '—') }}</div>
                   </div>
                   <div style="text-align:center;">
                     <div style="font-size:7px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">Plano</div>
@@ -421,7 +421,7 @@ const pilaresOrdenados = computed(() => {
                   </div>
                   <div style="text-align:center;">
                     <div style="font-size:7px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">ARPU</div>
-                    <div style="font-size:10px;font-weight:800;color:#1C1C1E;line-height:1;">{{ (() => { const v = displayGeo.crm?.arpuMovel; return v && v > 0 ? fmtCurrency(v) : fmtCurrency(Math.round(displayGeo.demographics.avgIncome * 0.06)); })() }}</div>
+                    <div style="font-size:10px;font-weight:800;color:#1C1C1E;line-height:1;">R$ {{ displayGeo.crm?.arpuMovel > 0 ? displayGeo.crm.arpuMovel : (displayGeo.crm?.arpu ?? '—') }}</div>
                   </div>
                   <div style="text-align:center;">
                     <div style="font-size:7px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">Plano</div>
@@ -512,7 +512,7 @@ const pilaresOrdenados = computed(() => {
                       <tr v-for="(c, ci) in displayGeo.diagnostico.concorrentes" :key="ci" :style="{background: ci % 2 === 0 ? '#fff' : '#FAFAFA', borderBottom:'1px solid rgba(0,0,0,0.04)'}">
                         <td style="padding:3px 8px;font-weight:700;color:#1C1C1E;font-size:9px;border-right:1px solid rgba(0,0,0,0.06);">{{ c.nome }}</td>
                         <td style="padding:3px 6px;text-align:center;border-right:1px solid rgba(0,0,0,0.06);">
-                          <span style="font-size:8px;font-weight:700;color:#660099;">{{ c.coberturaFibra ? "Sim" : "Não" }}</span>
+                          <span style="font-size:8px;font-weight:600;color:#c869f7;">{{ c.coberturaFibra ? "Sim" : "Não" }}</span>
                         </td>
                         <td style="padding:3px 6px;text-align:center;border-right:1px solid rgba(0,0,0,0.06);">
                           <div v-if="c.coberturaFibra">
