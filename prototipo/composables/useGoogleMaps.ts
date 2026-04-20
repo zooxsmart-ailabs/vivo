@@ -1,4 +1,11 @@
 /// <reference types="@types/google.maps" />
+// useGoogleMaps.ts — GeoIntelligence Vivo × Zoox
+// Usa constantes fixas para evitar problema de criptografia do Nuxt SSG
+// que substitui valores de runtimeConfig.public no bundle.
+
+const FORGE_API_KEY = "F8LqzcZRQzDZYMiNishE9a";
+const FORGE_BASE_URL = "https://forge.manus.ai";
+const MAPS_PROXY_URL = `${FORGE_BASE_URL}/v1/maps/proxy`;
 
 let _mapScriptPromise: Promise<void> | null = null;
 
@@ -9,10 +16,6 @@ declare global {
 }
 
 export function useGoogleMaps() {
-  const config = useRuntimeConfig();
-  const apiKey = config.public.forgeApiKey as string;
-  const forgeBaseUrl = (config.public.forgeApiUrl as string) || "https://forge.butterfly-effect.dev";
-  const mapsProxyUrl = `${forgeBaseUrl}/v1/maps/proxy`;
 
   function loadMapScript(): Promise<void> {
     if (typeof window === "undefined") return Promise.resolve();
@@ -30,7 +33,7 @@ export function useGoogleMaps() {
 
     _mapScriptPromise = new Promise<void>((resolve, reject) => {
       const script = document.createElement("script");
-      script.src = `${mapsProxyUrl}/maps/api/js?key=${apiKey}&v=weekly&libraries=marker,places,geocoding,geometry`;
+      script.src = `${MAPS_PROXY_URL}/maps/api/js?key=${FORGE_API_KEY}&v=weekly&libraries=marker,places,geocoding,geometry`;
       script.crossOrigin = "anonymous";
       script.async = true;
       script.defer = true;
