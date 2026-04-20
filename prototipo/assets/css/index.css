@@ -1,3 +1,16 @@
+/* ============================================================
+   GeoIntelligence — Vivo × Zoox
+   Design Philosophy: Vivo Brand × Apple iOS Clean Light
+   - Background: #F2F2F7 (iOS system background)
+   - Cards: #FFFFFF with subtle shadow
+   - Primary: #660099 (Vivo purple)
+   - Accent: #9B30D9 (lighter purple)
+   - Text: #1C1C1E (iOS label)
+   - Secondary text: #6E6E73 (iOS secondary label)
+   - Separator: #E5E5EA (iOS separator)
+   - Typography: Nunito Sans (similar ao VivoType/Telefonica Headline — geométrica, clean)
+============================================================ */
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -27,92 +40,189 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 }
 
 :root {
-  --primary: oklch(0.38 0.24 302);
-  --primary-foreground: oklch(0.98 0 0);
-  --radius: 0.5rem;
-  --background: oklch(0.985 0.002 260);
-  --foreground: oklch(0.13 0.02 260);
+  /* Vivo purple as primary */
+  --primary: oklch(0.35 0.22 307);
+  --primary-foreground: oklch(1 0 0);
+  --radius: 0.75rem;
+
+  /* iOS-inspired light background */
+  --background: oklch(0.965 0.002 286);
+  --foreground: oklch(0.13 0.005 286);
+
+  /* Cards: pure white */
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.13 0.02 260);
+  --card-foreground: oklch(0.13 0.005 286);
+
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.13 0.02 260);
-  --secondary: oklch(0.96 0.004 260);
-  --secondary-foreground: oklch(0.30 0.02 260);
-  --muted: oklch(0.955 0.004 260);
-  --muted-foreground: oklch(0.52 0.02 260);
-  --accent: oklch(0.955 0.004 260);
-  --accent-foreground: oklch(0.13 0.02 260);
+  --popover-foreground: oklch(0.13 0.005 286);
+
+  /* Secondary: light gray */
+  --secondary: oklch(0.95 0.002 286);
+  --secondary-foreground: oklch(0.35 0.005 286);
+
+  /* Muted: iOS tertiary */
+  --muted: oklch(0.94 0.002 286);
+  --muted-foreground: oklch(0.52 0.01 286);
+
+  /* Accent: lighter purple */
+  --accent: oklch(0.95 0.04 307);
+  --accent-foreground: oklch(0.35 0.22 307);
+
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.90 0.006 260);
-  --input: oklch(0.90 0.006 260);
-  --ring: oklch(0.38 0.24 302);
+
+  /* iOS separator */
+  --border: oklch(0.9 0.003 286);
+  --input: oklch(0.9 0.003 286);
+  --ring: oklch(0.35 0.22 307);
+
+  --chart-1: oklch(0.35 0.22 307);
+  --chart-2: oklch(0.55 0.18 307);
+  --chart-3: oklch(0.65 0.14 307);
+  --chart-4: oklch(0.75 0.10 307);
+  --chart-5: oklch(0.85 0.06 307);
+
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.13 0.005 286);
+  --sidebar-primary: oklch(0.35 0.22 307);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.95 0.04 307);
+  --sidebar-accent-foreground: oklch(0.35 0.22 307);
+  --sidebar-border: oklch(0.9 0.003 286);
+  --sidebar-ring: oklch(0.35 0.22 307);
 }
 
 @layer base {
-  html, body, #__nuxt {
-    height: 100%;
+  * {
+    @apply border-border outline-ring/50;
   }
   body {
-    background: var(--background);
-    color: var(--foreground);
-    font-family: 'DM Sans', sans-serif;
+    @apply bg-background text-foreground;
+    font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
-  a[href] {
-    cursor: pointer;
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  [type="reset"]:not(:disabled),
+  a[href],
+  select:not(:disabled),
+  input[type="checkbox"]:not(:disabled),
+  input[type="radio"]:not(:disabled) {
+    @apply cursor-pointer;
   }
 }
 
 @layer components {
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
-  @keyframes slideInRight {
-    from { opacity: 0; transform: translateX(16px); }
-    to   { opacity: 1; transform: translateX(0); }
-  }
-  @keyframes scaleIn {
-    from { opacity: 0; transform: scale(0.96); }
-    to   { opacity: 1; transform: scale(1); }
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
-  .animate-fade-in-up   { animation: fadeInUp 0.35s ease both; }
-  .animate-fade-in      { animation: fadeIn 0.25s ease both; }
-  .animate-slide-in-right { animation: slideInRight 0.30s ease both; }
-  .animate-scale-in     { animation: scaleIn 0.25s ease both; }
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
 
-  .delay-50  { animation-delay: 50ms; }
-  .delay-100 { animation-delay: 100ms; }
-  .delay-150 { animation-delay: 150ms; }
-  .delay-200 { animation-delay: 200ms; }
-  .delay-300 { animation-delay: 300ms; }
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
 
-  .card-premium {
-    background: white;
-    border: 1px solid oklch(0.90 0.006 260);
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      max-width: 1280px;
+    }
+  }
+
+  /* iOS-style card */
+  .ios-card {
+    background: #ffffff;
     border-radius: 12px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.04);
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-  }
-  .card-premium:hover {
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.08);
-    transform: translateY(-1px);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    border: 1px solid rgba(0,0,0,0.06);
   }
 
-  ::-webkit-scrollbar { width: 4px; height: 4px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: oklch(0.82 0.008 260); border-radius: 2px; }
-  ::-webkit-scrollbar-thumb:hover { background: oklch(0.70 0.012 260); }
+  /* Section label (iOS grouped style) */
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #8E8E93;
+    margin-bottom: 6px;
+  }
+
+  /* Vivo purple button */
+  .vivo-btn {
+    background: #660099;
+    color: white;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 10px 20px;
+    transition: background 0.15s ease;
+  }
+  .vivo-btn:hover {
+    background: #7B00B4;
+  }
+
+  /* Tag badge */
+  .tag-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.15);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,0,0,0.25);
+}
+
+/* Spinner animation */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }

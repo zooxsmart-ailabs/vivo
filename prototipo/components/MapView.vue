@@ -1,6 +1,8 @@
 <script setup lang="ts">
 /// <reference types="@types/google.maps" />
-import { onMounted, ref } from "vue";
+// MapView.vue — Google Maps wrapper para Nuxt
+// Usa o proxy Manus via composable useGoogleMaps
+// Emite evento "mapReady" com a instância do mapa
 
 interface Props {
   initialCenter?: google.maps.LatLngLiteral;
@@ -8,12 +10,12 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  initialCenter: () => ({ lat: -23.5505, lng: -46.6333 }),
+  initialCenter: () => ({ lat: -16.6869, lng: -49.2648 }),
   initialZoom: 11,
 });
 
 const emit = defineEmits<{
-  ready: [map: google.maps.Map];
+  mapReady: [map: google.maps.Map];
 }>();
 
 const container = ref<HTMLDivElement | null>(null);
@@ -25,16 +27,23 @@ onMounted(async () => {
   const map = new window.google.maps.Map(container.value, {
     zoom: props.initialZoom,
     center: props.initialCenter,
-    mapTypeControl: true,
-    fullscreenControl: true,
-    zoomControl: true,
-    streetViewControl: true,
-    mapId: "DEMO_MAP_ID",
+    mapTypeControl: false,
+    streetViewControl: false,
+    fullscreenControl: false,
+    scrollwheel: true,
+    gestureHandling: "greedy",
+    zoomControlOptions: {
+      position: google.maps.ControlPosition.RIGHT_BOTTOM,
+    },
+    panControl: true,
+    panControlOptions: {
+      position: google.maps.ControlPosition.RIGHT_BOTTOM,
+    },
   });
-  emit("ready", map);
+  emit("mapReady", map);
 });
 </script>
 
 <template>
-  <div ref="container" class="w-full h-full" style="min-height: 0" />
+  <div ref="container" style="width: 100%; height: 100%; min-height: 0;" />
 </template>

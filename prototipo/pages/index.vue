@@ -1,467 +1,379 @@
 <script setup lang="ts">
 /// <reference types="@types/google.maps" />
-import { ref, computed, shallowRef } from "vue";
-import {
-  SlidersHorizontal,
-  Info,
-  ChevronRight,
-  Wifi,
-  Signal,
-} from "lucide-vue-next";
-import {
-  GEOHASH_DATA,
-  QUADRANT_COLORS,
-  QUADRANT_LABELS,
-  QUADRANT_ORDER,
-  type GeohashData,
-  type Quadrant,
-  type TechCategory,
-  geohashToPolygon,
-} from "~/utils/geohashData";
+// pages/index.vue — Mapa Estratégico
+// Layout split: esquerda (toolbar + mapa Google Maps) | direita (GeohashPanel)
+// Migrado de MapaEstrategico.tsx (React) para Vue/Nuxt 3
+import { ref, computed, shallowRef, watch } from "vue";
+import ngeohash from "ngeohash";
+import { GEOHASH_DATA, QUADRANT_CONFIG, DIAGNOSTICO_BIVARIADO } from "~/utils/goiania";
+import type { GeohashEntry, Quadrant } from "~/utils/goiania";
 
-const TECH_COLORS: Record<TechCategory, { hex: string; label: string }> = {
-  FIBRA: { hex: "#0EA5E9", label: "Fibra" },
-  MOVEL: { hex: "#F97316", label: "Móvel" },
-  AMBOS: { hex: "#8B5CF6", label: "Ambos" },
+definePageMeta({ layout: "default" });
+
+const GOIANIA_CENTER = { lat: -16.6869, lng: -49.2648 };
+const GOIANIA_ZOOM = 11;
+
+function geohashToPolygon(geohashId: string): google.maps.LatLngLiteral[] | null {
+  try {
+    const [minLat, minLng, maxLat, maxLng] = ngeohash.decode_bbox(geohashId);
+    return [
+      { lat: maxLat, lng: minLng },
+      { lat: maxLat, lng: maxLng },
+      { lat: minLat, lng: maxLng },
+      { lat: minLat, lng: minLng },
+    ];
+  } catch {
+    return null;
+  }
+}
+
+const TECH_FILTERS = [
+  { key: "ALL", label: "Todos" },
+  { key: "FIBRA", label: "Fibra" },
+  { key: "MOVEL", label: "Móvel" },
+];
+
+const TECH_TOOLTIPS: Record<string, string> = {
+  ALL: "Exibe todos os geohashes independente da tecnologia disponível.",
+  FIBRA: "Fibra óptica — cobertura de banda larga fixa de alta velocidade.",
+  MOVEL: "Móvel — cobertura de rede celular 4G/5G.",
+  AMBOS: "Fibra + Móvel — geohashes com cobertura combinada de fibra óptica e rede celular 4G/5G.",
 };
 
-const hoveredGeohash = shallowRef<GeohashData | null>(null);
-const pinnedGeohash = shallowRef<GeohashData | null>(null);
-let pinnedRef: GeohashData | null = null;
-const activeFilters = ref<Set<Quadrant>>(new Set(QUADRANT_ORDER));
-const techFilter = ref<TechCategory | "TODOS">("TODOS");
-const showDiagnostic = ref(false);
+const QUADRANT_PILLS = [
+  { key: "GROWTH" as Quadrant, label: "Growth", activeBg: "#22C55E", activeText: "#fff" },
+  { key: "UPSELL" as Quadrant, label: "Upsell", activeBg: "#8B5CF6", activeText: "#fff" },
+  { key: "RETENCAO" as Quadrant, label: "Retenção", activeBg: "#EF4444", activeText: "#fff" },
+  { key: "GROWTH_RETENCAO" as Quadrant, label: "Growth+Retenção", activeBg: "#F97316", activeText: "#fff" },
+];
+
+const selectedGeohash = shallowRef<GeohashEntry | null>(null);
+const hoveredGeohash = shallowRef<GeohashEntry | null>(null);
+const activeQuadrants = ref<Quadrant[]>(["GROWTH", "UPSELL", "RETENCAO", "GROWTH_RETENCAO"]);
+const activeTech = ref<string>("ALL");
+const hoveredQuadrant = ref<Quadrant | null>(null);
+const hoveredTech = ref<string | null>(null);
+const mapLoaded = ref(false);
+
+let mapRef: google.maps.Map | null = null;
 const polygonsMap = new Map<string, google.maps.Polygon>();
-let techFilterCurrent: TechCategory | "TODOS" = "TODOS";
-let activeFiltersCurrent: Set<Quadrant> = new Set(QUADRANT_ORDER);
+const markersMap = new Map<string, google.maps.Marker>();
 
-const displayedGeohash = computed(() => pinnedGeohash.value ?? hoveredGeohash.value);
+const visibleGeohashes = computed(() => {
+  return GEOHASH_DATA.filter((g) => {
+    const quadrantOk = activeQuadrants.value.includes(g.quadrant);
+    const techOk = activeTech.value === "ALL" || g.technology === activeTech.value;
+    return quadrantOk && techOk;
+  }).sort((a, b) => b.priorityScore - a.priorityScore);
+});
 
-function isVisible(
-  gh: GeohashData,
-  filters: Set<Quadrant>,
-  tech: TechCategory | "TODOS"
-) {
-  if (!filters.has(gh.quadrant)) return false;
-  if (tech !== "TODOS" && gh.technology !== tech && gh.technology !== "AMBOS")
-    return false;
-  return true;
-}
+const emRiscoCount = computed(() =>
+  visibleGeohashes.value.filter(g => g.quadrant === "RETENCAO" || g.quadrant === "GROWTH_RETENCAO").length
+);
 
-function getPolygonColor(gh: GeohashData) {
-  return QUADRANT_COLORS[gh.quadrant].hex;
-}
-
-function toggleFilter(q: Quadrant) {
-  const next = new Set(activeFilters.value);
-  if (next.has(q)) next.delete(q);
-  else next.add(q);
-  activeFilters.value = next;
-  activeFiltersCurrent = next;
-  polygonsMap.forEach((polygon, id) => {
-    const data = GEOHASH_DATA.find((d) => d.id === id);
-    if (data) polygon.setVisible(isVisible(data, next, techFilterCurrent));
-  });
-}
-
-function handleTechFilter(tech: TechCategory | "TODOS") {
-  techFilter.value = tech;
-  techFilterCurrent = tech;
-  polygonsMap.forEach((polygon, id) => {
-    const data = GEOHASH_DATA.find((d) => d.id === id);
-    if (!data) return;
-    const visible = isVisible(data, activeFiltersCurrent, tech);
-    polygon.setVisible(visible);
-    if (visible) {
-      const color = getPolygonColor(data);
-      polygon.setOptions({ fillColor: color, strokeColor: color + "CC" });
+function highlightPolygon(id: string) {
+  polygonsMap.forEach((poly, pid) => {
+    if (pid === id) {
+      poly.setOptions({ fillOpacity: 0.55, strokeWeight: 2.5, zIndex: 10 });
+    } else {
+      poly.setOptions({ fillOpacity: 0.15, strokeWeight: 1, zIndex: 1 });
     }
   });
 }
 
-function unpinFromButton() {
-  if (!pinnedGeohash.value) return;
-  const prev = polygonsMap.get(pinnedGeohash.value.id);
-  if (prev) {
-    const c = getPolygonColor(pinnedGeohash.value);
-    prev.setOptions({
-      fillOpacity: 0.4,
-      strokeWeight: 1.5,
-      strokeColor: c + "CC",
-      zIndex: 1,
-    });
-  }
-  pinnedRef = null;
-  pinnedGeohash.value = null;
-}
+function handleMapReady(map: google.maps.Map) {
+  mapRef = map;
+  mapLoaded.value = true;
 
-function onMapReady(map: google.maps.Map) {
   map.setOptions({
     styles: [
-      { elementType: "geometry", stylers: [{ color: "#f5f5f5" }] },
-      { elementType: "labels.icon", stylers: [{ visibility: "off" }] },
-      { elementType: "labels.text.fill", stylers: [{ color: "#616161" }] },
-      { elementType: "labels.text.stroke", stylers: [{ color: "#f5f5f5" }] },
-      { featureType: "poi", elementType: "geometry", stylers: [{ color: "#eeeeee" }] },
+      { elementType: "geometry", stylers: [{ color: "#f5f5f7" }] },
+      { elementType: "labels.text.stroke", stylers: [{ color: "#f5f5f7" }] },
+      { elementType: "labels.text.fill", stylers: [{ color: "#6E6E73" }] },
       { featureType: "road", elementType: "geometry", stylers: [{ color: "#ffffff" }] },
-      {
-        featureType: "road.highway",
-        elementType: "geometry",
-        stylers: [{ color: "#dadada" }],
-      },
-      { featureType: "water", elementType: "geometry", stylers: [{ color: "#c9c9c9" }] },
+      { featureType: "road", elementType: "geometry.stroke", stylers: [{ color: "#e5e5ea" }] },
+      { featureType: "road.highway", elementType: "geometry", stylers: [{ color: "#f0e6f8" }] },
+      { featureType: "road.highway", elementType: "geometry.stroke", stylers: [{ color: "#d4b8e8" }] },
+      { featureType: "road.highway", elementType: "labels.text.fill", stylers: [{ color: "#660099" }] },
+      { featureType: "water", elementType: "geometry", stylers: [{ color: "#c8d8e8" }] },
+      { featureType: "water", elementType: "labels.text.fill", stylers: [{ color: "#8E8E93" }] },
+      { featureType: "poi", elementType: "geometry", stylers: [{ color: "#ebebf0" }] },
+      { featureType: "poi", elementType: "labels.text.fill", stylers: [{ color: "#8E8E93" }] },
+      { featureType: "poi.park", elementType: "geometry", stylers: [{ color: "#d4edda" }] },
+      { featureType: "transit", elementType: "geometry", stylers: [{ color: "#e5e5ea" }] },
+      { featureType: "administrative", elementType: "geometry.stroke", stylers: [{ color: "#c7c7cc" }] },
+      { featureType: "administrative.locality", elementType: "labels.text.fill", stylers: [{ color: "#1C1C1E" }] },
+      { featureType: "administrative.neighborhood", elementType: "labels.text.fill", stylers: [{ color: "#6E6E73" }] },
     ],
+    mapTypeControl: false,
+    streetViewControl: false,
+    fullscreenControl: false,
+    scrollwheel: true,
+    gestureHandling: "greedy",
+    zoomControlOptions: { position: google.maps.ControlPosition.RIGHT_BOTTOM },
+    panControl: true,
+    panControlOptions: { position: google.maps.ControlPosition.RIGHT_BOTTOM },
   });
 
-  GEOHASH_DATA.forEach((ghData) => {
-    const path = geohashToPolygon(ghData.id);
-    const colors = QUADRANT_COLORS[ghData.quadrant];
+  GEOHASH_DATA.forEach((g) => {
+    const qc = QUADRANT_CONFIG[g.quadrant];
+    const paths = geohashToPolygon(g.id);
+    if (!paths) return;
+
     const polygon = new google.maps.Polygon({
-      paths: path,
-      strokeColor: colors.stroke,
+      paths,
+      strokeColor: qc.mapColor,
       strokeOpacity: 0.9,
       strokeWeight: 1.5,
-      fillColor: colors.hex,
-      fillOpacity: 0.4,
+      fillColor: qc.mapColor,
+      fillOpacity: 0.25,
       map,
       zIndex: 1,
     });
-    polygon.addListener("mouseover", () => {
-      polygon.setOptions({
-        fillOpacity: 0.72,
-        strokeWeight: 2.5,
-        strokeColor: "#ffffff",
-        zIndex: 10,
-      });
-      if (!pinnedRef) hoveredGeohash.value = ghData;
+
+    const marker = new google.maps.Marker({
+      position: { lat: g.lat, lng: g.lng },
+      map,
+      icon: { path: google.maps.SymbolPath.CIRCLE, scale: 0 },
+      zIndex: 2,
     });
-    polygon.addListener("mouseout", () => {
-      const color = getPolygonColor(ghData);
-      if (pinnedRef?.id === ghData.id) return;
-      polygon.setOptions({
-        fillOpacity: 0.4,
-        strokeWeight: 1.5,
-        strokeColor: color + "CC",
-        zIndex: 1,
-      });
-      if (!pinnedRef) hoveredGeohash.value = null;
-    });
+
     polygon.addListener("click", () => {
-      const currentPin = pinnedRef;
-      if (currentPin?.id === ghData.id) {
-        pinnedRef = null;
-        pinnedGeohash.value = null;
-        const color = getPolygonColor(ghData);
-        polygon.setOptions({
-          fillOpacity: 0.4,
-          strokeWeight: 1.5,
-          strokeColor: color + "CC",
-          zIndex: 1,
-        });
-      } else {
-        if (currentPin) {
-          const prevPolygon = polygonsMap.get(currentPin.id);
-          if (prevPolygon) {
-            const prevColor = getPolygonColor(currentPin);
-            prevPolygon.setOptions({
-              fillOpacity: 0.4,
-              strokeWeight: 1.5,
-              strokeColor: prevColor + "CC",
-              zIndex: 1,
-            });
+      selectedGeohash.value = g;
+      highlightPolygon(g.id);
+    });
+
+    polygon.addListener("mouseover", () => {
+      hoveredGeohash.value = g;
+      if (!selectedGeohash.value) {
+        polygonsMap.forEach((poly, pid) => {
+          if (pid === g.id) {
+            poly.setOptions({ fillOpacity: 0.45, strokeWeight: 2, zIndex: 5 });
           }
-        }
-        pinnedRef = ghData;
-        pinnedGeohash.value = ghData;
-        polygon.setOptions({
-          fillOpacity: 0.8,
-          strokeWeight: 3,
-          strokeColor: "#ffffff",
-          zIndex: 20,
         });
       }
     });
-    polygonsMap.set(ghData.id, polygon);
+
+    polygon.addListener("mouseout", () => {
+      hoveredGeohash.value = null;
+      if (selectedGeohash.value) {
+        highlightPolygon(selectedGeohash.value.id);
+      } else {
+        polygonsMap.forEach((poly) => {
+          poly.setOptions({ fillOpacity: 0.25, strokeWeight: 1.5, zIndex: 1 });
+        });
+      }
+    });
+
+    polygonsMap.set(g.id, polygon);
+    markersMap.set(g.id, marker);
   });
 }
 
-const totalGeohashes = GEOHASH_DATA.length;
-const riscoCount = GEOHASH_DATA.filter((d) => d.quadrant === "RETENCAO").length;
-const visibleCount = computed(
-  () =>
-    GEOHASH_DATA.filter((d) => isVisible(d, activeFilters.value, techFilter.value))
-      .length
-);
+watch([activeQuadrants, activeTech], () => {
+  polygonsMap.forEach((polygon, id) => {
+    const g = GEOHASH_DATA.find(x => x.id === id);
+    if (!g) return;
+    const visible =
+      activeQuadrants.value.includes(g.quadrant) &&
+      (activeTech.value === "ALL" || g.technology === activeTech.value);
+    polygon.setVisible(visible);
+    markersMap.get(id)?.setVisible(visible);
+  });
+});
 
-const DIAGNOSTIC_DESCRIPTIONS: Record<Quadrant, string> = {
-  GROWTH: "Share baixo + Satisfação alta — janela de ataque, geração de leads",
-  UPSELL: "Share alto + Satisfação alta — maximizar receita, upsell premium",
-  GROWTH_RETENCAO:
-    "Share baixo + Satisfação baixa — dupla frente: aquisição + infraestrutura",
-  RETENCAO: "Share alto + Satisfação baixa — risco iminente de churn, ação urgente",
-};
+watch(selectedGeohash, (g) => {
+  if (g) highlightPolygon(g.id);
+});
 
-const TECH_TABS: {
-  key: TechCategory | "TODOS";
-  label: string;
-  icon: any;
-  color: string;
-}[] = [
-  { key: "TODOS", label: "Todos", icon: SlidersHorizontal, color: "#64748B" },
-  { key: "FIBRA", label: "Fibra", icon: Wifi, color: TECH_COLORS.FIBRA.hex },
-  { key: "MOVEL", label: "Móvel", icon: Signal, color: TECH_COLORS.MOVEL.hex },
-  { key: "AMBOS", label: "Ambos", icon: null, color: TECH_COLORS.AMBOS.hex },
-];
+function toggleQuadrant(q: Quadrant) {
+  const prev = activeQuadrants.value;
+  if (prev.includes(q)) {
+    activeQuadrants.value = prev.filter(x => x !== q);
+  } else {
+    activeQuadrants.value = [...prev, q];
+  }
+}
 
-const techCounts = {
-  TODOS: totalGeohashes,
-  FIBRA: GEOHASH_DATA.filter((d) => d.technology === "FIBRA").length,
-  MOVEL: GEOHASH_DATA.filter((d) => d.technology === "MOVEL").length,
-  AMBOS: GEOHASH_DATA.filter((d) => d.technology === "AMBOS").length,
-};
+function handleSelectGeohash(g: GeohashEntry) {
+  selectedGeohash.value = g;
+  highlightPolygon(g.id);
+}
 </script>
 
 <template>
-  <div
-    class="h-full flex flex-col overflow-hidden"
-    style="font-family: 'DM Sans', sans-serif; background: #f0f2f8"
-  >
-    <div class="flex flex-1 overflow-hidden">
-      <!-- Map area -->
-      <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <!-- Filter bar -->
-        <div
-          class="bg-white border-b border-slate-100 px-4 py-2.5 flex items-center gap-3 shrink-0 flex-wrap"
-          style="box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04)"
-        >
-          <div class="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
-            <SlidersHorizontal class="w-3.5 h-3.5" />
-            <span>Filtrar:</span>
-          </div>
-          <div class="flex items-center gap-2 flex-wrap">
-            <button
-              v-for="q in QUADRANT_ORDER"
-              :key="q"
-              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 border"
-              :class="
-                activeFilters.has(q)
-                  ? 'border-transparent text-white'
-                  : 'border-slate-200 text-slate-400 bg-white hover:border-slate-300'
-              "
-              :style="
-                activeFilters.has(q)
-                  ? {
-                      backgroundColor: QUADRANT_COLORS[q].hex,
-                      boxShadow: `0 2px 8px ${QUADRANT_COLORS[q].hex}40`,
-                    }
-                  : {}
-              "
-              @click="toggleFilter(q)"
-            >
-              <span
-                class="w-1.5 h-1.5 rounded-full"
-                :style="{
-                  backgroundColor: activeFilters.has(q)
-                    ? 'rgba(255,255,255,0.8)'
-                    : QUADRANT_COLORS[q].hex,
-                }"
-              />
-              {{ QUADRANT_LABELS[q] }}
-            </button>
-          </div>
-
-          <div class="w-px h-5 bg-slate-200 mx-1 shrink-0" />
-
-          <div class="flex items-center gap-1 bg-slate-100 rounded-lg p-0.5">
-            <button
-              v-for="tab in TECH_TABS"
-              :key="tab.key"
-              class="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold transition-all duration-150"
-              :class="
-                techFilter === tab.key
-                  ? 'bg-white shadow-sm'
-                  : 'text-slate-400 hover:text-slate-600'
-              "
-              :style="techFilter === tab.key ? { color: tab.color } : {}"
-              @click="handleTechFilter(tab.key)"
-            >
-              <component
-                v-if="tab.icon"
-                :is="tab.icon"
-                class="w-3 h-3"
-                :style="{ color: techFilter === tab.key ? tab.color : undefined }"
-              />
-              <span v-else class="text-[9px] font-bold">F+M</span>
-              {{ tab.label }}
-              <span
-                class="text-[9px] font-bold px-1 py-0.5 rounded-full"
-                :style="
-                  techFilter === tab.key
-                    ? { backgroundColor: tab.color + '18', color: tab.color }
-                    : { backgroundColor: '#E2E8F0', color: '#94A3B8' }
-                "
-                >{{ techCounts[tab.key] }}</span
-              >
-            </button>
-          </div>
-
-          <div class="ml-auto flex items-center gap-3 text-xs text-slate-400">
-            <span>{{ visibleCount }}/{{ totalGeohashes }} visíveis</span>
-            <span
-              v-if="riscoCount > 0"
-              class="flex items-center gap-1 text-red-500 font-semibold"
-            >
-              <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-              {{ riscoCount }} em risco
+  <div style="display:flex;flex-direction:column;height:100%;overflow:hidden;">
+    <div style="display:flex;flex:1;overflow:hidden;">
+      <!-- Coluna esquerda: toolbar + mapa -->
+      <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
+        <!-- Toolbar -->
+        <div style="background:#fff;border-bottom:1px solid #E5E5EA;padding:0;display:flex;align-items:center;height:40px;flex-shrink:0;width:100%;user-select:none;position:relative;z-index:100;overflow:visible;">
+          <div style="width:100%;display:flex;align-items:center;gap:0;padding:0 16px;flex-shrink:0;">
+            <span style="font-size:12px;font-weight:500;color:#8E8E93;margin-right:10px;flex-shrink:0;display:flex;align-items:center;gap:5px;">
+              <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
+                <rect x="0" y="0" width="14" height="1.5" rx="0.75" fill="#8E8E93"/>
+                <rect x="2" y="4" width="10" height="1.5" rx="0.75" fill="#8E8E93"/>
+                <rect x="4" y="8" width="6" height="1.5" rx="0.75" fill="#8E8E93"/>
+              </svg>
+              Filtrar:
             </span>
-          </div>
-        </div>
 
-        <!-- Map -->
-        <div class="flex-1 relative overflow-hidden" style="min-height: 0">
-          <ClientOnly>
-            <MapView
-              :initial-center="{ lat: -23.5505, lng: -46.6333 }"
-              :initial-zoom="11"
-              @ready="onMapReady"
-            />
-          </ClientOnly>
-          <div
-            v-if="!hoveredGeohash"
-            class="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow-sm border border-slate-100 flex items-center gap-2 text-xs text-slate-500 pointer-events-none"
-          >
-            <Info class="w-3.5 h-3.5 text-violet-400" />
-            Passe o cursor sobre uma célula para ver a ficha estratégica
-          </div>
-        </div>
-
-        <!-- Legend -->
-        <div class="bg-white border-t border-slate-100 px-4 py-2.5 shrink-0">
-          <div class="flex items-start gap-8 flex-wrap">
-            <div>
-              <p
-                class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5"
+            <!-- Pills de Quadrante -->
+            <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+              <div
+                v-for="q in QUADRANT_PILLS"
+                :key="q.key"
+                style="position:relative;"
+                @mouseenter="hoveredQuadrant = q.key"
+                @mouseleave="hoveredQuadrant = null"
               >
-                Quadrante
-              </p>
-              <div class="flex flex-wrap gap-x-5 gap-y-1">
                 <div
-                  v-for="q in QUADRANT_ORDER"
-                  :key="q"
-                  class="flex items-center gap-1.5"
+                  v-if="hoveredQuadrant === q.key"
+                  :style="{
+                    position:'absolute', top:'calc(100% + 8px)', left:'50%',
+                    transform:'translateX(-50%)', background:'#fff',
+                    border:`1px solid ${QUADRANT_CONFIG[q.key].color}55`,
+                    borderRadius:'10px', padding:'10px 14px', fontSize:'12px',
+                    color:'#3C3C43', lineHeight:'1.5', zIndex:200,
+                    boxShadow:'0 6px 24px rgba(0,0,0,0.14)', pointerEvents:'none',
+                    width:'240px', whiteSpace:'normal',
+                  }"
                 >
-                  <span
-                    class="w-3 h-3 rounded-sm shrink-0"
-                    :style="{ backgroundColor: QUADRANT_COLORS[q].hex }"
-                  />
-                  <span class="text-xs text-slate-600 font-medium">{{
-                    QUADRANT_LABELS[q]
-                  }}</span>
+                  <span :style="{ fontWeight:700, color:QUADRANT_CONFIG[q.key].color, display:'block', fontSize:'12px' }">
+                    {{ DIAGNOSTICO_BIVARIADO[q.key].title }}
+                  </span>
+                  <span style="display:block;color:#6E6E73;font-size:11.5px;margin-top:6px;">
+                    {{ DIAGNOSTICO_BIVARIADO[q.key].subtitle }}
+                  </span>
+                  <div :style="{
+                    position:'absolute', bottom:'100%', left:'50%',
+                    transform:'translateX(-50%)', width:0, height:0,
+                    borderLeft:'5px solid transparent', borderRight:'5px solid transparent',
+                    borderBottom:`5px solid ${QUADRANT_CONFIG[q.key].color}55`,
+                  }" />
                 </div>
+                <button
+                  @click="toggleQuadrant(q.key)"
+                  :style="{
+                    display:'flex', alignItems:'center', gap:'5px',
+                    padding:'3px 10px 3px 8px', borderRadius:'20px', fontSize:'12px',
+                    fontWeight: activeQuadrants.includes(q.key) ? '600' : '400',
+                    color: activeQuadrants.includes(q.key) ? q.activeText : '#3C3C43',
+                    background: activeQuadrants.includes(q.key) ? q.activeBg : 'transparent',
+                    border:'none', cursor:'pointer', transition:'all 0.15s ease',
+                    whiteSpace:'nowrap', lineHeight:'1',
+                  }"
+                >
+                  <span :style="{
+                    width:'7px', height:'7px', borderRadius:'50%',
+                    background: activeQuadrants.includes(q.key) ? 'rgba(255,255,255,0.8)' : QUADRANT_CONFIG[q.key].color,
+                    display:'inline-block', flexShrink:0,
+                  }" />
+                  {{ q.label }}
+                </button>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- Right Panel -->
-      <div
-        class="w-80 bg-white border-l border-slate-100 flex flex-col shrink-0 overflow-hidden"
-        style="box-shadow: -2px 0 12px rgba(0, 0, 0, 0.04)"
-      >
-        <div class="px-5 py-3 border-b border-slate-100 shrink-0">
-          <div class="flex items-center justify-between gap-2">
-            <div class="flex items-center gap-2">
+            <div style="width:1px;height:16px;background:rgba(0,0,0,0.1);margin:0 12px;flex-shrink:0;" />
+
+            <!-- Filtros de Tecnologia -->
+            <div style="display:flex;align-items:center;gap:2px;flex-shrink:0;">
               <div
-                class="w-6 h-6 rounded-full border-2 border-violet-300 flex items-center justify-center"
+                v-for="t in TECH_FILTERS"
+                :key="t.key"
+                style="position:relative;"
+                @mouseenter="hoveredTech = t.key"
+                @mouseleave="hoveredTech = null"
               >
-                <ChevronRight class="w-3 h-3 text-[#660099]" />
+                <div
+                  v-if="hoveredTech === t.key"
+                  style="position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#fff;border:1px solid rgba(0,0,0,0.12);border-radius:10px;padding:8px 12px;font-size:12px;color:#3C3C43;line-height:1.5;z-index:200;box-shadow:0 6px 24px rgba(0,0,0,0.14);pointer-events:none;width:200px;white-space:normal;"
+                >
+                  {{ TECH_TOOLTIPS[t.key] }}
+                  <div style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:5px solid rgba(0,0,0,0.12);" />
+                </div>
+                <button
+                  @click="activeTech = t.key"
+                  :style="{
+                    display:'flex', alignItems:'center', gap:'4px',
+                    padding:'3px 9px', borderRadius:'6px', fontSize:'12px',
+                    fontWeight: activeTech === t.key ? '600' : '400',
+                    color: activeTech === t.key ? '#1C1C1E' : '#6E6E73',
+                    background: activeTech === t.key ? 'rgba(0,0,0,0.06)' : 'transparent',
+                    border:'none', cursor:'pointer', transition:'all 0.15s ease',
+                    whiteSpace:'nowrap', lineHeight:'1',
+                  }"
+                >
+                  <span v-if="t.key === 'ALL'" style="display:flex;align-items:center;opacity:0.75;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                  </span>
+                  <span v-if="t.key === 'FIBRA'" style="display:flex;align-items:center;opacity:0.75;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+                  </span>
+                  <span v-if="t.key === 'MOVEL'" style="display:flex;align-items:center;opacity:0.75;">
+                    <svg width="11" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                  </span>
+                  {{ t.label }}
+                </button>
               </div>
-              <h2
-                class="text-sm font-bold text-[#660099]"
-                style="font-family: 'Space Grotesk', sans-serif"
-              >
-                {{ displayedGeohash ? "Ficha de Geohash" : "Territórios de Ação" }}
-              </h2>
             </div>
-            <button
-              v-if="pinnedGeohash"
-              class="flex items-center gap-1 text-[9px] font-bold px-2 py-1 rounded-full border transition-colors hover:bg-red-50"
-              style="color: #660099; border-color: #66009940; background-color: #66009908"
-              title="Clique para desafixar"
-              @click="unpinFromButton"
-            >
-              Fixado
-            </button>
-          </div>
-          <p
-            v-if="!displayedGeohash"
-            class="text-xs text-slate-500 leading-relaxed ml-8 mt-1"
-          >
-            Tradução do diagnóstico em
-            <strong class="text-slate-700">4 estratégias distintas</strong>, aplicadas
-            sobre o mapa real da cidade.
-          </p>
-          <p
-            v-if="!pinnedGeohash && displayedGeohash"
-            class="text-[9px] text-slate-400 ml-8 mt-0.5"
-          >
-            Clique na célula para fixar a ficha
-          </p>
-        </div>
 
-        <div class="flex-1 overflow-hidden min-h-0">
-          <GeohashCard :data="displayedGeohash" :tech-filter="techFilter" />
-        </div>
+            <div style="flex:1;" />
 
-        <div class="border-t border-slate-100 shrink-0">
-          <button
-            class="w-full px-5 py-2.5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors"
-            @click="showDiagnostic = !showDiagnostic"
-          >
-            <div class="flex items-center gap-2">
-              <div
-                class="w-5 h-5 rounded-full border-2 border-violet-300 flex items-center justify-center"
-              >
-                <ChevronRight
-                  class="w-2.5 h-2.5 text-[#660099] transition-transform"
-                  :class="showDiagnostic ? 'rotate-90' : ''"
-                />
-              </div>
+            <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
+              <span style="font-size:12px;color:#8E8E93;">
+                {{ visibleGeohashes.length }}/{{ GEOHASH_DATA.length }} visíveis
+              </span>
               <span
-                class="text-xs font-bold text-[#660099]"
-                style="font-family: 'Space Grotesk', sans-serif"
-                >Diagnóstico Bivariado</span
+                v-if="emRiscoCount > 0"
+                style="font-size:12px;font-weight:600;color:#EF4444;display:flex;align-items:center;gap:4px;"
               >
-            </div>
-          </button>
-          <div v-if="showDiagnostic" class="px-5 pb-3">
-            <p class="text-xs text-slate-500 leading-relaxed mb-2">
-              Cruzamento de
-              <strong class="text-slate-700">Share de Mercado (Vivo)</strong> com
-              <strong class="text-slate-700">Satisfação do Usuário</strong>.
-            </p>
-            <div class="space-y-1.5">
-              <div
-                v-for="q in QUADRANT_ORDER"
-                :key="q"
-                class="flex items-start gap-2"
-              >
-                <span
-                  class="w-2.5 h-2.5 rounded-sm shrink-0 mt-0.5"
-                  :style="{ backgroundColor: QUADRANT_COLORS[q].hex }"
-                />
-                <span class="text-[10px] text-slate-500">
-                  <strong :style="{ color: QUADRANT_COLORS[q].hex }">{{
-                    QUADRANT_LABELS[q]
-                  }}</strong>
-                  — {{ DIAGNOSTIC_DESCRIPTIONS[q] }}
-                </span>
-              </div>
+                <span style="width:7px;height:7px;border-radius:50%;background:#EF4444;display:inline-block;" />
+                {{ emRiscoCount }} em risco
+              </span>
             </div>
           </div>
         </div>
+
+        <!-- Mapa -->
+        <div style="flex:1;position:relative;overflow:hidden;">
+          <MapView
+            :initial-center="GOIANIA_CENTER"
+            :initial-zoom="GOIANIA_ZOOM"
+            @map-ready="handleMapReady"
+            style="width:100%;height:100%;"
+          />
+          <div
+            v-if="!mapLoaded"
+            style="position:absolute;inset:0;background:#f5f5f7;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:10;"
+          >
+            <div class="spinner" />
+            <span style="font-size:12px;color:#8E8E93;font-weight:600;">Carregando mapa...</span>
+          </div>
+        </div>
       </div>
+
+      <!-- Painel direito -->
+      <GeohashPanel
+        :geohash="selectedGeohash ?? hoveredGeohash"
+        :all-geohashes="GEOHASH_DATA"
+        :active-tech="activeTech"
+        @select-geohash="handleSelectGeohash"
+      />
     </div>
   </div>
 </template>
+
+<style scoped>
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(102,0,153,0.15);
+  border-top: 3px solid #660099;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+</style>

@@ -13,7 +13,7 @@ export default defineNuxtConfig({
       link: [
         {
           rel: "stylesheet",
-          href: "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap",
+          href: "https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800&family=DM+Sans:wght@400;500;600;700&display=swap",
         },
       ],
     },
@@ -26,12 +26,13 @@ export default defineNuxtConfig({
     preset: "github-pages",
     prerender: {
       crawlLinks: true,
-      routes: ["/", "/frentes", "/bairros", "/login"],
+      routes: ["/", "/growth", "/frentes", "/bairros", "/login"],
     },
   },
   runtimeConfig: {
     public: {
-      googleMapsApiKey: "",
+      forgeApiKey: process.env.VITE_FRONTEND_FORGE_API_KEY || "",
+      forgeApiUrl: process.env.VITE_FRONTEND_FORGE_API_URL || "https://forge.butterfly-effect.dev",
       authUser: "", // NUXT_PUBLIC_AUTH_USER
       authPass: "", // NUXT_PUBLIC_AUTH_PASS
     },

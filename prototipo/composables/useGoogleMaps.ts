@@ -10,7 +10,9 @@ declare global {
 
 export function useGoogleMaps() {
   const config = useRuntimeConfig();
-  const apiKey = config.public.googleMapsApiKey as string;
+  const apiKey = config.public.forgeApiKey as string;
+  const forgeBaseUrl = (config.public.forgeApiUrl as string) || "https://forge.butterfly-effect.dev";
+  const mapsProxyUrl = `${forgeBaseUrl}/v1/maps/proxy`;
 
   function loadMapScript(): Promise<void> {
     if (typeof window === "undefined") return Promise.resolve();
@@ -28,12 +30,14 @@ export function useGoogleMaps() {
 
     _mapScriptPromise = new Promise<void>((resolve, reject) => {
       const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&v=weekly&libraries=marker,places,geocoding,geometry`;
+      script.src = `${mapsProxyUrl}/maps/api/js?key=${apiKey}&v=weekly&libraries=marker,places,geocoding,geometry`;
+      script.crossOrigin = "anonymous";
       script.async = true;
       script.defer = true;
       script.onload = () => resolve();
       script.onerror = () => {
         console.error("Failed to load Google Maps script");
+        _mapScriptPromise = null;
         reject(new Error("Google Maps script failed to load"));
       };
       document.head.appendChild(script);
