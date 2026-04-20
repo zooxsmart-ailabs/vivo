@@ -33,8 +33,8 @@ export default defineNuxtConfig({
     public: {
       forgeApiKey: process.env.VITE_FRONTEND_FORGE_API_KEY || "",
       forgeApiUrl: process.env.VITE_FRONTEND_FORGE_API_URL || "https://forge.butterfly-effect.dev",
-      authUser: process.env.NUXT_PUBLIC_AUTH_USER || "admin",
-      authPass: process.env.NUXT_PUBLIC_AUTH_PASS || "Zx@G#Vivo!2026",
+      authUser: "admin",
+      authPass: "Zx@G#Vivo!2026",
     },
   },
 });
