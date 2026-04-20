@@ -479,11 +479,11 @@ const pilaresOrdenados = computed(() => {
                       <div style="display:flex;align-items:center;gap:5px;">
                         <span style="font-size:10px;font-weight:700;color:#1C1C1E;line-height:1.3;">{{ m.label }}</span>
                       </div>
-                      <div :style="{fontSize:'9px',color:'#8E8E93',lineHeight:'1.4',marginTop:'6px',maxWidth:'360px',whiteSpace: (m.noWrap || m.label === 'Fibra (Status)' || m.label === 'Móvel (Status)') ? 'nowrap' : 'normal',overflow:'hidden',textOverflow:'ellipsis'}">{{ m.formula }}</div>
+                      <div :style="{fontSize:'9px',color:'#8E8E93',lineHeight:'1.4',marginTop:'6px',maxWidth:'360px',whiteSpace:'nowrap'}">{{ m.formula }}</div>
                     </div>
-                    <div :style="{fontSize:'10px',fontWeight:800,color:SIG[m.signal].text,flexShrink:0}">{{ m.value }}</div>
+                    <div :style="{fontSize:'10px',fontWeight:800,color:SIG[m.signal].text,flexShrink:0,whiteSpace:'nowrap'}">{{ m.value }}</div>
                   </div>
-                  <div :style="{fontSize:'9px',fontWeight:600,color:SIG[m.signal].text,lineHeight:'1.4'}">{{ m.detail }}</div>
+                  <div :style="{fontSize:'9px',fontWeight:600,color:SIG[m.signal].text,lineHeight:'1.4',whiteSpace:(m.noWrap || m.label === 'Fibra (Status)' || m.label === 'Móvel (Status)') ? 'nowrap' : 'normal'}">{{ m.detail }}</div>
                 </div>
 
                 <!-- Tabela de concorrência (pilar 02) -->
