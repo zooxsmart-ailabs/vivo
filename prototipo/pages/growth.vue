@@ -303,8 +303,8 @@ const pilaresOrdenados = computed(() => {
               </div>
               <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;">
                 <div style="display:flex;gap:3px;flex-wrap:wrap;">
-                  <span :style="{fontSize:'8px',fontWeight:700,padding:'1px 6px',borderRadius:'20px',whiteSpace:'nowrap',height:'14px',display:'inline-flex',alignItems:'center',marginTop:'3px',color: displayGeo.demographics.populationDensity > 5000 ? '#D97706' : '#16A34A',background: displayGeo.demographics.populationDensity > 5000 ? 'rgba(217,119,6,0.08)' : 'rgba(22,163,74,0.08)',border: `1px solid ${displayGeo.demographics.populationDensity > 5000 ? '#D97706' : '#16A34A'}30`}">
-                    {{ displayGeo.demographics.populationDensity > 5000 ? "Alta densidade" : "Baixa densidade" }}
+                  <span :style="{fontSize:'8px',fontWeight:700,padding:'1px 6px',borderRadius:'20px',whiteSpace:'nowrap',height:'14px',display:'inline-flex',alignItems:'center',marginTop:'3px',color: displayGeo.demographics.populationDensity > 8000 ? '#DC2626' : displayGeo.demographics.populationDensity > 4000 ? '#D97706' : '#16A34A',background: displayGeo.demographics.populationDensity > 8000 ? 'rgba(220,38,38,0.08)' : displayGeo.demographics.populationDensity > 4000 ? 'rgba(217,119,6,0.08)' : 'rgba(22,163,74,0.08)',border: `1px solid ${displayGeo.demographics.populationDensity > 8000 ? '#DC2626' : displayGeo.demographics.populationDensity > 4000 ? '#D97706' : '#16A34A'}30`}">
+                    {{ displayGeo.demographics.populationDensity > 8000 ? "Alta densidade" : displayGeo.demographics.populationDensity > 4000 ? "Média densidade" : "Baixa densidade" }}
                   </span>
                 </div>
                 <div style="font-size:8px;color:#8E8E93;text-align:right;flex-shrink:0;">hab</div>
