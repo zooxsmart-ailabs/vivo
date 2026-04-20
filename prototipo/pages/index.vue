@@ -3,7 +3,7 @@
 // pages/index.vue — Mapa Estratégico
 // Layout split: esquerda (toolbar + mapa Google Maps) | direita (GeohashPanel)
 // Migrado de MapaEstrategico.tsx (React) para Vue/Nuxt 3
-import { ref, computed, shallowRef, watch } from "vue";
+import { ref, computed, watch } from "vue";
 import ngeohash from "ngeohash";
 import { GEOHASH_DATA, QUADRANT_CONFIG, DIAGNOSTICO_BIVARIADO } from "~/utils/goiania";
 import type { GeohashEntry, Quadrant } from "~/utils/goiania";
@@ -47,8 +47,8 @@ const QUADRANT_PILLS = [
   { key: "GROWTH_RETENCAO" as Quadrant, label: "Growth+Retenção", activeBg: "#F97316", activeText: "#fff" },
 ];
 
-const selectedGeohash = shallowRef<GeohashEntry | null>(null);
-const hoveredGeohash = shallowRef<GeohashEntry | null>(null);
+const selectedGeohash = ref<GeohashEntry | null>(null);
+const hoveredGeohash = ref<GeohashEntry | null>(null);
 const activeQuadrants = ref<Quadrant[]>(["GROWTH", "UPSELL", "RETENCAO", "GROWTH_RETENCAO"]);
 const activeTech = ref<string>("ALL");
 const hoveredQuadrant = ref<Quadrant | null>(null);
@@ -115,6 +115,19 @@ function handleMapReady(map: google.maps.Map) {
     panControlOptions: { position: google.maps.ControlPosition.RIGHT_BOTTOM },
   });
 
+  // Listener de clique no mapa como fallback — detecta geohash pela coordenada
+  map.addListener("click", (event: google.maps.MapMouseEvent) => {
+    if (!event.latLng) return;
+    const lat = event.latLng.lat();
+    const lng = event.latLng.lng();
+    const geohashId = ngeohash.encode(lat, lng, 6);
+    const found = GEOHASH_DATA.find(x => x.id === geohashId);
+    if (found) {
+      selectedGeohash.value = Object.assign({}, found);
+      highlightPolygon(found.id);
+    }
+  });
+
   GEOHASH_DATA.forEach((g) => {
     const qc = QUADRANT_CONFIG[g.quadrant];
     const paths = geohashToPolygon(g.id);
@@ -139,12 +152,12 @@ function handleMapReady(map: google.maps.Map) {
     });
 
     polygon.addListener("click", () => {
-      selectedGeohash.value = g;
+      selectedGeohash.value = Object.assign({}, g);
       highlightPolygon(g.id);
     });
 
     polygon.addListener("mouseover", () => {
-      hoveredGeohash.value = g;
+      hoveredGeohash.value = Object.assign({}, g);
       if (!selectedGeohash.value) {
         polygonsMap.forEach((poly, pid) => {
           if (pid === g.id) {
