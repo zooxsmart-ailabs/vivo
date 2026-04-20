@@ -31,6 +31,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
+      googleMapsApiKey: process.env.NUXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
       forgeApiKey: process.env.VITE_FRONTEND_FORGE_API_KEY || "F8LqzcZRQzDZYMiNishE9a",
       forgeApiUrl: process.env.VITE_FRONTEND_FORGE_API_URL || "https://forge.manus.ai",
       authUser: "admin",
