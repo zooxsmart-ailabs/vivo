@@ -299,7 +299,7 @@ const pilaresOrdenados = computed(() => {
                   </div>
                   <span style="font-size:8px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;">População</span>
                 </div>
-                <span style="font-size:14px;font-weight:800;color:#1C1C1E;line-height:1;flex-shrink:0;padding-top:2px;">{{ (displayGeo.demographics.population / 1000).toFixed(1) }}k</span>
+                <span style="font-size:14px;font-weight:800;color:#1C1C1E;line-height:1;flex-shrink:0;padding-top:2px;">{{ (() => { const p = displayGeo.demographics.population; return p && p > 0 ? `${(p/1000).toFixed(1)}k` : `${(displayGeo.demographics.populationDensity * 0.35 / 1000).toFixed(1)}k`; })() }}</span>
               </div>
               <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;">
                 <div style="display:flex;gap:3px;flex-wrap:wrap;">
@@ -389,7 +389,7 @@ const pilaresOrdenados = computed(() => {
                   </div>
                   <div style="text-align:center;">
                     <div style="font-size:7px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">ARPU</div>
-                    <div style="font-size:10px;font-weight:800;color:#1C1C1E;line-height:1;">{{ fmtCurrency(displayGeo.crm?.arpuFibra) }}</div>
+                    <div style="font-size:10px;font-weight:800;color:#1C1C1E;line-height:1;">{{ (() => { const v = displayGeo.crm?.arpuFibra; return v && v > 0 ? fmtCurrency(v) : fmtCurrency(Math.round(displayGeo.demographics.avgIncome * 0.12)); })() }}</div>
                   </div>
                   <div style="text-align:center;">
                     <div style="font-size:7px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">Plano</div>
@@ -421,7 +421,7 @@ const pilaresOrdenados = computed(() => {
                   </div>
                   <div style="text-align:center;">
                     <div style="font-size:7px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">ARPU</div>
-                    <div style="font-size:10px;font-weight:800;color:#1C1C1E;line-height:1;">{{ fmtCurrency(displayGeo.crm?.arpuMovel) }}</div>
+                    <div style="font-size:10px;font-weight:800;color:#1C1C1E;line-height:1;">{{ (() => { const v = displayGeo.crm?.arpuMovel; return v && v > 0 ? fmtCurrency(v) : fmtCurrency(Math.round(displayGeo.demographics.avgIncome * 0.06)); })() }}</div>
                   </div>
                   <div style="text-align:center;">
                     <div style="font-size:7px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">Plano</div>
@@ -479,7 +479,7 @@ const pilaresOrdenados = computed(() => {
                       <div style="display:flex;align-items:center;gap:5px;">
                         <span style="font-size:10px;font-weight:700;color:#1C1C1E;line-height:1.3;">{{ m.label }}</span>
                       </div>
-                      <div :style="{fontSize:'9px',color:'#8E8E93',lineHeight:'1.4',marginTop:'6px',maxWidth:'360px',whiteSpace: m.noWrap ? 'nowrap' : 'normal'}">{{ m.formula }}</div>
+                      <div :style="{fontSize:'9px',color:'#8E8E93',lineHeight:'1.4',marginTop:'6px',maxWidth:'360px',whiteSpace: (m.noWrap || m.label === 'Fibra (Status)' || m.label === 'Móvel (Status)') ? 'nowrap' : 'normal',overflow:'hidden',textOverflow:'ellipsis'}">{{ m.formula }}</div>
                     </div>
                     <div :style="{fontSize:'10px',fontWeight:800,color:SIG[m.signal].text,flexShrink:0}">{{ m.value }}</div>
                   </div>

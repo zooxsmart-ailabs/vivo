@@ -21,7 +21,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 // Sub-abas
-const activeSubTab = ref<"ficha" | "overview" | "ia">("ficha");
+const activeSubTab = ref<"ficha" | "overview">("ficha");
 watch(() => props.geohash, () => { activeSubTab.value = "ficha"; });
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -317,7 +317,6 @@ const tooltipVisible = ref<string | null>(null);
           v-for="tab in [
             { key: 'ficha', label: 'Ficha Técnica' },
             { key: 'overview', label: 'Overview IA' },
-            { key: 'ia', label: 'Recomendação IA' },
           ]"
           :key="tab.key"
           :style="{
@@ -329,7 +328,7 @@ const tooltipVisible = ref<string | null>(null);
             letterSpacing: '0.01em', transition: 'all 0.15s ease',
             whiteSpace: 'nowrap', fontFamily: 'inherit',
           }"
-          @click="activeSubTab = (tab.key as 'ficha' | 'overview' | 'ia')"
+          @click="activeSubTab = (tab.key as 'ficha' | 'overview')"
         >{{ tab.label }}</button>
       </div>
 
@@ -587,7 +586,7 @@ const tooltipVisible = ref<string | null>(null);
               </div>
               <div style="display: flex; gap: 10px;">
                 <div style="flex: 1;">
-                  <div style="font-size: 9px; color: #0369A1; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 3px;">Fibra</div>
+                  <div style="font-size: 9px; color: #660099; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 3px;">Fibra</div>
                   <div style="display: flex; flex-direction: column; gap: 2px;">
                     <div style="display: flex; justify-content: space-between;">
                       <span style="font-size: 9px; color: #8E8E93;">ARPU</span>
@@ -953,10 +952,8 @@ const tooltipVisible = ref<string | null>(null);
           </div>
         </div>
 
-        <!-- ═══════════════════════════════════════════════════════════════════
-             RECOMENDAÇÃO IA
-             ═══════════════════════════════════════════════════════════════════ -->
-        <div v-else-if="activeSubTab === 'ia'" style="padding: 14px 14px 20px;">
+        <!-- RECOMENDAÇÃO IA removida conforme protótipo React final -->
+        <div v-else-if="activeSubTab === 'ia'" style="display:none;">
           <!-- Estado: não gerado -->
           <div v-if="!iaGerada" style="display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 32px 16px;">
             <div style="width: 48px; height: 48px; border-radius: 14px; background: rgba(102,0,153,0.08); display: flex; align-items: center; justify-content: center;">
