@@ -165,16 +165,16 @@ function buildPilares(g: GeohashEntry): Pilar[] {
       id: "03", title: "Infraestrutura", description: "Ações técnicas direcionadas pelo cruzamento de capacidade e qualidade",
       signal: p3Signal,
       metricas: [
-        { label: "Fibra (Status)", formula: "Saudável / Melhora da Qualidade / Aumento de Capacidade / Expansão Nova Área", value: fibraStatusLabel, detail: fibraDetail, signal: fibraInfraSignal },
-        { label: "Móvel (Status)", formula: "Saudável / Melhora na Qualidade / Expansão de Cobertura", value: movelStatusLabel, detail: movelDetail, signal: movelInfraSignal },
+        { label: "Fibra (Status)", formula: "Saudável / Melhora da Qualidade / Aumento da Capacidade / Expansão Nova Área", value: fibraStatusLabel, detail: fibraDetail, signal: fibraInfraSignal },
+        { label: "Móvel (Status)", formula: "Saudável / Melhora da Qualidade / Expansão Nova Área", value: movelStatusLabel, detail: movelDetail, signal: movelInfraSignal },
       ],
     },
     {
       id: "04", title: "Comportamento", description: "Análise de comportamento de consumo e canal",
       signal: p4Signal,
       metricas: [
-        { label: "ARPU Relativo", formula: "ARPU Vivo / ARPU Médio do Mercado", value: d.arpuRelativo.toFixed(2), detail: arpuDetail, signal: arpuSignal },
-        { label: "Canal (%)", formula: "% de vendas pelo canal principal", value: `${d.canalPct}%`, detail: canalDetail, signal: canalSignal },
+        { label: "Sensibilidade a Preço", formula: "ARPU Vivo / ARPU Médio do Mercado", value: d.arpuRelativo.toFixed(2), detail: arpuDetail, signal: arpuSignal },
+        { label: "Afinidade de Canal", formula: "% de vendas pelo canal principal", value: `${d.canalPct}%`, detail: canalDetail, signal: canalSignal },
       ],
     },
   ];
@@ -299,12 +299,12 @@ const pilaresOrdenados = computed(() => {
                   </div>
                   <span style="font-size:8px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;">População</span>
                 </div>
-                <span style="font-size:14px;font-weight:800;color:#1C1C1E;line-height:1;flex-shrink:0;padding-top:2px;">{{ (() => { const p = displayGeo.demographics.population; return p && p > 0 ? `${(p/1000).toFixed(1)}k` : `${(displayGeo.demographics.populationDensity * 0.35 / 1000).toFixed(1)}k`; })() }}</span>
+                <span style="font-size:14px;font-weight:800;color:#1C1C1E;line-height:1;flex-shrink:0;padding-top:2px;">~{{ (Math.round(displayGeo.demographics.populationDensity * 1.22 / 100) * 100).toLocaleString('pt-BR') }}</span>
               </div>
               <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;">
                 <div style="display:flex;gap:3px;flex-wrap:wrap;">
-                  <span :style="{fontSize:'8px',fontWeight:700,padding:'1px 6px',borderRadius:'20px',whiteSpace:'nowrap',height:'14px',display:'inline-flex',alignItems:'center',marginTop:'3px',color: displayGeo.demographics.population > 5000 ? '#D97706' : '#16A34A',background: displayGeo.demographics.population > 5000 ? 'rgba(217,119,6,0.08)' : 'rgba(22,163,74,0.08)',border: `1px solid ${displayGeo.demographics.population > 5000 ? '#D97706' : '#16A34A'}30`}">
-                    {{ displayGeo.demographics.population > 5000 ? "Alta densidade" : "Baixa densidade" }}
+                  <span :style="{fontSize:'8px',fontWeight:700,padding:'1px 6px',borderRadius:'20px',whiteSpace:'nowrap',height:'14px',display:'inline-flex',alignItems:'center',marginTop:'3px',color: displayGeo.demographics.populationDensity > 5000 ? '#D97706' : '#16A34A',background: displayGeo.demographics.populationDensity > 5000 ? 'rgba(217,119,6,0.08)' : 'rgba(22,163,74,0.08)',border: `1px solid ${displayGeo.demographics.populationDensity > 5000 ? '#D97706' : '#16A34A'}30`}">
+                    {{ displayGeo.demographics.populationDensity > 5000 ? "Alta densidade" : "Baixa densidade" }}
                   </span>
                 </div>
                 <div style="font-size:8px;color:#8E8E93;text-align:right;flex-shrink:0;">hab</div>
