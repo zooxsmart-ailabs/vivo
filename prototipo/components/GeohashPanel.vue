@@ -338,7 +338,7 @@ const tooltipVisible = ref<string | null>(null);
         <!-- ═══════════════════════════════════════════════════════════════════
              FICHA TÉCNICA
              ═══════════════════════════════════════════════════════════════════ -->
-        <div v-if="activeSubTab === 'ficha'" style="padding: 7px 10px 8px; display: flex; flex-direction: column; gap: 6px; min-height: 100%;">
+        <div v-if="activeSubTab === 'ficha'" style="padding: 5px 10px 6px; display: flex; flex-direction: column; gap: 4px; min-height: 100%;">
 
           <!-- 1. IDENTIFICAÇÃO -->
           <div>
@@ -677,12 +677,12 @@ const tooltipVisible = ref<string | null>(null);
         <!-- ═══════════════════════════════════════════════════════════════════
              OVERVIEW IA (Análise Estratégica)
              ═══════════════════════════════════════════════════════════════════ -->
-        <div v-else-if="activeSubTab === 'overview'" style="padding: 10px 12px 12px; overflow: hidden;">
+        <div v-else-if="activeSubTab === 'overview'" style="padding: 6px 10px 8px; overflow: hidden;">
 
           <!-- CARD 1: ANÁLISE IA -->
           <div style="background: #fff; border-radius: 10px; border: 1px solid rgba(0,0,0,0.07); padding: 10px 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.05);">
             <!-- Header do card -->
-            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 9px;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
               <span style="display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 6px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
               </span>
@@ -690,7 +690,7 @@ const tooltipVisible = ref<string | null>(null);
             </div>
 
             <!-- CARD EXECUTIVO 1: PÚBLICO & MERCADO -->
-            <div style="background: #FAFAFA; border-radius: 7px; border: 1px solid rgba(0,0,0,0.07); padding: 7px 10px; margin-bottom: 6px;">
+            <div style="background: #FAFAFA; border-radius: 7px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; margin-bottom: 4px;">
               <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 5px;">
                 <span style="display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border-radius: 4px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
                   <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -707,7 +707,7 @@ const tooltipVisible = ref<string | null>(null);
             </div>
 
             <!-- CARD EXECUTIVO 2: SATISFAÇÃO & REDE -->
-            <div style="background: #FAFAFA; border-radius: 7px; border: 1px solid rgba(0,0,0,0.07); padding: 7px 10px; margin-bottom: 6px;">
+            <div style="background: #FAFAFA; border-radius: 7px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; margin-bottom: 4px;">
               <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 5px;">
                 <span style="display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border-radius: 4px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
                   <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
@@ -723,7 +723,7 @@ const tooltipVisible = ref<string | null>(null);
             </div>
 
             <!-- CARD EXECUTIVO 3: CONCORRÊNCIA -->
-            <div style="background: #FAFAFA; border-radius: 7px; border: 1px solid rgba(0,0,0,0.07); padding: 7px 10px; margin-bottom: 6px;">
+            <div style="background: #FAFAFA; border-radius: 7px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; margin-bottom: 4px;">
               <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 5px;">
                 <span style="display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border-radius: 4px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
                   <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
@@ -741,7 +741,7 @@ const tooltipVisible = ref<string | null>(null);
 
 
             <!-- CARD EXECUTIVO 4: INFRAESTRUTURA -->
-            <div style="background: #FAFAFA; border-radius: 7px; border: 1px solid rgba(0,0,0,0.07); padding: 7px 10px; margin-bottom: 6px;">
+            <div style="background: #FAFAFA; border-radius: 7px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; margin-bottom: 4px;">
               <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 5px;">
                 <span style="display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border-radius: 4px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
                   <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
@@ -757,7 +757,7 @@ const tooltipVisible = ref<string | null>(null);
             </div>
 
             <!-- CARD EXECUTIVO 5: COMPORTAMENTO -->
-            <div style="background: #FAFAFA; border-radius: 7px; border: 1px solid rgba(0,0,0,0.07); padding: 7px 10px; margin-bottom: 0;">
+            <div style="background: #FAFAFA; border-radius: 7px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; margin-bottom: 0;">
               <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 5px;">
                 <span style="display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border-radius: 4px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
                   <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
