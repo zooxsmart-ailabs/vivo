@@ -618,14 +618,14 @@ const pilaresOrdenados = computed(() => {
                 </div>
                 <div style="padding:20px 12px;border-bottom:1px solid rgba(0,0,0,0.06);height:70px;">
                   <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#660099" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><path d="M3 9V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2"/><line x1="12" y1="12" x2="12" y2="17"/></svg>
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#660099" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7l1-4h18l1 4"/><path d="M2 7h20v13a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7z"/><path d="M9 7v13"/><path d="M15 7v13"/><path d="M2 12h20"/></svg>
                     <span style="font-size:8px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;">Canal Recomendado</span>
                   </div>
                   <div style="font-size:11px;color:#1C1C1E;line-height:1.5;">{{ ia.canalRecomendado }}</div>
                 </div>
                 <div style="padding:18px 12px;border-bottom:1px solid rgba(0,0,0,0.06);height:80px;">
                   <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#660099" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#660099" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h2l3 4v-12l-3 4H4a1 1 0 0 0-1 1z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
                     <span style="font-size:8px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;">Abordagem Comercial</span>
                   </div>
                   <div style="font-size:11px;color:#1C1C1E;line-height:1.5;width:346px;">{{ ia.abordagemComercial }}</div>
