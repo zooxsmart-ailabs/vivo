@@ -822,52 +822,6 @@ const tooltipVisible = ref<string | null>(null);
             </div>
           </div>
 
-          <!-- CARD 2: DECISÃO INTEGRADA -->
-          <div style="background: #fff; border-radius: 10px; border: 1px solid rgba(0,0,0,0.07); padding: 12px 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.05);">
-            <!-- Header do card -->
-            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
-              <span style="display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 6px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-              </span>
-              <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #1C1C1E;">Decisão Integrada</span>
-            </div>
-
-            <!-- Quadrante + Prioridade -->
-            <div style="display: flex; gap: 8px; margin-bottom: 10px;">
-              <div v-if="qCfg" :style="{ flex: 1, padding: '6px 10px', borderRadius: '7px', background: qCfg.bg, border: '1px solid ' + qCfg.border }">
-                <div style="font-size: 9px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #8E8E93; margin-bottom: 2px;">Quadrante</div>
-                <div :style="{ fontSize: '11px', fontWeight: 700, color: qCfg.color }">{{ qCfg.label }}</div>
-              </div>
-              <div v-if="pCfg" :style="{ flex: 1, padding: '6px 10px', borderRadius: '7px', background: pCfg.bg, border: '1px solid ' + pCfg.border }">
-                <div style="font-size: 9px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #8E8E93; margin-bottom: 2px;">Prioridade</div>
-                <div :style="{ fontSize: '11px', fontWeight: 700, color: pCfg.color }">{{ pCfg.label }}</div>
-              </div>
-            </div>
-
-            <!-- Highlights -->
-            <div style="display: flex; flex-direction: column; gap: 5px;">
-              <div
-                v-for="(h, i) in highlights"
-                :key="i"
-                :style="{
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: '7px',
-                  padding: '6px 8px',
-                  borderRadius: '6px',
-                  background: hlBg[h.type],
-                  border: '1px solid ' + hlBorder[h.type],
-                }"
-              >
-                <span :style="{ color: hlColor[h.type], flexShrink: 0, marginTop: '1px' }">
-                  <svg v-if="h.type === 'positive'" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                  <svg v-else-if="h.type === 'negative'" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                  <svg v-else width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                </span>
-                <span :style="{ fontSize: '11px', fontWeight: 500, color: hlColor[h.type], lineHeight: '1.4' }">{{ h.text }}</span>
-              </div>
-            </div>
-          </div>
         </div>
 
       </div><!-- fim scroll -->
