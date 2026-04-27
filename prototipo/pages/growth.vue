@@ -173,7 +173,7 @@ function buildPilares(g: GeohashEntry): Pilar[] {
       id: "04", title: "Comportamento", description: "Análise de comportamento de consumo e canal",
       signal: p4Signal,
       metricas: [
-        { label: "Sensibilidade a Preço", formula: "ARPU Vivo / ARPU Médio do Mercado", value: d.arpuRelativo.toFixed(2), detail: arpuDetail, signal: arpuSignal },
+        { label: "Sensibilidade a Preço", formula: "ARPU Geohash / ARPU Médio da Cidade", value: d.arpuRelativo.toFixed(2), detail: arpuDetail, signal: arpuSignal },
         { label: "Afinidade de Canal", formula: "Vendas Canal X / Total Vendas no Geohash", value: `${d.canalDominante} (${d.canalPct}%)`, detail: canalDetail, signal: canalSignal },
       ],
     },
@@ -611,28 +611,28 @@ const pilaresOrdenados = computed(() => {
               <div style="background:#fff;border-radius:12px;border:1px solid rgba(102,0,153,0.25);overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.04);width:372px;height:285px;">
                 <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid rgba(0,0,0,0.06);background:rgba(102,0,153,0.08);height:31px;">
                   <div style="display:flex;align-items:center;gap:6px;">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#660099" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/><circle cx="12" cy="12" r="10"/></svg>
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#660099" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"/></svg>
                     <span style="font-size:9px;font-weight:800;color:#660099;text-transform:uppercase;letter-spacing:0.06em;">Recomendação IA</span>
                   </div>
                   <span style="font-size:9px;color:#8E8E93;font-style:italic;">Gerado automaticamente</span>
                 </div>
                 <div style="padding:20px 12px;border-bottom:1px solid rgba(0,0,0,0.06);height:70px;">
                   <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#660099" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#660099" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><path d="M3 9V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2"/><line x1="12" y1="12" x2="12" y2="17"/></svg>
                     <span style="font-size:8px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;">Canal Recomendado</span>
                   </div>
                   <div style="font-size:11px;color:#1C1C1E;line-height:1.5;">{{ ia.canalRecomendado }}</div>
                 </div>
                 <div style="padding:18px 12px;border-bottom:1px solid rgba(0,0,0,0.06);height:80px;">
                   <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#660099" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg>
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#660099" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>
                     <span style="font-size:8px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;">Abordagem Comercial</span>
                   </div>
                   <div style="font-size:11px;color:#1C1C1E;line-height:1.5;width:346px;">{{ ia.abordagemComercial }}</div>
                 </div>
                 <div style="padding:18px 12px;">
                   <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#660099" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/><circle cx="12" cy="12" r="10"/></svg>
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#660099" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.46 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.46 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg>
                     <span style="font-size:8px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;">Raciocínio</span>
                   </div>
                   <div style="font-size:11px;color:#3C3C43;line-height:1.5;">{{ ia.raciocinio }}</div>
