@@ -478,7 +478,7 @@ const tooltipVisible = ref<string | null>(null);
             <div style="font-size: 9px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #8E8E93; margin-bottom: 4px; padding-top: 2px;">Comercial</div>
 
             <!-- Perfil da Área — 4 colunas -->
-            <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 4px; height: 78px;">
+            <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 8px; height: 78px;">
               <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 4px;">
                 <span style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 5px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -520,7 +520,7 @@ const tooltipVisible = ref<string | null>(null);
             </div>
 
             <!-- Satisfação + SpeedTest -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 4px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 8px;">
               <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-top: 3px;">
                 <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 4px;">
                   <span style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 5px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
@@ -577,7 +577,7 @@ const tooltipVisible = ref<string | null>(null);
             </div>
 
             <!-- CRM Vivo -->
-            <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 4px;">
+            <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 8px;">
               <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 6px;">
                 <span style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 5px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
@@ -617,9 +617,9 @@ const tooltipVisible = ref<string | null>(null);
           </div>
 
           <!-- 3. INFRAESTRUTURA -->
-          <div>
-            <div style="font-size: 9px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #8E8E93; margin-bottom: 4px;">Infraestrutura</div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 4px;">
+          <div style="margin-bottom: -5px; padding-top: 1px;">
+            <div style="font-size: 9px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #8E8E93; margin-bottom: 4px; padding-top: 2px;">Infraestrutura</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 4px;">
               <!-- Card Fibra -->
               <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); height: 82px;">
                 <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 5px;">
@@ -690,7 +690,7 @@ const tooltipVisible = ref<string | null>(null);
             </div>
 
             <!-- CARD EXECUTIVO 1: PÚBLICO & MERCADO -->
-            <div style="background: #FAFAFA; border-radius: 7px; border: 1px solid rgba(0,0,0,0.07); padding: 9px 11px; margin-bottom: 7px;">
+            <div style="background: #FAFAFA; border-radius: 7px; border: 1px solid rgba(0,0,0,0.07); padding: 9px 11px; margin-bottom: 10px;">
               <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 5px;">
                 <span style="display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border-radius: 4px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
                   <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -707,7 +707,7 @@ const tooltipVisible = ref<string | null>(null);
             </div>
 
             <!-- CARD EXECUTIVO 2: SATISFAÇÃO & REDE -->
-            <div style="background: #FAFAFA; border-radius: 7px; border: 1px solid rgba(0,0,0,0.07); padding: 9px 11px; margin-bottom: 7px;">
+            <div style="background: #FAFAFA; border-radius: 7px; border: 1px solid rgba(0,0,0,0.07); padding: 9px 11px; margin-bottom: 10px;">
               <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 5px;">
                 <span style="display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border-radius: 4px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
                   <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
@@ -723,7 +723,7 @@ const tooltipVisible = ref<string | null>(null);
             </div>
 
             <!-- CARD EXECUTIVO 3: CONCORRÊNCIA -->
-            <div style="background: #FAFAFA; border-radius: 7px; border: 1px solid rgba(0,0,0,0.07); padding: 9px 11px; margin-bottom: 7px;">
+            <div style="background: #FAFAFA; border-radius: 7px; border: 1px solid rgba(0,0,0,0.07); padding: 9px 11px; margin-bottom: 10px;">
               <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 5px;">
                 <span style="display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border-radius: 4px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
                   <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
@@ -741,7 +741,7 @@ const tooltipVisible = ref<string | null>(null);
 
 
             <!-- CARD EXECUTIVO 4: INFRAESTRUTURA -->
-            <div style="background: #FAFAFA; border-radius: 7px; border: 1px solid rgba(0,0,0,0.07); padding: 9px 11px; margin-bottom: 7px;">
+            <div style="background: #FAFAFA; border-radius: 7px; border: 1px solid rgba(0,0,0,0.07); padding: 9px 11px; margin-bottom: 10px;">
               <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 5px;">
                 <span style="display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border-radius: 4px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
                   <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
