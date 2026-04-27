@@ -20,6 +20,7 @@ if (!apiKey) {
 const full = {
   geohash_id: "6gyf4b",
   city: "São Paulo",
+  bairro: "Santana",
   quadrant_type: "GROWTH",
   tech_category: "MOVEL",
   share_vivo: 28,

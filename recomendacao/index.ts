@@ -5,5 +5,6 @@ export {
 export {
   type GeohashDetail,
   buildPrompt,
+  buildSchema,
   generateSummary,
 } from "../recomendacao/geohash-summary";
