@@ -726,11 +726,9 @@ const tooltipVisible = ref<string | null>(null);
                 </span>
               </div>
               <p style="font-size: 11px; color: #3A3A3C; line-height: 1.55; margin: 0;">
-                Score de satisfação Vivo em <strong>{{ g.diagnostico.scoreOokla.toFixed(1) }}</strong>
-                — {{ g.diagnostico.scoreOokla >= 7.5 ? 'base satisfeita, baixo risco de churn espontâneo.' : g.diagnostico.scoreOokla >= 6.0 ? 'nível regular, atenção a reclamações recorrentes.' : 'nível crítico, ação imediata necessária para conter evasão.' }}
+                Score de satisfação Vivo de <strong>{{ g.diagnostico.scoreOokla.toFixed(1) }}</strong>: {{ g.diagnostico.scoreOokla >= 7.5 ? 'base satisfeita com baixo risco de churn espontâneo.' : g.diagnostico.scoreOokla >= 6.0 ? 'nível regular com atenção a reclamações recorrentes.' : 'nível crítico, ação imediata necessária para conter evasão.' }}
                 <template v-if="g.speedtest">
-                  Desempenho de rede registrado em <strong>{{ g.speedtest.downloadMbps }} Mbps</strong> de download com latência de <strong>{{ g.speedtest.latencyMs }}ms</strong>
-                  — qualidade geral classificada como <strong>{{ g.speedtest.qualityLabel }}</strong>{{ g.speedtest.qualityLabel === 'Excelente' ? ', sem gargalos identificados.' : g.speedtest.qualityLabel === 'Bom' ? ', performance dentro do esperado com margem de melhoria.' : ', abaixo do benchmark de mercado, impacto direto na percepção do cliente.' }}
+                  Rede com <strong>{{ g.speedtest.downloadMbps }} Mbps</strong> de download e latência de <strong>{{ g.speedtest.latencyMs }}ms</strong>, qualidade geral <strong>{{ g.speedtest.qualityLabel }}</strong>{{ g.speedtest.qualityLabel === 'Excelente' ? ' sem gargalos identificados.' : g.speedtest.qualityLabel === 'Bom' ? ' com margem de melhoria.' : ' abaixo do benchmark de mercado, com impacto direto na percepção do cliente.' }}
                 </template>
                 <template v-if="hasFibra && g.diagnostico.scoreOoklaFibra > 0">
                   Score Ookla Fibra: <strong>{{ scoreFibra100.toFixed(0) }}</strong>.
@@ -768,73 +766,18 @@ const tooltipVisible = ref<string | null>(null);
                   <strong :style="{ color: (g.shareTrend.deltaFibra || 0) > 0 ? '#15803D' : (g.shareTrend.deltaFibra || 0) < 0 ? '#DC2626' : '#8E8E93' }">
                     {{ (g.shareTrend.deltaFibra || 0) > 0 ? '+' : '' }}{{ (g.shareTrend.deltaFibra || 0).toFixed(1) }}pp
                   </strong>
-                  — tendência {{ (g.shareTrend.deltaFibra || 0) > 0 ? 'de crescimento, manter pressão comercial.' : (g.shareTrend.deltaFibra || 0) < 0 ? 'de queda, requer ação defensiva imediata.' : 'estável, monitorar movimentos da concorrência.' }}
+                  ({{ (g.shareTrend.deltaFibra || 0) > 0 ? 'crescimento, manter pressão comercial.' : (g.shareTrend.deltaFibra || 0) < 0 ? 'queda, ação defensiva imediata.' : 'estável, monitorar concorrência.' }})
                 </template>
                 <template v-if="hasMovel">
                   Projeção de share Móvel:
                   <strong :style="{ color: (g.shareTrend.deltaMovel || g.shareTrend.delta || 0) > 0 ? '#15803D' : (g.shareTrend.deltaMovel || g.shareTrend.delta || 0) < 0 ? '#DC2626' : '#8E8E93' }">
                     {{ (g.shareTrend.deltaMovel || g.shareTrend.delta || 0) > 0 ? '+' : '' }}{{ (g.shareTrend.deltaMovel || g.shareTrend.delta || 0).toFixed(1) }}pp
                   </strong>
-                  — {{ (g.shareTrend.deltaMovel || g.shareTrend.delta || 0) > 0 ? 'crescimento esperado, capitalizar com ofertas de upgrade.' : (g.shareTrend.deltaMovel || g.shareTrend.delta || 0) < 0 ? 'recessão projetada, acionar campanhas de retenção.' : 'cenário estável, priorizar qualidade de serviço.' }}
+                  ({{ (g.shareTrend.deltaMovel || g.shareTrend.delta || 0) > 0 ? 'crescimento, capitalizar com upgrade.' : (g.shareTrend.deltaMovel || g.shareTrend.delta || 0) < 0 ? 'queda, acionar retenção.' : 'estável, priorizar qualidade.' }})
                 </template>
               </p>
             </div>
 
-            <!-- Tabela Comparativo de Concorrência -->
-            <div v-if="g.diagnostico.concorrentes && g.diagnostico.concorrentes.length > 0" style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 10px 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 8px;">
-              <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 10px;">
-                <span style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 5px; background: rgba(102,0,153,0.07); color: #660099; flex-shrink: 0;">
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
-                </span>
-                <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #1C1C1E;">Comparativo de Concorrência</span>
-              </div>
-              <div style="overflow-x: auto;">
-                <table style="width: 100%; border-collapse: collapse; font-size: 10px;">
-                  <thead>
-                    <tr>
-                      <th rowspan="2" style="text-align: left; padding: 4px 4px 4px 0; color: #8E8E93; font-weight: 600; border-bottom: 1px solid rgba(0,0,0,0.08); vertical-align: bottom; width: 20%;">Operadora</th>
-                      <th colspan="2" style="text-align: center; padding: 4px 4px 2px; color: #0369A1; font-weight: 700; background: rgba(3,105,161,0.05);">Fibra</th>
-                      <th colspan="2" style="text-align: center; padding: 4px 4px 2px; color: #660099; font-weight: 700; background: rgba(102,0,153,0.05);">Móvel</th>
-                    </tr>
-                    <tr>
-                      <th style="text-align: center; padding: 2px 4px 4px; color: #8E8E93; font-weight: 600; border-bottom: 1px solid rgba(0,0,0,0.08); width: 16%;">Cob.</th>
-                      <th style="text-align: right; padding: 2px 4px 4px; color: #8E8E93; font-weight: 600; border-bottom: 1px solid rgba(0,0,0,0.08); width: 22%;">Valor</th>
-                      <th style="text-align: center; padding: 2px 4px 4px; color: #8E8E93; font-weight: 600; border-bottom: 1px solid rgba(0,0,0,0.08); width: 16%;">Cob.</th>
-                      <th style="text-align: right; padding: 2px 4px 4px; color: #8E8E93; font-weight: 600; border-bottom: 1px solid rgba(0,0,0,0.08); width: 22%;">Valor</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(c, i) in g.diagnostico.concorrentes" :key="i" :style="{ borderBottom: i < g.diagnostico.concorrentes.length - 1 ? '1px solid rgba(0,0,0,0.05)' : 'none' }">
-                      <td :style="{ padding: '5px 4px 5px 0', fontWeight: 700, color: getOperatorColor(c.nome), fontSize: '10px' }">{{ c.nome }}</td>
-                      <td style="text-align: center; padding: 5px 4px;">
-                        <span :style="{ display: 'inline-block', padding: '2px 5px', borderRadius: '4px', fontSize: '9px', fontWeight: 700, color: c.coberturaFibra ? '#15803D' : '#8E8E93', background: c.coberturaFibra ? 'rgba(21,128,61,0.1)' : 'rgba(0,0,0,0.04)' }">
-                          {{ c.coberturaFibra ? 'Sim' : 'Não' }}
-                        </span>
-                      </td>
-                      <td style="text-align: right; padding: 5px 4px;">
-                        <div v-if="c.coberturaFibra && c.precoFibra > 0">
-                          <div style="font-weight: 700; color: #1C1C1E;">R$ {{ c.precoFibra.toFixed(0) }}</div>
-                          <div style="color: #8E8E93; font-size: 9px; white-space: nowrap;">{{ c.planoFibra }}</div>
-                        </div>
-                        <span v-else style="color: #C7C7CC;">—</span>
-                      </td>
-                      <td style="text-align: center; padding: 5px 4px;">
-                        <span :style="{ display: 'inline-block', padding: '2px 5px', borderRadius: '4px', fontSize: '9px', fontWeight: 700, color: c.coberturaMovel ? '#15803D' : '#8E8E93', background: c.coberturaMovel ? 'rgba(21,128,61,0.1)' : 'rgba(0,0,0,0.04)' }">
-                          {{ c.coberturaMovel ? 'Sim' : 'Não' }}
-                        </span>
-                      </td>
-                      <td style="text-align: right; padding: 5px 4px;">
-                        <div v-if="c.coberturaMovel && c.precoMovel > 0">
-                          <div style="font-weight: 700; color: #1C1C1E;">R$ {{ c.precoMovel.toFixed(0) }}</div>
-                          <div style="color: #8E8E93; font-size: 9px; white-space: nowrap;">{{ c.planoMovel }}</div>
-                        </div>
-                        <span v-else style="color: #C7C7CC;">—</span>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
 
             <!-- CARD EXECUTIVO 4: INFRAESTRUTURA -->
             <div style="background: #FAFAFA; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 11px 13px; margin-bottom: 8px;">
@@ -849,16 +792,13 @@ const tooltipVisible = ref<string | null>(null);
               </div>
               <p style="font-size: 11px; color: #3A3A3C; line-height: 1.55; margin: 0;">
                 <template v-if="hasFibra && fibraClassRow">
-                  Fibra classificada como <strong>{{ fibraClassRow.label }}</strong>
-                  — {{ fibraClassRow.status === 'saudavel' ? 'rede estável, sem intervenções críticas previstas.' : fibraClassRow.status === 'atencao' ? 'requer atenção, avaliar plano de melhoria de qualidade.' : 'situação crítica, priorizar expansão ou reforço de capacidade.' }}
+                  Fibra em status <strong>{{ fibraClassRow.label }}</strong>: {{ fibraClassRow.status === 'saudavel' ? 'rede estável sem intervenções críticas previstas.' : fibraClassRow.status === 'atencao' ? 'avaliar plano de melhoria de qualidade.' : 'situação crítica, priorizar expansão ou reforço de capacidade.' }}
                 </template>
                 <template v-if="hasMovel && movelClassRow">
-                  Móvel classificado como <strong>{{ movelClassRow.label }}</strong>
-                  — {{ movelClassRow.status === 'saudavel' ? 'cobertura adequada, foco em retenção de qualidade.' : movelClassRow.status === 'atencao' ? 'qualidade de sinal com margem de melhoria, monitorar reclamações.' : 'cobertura insuficiente ou degradada, expansão de rede prioritária.' }}
+                  Móvel em status <strong>{{ movelClassRow.label }}</strong>: {{ movelClassRow.status === 'saudavel' ? 'cobertura adequada com foco em retenção.' : movelClassRow.status === 'atencao' ? 'sinal com margem de melhoria, monitorar reclamações.' : 'cobertura insuficiente ou degradada, expansão de rede prioritária.' }}
                 </template>
                 <template v-if="g.speedtest">
-                  Velocidade média de <strong>{{ g.speedtest.downloadMbps }} Mbps</strong> com latência de <strong>{{ g.speedtest.latencyMs }}ms</strong>
-                  — experiência de rede <strong>{{ g.speedtest.qualityLabel }}</strong>{{ g.speedtest.qualityLabel === 'Excelente' ? ', diferencial competitivo a ser explorado em vendas.' : g.speedtest.qualityLabel === 'Bom' ? ', adequada para a maioria dos serviços, com espaço para otimização.' : ', abaixo do esperado pelo cliente, risco de churn por insatisfação técnica.' }}
+                  Velocidade de <strong>{{ g.speedtest.downloadMbps }} Mbps</strong> e latência de <strong>{{ g.speedtest.latencyMs }}ms</strong>, experiência <strong>{{ g.speedtest.qualityLabel }}</strong>{{ g.speedtest.qualityLabel === 'Excelente' ? ': diferencial competitivo a explorar em vendas.' : g.speedtest.qualityLabel === 'Bom' ? ': adequada com espaço para otimização.' : ': abaixo do esperado, risco de churn por insatisfação técnica.' }}
                 </template>
               </p>
             </div>
@@ -875,10 +815,8 @@ const tooltipVisible = ref<string | null>(null);
                 </span>
               </div>
               <p style="font-size: 11px; color: #3A3A3C; line-height: 1.55; margin: 0;">
-                Perfil de consumo <strong>{{ arpuStatus === 'saudavel' ? 'premium' : arpuStatus === 'atencao' ? 'intermediário' : 'sensível a preço' }}</strong>
-                — {{ arpuDiag }} Canal predominante de vendas: <strong>{{ g.diagnostico.canalDominante }}</strong>
-                com <strong>{{ g.diagnostico.canalPct }}%</strong> das transações
-                — {{ canalStatus === 'saudavel' ? 'canal dominante, concentrar esforços e recursos neste ponto de contato.' : 'mix de canais, avaliar eficiência e custo de cada canal para otimização.' }}
+                Perfil de consumo <strong>{{ arpuStatus === 'saudavel' ? 'premium' : arpuStatus === 'atencao' ? 'intermediário' : 'sensível a preço' }}</strong>. {{ arpuDiag }}
+                Canal predominante: <strong>{{ g.diagnostico.canalDominante }}</strong> com <strong>{{ g.diagnostico.canalPct }}%</strong> das transações. {{ canalStatus === 'saudavel' ? 'Concentrar esforços e recursos neste ponto de contato.' : 'Mix de canais identificado; avaliar eficiência e custo de cada um para otimização.' }}
                 {{ canalDiag }}
               </p>
             </div>
