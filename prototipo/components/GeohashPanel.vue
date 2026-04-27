@@ -677,147 +677,106 @@ const tooltipVisible = ref<string | null>(null);
         <!-- ═══════════════════════════════════════════════════════════════════
              OVERVIEW IA (Análise Estratégica)
              ═══════════════════════════════════════════════════════════════════ -->
-        <div v-else-if="activeSubTab === 'overview'" style="padding: 14px 14px 20px;">
+        <div v-else-if="activeSubTab === 'overview'" style="padding: 10px 12px 12px; overflow: hidden;">
 
           <!-- CARD 1: ANÁLISE IA -->
-          <div style="background: #fff; border-radius: 10px; border: 1px solid rgba(0,0,0,0.07); padding: 12px 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); margin-bottom: 12px;">
+          <div style="background: #fff; border-radius: 10px; border: 1px solid rgba(0,0,0,0.07); padding: 10px 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.05);">
             <!-- Header do card -->
-            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
-              <span style="display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 6px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 9px;">
+              <span style="display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 6px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
               </span>
-              <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #1C1C1E;">Análise IA</span>
+              <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #1C1C1E;">Análise IA</span>
             </div>
 
             <!-- CARD EXECUTIVO 1: PÚBLICO & MERCADO -->
-            <div style="background: #FAFAFA; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 11px 13px; margin-bottom: 8px;">
-              <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
-                <span style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 4px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <div style="background: #FAFAFA; border-radius: 7px; border: 1px solid rgba(0,0,0,0.07); padding: 7px 10px; margin-bottom: 6px;">
+              <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 5px;">
+                <span style="display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border-radius: 4px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 </span>
-                <span style="font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #660099;">Público &amp; Mercado</span>
-                <span :style="{ marginLeft: 'auto', display: 'inline-block', padding: '2px 7px', borderRadius: '5px', fontSize: '9px', fontWeight: 700, color: g.demographics.avgIncome >= 8000 ? '#15803D' : g.demographics.avgIncome >= 4000 ? '#B45309' : '#DC2626', background: g.demographics.avgIncome >= 8000 ? 'rgba(21,128,61,0.08)' : g.demographics.avgIncome >= 4000 ? 'rgba(180,83,9,0.08)' : 'rgba(220,38,38,0.08)' }">
+                <span style="font-size: 8.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #660099;">Público &amp; Mercado</span>
+                <span :style="{ marginLeft: 'auto', display: 'inline-block', padding: '1px 6px', borderRadius: '4px', fontSize: '8.5px', fontWeight: 700, color: g.demographics.avgIncome >= 8000 ? '#15803D' : g.demographics.avgIncome >= 4000 ? '#B45309' : '#DC2626', background: g.demographics.avgIncome >= 8000 ? 'rgba(21,128,61,0.08)' : g.demographics.avgIncome >= 4000 ? 'rgba(180,83,9,0.08)' : 'rgba(220,38,38,0.08)' }">
                   {{ g.demographics.avgIncome >= 8000 ? 'Alto Valor' : g.demographics.avgIncome >= 4000 ? 'Médio Valor' : 'Baixo Valor' }}
                 </span>
               </div>
-              <p style="font-size: 11px; color: #3A3A3C; line-height: 1.55; margin: 0;">
-                Área de <strong>{{ g.demographics.incomeLabel.toLowerCase() }} poder aquisitivo</strong> com renda média de R$&nbsp;{{ g.demographics.avgIncome.toLocaleString('pt-BR') }}, estimativa de <strong>~{{ (Math.round(g.demographics.populationDensity * 1.22 / 100) * 100).toLocaleString('pt-BR') }} habitantes</strong>
-                ({{ g.demographics.populationDensity > 8000 ? 'alta densidade' : g.demographics.populationDensity > 4000 ? 'média densidade' : 'baixa densidade' }}) e crescimento populacional <strong>{{ g.demographics.growthLabel.toLowerCase() }}</strong>.
-                <template v-if="hasMovel">
-                  Share Móvel em <strong>{{ g.marketShare.shareMovel || g.diagnostico.sharePenetracao }}%</strong>
-                  — {{ (g.marketShare.shareMovel || g.diagnostico.sharePenetracao) > 40 ? 'mercado saturado, foco em retenção e upsell.' : (g.marketShare.shareMovel || g.diagnostico.sharePenetracao) > 25 ? 'penetração em zona de atenção, pressão competitiva crescente.' : 'baixa penetração, janela de expansão aberta.' }}
-                </template>
-                <template v-if="hasFibra">
-                  Share Fibra em <strong>{{ g.marketShare.shareFibra || 0 }}%</strong>
-                  — {{ (g.marketShare.shareFibra || 0) > 40 ? 'posição consolidada, risco de churn por saturação.' : (g.marketShare.shareFibra || 0) > 25 ? 'posição intermediária, disputa acirrada com concorrentes.' : 'mercado pouco explorado, potencial de captação elevado.' }}
-                </template>
+              <p style="font-size: 10.5px; color: #3A3A3C; line-height: 1.5; margin: 0;">
+                Renda média de <strong>R$&nbsp;{{ g.demographics.avgIncome.toLocaleString('pt-BR') }}</strong>, ~<strong>{{ (Math.round(g.demographics.populationDensity * 1.22 / 100) * 100).toLocaleString('pt-BR') }} hab.</strong> em {{ g.demographics.populationDensity > 8000 ? 'alta' : g.demographics.populationDensity > 4000 ? 'média' : 'baixa' }} densidade. Crescimento <strong>{{ g.demographics.growthLabel.toLowerCase() }}</strong>.<br>
+                <template v-if="hasMovel">Share Móvel <strong>{{ g.marketShare.shareMovel || g.diagnostico.sharePenetracao }}%</strong>: {{ (g.marketShare.shareMovel || g.diagnostico.sharePenetracao) > 40 ? 'saturado, foco em retenção.' : (g.marketShare.shareMovel || g.diagnostico.sharePenetracao) > 25 ? 'atenção, pressão crescente.' : 'baixa penetração, expansão viável.' }}</template>
+                <template v-if="hasFibra"><br>Share Fibra <strong>{{ g.marketShare.shareFibra || 0 }}%</strong>: {{ (g.marketShare.shareFibra || 0) > 40 ? 'posição consolidada, monitorar churn.' : (g.marketShare.shareFibra || 0) > 25 ? 'disputa acirrada com concorrentes.' : 'mercado aberto, alto potencial de captação.' }}</template>
               </p>
             </div>
 
             <!-- CARD EXECUTIVO 2: SATISFAÇÃO & REDE -->
-            <div style="background: #FAFAFA; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 11px 13px; margin-bottom: 8px;">
-              <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
-                <span style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 4px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <div style="background: #FAFAFA; border-radius: 7px; border: 1px solid rgba(0,0,0,0.07); padding: 7px 10px; margin-bottom: 6px;">
+              <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 5px;">
+                <span style="display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border-radius: 4px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                 </span>
-                <span style="font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #660099;">Satisfação &amp; Rede</span>
-                <span :style="{ marginLeft: 'auto', display: 'inline-block', padding: '2px 7px', borderRadius: '5px', fontSize: '9px', fontWeight: 700, color: statusStyle(chamadosStatus).tagColor, background: statusStyle(chamadosStatus).tagBg }">
+                <span style="font-size: 8.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #660099;">Satisfação &amp; Rede</span>
+                <span :style="{ marginLeft: 'auto', display: 'inline-block', padding: '1px 6px', borderRadius: '4px', fontSize: '8.5px', fontWeight: 700, color: statusStyle(chamadosStatus).tagColor, background: statusStyle(chamadosStatus).tagBg }">
                   {{ chamadosStatus === 'critico' ? 'Crítico' : chamadosStatus === 'atencao' ? 'Atenção' : 'Saudável' }}
                 </span>
               </div>
-              <p style="font-size: 11px; color: #3A3A3C; line-height: 1.55; margin: 0;">
-                Score de satisfação Vivo de <strong>{{ g.diagnostico.scoreOokla.toFixed(1) }}</strong>: {{ g.diagnostico.scoreOokla >= 7.5 ? 'base satisfeita com baixo risco de churn espontâneo.' : g.diagnostico.scoreOokla >= 6.0 ? 'nível regular com atenção a reclamações recorrentes.' : 'nível crítico, ação imediata necessária para conter evasão.' }}
-                <template v-if="g.speedtest">
-                  Rede com <strong>{{ g.speedtest.downloadMbps }} Mbps</strong> de download e latência de <strong>{{ g.speedtest.latencyMs }}ms</strong>, qualidade geral <strong>{{ g.speedtest.qualityLabel }}</strong>{{ g.speedtest.qualityLabel === 'Excelente' ? ' sem gargalos identificados.' : g.speedtest.qualityLabel === 'Bom' ? ' com margem de melhoria.' : ' abaixo do benchmark de mercado, com impacto direto na percepção do cliente.' }}
-                </template>
-                <template v-if="hasFibra && g.diagnostico.scoreOoklaFibra > 0">
-                  Score Ookla Fibra: <strong>{{ scoreFibra100.toFixed(0) }}</strong>.
-                </template>
-                <template v-if="hasMovel && g.diagnostico.scoreOoklaMovel > 0">
-                  Score Ookla Móvel: <strong>{{ scoreMovel100.toFixed(0) }}</strong>.
-                </template>
+              <p style="font-size: 10.5px; color: #3A3A3C; line-height: 1.5; margin: 0;">
+                Score Vivo <strong>{{ g.diagnostico.scoreOokla.toFixed(1) }}</strong>: {{ g.diagnostico.scoreOokla >= 7.5 ? 'base satisfeita, baixo risco de churn.' : g.diagnostico.scoreOokla >= 6.0 ? 'nível regular, atenção a reclamações.' : 'nível crítico, conter evasão imediatamente.' }}<br>
+                <template v-if="g.speedtest"><strong>{{ g.speedtest.downloadMbps }} Mbps</strong> · <strong>{{ g.speedtest.latencyMs }}ms</strong> latência · <strong>{{ g.speedtest.qualityLabel }}</strong>{{ g.speedtest.qualityLabel === 'Excelente' ? ': diferencial competitivo.' : g.speedtest.qualityLabel === 'Bom' ? ': margem de melhoria.' : ': impacto na percepção do cliente.' }}</template>
+                <template v-if="hasFibra && g.diagnostico.scoreOoklaFibra > 0"><br>Ookla Fibra: <strong>{{ scoreFibra100.toFixed(0) }}</strong>.</template>
+                <template v-if="hasMovel && g.diagnostico.scoreOoklaMovel > 0"><template v-if="!(hasFibra && g.diagnostico.scoreOoklaFibra > 0)"><br></template> Ookla Móvel: <strong>{{ scoreMovel100.toFixed(0) }}</strong>.</template>
               </p>
             </div>
 
             <!-- CARD EXECUTIVO 3: CONCORRÊNCIA -->
-            <div style="background: #FAFAFA; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 11px 13px; margin-bottom: 8px;">
-              <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
-                <span style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 4px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            <div style="background: #FAFAFA; border-radius: 7px; border: 1px solid rgba(0,0,0,0.07); padding: 7px 10px; margin-bottom: 6px;">
+              <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 5px;">
+                <span style="display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border-radius: 4px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
                 </span>
-                <span style="font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #660099;">Concorrência</span>
-                <span :style="{ marginLeft: 'auto', display: 'inline-block', padding: '2px 7px', borderRadius: '5px', fontSize: '9px', fontWeight: 700, color: (g.marketShare.shareMovel || g.diagnostico.sharePenetracao) > 40 || (g.marketShare.shareFibra || 0) > 40 ? '#DC2626' : (g.marketShare.shareMovel || g.diagnostico.sharePenetracao) > 25 || (g.marketShare.shareFibra || 0) > 25 ? '#D97706' : '#15803D', background: (g.marketShare.shareMovel || g.diagnostico.sharePenetracao) > 40 || (g.marketShare.shareFibra || 0) > 40 ? 'rgba(220,38,38,0.08)' : (g.marketShare.shareMovel || g.diagnostico.sharePenetracao) > 25 || (g.marketShare.shareFibra || 0) > 25 ? 'rgba(217,119,6,0.08)' : 'rgba(21,128,61,0.08)' }">
+                <span style="font-size: 8.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #660099;">Concorrência</span>
+                <span :style="{ marginLeft: 'auto', display: 'inline-block', padding: '1px 6px', borderRadius: '4px', fontSize: '8.5px', fontWeight: 700, color: (g.marketShare.shareMovel || g.diagnostico.sharePenetracao) > 40 || (g.marketShare.shareFibra || 0) > 40 ? '#DC2626' : (g.marketShare.shareMovel || g.diagnostico.sharePenetracao) > 25 || (g.marketShare.shareFibra || 0) > 25 ? '#D97706' : '#15803D', background: (g.marketShare.shareMovel || g.diagnostico.sharePenetracao) > 40 || (g.marketShare.shareFibra || 0) > 40 ? 'rgba(220,38,38,0.08)' : (g.marketShare.shareMovel || g.diagnostico.sharePenetracao) > 25 || (g.marketShare.shareFibra || 0) > 25 ? 'rgba(217,119,6,0.08)' : 'rgba(21,128,61,0.08)' }">
                   {{ (g.marketShare.shareMovel || g.diagnostico.sharePenetracao) > 40 || (g.marketShare.shareFibra || 0) > 40 ? 'Saturado' : (g.marketShare.shareMovel || g.diagnostico.sharePenetracao) > 25 || (g.marketShare.shareFibra || 0) > 25 ? 'Atenção' : 'Oportunidade' }}
                 </span>
               </div>
-              <p style="font-size: 11px; color: #3A3A3C; line-height: 1.55; margin: 0;">
-                <template v-if="g.diagnostico.concorrentes && g.diagnostico.concorrentes.length > 0">
-                  Principal concorrente Fibra:
-                  <strong :style="{ color: getOperatorColor(g.diagnostico.concorrentes.reduce((a, b) => (b.coberturaFibra && b.precoFibra > 0 && b.precoFibra < a.precoFibra ? b : a), { nome: '—', precoFibra: 9999, coberturaFibra: false }).nome) }">
-                    {{ g.diagnostico.concorrentes.reduce((a, b) => (b.coberturaFibra && b.precoFibra > 0 && b.precoFibra < a.precoFibra ? b : a), { nome: '—', precoFibra: 9999, coberturaFibra: false }).nome }}
-                  </strong>.
-                  Principal concorrente Móvel:
-                  <strong :style="{ color: getOperatorColor(g.diagnostico.concorrentes.reduce((a, b) => (b.coberturaMovel && b.precoMovel > 0 && b.precoMovel < a.precoMovel ? b : a), { nome: '—', precoMovel: 9999, coberturaMovel: false }).nome) }">
-                    {{ g.diagnostico.concorrentes.reduce((a, b) => (b.coberturaMovel && b.precoMovel > 0 && b.precoMovel < a.precoMovel ? b : a), { nome: '—', precoMovel: 9999, coberturaMovel: false }).nome }}
-                  </strong>.
-                </template>
-                <template v-if="hasFibra">
-                  Projeção de share Fibra para 3 meses:
-                  <strong :style="{ color: (g.shareTrend.deltaFibra || 0) > 0 ? '#15803D' : (g.shareTrend.deltaFibra || 0) < 0 ? '#DC2626' : '#8E8E93' }">
-                    {{ (g.shareTrend.deltaFibra || 0) > 0 ? '+' : '' }}{{ (g.shareTrend.deltaFibra || 0).toFixed(1) }}pp
-                  </strong>
-                  ({{ (g.shareTrend.deltaFibra || 0) > 0 ? 'crescimento, manter pressão comercial.' : (g.shareTrend.deltaFibra || 0) < 0 ? 'queda, ação defensiva imediata.' : 'estável, monitorar concorrência.' }})
-                </template>
-                <template v-if="hasMovel">
-                  Projeção de share Móvel:
-                  <strong :style="{ color: (g.shareTrend.deltaMovel || g.shareTrend.delta || 0) > 0 ? '#15803D' : (g.shareTrend.deltaMovel || g.shareTrend.delta || 0) < 0 ? '#DC2626' : '#8E8E93' }">
-                    {{ (g.shareTrend.deltaMovel || g.shareTrend.delta || 0) > 0 ? '+' : '' }}{{ (g.shareTrend.deltaMovel || g.shareTrend.delta || 0).toFixed(1) }}pp
-                  </strong>
-                  ({{ (g.shareTrend.deltaMovel || g.shareTrend.delta || 0) > 0 ? 'crescimento, capitalizar com upgrade.' : (g.shareTrend.deltaMovel || g.shareTrend.delta || 0) < 0 ? 'queda, acionar retenção.' : 'estável, priorizar qualidade.' }})
-                </template>
+              <p style="font-size: 10.5px; color: #3A3A3C; line-height: 1.5; margin: 0;">
+                <template v-if="g.diagnostico.concorrentes && g.diagnostico.concorrentes.length > 0">Fibra: <strong :style="{ color: getOperatorColor(g.diagnostico.concorrentes.reduce((a, b) => (b.coberturaFibra && b.precoFibra > 0 && b.precoFibra < a.precoFibra ? b : a), { nome: '—', precoFibra: 9999, coberturaFibra: false }).nome) }">{{ g.diagnostico.concorrentes.reduce((a, b) => (b.coberturaFibra && b.precoFibra > 0 && b.precoFibra < a.precoFibra ? b : a), { nome: '—', precoFibra: 9999, coberturaFibra: false }).nome }}</strong> · Móvel: <strong :style="{ color: getOperatorColor(g.diagnostico.concorrentes.reduce((a, b) => (b.coberturaMovel && b.precoMovel > 0 && b.precoMovel < a.precoMovel ? b : a), { nome: '—', precoMovel: 9999, coberturaMovel: false }).nome) }">{{ g.diagnostico.concorrentes.reduce((a, b) => (b.coberturaMovel && b.precoMovel > 0 && b.precoMovel < a.precoMovel ? b : a), { nome: '—', precoMovel: 9999, coberturaMovel: false }).nome }}</strong>.<br></template>
+                <template v-if="hasFibra">Fibra 3m: <strong :style="{ color: (g.shareTrend.deltaFibra || 0) > 0 ? '#15803D' : (g.shareTrend.deltaFibra || 0) < 0 ? '#DC2626' : '#8E8E93' }">{{ (g.shareTrend.deltaFibra || 0) > 0 ? '+' : '' }}{{ (g.shareTrend.deltaFibra || 0).toFixed(1) }}pp</strong> ({{ (g.shareTrend.deltaFibra || 0) > 0 ? 'crescimento.' : (g.shareTrend.deltaFibra || 0) < 0 ? 'queda, ação defensiva.' : 'estável.' }})</template>
+                <template v-if="hasMovel"><template v-if="hasFibra"> · </template>Móvel 3m: <strong :style="{ color: (g.shareTrend.deltaMovel || g.shareTrend.delta || 0) > 0 ? '#15803D' : (g.shareTrend.deltaMovel || g.shareTrend.delta || 0) < 0 ? '#DC2626' : '#8E8E93' }">{{ (g.shareTrend.deltaMovel || g.shareTrend.delta || 0) > 0 ? '+' : '' }}{{ (g.shareTrend.deltaMovel || g.shareTrend.delta || 0).toFixed(1) }}pp</strong> ({{ (g.shareTrend.deltaMovel || g.shareTrend.delta || 0) > 0 ? 'crescimento.' : (g.shareTrend.deltaMovel || g.shareTrend.delta || 0) < 0 ? 'queda, acionar retenção.' : 'estável.' }})</template>
               </p>
             </div>
 
 
             <!-- CARD EXECUTIVO 4: INFRAESTRUTURA -->
-            <div style="background: #FAFAFA; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 11px 13px; margin-bottom: 8px;">
-              <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
-                <span style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 4px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+            <div style="background: #FAFAFA; border-radius: 7px; border: 1px solid rgba(0,0,0,0.07); padding: 7px 10px; margin-bottom: 6px;">
+              <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 5px;">
+                <span style="display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border-radius: 4px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
                 </span>
-                <span style="font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #660099;">Infraestrutura</span>
-                <span :style="{ marginLeft: 'auto', display: 'inline-block', padding: '2px 7px', borderRadius: '5px', fontSize: '9px', fontWeight: 700, color: (fibraClassRow ? statusStyle(fibraClassRow.status).tagColor : movelClassRow ? statusStyle(movelClassRow.status).tagColor : '#8E8E93'), background: (fibraClassRow ? statusStyle(fibraClassRow.status).tagBg : movelClassRow ? statusStyle(movelClassRow.status).tagBg : 'rgba(110,110,115,0.08)') }">
+                <span style="font-size: 8.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #660099;">Infraestrutura</span>
+                <span :style="{ marginLeft: 'auto', display: 'inline-block', padding: '1px 6px', borderRadius: '4px', fontSize: '8.5px', fontWeight: 700, color: (fibraClassRow ? statusStyle(fibraClassRow.status).tagColor : movelClassRow ? statusStyle(movelClassRow.status).tagColor : '#8E8E93'), background: (fibraClassRow ? statusStyle(fibraClassRow.status).tagBg : movelClassRow ? statusStyle(movelClassRow.status).tagBg : 'rgba(110,110,115,0.08)') }">
                   {{ fibraClassRow ? fibraClassRow.label : movelClassRow ? movelClassRow.label : '—' }}
                 </span>
               </div>
-              <p style="font-size: 11px; color: #3A3A3C; line-height: 1.55; margin: 0;">
-                <template v-if="hasFibra && fibraClassRow">
-                  Fibra em status <strong>{{ fibraClassRow.label }}</strong>: {{ fibraClassRow.status === 'saudavel' ? 'rede estável sem intervenções críticas previstas.' : fibraClassRow.status === 'atencao' ? 'avaliar plano de melhoria de qualidade.' : 'situação crítica, priorizar expansão ou reforço de capacidade.' }}
-                </template>
-                <template v-if="hasMovel && movelClassRow">
-                  Móvel em status <strong>{{ movelClassRow.label }}</strong>: {{ movelClassRow.status === 'saudavel' ? 'cobertura adequada com foco em retenção.' : movelClassRow.status === 'atencao' ? 'sinal com margem de melhoria, monitorar reclamações.' : 'cobertura insuficiente ou degradada, expansão de rede prioritária.' }}
-                </template>
-                <template v-if="g.speedtest">
-                  Velocidade de <strong>{{ g.speedtest.downloadMbps }} Mbps</strong> e latência de <strong>{{ g.speedtest.latencyMs }}ms</strong>, experiência <strong>{{ g.speedtest.qualityLabel }}</strong>{{ g.speedtest.qualityLabel === 'Excelente' ? ': diferencial competitivo a explorar em vendas.' : g.speedtest.qualityLabel === 'Bom' ? ': adequada com espaço para otimização.' : ': abaixo do esperado, risco de churn por insatisfação técnica.' }}
-                </template>
+              <p style="font-size: 10.5px; color: #3A3A3C; line-height: 1.5; margin: 0;">
+                <template v-if="hasFibra && fibraClassRow">Fibra <strong>{{ fibraClassRow.label }}</strong>: {{ fibraClassRow.status === 'saudavel' ? 'rede estável.' : fibraClassRow.status === 'atencao' ? 'melhoria de qualidade recomendada.' : 'crítico, expansão ou reforço urgente.' }}</template>
+                <template v-if="hasMovel && movelClassRow"><template v-if="hasFibra && fibraClassRow"><br></template>Móvel <strong>{{ movelClassRow.label }}</strong>: {{ movelClassRow.status === 'saudavel' ? 'cobertura adequada.' : movelClassRow.status === 'atencao' ? 'sinal com margem de melhoria.' : 'cobertura degradada, expansão prioritária.' }}</template>
+                <template v-if="g.speedtest"><br><strong>{{ g.speedtest.downloadMbps }} Mbps</strong> · <strong>{{ g.speedtest.latencyMs }}ms</strong> · <strong>{{ g.speedtest.qualityLabel }}</strong>{{ g.speedtest.qualityLabel === 'Excelente' ? ': diferencial competitivo.' : g.speedtest.qualityLabel === 'Bom' ? ': espaço para otimização.' : ': risco de churn técnico.' }}</template>
               </p>
             </div>
 
             <!-- CARD EXECUTIVO 5: COMPORTAMENTO -->
-            <div style="background: #FAFAFA; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 11px 13px; margin-bottom: 8px;">
-              <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
-                <span style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 4px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            <div style="background: #FAFAFA; border-radius: 7px; border: 1px solid rgba(0,0,0,0.07); padding: 7px 10px; margin-bottom: 0;">
+              <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 5px;">
+                <span style="display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border-radius: 4px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
                 </span>
-                <span style="font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #660099;">Comportamento</span>
-                <span :style="{ marginLeft: 'auto', display: 'inline-block', padding: '2px 7px', borderRadius: '5px', fontSize: '9px', fontWeight: 700, color: statusStyle(arpuStatus).tagColor, background: statusStyle(arpuStatus).tagBg }">
+                <span style="font-size: 8.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #660099;">Comportamento</span>
+                <span :style="{ marginLeft: 'auto', display: 'inline-block', padding: '1px 6px', borderRadius: '4px', fontSize: '8.5px', fontWeight: 700, color: statusStyle(arpuStatus).tagColor, background: statusStyle(arpuStatus).tagBg }">
                   {{ arpuStatus === 'saudavel' ? 'Premium' : arpuStatus === 'atencao' ? 'Médio' : 'Sensível' }}
                 </span>
               </div>
-              <p style="font-size: 11px; color: #3A3A3C; line-height: 1.55; margin: 0;">
-                Perfil de consumo <strong>{{ arpuStatus === 'saudavel' ? 'premium' : arpuStatus === 'atencao' ? 'intermediário' : 'sensível a preço' }}</strong>. {{ arpuDiag }}
-                Canal predominante: <strong>{{ g.diagnostico.canalDominante }}</strong> com <strong>{{ g.diagnostico.canalPct }}%</strong> das transações. {{ canalStatus === 'saudavel' ? 'Concentrar esforços e recursos neste ponto de contato.' : 'Mix de canais identificado; avaliar eficiência e custo de cada um para otimização.' }}
-                {{ canalDiag }}
+              <p style="font-size: 10.5px; color: #3A3A3C; line-height: 1.5; margin: 0;">
+                Consumo <strong>{{ arpuStatus === 'saudavel' ? 'premium' : arpuStatus === 'atencao' ? 'intermediário' : 'sensível a preço' }}</strong>. {{ arpuDiag }}<br>
+                Canal: <strong>{{ g.diagnostico.canalDominante }}</strong> (<strong>{{ g.diagnostico.canalPct }}%</strong>). {{ canalStatus === 'saudavel' ? 'Concentrar recursos neste ponto de contato.' : 'Avaliar eficiência e custo por canal.' }} {{ canalDiag }}
               </p>
             </div>
           </div>
