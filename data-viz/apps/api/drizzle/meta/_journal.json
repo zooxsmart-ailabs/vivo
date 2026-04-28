@@ -141,6 +141,20 @@
       "when": 1745366900000,
       "tag": "0019_comparativo_via_mvs",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1777366924580,
+      "tag": "0020_restore_has_vivo_data",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1777367000000,
+      "tag": "0021_fix_mobile_wifi_filter",
+      "breakpoints": true
     }
   ]
 }

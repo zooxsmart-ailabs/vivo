@@ -12,7 +12,7 @@ const p = new Pool({
 });
 
 const files = [
-  ["0019_comparativo_via_mvs.sql", 1745366900000],
+  ["0021_fix_mobile_wifi_filter.sql", 1777367000000],
 ];
 
 try {
