@@ -12,7 +12,7 @@ const p = new Pool({
 });
 
 const files = [
-  ["0018_geohash_summary_from_score_views.sql", 1745366800000],
+  ["0019_comparativo_via_mvs.sql", 1745366900000],
 ];
 
 try {
