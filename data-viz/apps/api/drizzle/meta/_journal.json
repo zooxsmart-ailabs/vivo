@@ -155,6 +155,13 @@
       "when": 1777367000000,
       "tag": "0021_fix_mobile_wifi_filter",
       "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1777367100000,
+      "tag": "0022_enrich_calc_trace",
+      "breakpoints": true
     }
   ]
 }
