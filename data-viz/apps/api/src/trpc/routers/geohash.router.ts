@@ -60,7 +60,7 @@ async function listGeohashes(
     is_top10: boolean;
   }>(sql`
     WITH target_period AS (
-      SELECT ${input.period ? sql`${input.period}::date` : sql`(SELECT MAX(period) FROM vw_geohash_summary)`} AS p
+      SELECT ${input.period ? sql`${input.period}::date` : sql`(SELECT MAX(period) FROM vw_geohash_summary WHERE has_vivo_data)`} AS p
     ),
     -- Primary: geohashes at requested precision
     primary_results AS (
@@ -255,7 +255,7 @@ export const geohashRouter = t.router({
         FROM vw_geohash_summary s
         JOIN geohash_cell gc ON gc.geohash_id = s.geohash_id
         WHERE s.geohash_id = ${input.geohashId}
-          ${input.period ? sql`AND s.period = ${input.period}` : sql`AND s.period = (SELECT MAX(period) FROM vw_geohash_summary)`}
+          ${input.period ? sql`AND s.period = ${input.period}` : sql`AND s.period = (SELECT MAX(period) FROM vw_geohash_summary WHERE has_vivo_data)`}
       `);
 
       // Queries auxiliares — tabelas de Camada 2/CRM podem não existir ainda
@@ -438,7 +438,7 @@ export const geohashRouter = t.router({
             FROM vw_geohash_summary s
             JOIN geohash_cell gc ON gc.geohash_id = s.geohash_id
             WHERE s.geohash_id = ${id}
-              ${input.period ? sql`AND s.period = ${input.period}` : sql`AND s.period = (SELECT MAX(period) FROM vw_geohash_summary)`}
+              ${input.period ? sql`AND s.period = ${input.period}` : sql`AND s.period = (SELECT MAX(period) FROM vw_geohash_summary WHERE has_vivo_data)`}
           `),
         ),
       );
@@ -470,7 +470,7 @@ export const geohashRouter = t.router({
     .mutation(async ({ ctx, input }) => {
       const periodFilter = input.period
         ? sql`AND s.period = ${input.period}`
-        : sql`AND s.period = (SELECT MAX(period) FROM vw_geohash_summary)`;
+        : sql`AND s.period = (SELECT MAX(period) FROM vw_geohash_summary WHERE has_vivo_data)`;
 
       const baseRows = await ctx.db.execute<{
         geohash_id: string;

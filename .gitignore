@@ -30,4 +30,5 @@ Thumbs.db
 # Claude
 .claude/plans/
 tools/prototipo/package-lock.json
-tools/*
+tools/
+docs/levantamento/
