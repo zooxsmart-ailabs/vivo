@@ -87,7 +87,7 @@ export interface GeohashData {
   city: string;
   quadrant: Quadrant;
   isTop10: boolean;
-  satisfactionScores: [{ name: "VIVO", score: 7.5, color: "#660099" }, { name: "TIM", score: 6.9, color: "#EAB308" }, { name: "CLARO", score: 6.3, color: "#EF4444" }, { name: "LinQ", score: 7.7, color: "#3B82F6" }, { name: "ALGAR", score: 6.8, color: "#F97316" }, { name: "Nio", score: 6.8, color: "#8B5CF6" }],
+  satisfactionScores: [{ name: "VIVO", score: 7.5, color: "#660099" }, { name: "Claro", score: 6.9, color: "#EF4444" }, { name: "TIM", score: 7.2, color: "#0060AE" }, { name: "LinQ", score: 7.3, color: "#3B82F6" }, { name: "Algar", score: 6.9, color: "#F97316" }],
   marketShare: {
     percentage: number;
     activeClients: number;
@@ -204,17 +204,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf4b",
     label: "6gyf4b",
     neighborhood: "Santana",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "GROWTH",
     isTop10: true,
     satisfactionScores: [
+
       { name: "VIVO", score: 6.1, color: "#660099" },
-      { name: "CLARO", score: 6.5, color: "#EF4444" },
-      { name: "TIM", score: 7.3, color: "#EAB308" },
-      { name: "Nio", score: 6.3, color: "#8B5CF6" },
-      { name: "Desktop", score: 7.2, color: "#3B82F6" },
-      { name: "Algar", score: 6.3, color: "#F97316" }
+
+      { name: "Claro", score: 7.2, color: "#EF4444" },
+
+      { name: "TIM", score: 6.7, color: "#0060AE" },
+
+      { name: "Algar", score: 7.4, color: "#F97316" },
+
+      { name: "Surf", score: 6.0, color: "#10B981" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 28, activeClients: 3100, totalPopulation: 11000, label: "Baixa Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -256,17 +266,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf4c",
     label: "6gyf4c",
     neighborhood: "Tucuruvi",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "GROWTH",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 6.8, color: "#660099" },
-      { name: "CLARO", score: 7.0, color: "#EF4444" },
-      { name: "TIM", score: 6.9, color: "#EAB308" },
-      { name: "Algar", score: 7.0, color: "#F97316" },
-      { name: "Surf", score: 5.9, color: "#06B6D4" },
-      { name: "Arqia", score: 6.2, color: "#10B981" }
+
+      { name: "Claro", score: 6.4, color: "#EF4444" },
+
+      { name: "TIM", score: 7.2, color: "#0060AE" },
+
+      { name: "LinQ", score: 7.0, color: "#3B82F6" },
+
+      { name: "Algar", score: 7.5, color: "#F97316" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 31, activeClients: 2800, totalPopulation: 9000, label: "Baixa Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -308,17 +328,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf4f",
     label: "6gyf4f",
     neighborhood: "Vila Guilherme",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "GROWTH",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 7.0, color: "#660099" },
-      { name: "CLARO", score: 6.7, color: "#EF4444" },
-      { name: "TIM", score: 7.8, color: "#EAB308" },
-      { name: "Nio", score: 6.2, color: "#8B5CF6" },
-      { name: "Desktop", score: 6.7, color: "#3B82F6" },
-      { name: "Algar", score: 6.9, color: "#F97316" }
+
+      { name: "Claro", score: 6.3, color: "#EF4444" },
+
+      { name: "TIM", score: 6.6, color: "#0060AE" },
+
+      { name: "Algar", score: 7.2, color: "#F97316" },
+
+      { name: "Surf", score: 5.8, color: "#10B981" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 29, activeClients: 2400, totalPopulation: 8300, label: "Baixa Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -360,17 +390,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf4g",
     label: "6gyf4g",
     neighborhood: "Mandaqui",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "GROWTH",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 6.5, color: "#660099" },
-      { name: "CLARO", score: 6.4, color: "#EF4444" },
-      { name: "TIM", score: 7.5, color: "#EAB308" },
-      { name: "Algar", score: 6.6, color: "#F97316" },
-      { name: "Surf", score: 5.9, color: "#06B6D4" },
-      { name: "Arqia", score: 5.8, color: "#10B981" }
+
+      { name: "Claro", score: 6.9, color: "#EF4444" },
+
+      { name: "TIM", score: 7.0, color: "#0060AE" },
+
+      { name: "Algar", score: 7.5, color: "#F97316" },
+
+      { name: "Surf", score: 5.7, color: "#10B981" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 25, activeClients: 1900, totalPopulation: 7600, label: "Baixa Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -414,17 +454,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf48",
     label: "6gyf48",
     neighborhood: "Pinheiros",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "UPSELL",
     isTop10: true,
     satisfactionScores: [
+
       { name: "VIVO", score: 8.1, color: "#660099" },
-      { name: "CLARO", score: 7.3, color: "#EF4444" },
-      { name: "TIM", score: 7.1, color: "#EAB308" },
-      { name: "Algar", score: 6.6, color: "#F97316" },
-      { name: "Surf", score: 6.4, color: "#06B6D4" },
-      { name: "Arqia", score: 5.9, color: "#10B981" }
+
+      { name: "Claro", score: 6.6, color: "#EF4444" },
+
+      { name: "TIM", score: 7.1, color: "#0060AE" },
+
+      { name: "LinQ", score: 7.8, color: "#3B82F6" },
+
+      { name: "Algar", score: 6.6, color: "#F97316" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 48, activeClients: 5100, totalPopulation: 10600, label: "Alta Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -452,17 +502,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf49",
     label: "6gyf49",
     neighborhood: "Vila Madalena",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "UPSELL",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 8.4, color: "#660099" },
-      { name: "CLARO", score: 6.9, color: "#EF4444" },
-      { name: "TIM", score: 6.8, color: "#EAB308" },
-      { name: "Nio", score: 6.0, color: "#8B5CF6" },
-      { name: "Desktop", score: 6.4, color: "#3B82F6" },
-      { name: "Algar", score: 6.2, color: "#F97316" }
+
+      { name: "Claro", score: 7.2, color: "#EF4444" },
+
+      { name: "TIM", score: 7.3, color: "#0060AE" },
+
+      { name: "LinQ", score: 7.4, color: "#3B82F6" },
+
+      { name: "Algar", score: 6.5, color: "#F97316" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 45, activeClients: 3800, totalPopulation: 8400, label: "Alta Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -490,17 +550,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf4d",
     label: "6gyf4d",
     neighborhood: "Consolação",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "UPSELL",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 7.9, color: "#660099" },
-      { name: "CLARO", score: 7.1, color: "#EF4444" },
-      { name: "TIM", score: 7.7, color: "#EAB308" },
-      { name: "Nio", score: 5.9, color: "#8B5CF6" },
-      { name: "Desktop", score: 6.9, color: "#3B82F6" },
-      { name: "Algar", score: 6.7, color: "#F97316" }
+
+      { name: "Claro", score: 7.3, color: "#EF4444" },
+
+      { name: "TIM", score: 6.7, color: "#0060AE" },
+
+      { name: "LinQ", score: 7.3, color: "#3B82F6" },
+
+      { name: "Algar", score: 6.5, color: "#F97316" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 44, activeClients: 4400, totalPopulation: 10000, label: "Alta Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -528,17 +598,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf4e",
     label: "6gyf4e",
     neighborhood: "Bela Vista",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "UPSELL",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 7.6, color: "#660099" },
-      { name: "CLARO", score: 6.9, color: "#EF4444" },
-      { name: "TIM", score: 7.0, color: "#EAB308" },
-      { name: "Nio", score: 6.7, color: "#8B5CF6" },
-      { name: "Desktop", score: 6.9, color: "#3B82F6" },
-      { name: "Algar", score: 6.7, color: "#F97316" }
+
+      { name: "Claro", score: 6.4, color: "#EF4444" },
+
+      { name: "TIM", score: 7.4, color: "#0060AE" },
+
+      { name: "LinQ", score: 7.7, color: "#3B82F6" },
+
+      { name: "Algar", score: 6.4, color: "#F97316" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 41, activeClients: 3600, totalPopulation: 8800, label: "Alta Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -566,17 +646,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf46",
     label: "6gyf46",
     neighborhood: "Lapa",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "UPSELL",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 7.8, color: "#660099" },
-      { name: "CLARO", score: 6.9, color: "#EF4444" },
-      { name: "TIM", score: 7.7, color: "#EAB308" },
-      { name: "Nio", score: 6.8, color: "#8B5CF6" },
-      { name: "Desktop", score: 6.8, color: "#3B82F6" },
-      { name: "Algar", score: 6.8, color: "#F97316" }
+
+      { name: "Claro", score: 7.0, color: "#EF4444" },
+
+      { name: "TIM", score: 6.6, color: "#0060AE" },
+
+      { name: "LinQ", score: 7.5, color: "#3B82F6" },
+
+      { name: "Algar", score: 6.4, color: "#F97316" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 39, activeClients: 3200, totalPopulation: 8200, label: "Média Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -604,17 +694,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf47",
     label: "6gyf47",
     neighborhood: "Perdizes",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "UPSELL",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 8.0, color: "#660099" },
-      { name: "CLARO", score: 7.1, color: "#EF4444" },
-      { name: "TIM", score: 7.1, color: "#EAB308" },
-      { name: "Nio", score: 6.6, color: "#8B5CF6" },
-      { name: "Desktop", score: 6.8, color: "#3B82F6" },
-      { name: "Algar", score: 6.7, color: "#F97316" }
+
+      { name: "Claro", score: 7.3, color: "#EF4444" },
+
+      { name: "TIM", score: 7.0, color: "#0060AE" },
+
+      { name: "LinQ", score: 8.0, color: "#3B82F6" },
+
+      { name: "Algar", score: 6.4, color: "#F97316" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 43, activeClients: 3900, totalPopulation: 9100, label: "Alta Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -642,17 +742,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf4bf",
     label: "6gyf4bf",
     neighborhood: "Jardins",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "UPSELL",
     isTop10: true,
     satisfactionScores: [
+
       { name: "VIVO", score: 8.6, color: "#660099" },
-      { name: "CLARO", score: 7.3, color: "#EF4444" },
-      { name: "TIM", score: 7.2, color: "#EAB308" },
-      { name: "Nio", score: 6.1, color: "#8B5CF6" },
-      { name: "Desktop", score: 6.6, color: "#3B82F6" },
-      { name: "Algar", score: 6.2, color: "#F97316" }
+
+      { name: "Claro", score: 7.1, color: "#EF4444" },
+
+      { name: "TIM", score: 7.5, color: "#0060AE" },
+
+      { name: "LinQ", score: 7.4, color: "#3B82F6" },
+
+      { name: "Algar", score: 6.9, color: "#F97316" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 52, activeClients: 5800, totalPopulation: 11200, label: "Muito Alta Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -674,17 +784,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf1u",
     label: "6gyf1u",
     neighborhood: "Santo André",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "GROWTH_RETENCAO",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 6.9, color: "#660099" },
-      { name: "CLARO", score: 7.1, color: "#EF4444" },
-      { name: "TIM", score: 7.4, color: "#EAB308" },
-      { name: "Nio", score: 6.3, color: "#8B5CF6" },
-      { name: "Desktop", score: 6.8, color: "#3B82F6" },
-      { name: "Algar", score: 6.7, color: "#F97316" }
+
+      { name: "Claro", score: 7.4, color: "#EF4444" },
+
+      { name: "TIM", score: 6.9, color: "#0060AE" },
+
+      { name: "LinQ", score: 7.7, color: "#3B82F6" },
+
+      { name: "Algar", score: 6.8, color: "#F97316" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 35, activeClients: 2900, totalPopulation: 8300, label: "Média Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -715,17 +835,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf1v",
     label: "6gyf1v",
     neighborhood: "São Bernardo do Campo",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "GROWTH_RETENCAO",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 7.1, color: "#660099" },
-      { name: "CLARO", score: 7.3, color: "#EF4444" },
-      { name: "TIM", score: 7.1, color: "#EAB308" },
-      { name: "Nio", score: 6.3, color: "#8B5CF6" },
-      { name: "Desktop", score: 6.8, color: "#3B82F6" },
-      { name: "Algar", score: 7.0, color: "#F97316" }
+
+      { name: "Claro", score: 7.3, color: "#EF4444" },
+
+      { name: "TIM", score: 6.7, color: "#0060AE" },
+
+      { name: "LinQ", score: 7.2, color: "#3B82F6" },
+
+      { name: "Algar", score: 7.3, color: "#F97316" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 33, activeClients: 3100, totalPopulation: 9400, label: "Média Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -756,17 +886,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf1y",
     label: "6gyf1y",
     neighborhood: "Ipiranga",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "GROWTH_RETENCAO",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 6.7, color: "#660099" },
-      { name: "CLARO", score: 7.2, color: "#EF4444" },
-      { name: "TIM", score: 7.4, color: "#EAB308" },
-      { name: "Nio", score: 6.7, color: "#8B5CF6" },
-      { name: "Desktop", score: 7.1, color: "#3B82F6" },
-      { name: "Algar", score: 6.5, color: "#F97316" }
+
+      { name: "Claro", score: 6.6, color: "#EF4444" },
+
+      { name: "TIM", score: 7.5, color: "#0060AE" },
+
+      { name: "Algar", score: 7.3, color: "#F97316" },
+
+      { name: "Surf", score: 6.1, color: "#10B981" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 30, activeClients: 2600, totalPopulation: 8700, label: "Média Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -797,17 +937,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf1z",
     label: "6gyf1z",
     neighborhood: "Saúde",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "GROWTH_RETENCAO",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 7.2, color: "#660099" },
-      { name: "CLARO", score: 7.3, color: "#EF4444" },
-      { name: "TIM", score: 6.9, color: "#EAB308" },
-      { name: "Algar", score: 6.9, color: "#F97316" },
-      { name: "Surf", score: 6.3, color: "#06B6D4" },
-      { name: "Arqia", score: 5.9, color: "#10B981" }
+
+      { name: "Claro", score: 6.4, color: "#EF4444" },
+
+      { name: "TIM", score: 7.4, color: "#0060AE" },
+
+      { name: "LinQ", score: 7.5, color: "#3B82F6" },
+
+      { name: "Algar", score: 6.7, color: "#F97316" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 34, activeClients: 2800, totalPopulation: 8200, label: "Média Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -838,17 +988,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf4n",
     label: "6gyf4n",
     neighborhood: "Itaim Bibi",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "GROWTH_RETENCAO",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 7.3, color: "#660099" },
-      { name: "CLARO", score: 6.9, color: "#EF4444" },
-      { name: "TIM", score: 7.8, color: "#EAB308" },
-      { name: "Nio", score: 6.8, color: "#8B5CF6" },
-      { name: "Desktop", score: 7.1, color: "#3B82F6" },
-      { name: "Algar", score: 6.7, color: "#F97316" }
+
+      { name: "Claro", score: 6.6, color: "#EF4444" },
+
+      { name: "TIM", score: 7.3, color: "#0060AE" },
+
+      { name: "LinQ", score: 7.0, color: "#3B82F6" },
+
+      { name: "Algar", score: 6.9, color: "#F97316" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 36, activeClients: 3400, totalPopulation: 9400, label: "Média Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -881,17 +1041,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf5b",
     label: "6gyf5b",
     neighborhood: "Penha",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "RETENCAO",
     isTop10: true,
     satisfactionScores: [
+
       { name: "VIVO", score: 5.8, color: "#660099" },
-      { name: "CLARO", score: 6.5, color: "#EF4444" },
-      { name: "TIM", score: 7.1, color: "#EAB308" },
-      { name: "Nio", score: 6.3, color: "#8B5CF6" },
-      { name: "Desktop", score: 6.4, color: "#3B82F6" },
-      { name: "Algar", score: 6.9, color: "#F97316" }
+
+      { name: "Claro", score: 6.2, color: "#EF4444" },
+
+      { name: "TIM", score: 7.0, color: "#0060AE" },
+
+      { name: "Algar", score: 7.3, color: "#F97316" },
+
+      { name: "Surf", score: 6.3, color: "#10B981" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 38, activeClients: 3400, totalPopulation: 8900, label: "Média Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -920,17 +1090,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf5c",
     label: "6gyf5c",
     neighborhood: "Ermelino Matarazzo",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "RETENCAO",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 5.5, color: "#660099" },
-      { name: "CLARO", score: 6.8, color: "#EF4444" },
-      { name: "TIM", score: 7.2, color: "#EAB308" },
-      { name: "Algar", score: 6.2, color: "#F97316" },
-      { name: "Surf", score: 5.5, color: "#06B6D4" },
-      { name: "Arqia", score: 6.0, color: "#10B981" }
+
+      { name: "Claro", score: 6.7, color: "#EF4444" },
+
+      { name: "TIM", score: 7.1, color: "#0060AE" },
+
+      { name: "Algar", score: 6.8, color: "#F97316" },
+
+      { name: "Surf", score: 6.3, color: "#10B981" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 36, activeClients: 2900, totalPopulation: 8000, label: "Média Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -959,17 +1139,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf58",
     label: "6gyf58",
     neighborhood: "Itaquera",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "RETENCAO",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 5.2, color: "#660099" },
-      { name: "CLARO", score: 7.3, color: "#EF4444" },
-      { name: "TIM", score: 6.9, color: "#EAB308" },
-      { name: "Algar", score: 7.0, color: "#F97316" },
-      { name: "Surf", score: 5.7, color: "#06B6D4" },
-      { name: "Arqia", score: 6.0, color: "#10B981" }
+
+      { name: "Claro", score: 6.6, color: "#EF4444" },
+
+      { name: "TIM", score: 6.6, color: "#0060AE" },
+
+      { name: "LinQ", score: 7.6, color: "#3B82F6" },
+
+      { name: "Algar", score: 6.9, color: "#F97316" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 40, activeClients: 3800, totalPopulation: 9500, label: "Alta Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -997,17 +1187,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf59",
     label: "6gyf59",
     neighborhood: "Guaianases",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "RETENCAO",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 5.6, color: "#660099" },
-      { name: "CLARO", score: 7.2, color: "#EF4444" },
-      { name: "TIM", score: 7.8, color: "#EAB308" },
-      { name: "Nio", score: 6.5, color: "#8B5CF6" },
-      { name: "Desktop", score: 6.9, color: "#3B82F6" },
-      { name: "Algar", score: 6.4, color: "#F97316" }
+
+      { name: "Claro", score: 6.3, color: "#EF4444" },
+
+      { name: "TIM", score: 7.1, color: "#0060AE" },
+
+      { name: "Algar", score: 6.3, color: "#F97316" },
+
+      { name: "Surf", score: 6.5, color: "#10B981" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 37, activeClients: 3100, totalPopulation: 8400, label: "Média Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -1035,17 +1235,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf56",
     label: "6gyf56",
     neighborhood: "São Mateus",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "RETENCAO",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 5.9, color: "#660099" },
-      { name: "CLARO", score: 6.7, color: "#EF4444" },
-      { name: "TIM", score: 7.4, color: "#EAB308" },
-      { name: "Algar", score: 7.0, color: "#F97316" },
-      { name: "Surf", score: 6.4, color: "#06B6D4" },
-      { name: "Arqia", score: 5.9, color: "#10B981" }
+
+      { name: "Claro", score: 6.7, color: "#EF4444" },
+
+      { name: "TIM", score: 7.2, color: "#0060AE" },
+
+      { name: "Algar", score: 7.2, color: "#F97316" },
+
+      { name: "Surf", score: 5.8, color: "#10B981" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 35, activeClients: 2700, totalPopulation: 7700, label: "Média Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -1075,17 +1285,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf3u",
     label: "6gyf3u",
     neighborhood: "Pinheiros",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "GROWTH",
     isTop10: true,
     satisfactionScores: [
+
       { name: "VIVO", score: 7.8, color: "#660099" },
-      { name: "CLARO", score: 7.1, color: "#EF4444" },
-      { name: "TIM", score: 6.9, color: "#EAB308" },
-      { name: "Algar", score: 6.4, color: "#F97316" },
-      { name: "Surf", score: 6.1, color: "#06B6D4" },
-      { name: "Arqia", score: 6.4, color: "#10B981" }
+
+      { name: "Claro", score: 7.1, color: "#EF4444" },
+
+      { name: "TIM", score: 7.4, color: "#0060AE" },
+
+      { name: "LinQ", score: 7.2, color: "#3B82F6" },
+
+      { name: "Algar", score: 7.2, color: "#F97316" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 27, activeClients: 4200, totalPopulation: 15600, label: "Baixa Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -1125,17 +1345,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf3v",
     label: "6gyf3v",
     neighborhood: "Perdizes",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "GROWTH",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 7.5, color: "#660099" },
-      { name: "CLARO", score: 7.3, color: "#EF4444" },
-      { name: "TIM", score: 7.6, color: "#EAB308" },
-      { name: "Nio", score: 6.7, color: "#8B5CF6" },
-      { name: "Desktop", score: 6.6, color: "#3B82F6" },
-      { name: "Algar", score: 6.6, color: "#F97316" }
+
+      { name: "Claro", score: 6.6, color: "#EF4444" },
+
+      { name: "TIM", score: 7.4, color: "#0060AE" },
+
+      { name: "LinQ", score: 6.8, color: "#3B82F6" },
+
+      { name: "Algar", score: 6.9, color: "#F97316" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 30, activeClients: 3600, totalPopulation: 12000, label: "Baixa Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -1177,17 +1407,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf2s",
     label: "6gyf2s",
     neighborhood: "Moema",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "UPSELL",
     isTop10: true,
     satisfactionScores: [
+
       { name: "VIVO", score: 8.4, color: "#660099" },
-      { name: "CLARO", score: 7.4, color: "#EF4444" },
-      { name: "TIM", score: 7.2, color: "#EAB308" },
-      { name: "Nio", score: 5.9, color: "#8B5CF6" },
-      { name: "Desktop", score: 7.1, color: "#3B82F6" },
-      { name: "Algar", score: 6.8, color: "#F97316" }
+
+      { name: "Claro", score: 6.8, color: "#EF4444" },
+
+      { name: "TIM", score: 7.6, color: "#0060AE" },
+
+      { name: "LinQ", score: 7.8, color: "#3B82F6" },
+
+      { name: "Algar", score: 6.4, color: "#F97316" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 48, activeClients: 7200, totalPopulation: 15000, label: "Alta Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -1212,17 +1452,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf2q",
     label: "6gyf2q",
     neighborhood: "Campo Belo",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "UPSELL",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 8.1, color: "#660099" },
-      { name: "CLARO", score: 7.3, color: "#EF4444" },
-      { name: "TIM", score: 7.7, color: "#EAB308" },
-      { name: "Nio", score: 5.8, color: "#8B5CF6" },
-      { name: "Desktop", score: 6.8, color: "#3B82F6" },
-      { name: "Algar", score: 6.9, color: "#F97316" }
+
+      { name: "Claro", score: 6.3, color: "#EF4444" },
+
+      { name: "TIM", score: 6.6, color: "#0060AE" },
+
+      { name: "LinQ", score: 7.6, color: "#3B82F6" },
+
+      { name: "Algar", score: 6.4, color: "#F97316" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 44, activeClients: 5800, totalPopulation: 13200, label: "Alta Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -1249,17 +1499,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf5x",
     label: "6gyf5x",
     neighborhood: "Bela Vista",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "GROWTH_RETENCAO",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 6.2, color: "#660099" },
-      { name: "CLARO", score: 6.9, color: "#EF4444" },
-      { name: "TIM", score: 7.7, color: "#EAB308" },
-      { name: "Nio", score: 6.3, color: "#8B5CF6" },
-      { name: "Desktop", score: 6.8, color: "#3B82F6" },
-      { name: "Algar", score: 6.8, color: "#F97316" }
+
+      { name: "Claro", score: 7.2, color: "#EF4444" },
+
+      { name: "TIM", score: 6.7, color: "#0060AE" },
+
+      { name: "LinQ", score: 7.0, color: "#3B82F6" },
+
+      { name: "Algar", score: 6.7, color: "#F97316" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 29, activeClients: 3800, totalPopulation: 13100, label: "Baixa Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -1285,17 +1545,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf5y",
     label: "6gyf5y",
     neighborhood: "Liberdade",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "GROWTH_RETENCAO",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 6.0, color: "#660099" },
-      { name: "CLARO", score: 6.6, color: "#EF4444" },
-      { name: "TIM", score: 7.4, color: "#EAB308" },
-      { name: "Nio", score: 6.0, color: "#8B5CF6" },
-      { name: "Desktop", score: 6.9, color: "#3B82F6" },
-      { name: "Algar", score: 6.7, color: "#F97316" }
+
+      { name: "Claro", score: 6.8, color: "#EF4444" },
+
+      { name: "TIM", score: 7.5, color: "#0060AE" },
+
+      { name: "Algar", score: 6.4, color: "#F97316" },
+
+      { name: "Surf", score: 6.7, color: "#10B981" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 31, activeClients: 4100, totalPopulation: 13200, label: "Baixa Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -1323,17 +1593,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf6u",
     label: "6gyf6u",
     neighborhood: "Tatuapé",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "RETENCAO",
     isTop10: true,
     satisfactionScores: [
+
       { name: "VIVO", score: 6.1, color: "#660099" },
-      { name: "CLARO", score: 6.6, color: "#EF4444" },
-      { name: "TIM", score: 7.5, color: "#EAB308" },
-      { name: "Algar", score: 6.7, color: "#F97316" },
-      { name: "Surf", score: 5.5, color: "#06B6D4" },
-      { name: "Arqia", score: 6.0, color: "#10B981" }
+
+      { name: "Claro", score: 7.3, color: "#EF4444" },
+
+      { name: "TIM", score: 7.6, color: "#0060AE" },
+
+      { name: "LinQ", score: 7.0, color: "#3B82F6" },
+
+      { name: "Algar", score: 6.8, color: "#F97316" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 42, activeClients: 6100, totalPopulation: 14500, label: "Alta Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -1358,17 +1638,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf6v",
     label: "6gyf6v",
     neighborhood: "Penha",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "RETENCAO",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 5.8, color: "#660099" },
-      { name: "CLARO", score: 6.6, color: "#EF4444" },
-      { name: "TIM", score: 7.4, color: "#EAB308" },
-      { name: "Nio", score: 6.7, color: "#8B5CF6" },
-      { name: "Desktop", score: 6.3, color: "#3B82F6" },
-      { name: "Algar", score: 7.1, color: "#F97316" }
+
+      { name: "Claro", score: 7.0, color: "#EF4444" },
+
+      { name: "TIM", score: 7.1, color: "#0060AE" },
+
+      { name: "Algar", score: 6.7, color: "#F97316" },
+
+      { name: "Surf", score: 6.6, color: "#10B981" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 38, activeClients: 4900, totalPopulation: 12900, label: "Média Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -1395,17 +1685,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf4x",
     label: "6gyf4x",
     neighborhood: "Consolação",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "UPSELL",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 8.0, color: "#660099" },
-      { name: "CLARO", score: 7.0, color: "#EF4444" },
-      { name: "TIM", score: 7.3, color: "#EAB308" },
-      { name: "Algar", score: 6.9, color: "#F97316" },
-      { name: "Surf", score: 5.5, color: "#06B6D4" },
-      { name: "Arqia", score: 6.0, color: "#10B981" }
+
+      { name: "Claro", score: 7.3, color: "#EF4444" },
+
+      { name: "TIM", score: 6.6, color: "#0060AE" },
+
+      { name: "LinQ", score: 8.0, color: "#3B82F6" },
+
+      { name: "Algar", score: 7.3, color: "#F97316" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 46, activeClients: 5400, totalPopulation: 11700, label: "Alta Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -1437,13 +1737,23 @@ export const GEOHASH_DATA: GeohashData[] = [
     quadrant: "GROWTH",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 7.1, color: "#660099" },
-      { name: "CLARO", score: 6.6, color: "#EF4444" },
-      { name: "TIM", score: 7.7, color: "#EAB308" },
-      { name: "Nio", score: 6.7, color: "#8B5CF6" },
-      { name: "Desktop", score: 6.4, color: "#3B82F6" },
-      { name: "Algar", score: 6.9, color: "#F97316" }
+
+      { name: "Claro", score: 7.0, color: "#EF4444" },
+
+      { name: "TIM", score: 6.8, color: "#0060AE" },
+
+      { name: "Algar", score: 6.5, color: "#F97316" },
+
+      { name: "Surf", score: 6.4, color: "#10B981" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 26, activeClients: 5200, totalPopulation: 20000, label: "Baixa Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -1487,13 +1797,23 @@ export const GEOHASH_DATA: GeohashData[] = [
     quadrant: "GROWTH",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 7.0, color: "#660099" },
-      { name: "CLARO", score: 7.3, color: "#EF4444" },
-      { name: "TIM", score: 7.2, color: "#EAB308" },
-      { name: "Algar", score: 6.4, color: "#F97316" },
-      { name: "Surf", score: 5.7, color: "#06B6D4" },
-      { name: "Arqia", score: 5.9, color: "#10B981" }
+
+      { name: "Claro", score: 6.8, color: "#EF4444" },
+
+      { name: "TIM", score: 7.4, color: "#0060AE" },
+
+      { name: "Algar", score: 6.8, color: "#F97316" },
+
+      { name: "Surf", score: 6.2, color: "#10B981" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 28, activeClients: 4800, totalPopulation: 17200, label: "Baixa Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -1533,17 +1853,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf7k",
     label: "6gyf7k",
     neighborhood: "Itaquera",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "GROWTH",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 6.9, color: "#660099" },
-      { name: "CLARO", score: 6.9, color: "#EF4444" },
-      { name: "TIM", score: 7.2, color: "#EAB308" },
+
+      { name: "Claro", score: 6.9, color: "#EF4444" },
+
+      { name: "TIM", score: 7.2, color: "#0060AE" },
+
       { name: "Algar", score: 6.7, color: "#F97316" },
-      { name: "Surf", score: 6.0, color: "#06B6D4" },
-      { name: "Arqia", score: 5.7, color: "#10B981" }
+
+      { name: "Surf", score: 6.7, color: "#10B981" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 23, activeClients: 3900, totalPopulation: 16900, label: "Baixa Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -1583,17 +1913,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf3k",
     label: "6gyf3k",
     neighborhood: "Lapa",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "UPSELL",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 7.9, color: "#660099" },
-      { name: "CLARO", score: 7.3, color: "#EF4444" },
-      { name: "TIM", score: 7.4, color: "#EAB308" },
-      { name: "Algar", score: 6.6, color: "#F97316" },
-      { name: "Surf", score: 6.3, color: "#06B6D4" },
-      { name: "Arqia", score: 6.2, color: "#10B981" }
+
+      { name: "Claro", score: 6.8, color: "#EF4444" },
+
+      { name: "TIM", score: 6.8, color: "#0060AE" },
+
+      { name: "LinQ", score: 6.9, color: "#3B82F6" },
+
+      { name: "Algar", score: 6.6, color: "#F97316" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 43, activeClients: 5100, totalPopulation: 11900, label: "Alta Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
@@ -1618,17 +1958,27 @@ export const GEOHASH_DATA: GeohashData[] = [
     id: "6gyf2n",
     label: "6gyf2n",
     neighborhood: "Jabaquara",
-    city: "São Paulo",
+    city: "Goiânia",
     quadrant: "RETENCAO",
     isTop10: false,
     satisfactionScores: [
+
       { name: "VIVO", score: 6.0, color: "#660099" },
-      { name: "CLARO", score: 7.1, color: "#EF4444" },
-      { name: "TIM", score: 7.8, color: "#EAB308" },
-      { name: "Nio", score: 6.2, color: "#8B5CF6" },
-      { name: "Desktop", score: 6.5, color: "#3B82F6" },
-      { name: "Algar", score: 6.8, color: "#F97316" }
+
+      { name: "Claro", score: 7.4, color: "#EF4444" },
+
+      { name: "TIM", score: 7.6, color: "#0060AE" },
+
+      { name: "Algar", score: 7.2, color: "#F97316" },
+
+      { name: "Surf", score: 5.7, color: "#10B981" }
+
     ],
+
+
+
+
+
     marketShare: { percentage: 37, activeClients: 4300, totalPopulation: 11600, label: "Média Penetração" },
     strategy: {
       quadrantLabel: "QUADRANTE",
