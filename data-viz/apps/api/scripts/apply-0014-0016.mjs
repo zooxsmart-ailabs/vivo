@@ -12,7 +12,7 @@ const p = new Pool({
 });
 
 const files = [
-  ["0017_video_threshold_alignment.sql", 1745366700000],
+  ["0018_geohash_summary_from_score_views.sql", 1745366800000],
 ];
 
 try {
