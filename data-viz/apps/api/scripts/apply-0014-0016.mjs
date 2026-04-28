@@ -12,7 +12,7 @@ const p = new Pool({
 });
 
 const files = [
-  ["0022_enrich_calc_trace.sql", 1777367100000],
+  ["0024_ookla_mvs_p6_p7.sql", 1777367200000],
 ];
 
 try {
