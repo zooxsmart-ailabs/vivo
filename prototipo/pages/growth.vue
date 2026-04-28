@@ -282,7 +282,7 @@ const pilaresOrdenados = computed(() => {
               <span style="font-size:14px;font-weight:800;color:#22c55e;letter-spacing:0.08em;text-transform:uppercase;line-height:1.2;">
                 {{ PRIORITY_CONFIG[displayGeo.priority].label }}
               </span>
-              <span style="font-size:7px;color:#8E8E93;line-height:1.2;">Score de Priorização</span>
+              <span style="font-size:8px;color:#8E8E93;line-height:1.2;">Score de Priorização</span>
             </div>
           </div>
         </div>
@@ -377,7 +377,7 @@ const pilaresOrdenados = computed(() => {
               <div style="padding:8px 10px 0px;height:34px;">
                 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px 6px;">
                   <div style="text-align:center;">
-                    <div style="font-size:7px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">Share</div>
+                    <div style="font-size:8px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">Share</div>
                     <div style="display:flex;align-items:baseline;justify-content:center;gap:3px;margin-left:9px;">
                       <span style="font-size:14px;font-weight:800;color:#1C1C1E;line-height:1;">
                         {{ (() => { const rawF = displayGeo.shareTrend.shareFibra ?? 0; const pctF = displayGeo.marketShare.percentage; return rawF > 0 ? rawF : (displayGeo.technology === 'MOVEL' ? Math.round(pctF * 0.65) : Math.round(pctF * 0.9)); })() }}%
@@ -388,11 +388,11 @@ const pilaresOrdenados = computed(() => {
                     </div>
                   </div>
                   <div style="text-align:center;">
-                    <div style="font-size:7px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">ARPU</div>
+                    <div style="font-size:8px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">ARPU</div>
                     <div style="font-size:14px;font-weight:800;color:#1C1C1E;line-height:1;">R$ {{ displayGeo.crm?.arpuFibra > 0 ? displayGeo.crm.arpuFibra : (displayGeo.crm?.arpu ?? '—') }}</div>
                   </div>
                   <div style="text-align:center;">
-                    <div style="font-size:7px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">Plano</div>
+                    <div style="font-size:8px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">Plano</div>
                     <div style="font-size:14px;font-weight:700;color:#1C1C1E;line-height:1.2;">{{ displayGeo.crm?.planType ?? "—" }}</div>
                   </div>
                 </div>
@@ -409,7 +409,7 @@ const pilaresOrdenados = computed(() => {
               <div style="padding:8px 10px 0px;height:34px;">
                 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px 6px;">
                   <div style="text-align:center;">
-                    <div style="font-size:7px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">Share</div>
+                    <div style="font-size:8px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">Share</div>
                     <div style="display:flex;align-items:baseline;justify-content:center;gap:3px;margin-left:9px;">
                       <span style="font-size:14px;font-weight:800;color:#1C1C1E;line-height:1;">
                         {{ (() => { const rawM = displayGeo.shareTrend.shareMovel ?? 0; const pctM = displayGeo.marketShare.percentage; return rawM > 0 ? rawM : (displayGeo.technology === 'FIBRA' ? Math.round(pctM * 0.35) : Math.round(pctM * 0.9)); })() }}%
@@ -420,11 +420,11 @@ const pilaresOrdenados = computed(() => {
                     </div>
                   </div>
                   <div style="text-align:center;">
-                    <div style="font-size:7px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">ARPU</div>
+                    <div style="font-size:8px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">ARPU</div>
                     <div style="font-size:14px;font-weight:800;color:#1C1C1E;line-height:1;">R$ {{ displayGeo.crm?.arpuMovel > 0 ? displayGeo.crm.arpuMovel : (displayGeo.crm?.arpu ?? '—') }}</div>
                   </div>
                   <div style="text-align:center;">
-                    <div style="font-size:7px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">Plano</div>
+                    <div style="font-size:8px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">Plano</div>
                     <div style="font-size:14px;font-weight:700;color:#1C1C1E;line-height:1.2;">{{ displayGeo.crm?.planoMovel ?? "—" }}</div>
                   </div>
                 </div>
@@ -556,7 +556,7 @@ const pilaresOrdenados = computed(() => {
                     <span style="font-size:14px;font-weight:800;color:#660099;text-transform:uppercase;letter-spacing:0.06em;">Móvel</span>
                   </div>
                   <div style="padding:15px 12px;">
-                    <div style="font-size:7px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">Score de Priorização</div>
+                    <div style="font-size:8px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">Score de Priorização</div>
                     <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
                       <span :style="{fontSize:'20px',fontWeight:800,color:PRIORIDADE_CONFIG[scoreToPrioridade(Math.min(10, displayGeo.diagnostico.scoreOoklaMovel > 0 ? displayGeo.diagnostico.scoreOoklaMovel : displayGeo.priorityScore))].color,lineHeight:1}">
                         {{ Math.min(10, displayGeo.diagnostico.scoreOoklaMovel > 0 ? displayGeo.diagnostico.scoreOoklaMovel : displayGeo.priorityScore).toFixed(1) }}
@@ -565,7 +565,7 @@ const pilaresOrdenados = computed(() => {
                         {{ scoreToPrioridade(Math.min(10, displayGeo.diagnostico.scoreOoklaMovel > 0 ? displayGeo.diagnostico.scoreOoklaMovel : displayGeo.priorityScore)) }} PRIORIDADE
                       </span>
                     </div>
-                    <div style="font-size:7px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">Decisão</div>
+                    <div style="font-size:8px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">Decisão</div>
                     <div style="display:flex;align-items:center;gap:5px;">
                       <span :style="{color:DECISAO_CONFIG[ia.movel.decisao].color,display:'flex'}">
                         <svg v-if="ia.movel.decisao === 'ATACAR'" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
@@ -584,7 +584,7 @@ const pilaresOrdenados = computed(() => {
                     <span style="font-size:14px;font-weight:800;color:#660099;text-transform:uppercase;letter-spacing:0.06em;">Fibra</span>
                   </div>
                   <div style="padding:15px 12px;">
-                    <div style="font-size:7px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">Score de Priorização</div>
+                    <div style="font-size:8px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">Score de Priorização</div>
                     <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
                       <span :style="{fontSize:'20px',fontWeight:800,color:PRIORIDADE_CONFIG[scoreToPrioridade(Math.min(10, displayGeo.diagnostico.scoreOoklaFibra > 0 ? displayGeo.diagnostico.scoreOoklaFibra : displayGeo.priorityScore))].color,lineHeight:1}">
                         {{ Math.min(10, displayGeo.diagnostico.scoreOoklaFibra > 0 ? displayGeo.diagnostico.scoreOoklaFibra : displayGeo.priorityScore).toFixed(1) }}
@@ -593,7 +593,7 @@ const pilaresOrdenados = computed(() => {
                         {{ scoreToPrioridade(Math.min(10, displayGeo.diagnostico.scoreOoklaFibra > 0 ? displayGeo.diagnostico.scoreOoklaFibra : displayGeo.priorityScore)) }} PRIORIDADE
                       </span>
                     </div>
-                    <div style="font-size:7px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">Decisão</div>
+                    <div style="font-size:8px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">Decisão</div>
                     <div style="display:flex;align-items:center;gap:5px;">
                       <span :style="{color:DECISAO_CONFIG[ia.fibra.decisao].color,display:'flex'}">
                         <svg v-if="ia.fibra.decisao === 'ATACAR'" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
