@@ -12,7 +12,7 @@ const p = new Pool({
 });
 
 const files = [
-  ["0016_score_ookla_functions.sql", 1745366600000],
+  ["0017_video_threshold_alignment.sql", 1745366700000],
 ];
 
 try {
