@@ -341,7 +341,7 @@ const tooltipVisible = ref<string | null>(null);
   <div
     class="geohash-sidebar-nuxt"
     style="
-      width: clamp(380px, 30vw, 540px); min-width: 360px; max-width: 540px;
+      width: clamp(440px, 34vw, 600px); min-width: 420px; max-width: 600px;
       background: #F2F2F7; border-left: 1px solid rgba(0,0,0,0.08);
       display: flex; flex-direction: column; height: 100%; overflow: hidden;
     "
@@ -375,12 +375,12 @@ const tooltipVisible = ref<string | null>(null);
       </div>
 
       <!-- Conteúdo rolável -->
-      <div style="flex: 1; overflow-y: auto;">
+      <div style="flex: 1; overflow-y: hidden; overflow-x: hidden; display: flex; flex-direction: column;">
 
         <!-- ═══════════════════════════════════════════════════════════════════
              FICHA TÉCNICA
              ═══════════════════════════════════════════════════════════════════ -->
-        <div v-if="activeSubTab === 'ficha'" style="padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 8px;">
+        <div v-if="activeSubTab === 'ficha'" style="padding: 4px 10px 4px 10px; display: flex; flex-direction: column; gap: 4px; flex: 1; min-height: 0; overflow: hidden;">
 
           <!-- 1. IDENTIFICAÇÃO -->
           <div>
@@ -507,7 +507,7 @@ const tooltipVisible = ref<string | null>(null);
               </div>
 
               <!-- Churn Acumulado -->
-              <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); min-height: 76px;">
+              <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 5px 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); min-height: 76px;">
                 <div style="font-size: 10.5px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8E8E93; margin-bottom: 1px; white-space: nowrap;">Churn Acumulado</div>
                 <div style="font-size: 12px; color: #8E8E93; margin-bottom: 3px; font-weight: 500;">últimos 3 meses</div>
                 <div :style="{ fontSize: '20px', fontWeight: 800, color: churnData.color, lineHeight: 1, paddingTop: '4px' }">{{ churnData.churn }}%</div>
@@ -520,7 +520,7 @@ const tooltipVisible = ref<string | null>(null);
             <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #8E8E93; margin-bottom: 4px; padding-top: 2px;">Comercial</div>
 
             <!-- Perfil da Área — 4 colunas -->
-            <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 8px; min-height: 84px;">
+            <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 5px 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 5px; min-height: 84px;">
               <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
                 <span style="display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 5px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -562,7 +562,7 @@ const tooltipVisible = ref<string | null>(null);
             </div>
 
             <!-- Satisfação — dividido Fibra | Móvel (full width) -->
-            <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 5px;">
+            <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 5px 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 5px;">
               <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 5px;">
                 <span style="display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 5px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -613,7 +613,7 @@ const tooltipVisible = ref<string | null>(null);
               </div>
             </div>
             <!-- SpeedTest — dividido Fibra | Móvel (full width) -->
-            <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 5px;">
+            <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 5px 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 5px;">
               <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 5px;">
                 <span style="display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 5px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
@@ -663,8 +663,8 @@ const tooltipVisible = ref<string | null>(null);
             </div>
 
             <!-- CRM Vivo -->
-            <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 8px;">
-              <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+            <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 5px 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 5px;">
+              <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
                 <span style="display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 5px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                 </span>
@@ -705,7 +705,7 @@ const tooltipVisible = ref<string | null>(null);
           <!-- 3. INFRAESTRUTURA -->
           <div style="margin-bottom: -5px; padding-top: 1px;">
             <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #8E8E93; margin-bottom: 4px; padding-top: 2px;">Infraestrutura</div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 4px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 3px;">
               <!-- Card Fibra -->
               <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 8px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
                 <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 5px;">
@@ -757,7 +757,7 @@ const tooltipVisible = ref<string | null>(null);
         <!-- ═══════════════════════════════════════════════════════════════════
              OVERVIEW IA (Análise Estratégica)
              ═══════════════════════════════════════════════════════════════════ -->
-        <div v-else-if="activeSubTab === 'overview'" style="padding: 10px 12px 12px; overflow: hidden;">
+        <div v-else-if="activeSubTab === 'overview'" style="padding: 8px 10px; overflow: hidden; flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 6px;">
 
           <!-- CARD 1: ANÁLISE IA -->
           <div style="background: #fff; border-radius: 10px; border: 1px solid rgba(0,0,0,0.07); padding: 10px 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.05);">
@@ -872,9 +872,42 @@ const tooltipVisible = ref<string | null>(null);
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
-.geohash-sidebar-nuxt { font-size: clamp(8px, 0.75vw, 11px); }
-@media (min-width: 1600px) { .geohash-sidebar-nuxt { font-size: 10px; } }
-@media (min-width: 1280px) and (max-width: 1599px) { .geohash-sidebar-nuxt { font-size: 9.5px; } }
-@media (max-width: 1279px) { .geohash-sidebar-nuxt { font-size: 9px; } }
+.geohash-sidebar-nuxt {
+  font-size: clamp(8px, 0.72vw, 10.5px);
+  overflow: hidden !important;
+}
+@media (min-width: 1920px) {
+  .geohash-sidebar-nuxt {
+    font-size: 10.5px;
+    width: clamp(500px, 32vw, 640px) !important;
+    min-width: 500px !important;
+    max-width: 640px !important;
+  }
+}
+@media (min-width: 1600px) and (max-width: 1919px) {
+  .geohash-sidebar-nuxt {
+    font-size: 10px;
+    width: clamp(460px, 31vw, 580px) !important;
+    min-width: 460px !important;
+    max-width: 580px !important;
+  }
+}
+@media (min-width: 1280px) and (max-width: 1599px) {
+  .geohash-sidebar-nuxt {
+    font-size: 9px;
+    width: clamp(420px, 33vw, 520px) !important;
+    min-width: 420px !important;
+    max-width: 520px !important;
+  }
+}
+@media (max-width: 1279px) {
+  .geohash-sidebar-nuxt {
+    font-size: 8px;
+    width: clamp(380px, 38vw, 460px) !important;
+    min-width: 380px !important;
+    max-width: 460px !important;
+  }
+}
 .geohash-sidebar-nuxt * { box-sizing: border-box; max-width: 100%; }
+.geohash-sidebar-nuxt > div { position: relative; z-index: auto; overflow: hidden; }
 </style>
