@@ -11,9 +11,13 @@ class Settings(BaseSettings):
     OOKLA_PASSWORD: str
     OOKLA_API_URL: str = "https://intelligence.speedtest.net/extracts"
 
-    OOKLA_PARALLEL_DOWNLOADS: int = 8
+    OOKLA_PARALLEL_DOWNLOADS: int = 4
     OOKLA_MAX_ATTEMPTS: int = 5
     OOKLA_RAW_DIR: str = "/data/ookla/raw"
+    # Concorrência do multipart upload do boto3 dentro de CADA worker.
+    # Total de conexões simultâneas pro S3 ≈ OOKLA_PARALLEL_DOWNLOADS *
+    # OOKLA_S3_MAX_CONCURRENCY. Cuidado pra não estourar RAM/network.
+    OOKLA_S3_MAX_CONCURRENCY: int = 4
 
     # --------------------------------------------------------------------- S3
     OOKLA_S3_BUCKET: str = "zoox-vivo-raw"

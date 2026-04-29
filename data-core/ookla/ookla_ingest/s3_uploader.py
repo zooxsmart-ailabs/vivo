@@ -75,16 +75,22 @@ def s3_key_for(remote_path: str, parsed: ParsedPath) -> str:
     return f"{prefix}/_undated/{parsed.entity}/{file_name}"
 
 
-_TRANSFER_CONFIG = TransferConfig(
-    multipart_threshold=8 * 1024 * 1024,
-    multipart_chunksize=8 * 1024 * 1024,
-    max_concurrency=8,
-    use_threads=True,
-)
+def _build_transfer_config() -> TransferConfig:
+    return TransferConfig(
+        multipart_threshold=8 * 1024 * 1024,
+        multipart_chunksize=8 * 1024 * 1024,
+        max_concurrency=settings.OOKLA_S3_MAX_CONCURRENCY,
+        use_threads=True,
+    )
 
 
 class S3Uploader:
     def __init__(self) -> None:
+        # Pool de conexões = workers paralelos × concorrência multipart + folga.
+        pool_size = max(
+            16,
+            settings.OOKLA_PARALLEL_DOWNLOADS * settings.OOKLA_S3_MAX_CONCURRENCY + 4,
+        )
         self._client: "S3Client" = boto3.client(  # type: ignore[assignment]
             "s3",
             region_name=settings.AWS_REGION,
@@ -92,10 +98,11 @@ class S3Uploader:
                 retries={"max_attempts": 5, "mode": "adaptive"},
                 connect_timeout=15,
                 read_timeout=300,
-                max_pool_connections=32,
+                max_pool_connections=pool_size,
             ),
         )
         self._bucket = settings.OOKLA_S3_BUCKET
+        self._transfer_config = _build_transfer_config()
 
     @property
     def bucket(self) -> str:
@@ -116,7 +123,7 @@ class S3Uploader:
             return s3_uri
 
         self._client.upload_file(
-            str(local_path), self._bucket, key, Config=_TRANSFER_CONFIG
+            str(local_path), self._bucket, key, Config=self._transfer_config
         )
         log.info("S3 upload OK: %s (%d bytes)", s3_uri, local_size)
         return s3_uri
@@ -140,7 +147,7 @@ class S3Uploader:
             log.info("S3 ja contem %s (%d bytes) — skip upload", s3_uri, expected_size)
             return s3_uri
 
-        self._client.upload_fileobj(fileobj, self._bucket, key, Config=_TRANSFER_CONFIG)
+        self._client.upload_fileobj(fileobj, self._bucket, key, Config=self._transfer_config)
         log.info(
             "S3 upload OK: %s%s",
             s3_uri,

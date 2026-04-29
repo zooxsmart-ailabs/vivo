@@ -76,7 +76,8 @@ docker compose --profile ookla run --rm ookla-ingest \
 | -------------------------- | ------------------ | ------------------------------------------------------------- |
 | `OOKLA_USERNAME`           | — (obrigatório)    | API key Ookla (Basic auth user)                               |
 | `OOKLA_PASSWORD`           | — (obrigatório)    | API token Ookla (JWT)                                         |
-| `OOKLA_PARALLEL_DOWNLOADS` | `4`                | downloads concorrentes por dia                                |
+| `OOKLA_PARALLEL_DOWNLOADS` | `4`                | workers paralelos por dia (cada um faz pipeline completo)     |
+| `OOKLA_S3_MAX_CONCURRENCY` | `4`                | concorrência multipart do boto3 dentro de cada worker         |
 | `OOKLA_MAX_ATTEMPTS`       | `5`                | tentativas por arquivo antes de `failed` permanente           |
 | `OOKLA_S3_BUCKET`          | `zoox-vivo-raw`    | bucket destino                                                |
 | `OOKLA_S3_PREFIX`          | `ookla`            | prefixo dentro do bucket                                      |
@@ -97,6 +98,15 @@ docker compose --profile ookla run --rm ookla-ingest \
 > **Credenciais SSO.** Sessões AWS SSO duram ~1h. Re-exporte via
 > `eval "$(aws configure export-credentials --format env)"` antes de cada
 > execução longa.
+
+> **Tuning de paralelismo.** Total de conexões S3 simultâneas ≈
+> `OOKLA_PARALLEL_DOWNLOADS × OOKLA_S3_MAX_CONCURRENCY`. Default `4×4=16` é
+> conservador. Antes de subir, considerar:
+> - **RAM (fase target)**: cada worker segura ~2 cópias da BytesIO durante o
+>   `S3 // COPY` paralelo. QoELatency (~200MB) com 4 workers ≈ 2.4GB de pico.
+> - **NIC e roteador**: 8+ workers podem saturar a banda local e travar
+>   outras apps. Se o sistema ficar irresponsivo, **reduzir
+>   `OOKLA_PARALLEL_DOWNLOADS` é o primeiro ajuste.**
 
 ## Estrutura
 
