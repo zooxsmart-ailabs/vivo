@@ -3,7 +3,9 @@ from __future__ import annotations
 import json
 import logging
 import os
+import random
 import threading
+import time
 from datetime import datetime, timezone
 from decimal import Decimal
 from pathlib import Path
@@ -12,12 +14,14 @@ from typing import Any, NamedTuple
 import pyarrow as pa
 import pyarrow.parquet as pq
 from psycopg import Connection, sql
+from psycopg.errors import DeadlockDetected, SerializationFailure
 
 from .schema import EntityMap, column_for_target
 
 log = logging.getLogger(__name__)
 
 _BATCH_ROWS = 50_000
+_MAX_DEADLOCK_RETRIES = 5
 
 
 class TargetMeta(NamedTuple):
@@ -55,11 +59,55 @@ def load_file(
         raise ValueError("file_path ou file_obj obrigatorio")
     label = file_label or (file_path.name if file_path else "<bytesio>")
     source = file_obj if file_obj is not None else file_path
+
+    # Retry-on-deadlock: dois workers paralelos inserindo no mesmo chunk
+    # da hypertable podem disparar 'deadlock detected' em índices únicos.
+    # Postgres mata um e a transação fica em estado de erro; rollback +
+    # retry com jitter resolve.
+    last_err: BaseException | None = None
+    for attempt in range(_MAX_DEADLOCK_RETRIES):
+        # BytesIO precisa voltar pro inicio em retry; ParquetFile lê o footer
+        # e também faz seeks no source.
+        if hasattr(source, "seek"):
+            source.seek(0)
+        try:
+            return _load_file_attempt(
+                conn,
+                entity_map=entity_map,
+                source=source,
+                label=label,
+            )
+        except (DeadlockDetected, SerializationFailure) as e:
+            last_err = e
+            try:
+                conn.rollback()
+            except Exception:
+                pass
+            sleep_for = min(0.5 * (2 ** attempt) + random.random(), 10.0)
+            log.warning(
+                "%s: deadlock/serialization, retry %d/%d em %.1fs",
+                label,
+                attempt + 1,
+                _MAX_DEADLOCK_RETRIES,
+                sleep_for,
+            )
+            time.sleep(sleep_for)
+    assert last_err is not None
+    raise last_err
+
+
+def _load_file_attempt(
+    conn: Connection,
+    *,
+    entity_map: EntityMap,
+    source: Any,
+    label: str,
+) -> int:
     pf = pq.ParquetFile(source)
     pq_schema = pf.schema_arrow
     pq_cols = pq_schema.names
 
-    target_table = entity_map.table  # já vem quoted se camelCase
+    target_table = entity_map.table
     target_meta = _fetch_target_meta(conn, _unquote(target_table))
 
     keep_src: list[str] = []
@@ -115,50 +163,52 @@ def load_file(
             ).format(stg=stg_ident, tgt=target_sql)
         )
 
-        try:
-            copy_sql = sql.SQL("COPY {stg} ({cols}) FROM STDIN").format(
-                stg=stg_ident, cols=col_idents
-            )
-            with cur.copy(copy_sql) as copy:
-                for batch in pf.iter_batches(batch_size=_BATCH_ROWS, columns=keep_src):
-                    py_columns = [batch.column(name).to_pylist() for name in keep_src]
-                    n = batch.num_rows
-                    total_in += n
-                    for r in range(n):
-                        row: list[Any] = []
-                        drop_row = False
-                        for c in range(len(keep_src)):
-                            val = _coerce(py_columns[c][r], keep_meta[c])
-                            if val is None and not keep_meta[c].nullable:
-                                drop_row = True
-                                break
-                            row.append(val)
-                        if drop_row:
-                            skipped_null += 1
-                            continue
-                        copy.write_row(row)
-                        total_staged += 1
+        copy_sql = sql.SQL("COPY {stg} ({cols}) FROM STDIN").format(
+            stg=stg_ident, cols=col_idents
+        )
+        with cur.copy(copy_sql) as copy:
+            for batch in pf.iter_batches(batch_size=_BATCH_ROWS, columns=keep_src):
+                py_columns = [batch.column(name).to_pylist() for name in keep_src]
+                n = batch.num_rows
+                total_in += n
+                for r in range(n):
+                    row: list[Any] = []
+                    drop_row = False
+                    for c in range(len(keep_src)):
+                        val = _coerce(py_columns[c][r], keep_meta[c])
+                        if val is None and not keep_meta[c].nullable:
+                            drop_row = True
+                            break
+                        row.append(val)
+                    if drop_row:
+                        skipped_null += 1
+                        continue
+                    copy.write_row(row)
+                    total_staged += 1
 
-            # UPSERT staging → target. ON CONFLICT DO NOTHING (sem target
-            # explicito) lida com qualquer unique index que exista no alvo,
-            # incluindo indices parciais (ex.: WHERE guid_result IS NOT NULL).
-            if has_unique:
-                cur.execute(
-                    sql.SQL(
-                        "INSERT INTO {tgt} ({cols}) "
-                        "SELECT {cols} FROM {stg} "
-                        "ON CONFLICT DO NOTHING"
-                    ).format(tgt=target_sql, cols=col_idents, stg=stg_ident)
-                )
-            else:
-                cur.execute(
-                    sql.SQL(
-                        "INSERT INTO {tgt} ({cols}) SELECT {cols} FROM {stg}"
-                    ).format(tgt=target_sql, cols=col_idents, stg=stg_ident)
-                )
-            rows_inserted = cur.rowcount or 0
-        finally:
-            cur.execute(sql.SQL("DROP TABLE IF EXISTS {stg}").format(stg=stg_ident))
+        # UPSERT staging → target. ON CONFLICT DO NOTHING (sem conflict_target
+        # explicito) lida com qualquer unique index que exista no alvo,
+        # incluindo indices parciais (ex.: WHERE guid_result IS NOT NULL).
+        if has_unique:
+            cur.execute(
+                sql.SQL(
+                    "INSERT INTO {tgt} ({cols}) "
+                    "SELECT {cols} FROM {stg} "
+                    "ON CONFLICT DO NOTHING"
+                ).format(tgt=target_sql, cols=col_idents, stg=stg_ident)
+            )
+        else:
+            cur.execute(
+                sql.SQL(
+                    "INSERT INTO {tgt} ({cols}) SELECT {cols} FROM {stg}"
+                ).format(tgt=target_sql, cols=col_idents, stg=stg_ident)
+            )
+        rows_inserted = cur.rowcount or 0
+
+        # DROP só roda se chegamos até aqui sem exceção. Se houver exceção
+        # (ex.: deadlock no INSERT), o rollback do retry-loop limpa o staging
+        # automaticamente — sem precisar de finally + DROP em tx abortada.
+        cur.execute(sql.SQL("DROP TABLE IF EXISTS {stg}").format(stg=stg_ident))
 
     if skipped_null:
         log.warning(
