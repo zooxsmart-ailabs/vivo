@@ -1,11 +1,11 @@
 from __future__ import annotations
 
+import io
 import logging
 import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from datetime import date
-from pathlib import Path
 from typing import Any
 
 from psycopg import Connection
@@ -13,9 +13,8 @@ from psycopg import Connection
 from .api_client import OoklaApiClient
 from .copy_loader import load_file
 from .db import close_run, connect, open_run
-from .downloader import download, purge
 from .path_parser import TARGET_ENTITIES, parse
-from .s3_uploader import S3Uploader, s3_key_for
+from .s3_uploader import IterStream, S3Uploader, s3_key_for
 from .schema import ENTITIES
 from .settings import settings
 
@@ -31,9 +30,9 @@ class CatalogRow:
     data_date: date | None
 
 
-# Recursos thread-local para workers (cada thread cria os seus na primeira
-# chamada). httpx.Client e psycopg.Connection nao sao thread-safe; boto3
-# Session e' thread-safe mas mesmo padrao por consistencia.
+# Recursos thread-local: cada worker thread mantem seu cliente httpx + boto3 +
+# conexao Postgres. httpx.Client e psycopg.Connection nao sao thread-safe
+# (boto3 client e' thread-safe mas mantemos consistencia).
 _local = threading.local()
 
 
@@ -51,9 +50,9 @@ def _s3() -> S3Uploader:
 
 def _conn() -> Connection:
     if not hasattr(_local, "conn") or _local.conn.closed:
-        from .db import settings as _s  # avoid circular
         import psycopg
-        c = psycopg.connect(_s.db_dsn, autocommit=False)
+
+        c = psycopg.connect(settings.db_dsn, autocommit=False)
         with c.cursor() as cur:
             cur.execute("SET temp_buffers = '1GB'")
             cur.execute("SET work_mem = '256MB'")
@@ -71,14 +70,18 @@ def run_load(
     latency_days: int = 1,
     target_only: bool = False,
 ) -> dict[str, Any]:
-    """Carga em 2 fases:
+    """Carga em 2 fases (target → não-target), streaming end-to-end.
 
-      1. Entidades alvo (5 + opcionalmente QoELatency): S3 + Postgres COPY.
-      2. Entidades nao-alvo: apenas S3.
+    Sub-fase 1 — entidades alvo:
+      Ookla → BytesIO (memória, sem disco) → S3 + COPY Postgres em PARALELO
+      dentro do mesmo worker → catálogo marcado como `loaded`.
 
-    Cada fase itera dia-a-dia em ordem cronologica. Dentro de cada dia, ate
-    `OOKLA_PARALLEL_DOWNLOADS` arquivos sao processados em paralelo, cada um
-    fazendo seu pipeline completo (download → S3 → COPY [se target] → delete).
+    Sub-fase 2 — entidades não-alvo:
+      Ookla → S3 direto via streaming (httpx.iter_bytes() → boto3 multipart),
+      sem buffer intermediário. Catálogo marcado `loaded`. Pulada com `target_only`.
+
+    Cada arquivo é processado por um worker; até `OOKLA_PARALLEL_DOWNLOADS`
+    arquivos em flight por dia.
     """
     stats: dict[str, Any] = {
         "files_uploaded": 0,
@@ -105,7 +108,6 @@ def run_load(
                 conn, latency_days if include_latency else 0
             )
 
-            # Fase 1: target
             log.info("=== FASE 1/2: entidades target ===")
             phase1 = _run_phase(
                 conn,
@@ -118,7 +120,6 @@ def run_load(
             _accumulate(stats, phase1)
 
             if not target_only:
-                # Fase 2: non-target (so S3)
                 log.info("=== FASE 2/2: entidades nao-target (so S3) ===")
                 phase2 = _run_phase(
                     conn,
@@ -157,7 +158,6 @@ def _run_phase(
     retry_failed: bool,
     max_days: int | None,
 ) -> dict[str, Any]:
-    """Executa uma fase (target ou non-target). Retorna stats da fase."""
     phase_stats: dict[str, Any] = {
         "days_processed": 0,
         "files_uploaded": 0,
@@ -175,10 +175,10 @@ def _run_phase(
         days = days[:max_days]
     log.info("dias pendentes nesta fase: %d", len(days))
 
+    label = "target" if target_only_files else "non-target"
+
     for day_idx, day in enumerate(days, 1):
-        log.info("[fase %s | dia %d/%d] %s",
-                 "target" if target_only_files else "non-target",
-                 day_idx, len(days), day)
+        log.info("[fase %s | dia %d/%d] %s", label, day_idx, len(days), day)
         files = _files_for_day(
             main_conn,
             day,
@@ -202,15 +202,17 @@ def _run_phase(
                     if was_target:
                         phase_stats["files_loaded"] += 1
                         phase_stats["rows_loaded"] += rows_loaded
-                except Exception as exc:
+                except Exception:
                     log.exception("worker falha em %s", row.remote_path)
                     phase_stats["files_failed"] += 1
 
         phase_stats["days_processed"] += 1
         log.info(
             "[fase %s | dia %d/%d] %s — completo (uploaded=%d loaded=%d failed=%d)",
-            "target" if target_only_files else "non-target",
-            day_idx, len(days), day,
+            label,
+            day_idx,
+            len(days),
+            day,
             phase_stats["files_uploaded"],
             phase_stats["files_loaded"],
             phase_stats["files_failed"],
@@ -220,14 +222,16 @@ def _run_phase(
 
 
 # ---------------------------------------------------------------------------
-# Per-file pipeline (executa em worker thread)
+# Per-file pipeline (streaming, executa em worker thread)
 # ---------------------------------------------------------------------------
 
 
 def _process_file(row: CatalogRow) -> tuple[int, bool]:
-    """Pipeline de 1 arquivo: download → S3 → (COPY se target) → delete.
+    """Pipeline de 1 arquivo, sem disco.
 
-    Roda em thread; usa recursos thread-local (api/s3/conn).
+    - Target: Ookla → BytesIO → (S3 // COPY) em paralelo no mesmo worker.
+    - Não-target: Ookla → S3 streaming direto (sem buffer).
+
     Retorna (rows_loaded, was_target).
     """
     parsed = parse(row.remote_path)
@@ -236,54 +240,96 @@ def _process_file(row: CatalogRow) -> tuple[int, bool]:
 
     is_target = row.entity in TARGET_ENTITIES
     conn = _conn()
+    api = _api()
+    s3 = _s3()
+    key = s3_key_for(row.remote_path, parsed)
 
-    # 1. Download
     _mark(conn, row, status="downloading")
+    url = api.resolve_file_url(row.remote_path)
+
+    if not is_target:
+        # Stream Ookla → S3, sem qualquer buffer adicional.
+        try:
+            with api.stream_download(url) as resp:
+                resp.raise_for_status()
+                _mark(conn, row, status="uploading")
+                fileobj = IterStream(resp.iter_bytes(1 << 16))  # 64KB chunks
+                s3_uri = s3.upload_fileobj(fileobj, key, skip_if_exists=False)
+        except Exception as exc:
+            _mark(conn, row, status="failed", error=f"stream: {exc}")
+            raise
+        _mark(conn, row, status="loaded", s3_uri=s3_uri)
+        return 0, False
+
+    # Target: precisamos do parquet em memória pra alimentar pyarrow + S3.
     try:
-        local = download(_api(), row.remote_path)
+        buf = io.BytesIO()
+        with api.stream_download(url) as resp:
+            resp.raise_for_status()
+            for chunk in resp.iter_bytes(1 << 20):  # 1MB chunks
+                buf.write(chunk)
+        size = buf.tell()
     except Exception as exc:
         _mark(conn, row, status="failed", error=f"download: {exc}")
         raise
 
-    # 2. S3 upload
     _mark(conn, row, status="uploading")
-    try:
-        key = s3_key_for(row.remote_path, parsed)
-        s3_uri = _s3().upload(local, key)
-        _mark(conn, row, status="uploaded", s3_uri=s3_uri)
-    except Exception as exc:
-        _mark(conn, row, status="failed", error=f"s3: {exc}")
-        purge(row.remote_path)
-        raise
+    entity_map = ENTITIES[row.entity]
+    payload = buf.getvalue()  # imutable bytes; cada thread cria seu BytesIO
 
-    # 3. Postgres COPY (se entidade alvo)
-    rows_loaded = 0
-    if is_target:
-        entity_map = ENTITIES.get(row.entity)
-        if entity_map is None:
-            log.warning("entidade alvo sem mapeamento de schema: %s", row.entity)
-        else:
+    s3_uri_box: list[str | None] = [None]
+    rows_box: list[int] = [0]
+    err_box: list[BaseException | None] = [None, None]
+
+    def _do_s3() -> None:
+        try:
+            s3_uri_box[0] = s3.upload_fileobj(
+                io.BytesIO(payload),
+                key,
+                expected_size=size,
+                skip_if_exists=True,
+            )
+        except BaseException as e:
+            err_box[0] = e
+
+    def _do_copy() -> None:
+        try:
+            rows_box[0] = load_file(
+                conn,
+                entity_map=entity_map,
+                file_obj=io.BytesIO(payload),
+                file_label=row.remote_path.rsplit("/", 1)[-1],
+            )
+            conn.commit()
+        except BaseException as e:
             try:
-                _mark(conn, row, status="loading")
-                rows_loaded = load_file(
-                    conn, entity_map=entity_map, file_path=local
-                )
-                conn.commit()
-                _mark(conn, row, status="loaded", rows=rows_loaded)
-            except Exception as exc:
                 conn.rollback()
-                log.exception(
-                    "falha COPY %s -> %s", local.name, entity_map.table
-                )
-                _mark(conn, row, status="failed", error=f"copy: {exc}")
-                purge(row.remote_path)
-                raise
-    else:
-        _mark(conn, row, status="loaded")
+            except BaseException:
+                pass
+            err_box[1] = e
 
-    # 4. Delete local
-    purge(row.remote_path)
-    return rows_loaded, is_target
+    t_s3 = threading.Thread(target=_do_s3, name="s3")
+    t_copy = threading.Thread(target=_do_copy, name="copy")
+    t_s3.start()
+    t_copy.start()
+    t_s3.join()
+    t_copy.join()
+
+    if err_box[0] is not None:
+        _mark(conn, row, status="failed", error=f"s3: {err_box[0]}")
+        raise err_box[0]
+    if err_box[1] is not None:
+        _mark(conn, row, status="failed", error=f"copy: {err_box[1]}")
+        raise err_box[1]
+
+    _mark(
+        conn,
+        row,
+        status="loaded",
+        rows=rows_box[0],
+        s3_uri=s3_uri_box[0],
+    )
+    return rows_box[0], True
 
 
 # ---------------------------------------------------------------------------
@@ -310,12 +356,19 @@ def _pick_latency_days(conn: Connection, n_days: int) -> set[date]:
 
 def _pending_statuses(retry_failed: bool) -> tuple[str, ...]:
     if retry_failed:
-        return ("catalogued", "downloading", "downloaded", "uploading", "uploaded", "loading", "failed")
+        return (
+            "catalogued",
+            "downloading",
+            "downloaded",
+            "uploading",
+            "uploaded",
+            "loading",
+            "failed",
+        )
     return ("catalogued", "downloaded", "uploaded")
 
 
 def _entity_filter_clause(target_only_files: bool) -> tuple[str, list[Any]]:
-    """Retorna (SQL fragment, params) que filtra entity in/not-in TARGET_ENTITIES."""
     placeholders = ",".join(["%s"] * len(TARGET_ENTITIES))
     op = "IN" if target_only_files else "NOT IN"
     return f"entity {op} ({placeholders})", list(TARGET_ENTITIES)
@@ -368,7 +421,13 @@ def _files_for_day(
     sql_params: list[Any] = []
     if day is not None:
         sql_params.append(day)
-    sql_params += [list(statuses), settings.OOKLA_MAX_ATTEMPTS, skip_latency, LATENCY_ENTITY, *params]
+    sql_params += [
+        list(statuses),
+        settings.OOKLA_MAX_ATTEMPTS,
+        skip_latency,
+        LATENCY_ENTITY,
+        *params,
+    ]
     with conn.cursor() as cur:
         cur.execute(
             f"""

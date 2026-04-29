@@ -27,17 +27,27 @@ def load_file(
     conn: Connection,
     *,
     entity_map: EntityMap,
-    file_path: Path,
+    file_path: Path | None = None,
+    file_obj: Any | None = None,
+    file_label: str | None = None,
 ) -> int:
     """Carrega parquet -> tabela alvo via COPY direto.
 
+    Aceita parquet via `file_path` (disco) OU `file_obj` (BytesIO/file-like
+    com seek). Pyarrow lida com ambos. `file_label` aparece nos logs quando
+    `file_obj` é passado.
+
     Robustez:
       - Colunas extras no parquet (sem correspondência) são descartadas.
-      - String "[ip1, ip2, ...]" é convertida pra primeiro IP quando target é inet.
+      - String "[ip1, ip2, ...]" em alvo `_inet` → literal Postgres `{ip1,ip2}`.
       - Linhas com NULL em coluna NOT NULL são descartadas (logged).
-      - Listas <list> viram JSON string.
+      - Listas <list> viram JSON string para colunas text.
     """
-    pf = pq.ParquetFile(file_path)
+    if file_path is None and file_obj is None:
+        raise ValueError("file_path ou file_obj obrigatorio")
+    label = file_label or (file_path.name if file_path else "<bytesio>")
+    source = file_obj if file_obj is not None else file_path
+    pf = pq.ParquetFile(source)
     pq_schema = pf.schema_arrow
     pq_cols = pq_schema.names
 
@@ -63,13 +73,13 @@ def load_file(
     if dropped:
         log.warning(
             "%s: %d coluna(s) parquet sem correspondência em %s — descartadas: %s",
-            file_path.name,
+            label,
             len(dropped),
             target_table,
             ", ".join(dropped[:8]) + (" ..." if len(dropped) > 8 else ""),
         )
     if not keep_src:
-        log.error("nenhuma coluna em comum entre %s e %s", file_path.name, target_table)
+        log.error("nenhuma coluna em comum entre %s e %s", label, target_table)
         return 0
 
     col_idents = sql.SQL(", ").join(sql.SQL(c) for c in keep_target)
@@ -103,12 +113,12 @@ def load_file(
     if skipped_null:
         log.warning(
             "%s: %d linha(s) descartadas por NULL em coluna NOT NULL",
-            file_path.name,
+            label,
             skipped_null,
         )
     log.info(
         "%s: %d/%d linhas inseridas em %s",
-        file_path.name,
+        label,
         total_out,
         total_in,
         target_table,
