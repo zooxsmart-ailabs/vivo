@@ -26,9 +26,13 @@ watch(() => props.geohash, () => { activeSubTab.value = "ficha"; });
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 const OPERATOR_COLORS: Record<string, string> = {
-  "Vivo": "#660099", "TIM": "#0060AE", "Claro": "#E30613",
-  "NET": "#E30613", "LinQ": "#F5A623", "Oi": "#F5A623",
-  "NIO": "#F59E0B", "Algar": "#F97316", "Surf": "#10B981",
+  "VIVO": "#660099", "Vivo": "#660099",
+  "TIM": "#1E40AF",
+  "Claro": "#DA291C", "CLARO": "#DA291C", "NET": "#DA291C",
+  "LinQ": "#F8A81B", "LINQ": "#F8A81B",
+  "Oi": "#32E000", "NIO": "#32E000",
+  "Algar": "#28BEA5", "ALGAR": "#28BEA5",
+  "Surf": "#0003F9", "SURF": "#0003F9",
 };
 function getOperatorColor(name: string): string {
   for (const [key, color] of Object.entries(OPERATOR_COLORS)) {
@@ -37,9 +41,13 @@ function getOperatorColor(name: string): string {
   return "#8E8E93";
 }
 const BRAND_COLORS: Record<string, string> = {
-  "VIVO": "#79009e", "TIM": "#0060AE", "CLARO": "#d10505",
-  "NET": "#d10505", "LINQ TELECOM": "#EAB308", "LINQ": "#EAB308", "OI": "#EAB308",
-  "NIO": "#F59E0B", "ALGAR": "#F97316", "SURF": "#10B981",
+  "VIVO": "#660099",
+  "TIM": "#1E40AF",
+  "CLARO": "#DA291C", "Claro": "#DA291C", "NET": "#DA291C",
+  "LINQ TELECOM": "#F8A81B", "LINQ": "#F8A81B", "LinQ": "#F8A81B",
+  "OI": "#32E000", "NIO": "#32E000",
+  "ALGAR": "#28BEA5", "Algar": "#28BEA5",
+  "SURF": "#0003F9", "Surf": "#0003F9",
 };
 function brandColor(name: string, score: number): string {
   return BRAND_COLORS[name] ?? (score >= 8 ? "#22C55E" : score >= 7 ? "#EAB308" : "#EF4444");
@@ -162,12 +170,10 @@ const churnData = computed(() => g.value ? calcChurn(g.value) : { churn: 0, colo
 // Top 5 operadoras: VIVO sempre primeiro + top 4 concorrentes por score
 const top5Scores = computed(() => {
   if (!g.value?.satisfactionScores) return [];
-  const vivo = g.value.satisfactionScores.find(s => s.name === "VIVO");
-  const competitors = g.value.satisfactionScores
-    .filter(s => s.name !== "VIVO")
+  // Sort all operators descending by score (highest first, no exceptions)
+  return [...g.value.satisfactionScores]
     .sort((a, b) => b.score - a.score)
-    .slice(0, 4);
-  return vivo ? [vivo, ...competitors] : g.value.satisfactionScores.slice(0, 5);
+    .slice(0, 5);
 });
 
 // Infraestrutura
@@ -311,8 +317,9 @@ const tooltipVisible = ref<string | null>(null);
 
 <template>
   <div
+    class="geohash-sidebar-nuxt"
     style="
-      width: 510px; min-width: 490px; max-width: 530px;
+      width: clamp(380px, 30vw, 540px); min-width: 360px; max-width: 540px;
       background: #F2F2F7; border-left: 1px solid rgba(0,0,0,0.08);
       display: flex; flex-direction: column; height: 100%; overflow: hidden;
     "
@@ -351,7 +358,7 @@ const tooltipVisible = ref<string | null>(null);
         <!-- ═══════════════════════════════════════════════════════════════════
              FICHA TÉCNICA
              ═══════════════════════════════════════════════════════════════════ -->
-        <div v-if="activeSubTab === 'ficha'" style="padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 8px; min-height: 100%;">
+        <div v-if="activeSubTab === 'ficha'" style="padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 8px;">
 
           <!-- 1. IDENTIFICAÇÃO -->
           <div>
@@ -805,4 +812,9 @@ const tooltipVisible = ref<string | null>(null);
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+.geohash-sidebar-nuxt { font-size: clamp(8px, 0.75vw, 11px); }
+@media (min-width: 1600px) { .geohash-sidebar-nuxt { font-size: 10px; } }
+@media (min-width: 1280px) and (max-width: 1599px) { .geohash-sidebar-nuxt { font-size: 9.5px; } }
+@media (max-width: 1279px) { .geohash-sidebar-nuxt { font-size: 9px; } }
+.geohash-sidebar-nuxt * { box-sizing: border-box; max-width: 100%; }
 </style>
