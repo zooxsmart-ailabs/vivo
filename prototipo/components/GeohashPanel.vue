@@ -847,39 +847,39 @@ const tooltipVisible = ref<string | null>(null);
   to { transform: rotate(360deg); }
 }
 .geohash-sidebar-nuxt {
-  font-size: clamp(8px, 0.72vw, 10.5px);
+  /* Fonte fixa — não muda com resolução ou zoom */
+  font-size: 9px;
   overflow: hidden !important;
+  width: 560px !important;
+  min-width: 560px !important;
+  max-width: 560px !important;
 }
 @media (min-width: 1920px) {
   .geohash-sidebar-nuxt {
-    font-size: 8px;
-    width: clamp(580px, 36vw, 720px) !important;
-    min-width: 560px !important;
-    max-width: 720px !important;
+    width: 620px !important;
+    min-width: 620px !important;
+    max-width: 620px !important;
   }
 }
 @media (min-width: 1600px) and (max-width: 1919px) {
   .geohash-sidebar-nuxt {
-    font-size: 8.5px;
-    width: clamp(540px, 36vw, 660px) !important;
-    min-width: 520px !important;
-    max-width: 660px !important;
+    width: 580px !important;
+    min-width: 580px !important;
+    max-width: 580px !important;
   }
 }
 @media (min-width: 1280px) and (max-width: 1599px) {
   .geohash-sidebar-nuxt {
-    font-size: 7.5px;
-    width: clamp(480px, 38vw, 580px) !important;
-    min-width: 460px !important;
-    max-width: 580px !important;
+    width: 540px !important;
+    min-width: 540px !important;
+    max-width: 540px !important;
   }
 }
 @media (max-width: 1279px) {
   .geohash-sidebar-nuxt {
-    font-size: 7px;
-    width: clamp(440px, 42vw, 520px) !important;
-    min-width: 420px !important;
-    max-width: 520px !important;
+    width: 500px !important;
+    min-width: 500px !important;
+    max-width: 500px !important;
   }
 }
 .geohash-sidebar-nuxt * { box-sizing: border-box; max-width: 100%; }
