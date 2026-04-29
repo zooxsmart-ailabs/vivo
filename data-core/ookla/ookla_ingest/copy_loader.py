@@ -138,7 +138,7 @@ def _load_file_attempt(
         log.error("nenhuma coluna em comum entre %s e %s", label, target_table)
         return 0
 
-    has_unique = _target_has_unique_on(
+    conflict_target = _conflict_target_for(
         conn, _unquote(target_table), tuple(_unquote(c) for c in entity_map.key)
     )
 
@@ -153,7 +153,7 @@ def _load_file_attempt(
     total_in = 0
     total_staged = 0
     skipped_null = 0
-    rows_inserted = 0
+    rows_affected = 0
 
     with conn.cursor() as cur:
         cur.execute(sql.SQL("DROP TABLE IF EXISTS {stg}").format(stg=stg_ident))
@@ -186,16 +186,29 @@ def _load_file_attempt(
                     copy.write_row(row)
                     total_staged += 1
 
-        # UPSERT staging → target. ON CONFLICT DO NOTHING (sem conflict_target
-        # explicito) lida com qualquer unique index que exista no alvo,
-        # incluindo indices parciais (ex.: WHERE guid_result IS NOT NULL).
-        if has_unique:
+        # UPSERT staging → target.
+        # ON CONFLICT (cols) [WHERE pred] DO UPDATE SET col = EXCLUDED.col, ...
+        # — preenche colunas novas em re-loads. EXCLUDED se refere ao registro
+        # do staging que tentou ser inserido. SET é em todas as colunas
+        # presentes no parquet exceto as da chave (que não mudam).
+        if conflict_target is not None:
+            key_set = {_unquote(k) for k in entity_map.key}
+            update_cols = [c for c in keep_target if _unquote(c) not in key_set]
+            set_clause = sql.SQL(", ").join(
+                sql.SQL("{c} = EXCLUDED.{c}").format(c=sql.SQL(c)) for c in update_cols
+            )
             cur.execute(
                 sql.SQL(
                     "INSERT INTO {tgt} ({cols}) "
                     "SELECT {cols} FROM {stg} "
-                    "ON CONFLICT DO NOTHING"
-                ).format(tgt=target_sql, cols=col_idents, stg=stg_ident)
+                    "ON CONFLICT {target} DO UPDATE SET {sets}"
+                ).format(
+                    tgt=target_sql,
+                    cols=col_idents,
+                    stg=stg_ident,
+                    target=sql.SQL(conflict_target),
+                    sets=set_clause,
+                )
             )
         else:
             cur.execute(
@@ -203,7 +216,7 @@ def _load_file_attempt(
                     "INSERT INTO {tgt} ({cols}) SELECT {cols} FROM {stg}"
                 ).format(tgt=target_sql, cols=col_idents, stg=stg_ident)
             )
-        rows_inserted = cur.rowcount or 0
+        rows_affected = cur.rowcount or 0
 
         # DROP só roda se chegamos até aqui sem exceção. Se houver exceção
         # (ex.: deadlock no INSERT), o rollback do retry-loop limpa o staging
@@ -216,18 +229,18 @@ def _load_file_attempt(
             label,
             skipped_null,
         )
-    skipped_dup = total_staged - rows_inserted if has_unique else 0
-    extra = f" ({skipped_dup} duplicatas pulou via ON CONFLICT)" if skipped_dup else ""
+    # Com ON CONFLICT DO UPDATE: rows_affected = inseridos NOVOS + atualizados.
+    # Não dá pra distinguir os dois sem custo extra; logamos como "afetadas".
     log.info(
-        "%s: parquet=%d staging=%d inseridas=%d em %s%s",
+        "%s: parquet=%d staging=%d afetadas=%d em %s%s",
         label,
         total_in,
         total_staged,
-        rows_inserted,
+        rows_affected,
         target_table,
-        extra,
+        " (UPSERT)" if conflict_target else " (INSERT puro)",
     )
-    return int(rows_inserted)
+    return int(rows_affected)
 
 
 # ---------------------------------------------------------------------------
@@ -293,30 +306,40 @@ def _fetch_target_meta(conn: Connection, table_name: str) -> dict[str, TargetMet
         }
 
 
-def _target_has_unique_on(
+def _conflict_target_for(
     conn: Connection, table_name: str, columns: tuple[str, ...]
-) -> bool:
-    """Devolve True se existir unique index/constraint cujo conjunto de colunas
-    EXATO seja `columns` (ordem irrelevante)."""
+) -> str | None:
+    """Devolve o ON CONFLICT target SQL fragment para o unique index do alvo
+    cujas colunas batem com `columns`, OU None se não houver match.
+
+    Inclui o WHERE predicate quando o índice é parcial — necessário pra
+    Postgres aceitar como conflict_target em INSERT ... ON CONFLICT DO UPDATE.
+
+    Ex.: '(guid_result, ts_result) WHERE (guid_result IS NOT NULL)'
+    """
     if not columns:
-        return False
+        return None
     want = set(columns)
     with conn.cursor() as cur:
         cur.execute(
             """
-            SELECT array_agg(a.attname ORDER BY a.attnum)
+            SELECT array_agg(a.attname ORDER BY a.attnum),
+                   pg_get_expr(i.indpred, i.indrelid)
               FROM pg_index i
               JOIN pg_class c ON c.oid = i.indrelid
               JOIN pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = ANY(i.indkey)
              WHERE c.relname = %s AND i.indisunique
-             GROUP BY i.indexrelid
+             GROUP BY i.indexrelid, i.indpred, i.indrelid
             """,
             (table_name,),
         )
-        for (cols,) in cur.fetchall():
+        for cols, pred in cur.fetchall():
             if set(cols) == want:
-                return True
-    return False
+                target = "(" + ", ".join(f'"{c}"' for c in cols) + ")"
+                if pred:
+                    target += f" WHERE {pred}"
+                return target
+    return None
 
 
 def _unquote(ident: str) -> str:
