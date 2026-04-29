@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import json
 import logging
+import os
+import threading
 from datetime import datetime, timezone
 from decimal import Decimal
 from pathlib import Path
@@ -31,11 +33,17 @@ def load_file(
     file_obj: Any | None = None,
     file_label: str | None = None,
 ) -> int:
-    """Carrega parquet -> tabela alvo via COPY direto.
+    """Carrega parquet → tabela alvo via staging UNLOGGED + UPSERT.
 
-    Aceita parquet via `file_path` (disco) OU `file_obj` (BytesIO/file-like
-    com seek). Pyarrow lida com ambos. `file_label` aparece nos logs quando
-    `file_obj` é passado.
+    Estratégia:
+      1. CREATE UNLOGGED TABLE _stg_... (LIKE target INCLUDING DEFAULTS) — vive
+         em shared_buffers (sem o limite de temp_buffers que estourava antes).
+      2. COPY parquet → staging (rápido, sem chunk routing do hypertable).
+      3. Se o alvo tem unique index cobrindo `entity_map.key`:
+            INSERT INTO target SELECT FROM staging ON CONFLICT (key) DO NOTHING
+         caso contrário (sem unique):
+            INSERT INTO target SELECT FROM staging
+      4. DROP staging.
 
     Robustez:
       - Colunas extras no parquet (sem correspondência) são descartadas.
@@ -82,33 +90,75 @@ def load_file(
         log.error("nenhuma coluna em comum entre %s e %s", label, target_table)
         return 0
 
-    col_idents = sql.SQL(", ").join(sql.SQL(c) for c in keep_target)
-    copy_sql = sql.SQL("COPY {tgt} ({cols}) FROM STDIN").format(
-        tgt=sql.SQL(target_table), cols=col_idents
+    has_unique = _target_has_unique_on(
+        conn, _unquote(target_table), tuple(_unquote(c) for c in entity_map.key)
     )
 
+    stg_name = (
+        f"_stg_ookla_{os.getpid()}_{threading.get_ident():x}_"
+        f"{abs(hash(label)) & 0xffffffff:x}"
+    )
+    stg_ident = sql.Identifier(stg_name)
+    target_sql = sql.SQL(target_table)
+    col_idents = sql.SQL(", ").join(sql.SQL(c) for c in keep_target)
+
     total_in = 0
-    total_out = 0
+    total_staged = 0
     skipped_null = 0
-    with conn.cursor() as cur, cur.copy(copy_sql) as copy:
-        for batch in pf.iter_batches(batch_size=_BATCH_ROWS, columns=keep_src):
-            py_columns = [batch.column(name).to_pylist() for name in keep_src]
-            n = batch.num_rows
-            total_in += n
-            for r in range(n):
-                row: list[Any] = []
-                drop_row = False
-                for c in range(len(keep_src)):
-                    val = _coerce(py_columns[c][r], keep_meta[c])
-                    if val is None and not keep_meta[c].nullable:
-                        drop_row = True
-                        break
-                    row.append(val)
-                if drop_row:
-                    skipped_null += 1
-                    continue
-                copy.write_row(row)
-                total_out += 1
+    rows_inserted = 0
+
+    with conn.cursor() as cur:
+        cur.execute(sql.SQL("DROP TABLE IF EXISTS {stg}").format(stg=stg_ident))
+        cur.execute(
+            sql.SQL(
+                "CREATE UNLOGGED TABLE {stg} (LIKE {tgt} INCLUDING DEFAULTS)"
+            ).format(stg=stg_ident, tgt=target_sql)
+        )
+
+        try:
+            copy_sql = sql.SQL("COPY {stg} ({cols}) FROM STDIN").format(
+                stg=stg_ident, cols=col_idents
+            )
+            with cur.copy(copy_sql) as copy:
+                for batch in pf.iter_batches(batch_size=_BATCH_ROWS, columns=keep_src):
+                    py_columns = [batch.column(name).to_pylist() for name in keep_src]
+                    n = batch.num_rows
+                    total_in += n
+                    for r in range(n):
+                        row: list[Any] = []
+                        drop_row = False
+                        for c in range(len(keep_src)):
+                            val = _coerce(py_columns[c][r], keep_meta[c])
+                            if val is None and not keep_meta[c].nullable:
+                                drop_row = True
+                                break
+                            row.append(val)
+                        if drop_row:
+                            skipped_null += 1
+                            continue
+                        copy.write_row(row)
+                        total_staged += 1
+
+            # UPSERT staging → target. ON CONFLICT DO NOTHING (sem target
+            # explicito) lida com qualquer unique index que exista no alvo,
+            # incluindo indices parciais (ex.: WHERE guid_result IS NOT NULL).
+            if has_unique:
+                cur.execute(
+                    sql.SQL(
+                        "INSERT INTO {tgt} ({cols}) "
+                        "SELECT {cols} FROM {stg} "
+                        "ON CONFLICT DO NOTHING"
+                    ).format(tgt=target_sql, cols=col_idents, stg=stg_ident)
+                )
+            else:
+                cur.execute(
+                    sql.SQL(
+                        "INSERT INTO {tgt} ({cols}) SELECT {cols} FROM {stg}"
+                    ).format(tgt=target_sql, cols=col_idents, stg=stg_ident)
+                )
+            rows_inserted = cur.rowcount or 0
+        finally:
+            cur.execute(sql.SQL("DROP TABLE IF EXISTS {stg}").format(stg=stg_ident))
 
     if skipped_null:
         log.warning(
@@ -116,14 +166,18 @@ def load_file(
             label,
             skipped_null,
         )
+    skipped_dup = total_staged - rows_inserted if has_unique else 0
+    extra = f" ({skipped_dup} duplicatas pulou via ON CONFLICT)" if skipped_dup else ""
     log.info(
-        "%s: %d/%d linhas inseridas em %s",
+        "%s: parquet=%d staging=%d inseridas=%d em %s%s",
         label,
-        total_out,
         total_in,
+        total_staged,
+        rows_inserted,
         target_table,
+        extra,
     )
-    return int(total_out)
+    return int(rows_inserted)
 
 
 # ---------------------------------------------------------------------------
@@ -134,25 +188,18 @@ def load_file(
 def _coerce(value: Any, meta: TargetMeta) -> Any:
     if value is None:
         return None
-    # listas (parquet list<>) → JSON string (cabe em text/varchar)
     if isinstance(value, list):
         return json.dumps(value, default=_json_default, ensure_ascii=False)
-    # timestamps sem tz vêm como datetime naive — interpretamos UTC
     if isinstance(value, datetime) and value.tzinfo is None:
         return value.replace(tzinfo=timezone.utc)
-    # `_inet` = inet[] no Postgres. Ookla manda string "[ip1, ip2]"
-    # — convertemos pro array literal do Postgres "{ip1,ip2}".
     if isinstance(value, str) and meta.udt == "_inet":
         return _str_to_pg_inet_array(value)
-    # String vazia em coluna não-text vira NULL (Postgres rejeita "" em datas/numbers).
     if isinstance(value, str) and value == "" and meta.udt not in ("text", "varchar", "bpchar"):
         return None
     return value
 
 
 def _str_to_pg_inet_array(value: str) -> str | None:
-    """Converte "[ip1, ip2]" (formato Ookla) em "{ip1,ip2}" (literal Postgres
-    de array de inet). Devolve None para string vazia."""
     s = value.strip()
     if not s:
         return None
@@ -181,7 +228,6 @@ def _json_default(o: Any) -> Any:
 
 
 def _fetch_target_meta(conn: Connection, table_name: str) -> dict[str, TargetMeta]:
-    """{column_name: TargetMeta(udt, nullable)} para a tabela alvo."""
     with conn.cursor() as cur:
         cur.execute(
             """
@@ -195,6 +241,32 @@ def _fetch_target_meta(conn: Connection, table_name: str) -> dict[str, TargetMet
             r[0]: TargetMeta(udt=r[1], nullable=(r[2] == "YES"))
             for r in cur.fetchall()
         }
+
+
+def _target_has_unique_on(
+    conn: Connection, table_name: str, columns: tuple[str, ...]
+) -> bool:
+    """Devolve True se existir unique index/constraint cujo conjunto de colunas
+    EXATO seja `columns` (ordem irrelevante)."""
+    if not columns:
+        return False
+    want = set(columns)
+    with conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT array_agg(a.attname ORDER BY a.attnum)
+              FROM pg_index i
+              JOIN pg_class c ON c.oid = i.indrelid
+              JOIN pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = ANY(i.indkey)
+             WHERE c.relname = %s AND i.indisunique
+             GROUP BY i.indexrelid
+            """,
+            (table_name,),
+        )
+        for (cols,) in cur.fetchall():
+            if set(cols) == want:
+                return True
+    return False
 
 
 def _unquote(ident: str) -> str:
