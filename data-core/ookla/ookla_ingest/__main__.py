@@ -57,12 +57,19 @@ def catalog() -> None:
     default=False,
     help="Roda só a Fase 1 (entidades target). Pula upload S3 das demais.",
 )
+@click.option(
+    "--non-target-only",
+    is_flag=True,
+    default=False,
+    help="Roda só a Fase 2 (não-target → S3). Pula a Fase 1 inteira.",
+)
 def load(
     max_days: int | None,
     retry_failed: bool,
     include_latency: bool,
     latency_days: int,
     target_only: bool,
+    non_target_only: bool,
 ) -> None:
     """Fase 2 do pipeline — em 2 sub-fases.
 
@@ -81,6 +88,7 @@ def load(
         include_latency=include_latency,
         latency_days=latency_days,
         target_only=target_only,
+        non_target_only=non_target_only,
     )
 
 

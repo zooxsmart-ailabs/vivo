@@ -69,7 +69,10 @@ def run_load(
     include_latency: bool = False,
     latency_days: int = 1,
     target_only: bool = False,
+    non_target_only: bool = False,
 ) -> dict[str, Any]:
+    if target_only and non_target_only:
+        raise ValueError("--target-only e --non-target-only são mutuamente exclusivos")
     """Carga em 2 fases (target → não-target), streaming end-to-end.
 
     Sub-fase 1 — entidades alvo:
@@ -108,16 +111,17 @@ def run_load(
                 conn, latency_days if include_latency else 0
             )
 
-            log.info("=== FASE 1/2: entidades target ===")
-            phase1 = _run_phase(
-                conn,
-                target_only_files=True,
-                allowed_latency_days=allowed_latency_days,
-                retry_failed=retry_failed,
-                max_days=max_days,
-            )
-            stats["phases"]["target"] = phase1
-            _accumulate(stats, phase1)
+            if not non_target_only:
+                log.info("=== FASE 1/2: entidades target ===")
+                phase1 = _run_phase(
+                    conn,
+                    target_only_files=True,
+                    allowed_latency_days=allowed_latency_days,
+                    retry_failed=retry_failed,
+                    max_days=max_days,
+                )
+                stats["phases"]["target"] = phase1
+                _accumulate(stats, phase1)
 
             if not target_only:
                 log.info("=== FASE 2/2: entidades nao-target (so S3) ===")
