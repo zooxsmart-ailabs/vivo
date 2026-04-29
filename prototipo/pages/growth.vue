@@ -435,17 +435,17 @@ const pilaresOrdenados = computed(() => {
       </div>
 
       <!-- Layout: Pilares (esq) + Recomendação (dir) -->
-      <div style="display:flex;gap:16px;align-items:flex-start;margin-top:-6px;width:661px;">
+      <div style="display:flex;gap:16px;align-items:flex-start;margin-top:-6px;width:1660px;">
         <!-- 4 Pilares -->
         <div style="flex:0 0 auto;">
           <div style="margin-bottom:4px;margin-top:-4px;padding-top:4px;padding-bottom:4px;">
-            <span style="font-size:8.5px;font-weight:800;color:#1C1C1E;letter-spacing:0.06em;text-transform:uppercase;">Avaliação dos 4 Pilares</span>
+            <span style="font-size:10px;font-weight:800;color:#1C1C1E;letter-spacing:0.06em;text-transform:uppercase;">Avaliação dos 4 Pilares</span>
           </div>
-          <div style="display:grid;grid-template-columns:435px 435px;gap:10px;">
+          <div style="display:grid;grid-template-columns:630px 630px;gap:10px;">
             <div
               v-for="pilar in pilaresOrdenados"
               :key="pilar.id"
-              style="background:#fff;border-radius:12px;border:1px solid rgba(0,0,0,0.07);overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.04);width:435px;"
+              style="background:#fff;border-radius:12px;border:1px solid rgba(0,0,0,0.07);overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.04);width:630px;"
             >
               <!-- Header do Pilar -->
               <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-bottom:1px solid rgba(0,0,0,0.06);">
@@ -463,7 +463,7 @@ const pilaresOrdenados = computed(() => {
                 </span>
               </div>
               <!-- Métricas -->
-              <div style="padding:8px 10px;display:flex;flex-direction:column;gap:6px;">
+              <div :style="{padding:'8px 10px',display:'flex',flexDirection:pilar.id==='02'?'row':'column',gap:'8px',alignItems:pilar.id==='02'?'flex-start':undefined}">
                 <div
                   v-for="(m, i) in pilar.metricas"
                   :key="i"
@@ -472,6 +472,8 @@ const pilaresOrdenados = computed(() => {
                     padding: pilar.id === '01' ? '12px 10px' : '5px 10px',
                     marginTop: pilar.id === '01' ? (i === 0 ? '0px' : '12px') : '0px',
                     marginBottom: pilar.id === '01' ? '12px' : '0px',
+                    width: pilar.id === '02' ? '370px' : undefined,
+                    flexShrink: pilar.id === '02' ? 0 : undefined,
                   }"
                 >
                   <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:4px;">
@@ -489,7 +491,7 @@ const pilaresOrdenados = computed(() => {
                 <!-- Tabela de concorrência (pilar 02) -->
                 <div
                   v-if="pilar.id === '02' && displayGeo.diagnostico.concorrentes && displayGeo.diagnostico.concorrentes.length > 0"
-                  style="border-radius:8px;border:1px solid rgba(0,0,0,0.07);background:#fff;overflow:hidden;"
+                  style="border-radius:8px;border:1px solid rgba(0,0,0,0.07);background:#fff;overflow:hidden;width:370px;flex-shrink:0;"
                 >
                   <div style="padding:5px 10px;border-bottom:1px solid rgba(0,0,0,0.06);background:#F9F9FB;height:18px;display:flex;align-items:center;">
                     <span style="font-size:8px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;">Comparativo de Concorrência</span>
@@ -544,13 +546,13 @@ const pilaresOrdenados = computed(() => {
         <div v-if="ia" style="flex:0 0 auto;display:flex;flex-direction:column;gap:16px;">
           <div>
             <div style="margin-bottom:4px;margin-top:-4px;padding-top:4px;padding-bottom:4px;">
-              <span style="font-size:8.5px;font-weight:800;color:#1C1C1E;letter-spacing:0.06em;text-transform:uppercase;">Recomendação Estratégica</span>
+              <span style="font-size:10px;font-weight:800;color:#1C1C1E;letter-spacing:0.06em;text-transform:uppercase;">Recomendação Estratégica</span>
             </div>
-            <div style="display:flex;flex-direction:column;gap:8px;height:450px;width:372px;">
+            <div style="display:flex;flex-direction:column;gap:8px;height:450px;width:350px;">
               <!-- Cards Móvel + Fibra -->
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;width:372px;padding-bottom:10px;">
+              <div style="display:grid;grid-template-columns:165px 165px;gap:8px;width:338px;padding-bottom:10px;">
                 <!-- Móvel -->
-                <div style="background:#fff;border-radius:12px;border:1px solid rgba(102,0,153,0.25);overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.04);width:181px;margin-top:1px;">
+                <div style="background:#fff;border-radius:12px;border:1px solid rgba(102,0,153,0.25);overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.04);width:165px;margin-top:1px;">
                   <div style="display:flex;align-items:center;gap:6px;padding:8px 12px;border-bottom:1px solid rgba(0,0,0,0.06);background:rgba(102,0,153,0.08);">
                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#660099" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
                     <span style="font-size:8.5px;font-weight:800;color:#660099;text-transform:uppercase;letter-spacing:0.06em;">Móvel</span>
@@ -578,7 +580,7 @@ const pilaresOrdenados = computed(() => {
                   </div>
                 </div>
                 <!-- Fibra -->
-                <div style="background:#fff;border-radius:12px;border:1px solid rgba(102,0,153,0.25);overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.04);width:181px;margin-top:1px;">
+                <div style="background:#fff;border-radius:12px;border:1px solid rgba(102,0,153,0.25);overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.04);width:165px;margin-top:1px;">
                   <div style="display:flex;align-items:center;gap:6px;padding:8px 12px;border-bottom:1px solid rgba(0,0,0,0.06);background:rgba(102,0,153,0.08);">
                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#660099" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
                     <span style="font-size:8.5px;font-weight:800;color:#660099;text-transform:uppercase;letter-spacing:0.06em;">Fibra</span>
@@ -608,7 +610,7 @@ const pilaresOrdenados = computed(() => {
               </div>
 
               <!-- Card Recomendação IA -->
-              <div style="background:#fff;border-radius:12px;border:1px solid rgba(102,0,153,0.25);overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.04);width:372px;height:285px;">
+              <div style="background:#fff;border-radius:12px;border:1px solid rgba(102,0,153,0.25);overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.04);width:340px;height:285px;">
                 <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid rgba(0,0,0,0.06);background:rgba(102,0,153,0.08);height:31px;">
                   <div style="display:flex;align-items:center;gap:6px;">
                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#660099" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"/></svg>
@@ -628,7 +630,7 @@ const pilaresOrdenados = computed(() => {
                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#660099" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h2l3 4v-12l-3 4H4a1 1 0 0 0-1 1z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
                     <span style="font-size:8px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;">Abordagem Comercial</span>
                   </div>
-                  <div style="font-size:9px;color:#1C1C1E;line-height:1.5;width:346px;">{{ ia.abordagemComercial }}</div>
+                  <div style="font-size:9px;color:#1C1C1E;line-height:1.5;width:314px;">{{ ia.abordagemComercial }}</div>
                 </div>
                 <div style="padding:18px 12px;">
                   <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;">

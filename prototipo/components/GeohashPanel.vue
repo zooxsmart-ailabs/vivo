@@ -421,8 +421,8 @@ const tooltipVisible = ref<string | null>(null);
                 >{{ pCfg.label }}</span>
               </div>
               <div style="display: flex; align-items: baseline; gap: 3px; flex-wrap: wrap; padding-bottom: 3px;">
-                <span style="font-size: 10px; font-weight: 700; color: #1C1C1E;">{{ g.neighborhood }}</span>
-                <span style="font-size: 9px; color: #8E8E93; font-family: monospace;">({{ g.id }}, {{ g.city }})</span>
+                <span style="font-size: 12px; font-weight: 700; color: #1C1C1E;">{{ g.neighborhood }}</span>
+                <span style="font-size: 10px; color: #8E8E93; font-family: monospace;">({{ g.id }}, {{ g.city }})</span>
               </div>
             </div>
 
@@ -430,7 +430,7 @@ const tooltipVisible = ref<string | null>(null);
             <div style="display: grid; grid-template-columns: 1fr 1fr 0.85fr; gap: 3px; margin-top: 2px;">
               <!-- Share Vivo -->
               <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 7px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); min-height: 76px;">
-                <div style="font-size: 8px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8E8E93; margin-bottom: 3px; white-space: nowrap;">Share Vivo</div>
+                <div style="font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8E8E93; margin-bottom: 3px; white-space: nowrap;">Share Vivo</div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3px;">
                   <div
                     :style="{
@@ -439,9 +439,9 @@ const tooltipVisible = ref<string | null>(null);
                       display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center',
                     }"
                   >
-                    <div style="font-size: 7.5px; color: #8E8E93; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; margin-bottom: 1px;">Fibra</div>
-                    <span style="font-size: 10px; font-weight: 800; color: #1c1c1e; line-height: 1;">{{ shareFibra }}%</span>
-                    <div :style="{ fontSize: '7px', fontWeight: 700, color: deltaFibra.color, whiteSpace: 'nowrap', paddingTop: '5px' }">{{ deltaFibra.label }}</div>
+                    <div style="font-size: 10px; color: #8E8E93; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; margin-bottom: 1px;">Fibra</div>
+                    <span style="font-size: 14px; font-weight: 800; color: #1c1c1e; line-height: 1;">{{ shareFibra }}%</span>
+                    <div :style="{ fontSize: '10px', fontWeight: 700, color: deltaFibra.color, whiteSpace: 'nowrap', paddingTop: '5px' }">{{ deltaFibra.label }}</div>
                   </div>
                   <div
                     :style="{
@@ -450,16 +450,16 @@ const tooltipVisible = ref<string | null>(null);
                       display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center',
                     }"
                   >
-                    <div style="font-size: 7.5px; color: #8E8E93; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; margin-bottom: 1px;">Móvel</div>
-                    <span style="font-size: 10px; font-weight: 800; color: #1c1c1e; line-height: 1;">{{ shareMovel }}%</span>
-                    <div :style="{ fontSize: '7px', fontWeight: 700, color: deltaMovel.color, whiteSpace: 'nowrap', paddingTop: '5px' }">{{ deltaMovel.label }}</div>
+                    <div style="font-size: 10px; color: #8E8E93; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; margin-bottom: 1px;">Móvel</div>
+                    <span style="font-size: 14px; font-weight: 800; color: #1c1c1e; line-height: 1;">{{ shareMovel }}%</span>
+                    <div :style="{ fontSize: '10px', fontWeight: 700, color: deltaMovel.color, whiteSpace: 'nowrap', paddingTop: '5px' }">{{ deltaMovel.label }}</div>
                   </div>
                 </div>
               </div>
 
               <!-- Satisfação Vivo -->
               <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 7px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); min-height: 76px;">
-                <div style="font-size: 8px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8E8E93; margin-bottom: 3px; white-space: nowrap;">Satisfação Vivo</div>
+                <div style="font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8E8E93; margin-bottom: 3px; white-space: nowrap;">Satisfação Vivo</div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3px;">
                   <div
                     :style="{
@@ -468,9 +468,9 @@ const tooltipVisible = ref<string | null>(null);
                       display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center',
                     }"
                   >
-                    <div style="font-size: 7.5px; color: #8E8E93; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; margin-bottom: 1px;">Fibra</div>
-                    <span style="font-size: 10px; font-weight: 800; color: #1c1c1e; line-height: 1;">{{ scoreFibraSat }}</span>
-                    <div :style="{ fontSize: '7px', fontWeight: 700, color: satColor(scoreFibraSat), whiteSpace: 'nowrap', paddingTop: '5px' }">{{ satLabel(scoreFibraSat) }}</div>
+                    <div style="font-size: 10px; color: #8E8E93; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; margin-bottom: 1px;">Fibra</div>
+                    <span style="font-size: 14px; font-weight: 800; color: #1c1c1e; line-height: 1;">{{ scoreFibraSat }}</span>
+                    <div :style="{ fontSize: '10px', fontWeight: 700, color: satColor(scoreFibraSat), whiteSpace: 'nowrap', paddingTop: '5px' }">{{ satLabel(scoreFibraSat) }}</div>
                   </div>
                   <div
                     :style="{
@@ -479,25 +479,25 @@ const tooltipVisible = ref<string | null>(null);
                       display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center',
                     }"
                   >
-                    <div style="font-size: 7.5px; color: #8E8E93; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; margin-bottom: 1px;">Móvel</div>
-                    <span style="font-size: 10px; font-weight: 800; color: #1c1c1e; line-height: 1;">{{ scoreMovelSat }}</span>
-                    <div :style="{ fontSize: '7px', fontWeight: 700, color: satColor(scoreMovelSat), whiteSpace: 'nowrap', paddingTop: '5px' }">{{ satLabel(scoreMovelSat) }}</div>
+                    <div style="font-size: 10px; color: #8E8E93; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; margin-bottom: 1px;">Móvel</div>
+                    <span style="font-size: 14px; font-weight: 800; color: #1c1c1e; line-height: 1;">{{ scoreMovelSat }}</span>
+                    <div :style="{ fontSize: '10px', fontWeight: 700, color: satColor(scoreMovelSat), whiteSpace: 'nowrap', paddingTop: '5px' }">{{ satLabel(scoreMovelSat) }}</div>
                   </div>
                 </div>
               </div>
 
               <!-- Churn Acumulado -->
               <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 2px 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); min-height: 76px;">
-                <div style="font-size: 8px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8E8E93; margin-bottom: 1px; white-space: nowrap;">Churn Acumulado</div>
-                <div style="font-size: 8.5px; color: #8E8E93; margin-bottom: 3px; font-weight: 500;">últimos 3 meses</div>
-                <div :style="{ fontSize: '20px', fontWeight: 800, color: churnData.color, lineHeight: 1, paddingTop: '4px' }">{{ churnData.churn }}%</div>
+                <div style="font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8E8E93; margin-bottom: 1px; white-space: nowrap;">Churn Acumulado</div>
+                <div style="font-size: 9px; color: #8E8E93; margin-bottom: 3px; font-weight: 500;">últimos 3 meses</div>
+                <div :style="{ fontSize: '16px', fontWeight: 800, color: churnData.color, lineHeight: 1, paddingTop: '4px' }">{{ churnData.churn }}%</div>
               </div>
             </div>
           </div>
 
           <!-- 2. COMERCIAL -->
           <div style="margin-bottom: -5px; padding-top: 1px;">
-            <div style="font-size: 8.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #8E8E93; margin-bottom: 2px; padding-top: 2px;">Comercial</div>
+            <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #8E8E93; margin-bottom: 2px; padding-top: 2px;">Comercial</div>
 
             <!-- Perfil da Área — 4 colunas -->
             <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 2px 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 3px; min-height: 84px;">
@@ -510,32 +510,32 @@ const tooltipVisible = ref<string | null>(null);
               <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0;">
                 <!-- Renda -->
                 <div style="display: flex; flex-direction: column; align-items: center; text-align: center; padding: 3px 2px; border-right: 1px solid rgba(0,0,0,0.07); padding-bottom: 5px; margin-top: -3px;">
-                  <div style="font-size: 7.5px; color: #8E8E93; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; margin-bottom: 2px; margin-top: -2px;">Renda</div>
-                  <div style="font-size: 9px; font-weight: 700; color: #1C1C1E; margin-bottom: -3px;">R${{ (g.demographics.avgIncome/1000).toFixed(0) }}k</div>
+                  <div style="font-size: 9px; color: #8E8E93; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; margin-bottom: 2px; margin-top: -2px;">Renda</div>
+                  <div style="font-size: 14px; font-weight: 700; color: #1C1C1E; margin-bottom: -3px;">R${{ (g.demographics.avgIncome/1000).toFixed(0) }}k</div>
                   <span
                     v-if="classeSocial"
-                    :style="{ display: 'inline-flex', alignItems: 'center', padding: '0px 7px', borderRadius: '5px', fontSize: '9px', fontWeight: 600, color: classeSocial.color, background: classeSocial.bg, height: '14px', flexShrink: 0, marginTop: '3px' }"
+                    :style="{ display: 'inline-flex', alignItems: 'center', padding: '0px 7px', borderRadius: '5px', fontSize: '10px', fontWeight: 600, color: classeSocial.color, background: classeSocial.bg, height: '14px', flexShrink: 0, marginTop: '3px' }"
                   >{{ classeSocial.label }}</span>
                 </div>
                 <!-- Densidade -->
                 <div style="display: flex; flex-direction: column; align-items: center; text-align: center; padding: 3px 2px; border-right: 1px solid rgba(0,0,0,0.07); padding-bottom: 2px; margin-top: -3px;">
-                  <div style="font-size: 7.5px; color: #8E8E93; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; margin-bottom: 2px; margin-top: -2px;">Densidade</div>
-                  <div style="font-size: 9px; font-weight: 700; color: #1C1C1E;">{{ (g.demographics.populationDensity/1000).toFixed(1) }}k</div>
-                  <div style="font-size: 7.5px; color: #8E8E93; margin-top: -2px;">hab/km²</div>
+                  <div style="font-size: 9px; color: #8E8E93; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; margin-bottom: 2px; margin-top: -2px;">Densidade</div>
+                  <div style="font-size: 14px; font-weight: 700; color: #1C1C1E;">{{ (g.demographics.populationDensity/1000).toFixed(1) }}k</div>
+                  <div style="font-size: 9px; color: #8E8E93; margin-top: -2px;">hab/km²</div>
                 </div>
                 <!-- População -->
                 <div style="display: flex; flex-direction: column; align-items: center; text-align: center; padding: 3px 2px; border-right: 1px solid rgba(0,0,0,0.07); padding-bottom: 2px; margin-top: -3px;">
-                  <div style="font-size: 7.5px; color: #8E8E93; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; margin-bottom: 2px; margin-top: -2px;">População</div>
-                  <div style="font-size: 9px; font-weight: 700; color: #1C1C1E;">~{{ populacao }}</div>
-                  <div style="font-size: 7.5px; color: #8E8E93; margin-top: -2px;">residentes</div>
+                  <div style="font-size: 9px; color: #8E8E93; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; margin-bottom: 2px; margin-top: -2px;">População</div>
+                  <div style="font-size: 14px; font-weight: 700; color: #1C1C1E;">~{{ populacao }}</div>
+                  <div style="font-size: 9px; color: #8E8E93; margin-top: -2px;">residentes</div>
                 </div>
                 <!-- Crescimento -->
                 <div style="display: flex; flex-direction: column; align-items: center; text-align: center; padding: 3px 2px; padding-bottom: 5px; margin-top: -3px;">
-                  <div style="font-size: 7.5px; color: #8E8E93; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; margin-bottom: 2px; margin-top: -2px;">Crescimento</div>
-                  <div style="font-size: 9px; font-weight: 700; color: #1C1C1E; margin-bottom: -3px;">+{{ g.demographics.populationGrowth }}%</div>
+                  <div style="font-size: 9px; color: #8E8E93; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; margin-bottom: 2px; margin-top: -2px;">Crescimento</div>
+                  <div style="font-size: 14px; font-weight: 700; color: #1C1C1E; margin-bottom: -3px;">+{{ g.demographics.populationGrowth }}%</div>
                   <span
                     v-if="growthTag"
-                    :style="{ display: 'inline-flex', alignItems: 'center', padding: '0px 7px', borderRadius: '5px', fontSize: '9px', fontWeight: 600, color: growthTag.color, background: growthTag.bg, height: '14px', flexShrink: 0, marginTop: '3px' }"
+                    :style="{ display: 'inline-flex', alignItems: 'center', padding: '0px 7px', borderRadius: '5px', fontSize: '10px', fontWeight: 600, color: growthTag.color, background: growthTag.bg, height: '14px', flexShrink: 0, marginTop: '3px' }"
                   >{{ g.demographics.growthLabel }}</span>
                 </div>
               </div>
@@ -606,16 +606,16 @@ const tooltipVisible = ref<string | null>(null);
                   <div style="font-size: 8px; color: #660099; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 3px;">Fibra</div>
                   <div style="display: flex; flex-direction: column; gap: 3px;">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
-                      <span style="font-size: 8px; font-weight: 600; color: #8E8E93;">Download</span>
+                      <span style="font-size: 10px; font-weight: 600; color: #8E8E93;">Download</span>
                       <span style="font-size: 8px; font-weight: 700; color: #1C1C1E;">{{ g.technology === 'AMBOS' ? Math.round(g.speedtest.downloadMbps * 1.3) : g.speedtest.downloadMbps }} Mbps</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; align-items: center;">
-                      <span style="font-size: 8px; font-weight: 600; color: #8E8E93;">Latência</span>
+                      <span style="font-size: 10px; font-weight: 600; color: #8E8E93;">Latência</span>
                       <span style="font-size: 8px; font-weight: 700; color: #1C1C1E;">{{ g.technology === 'AMBOS' ? Math.round(g.speedtest.latencyMs * 0.6) : g.speedtest.latencyMs }} ms</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; align-items: center;">
-                      <span style="font-size: 8px; font-weight: 600; color: #8E8E93;">Qualidade</span>
-                      <span :style="{ fontSize: '9px', fontWeight: 700, color: g.speedtest.qualityLabel === 'Ótimo' ? '#15803D' : g.speedtest.qualityLabel === 'Bom' ? '#039900' : '#DC2626' }">{{ g.speedtest.qualityLabel }}</span>
+                      <span style="font-size: 10px; font-weight: 600; color: #8E8E93;">Qualidade</span>
+                      <span :style="{ fontSize: '10px', fontWeight: 700, color: g.speedtest.qualityLabel === 'Ótimo' ? '#15803D' : g.speedtest.qualityLabel === 'Bom' ? '#039900' : '#DC2626' }">{{ g.speedtest.qualityLabel }}</span>
                     </div>
                   </div>
                 </div>
@@ -626,16 +626,16 @@ const tooltipVisible = ref<string | null>(null);
                   <div style="font-size: 8px; color: #660099; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 3px;">Móvel</div>
                   <div style="display: flex; flex-direction: column; gap: 3px;">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
-                      <span style="font-size: 8px; font-weight: 600; color: #8E8E93;">Download</span>
+                      <span style="font-size: 10px; font-weight: 600; color: #8E8E93;">Download</span>
                       <span style="font-size: 8px; font-weight: 700; color: #1C1C1E;">{{ g.technology === 'AMBOS' ? Math.round(g.speedtest.downloadMbps * 0.7) : g.speedtest.downloadMbps }} Mbps</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; align-items: center;">
-                      <span style="font-size: 8px; font-weight: 600; color: #8E8E93;">Latência</span>
+                      <span style="font-size: 10px; font-weight: 600; color: #8E8E93;">Latência</span>
                       <span style="font-size: 8px; font-weight: 700; color: #1C1C1E;">{{ g.technology === 'AMBOS' ? Math.round(g.speedtest.latencyMs * 1.5) : g.speedtest.latencyMs }} ms</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; align-items: center;">
-                      <span style="font-size: 8px; font-weight: 600; color: #8E8E93;">Qualidade</span>
-                      <span :style="{ fontSize: '9px', fontWeight: 700, color: g.speedtest.qualityLabel === 'Ótimo' ? '#15803D' : g.speedtest.qualityLabel === 'Bom' ? '#039900' : '#DC2626' }">{{ g.speedtest.qualityLabel }}</span>
+                      <span style="font-size: 10px; font-weight: 600; color: #8E8E93;">Qualidade</span>
+                      <span :style="{ fontSize: '10px', fontWeight: 700, color: g.speedtest.qualityLabel === 'Ótimo' ? '#15803D' : g.speedtest.qualityLabel === 'Bom' ? '#039900' : '#DC2626' }">{{ g.speedtest.qualityLabel }}</span>
                     </div>
                   </div>
                 </div>
@@ -684,7 +684,7 @@ const tooltipVisible = ref<string | null>(null);
 
           <!-- 3. INFRAESTRUTURA -->
           <div style="margin-bottom: -5px; padding-top: 1px;">
-            <div style="font-size: 8.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #8E8E93; margin-bottom: 2px; padding-top: 2px;">Infraestrutura</div>
+            <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #8E8E93; margin-bottom: 2px; padding-top: 2px;">Infraestrutura</div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3px; margin-bottom: 3px;">
               <!-- Card Fibra -->
               <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 2px 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
@@ -699,7 +699,7 @@ const tooltipVisible = ref<string | null>(null);
                     <div style="font-size: 8.5px; font-weight: 700; color: #8E8E93; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px;">Qualidade</div>
                     <span
                       v-if="hasFibra"
-                      :style="{ display: 'inline-flex', alignItems: 'center', padding: '2px 7px', borderRadius: '5px', fontSize: '9px', fontWeight: 600, color: fibraClassColor.color, background: fibraClassColor.bg, flexShrink: 0, marginTop: '3px', whiteSpace: 'nowrap' }"
+                      :style="{ display: 'inline-flex', alignItems: 'center', padding: '2px 7px', borderRadius: '5px', fontSize: '12px', fontWeight: 600, color: fibraClassColor.color, background: fibraClassColor.bg, flexShrink: 0, marginTop: '3px', whiteSpace: 'nowrap' }"
                     >{{ fibraClassLabel }}</span>
                     <span v-else style="display: inline-flex; align-items: center; padding: 2px 7px; border-radius: 5px; font-size: 8.5px; font-weight: 600; color: #1D4ED8; background: rgba(29,78,216,0.1); flex-shrink: 0; margin-top: 3px; white-space: nowrap;">Expansão Nova Área</span>
                   </div>
@@ -718,7 +718,7 @@ const tooltipVisible = ref<string | null>(null);
                     <div style="font-size: 8.5px; font-weight: 700; color: #8E8E93; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px;">Qualidade</div>
                     <span
                       v-if="hasMovel"
-                      :style="{ display: 'inline-flex', alignItems: 'center', padding: '2px 7px', borderRadius: '5px', fontSize: '9px', fontWeight: 600, color: movelClassColor.color, background: movelClassColor.bg, flexShrink: 0, marginTop: '3px', whiteSpace: 'nowrap' }"
+                      :style="{ display: 'inline-flex', alignItems: 'center', padding: '2px 7px', borderRadius: '5px', fontSize: '12px', fontWeight: 600, color: movelClassColor.color, background: movelClassColor.bg, flexShrink: 0, marginTop: '3px', whiteSpace: 'nowrap' }"
                     >{{ movelClassLabel }}</span>
                     <span v-else style="display: inline-flex; align-items: center; padding: 2px 7px; border-radius: 5px; font-size: 8.5px; font-weight: 600; color: #1D4ED8; background: rgba(29,78,216,0.1); flex-shrink: 0; margin-top: 3px; white-space: nowrap;">Expansão Nova Área</span>
                   </div>
