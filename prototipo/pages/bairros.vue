@@ -163,7 +163,7 @@ const sortedFrentes = computed(() => {
 
     <!-- Cabeçalho -->
     <div style="background:white;border-bottom:1px solid rgba(0,0,0,0.07);padding:10px 16px;display:flex;align-items:center;gap:8px;flex-shrink:0;flex-wrap:wrap;">
-      <span style="font-size:9px;font-weight:700;color:#8E8E93;letter-spacing:0.06em;text-transform:uppercase;margin-right:4px;white-space:nowrap;">Categoria</span>
+      <span style="font-size:8px;font-weight:700;color:#8E8E93;letter-spacing:0.06em;text-transform:uppercase;margin-right:4px;white-space:nowrap;">Categoria</span>
       <button
         v-for="t in RANKING_TABS" :key="t.key"
         @click="rankingTab = t.key; selectedBairro = null"
@@ -183,10 +183,10 @@ const sortedFrentes = computed(() => {
         </svg>
         <input
           v-model="search" type="text" placeholder="Buscar bairro..."
-          style="width:100%;padding-left:28px;padding-right:10px;padding-top:6px;padding-bottom:6px;font-size:12px;border:1px solid rgba(0,0,0,0.1);border-radius:20px;outline:none;background:#F2F2F7;color:#1C1C1E;box-sizing:border-box;height:28px;font-family:inherit;"
+          style="width:100%;padding-left:28px;padding-right:10px;padding-top:6px;padding-bottom:6px;font-size:10px;border:1px solid rgba(0,0,0,0.1);border-radius:20px;outline:none;background:#F2F2F7;color:#1C1C1E;box-sizing:border-box;height:28px;font-family:inherit;"
         />
       </div>
-      <span style="margin-left:auto;font-size:10px;color:#8E8E93;white-space:nowrap;">
+      <span style="margin-left:auto;font-size:8.5px;color:#8E8E93;white-space:nowrap;">
         {{ BAIRROS_DATA.length }} bairros · {{ GEOHASH_DATA.length }} geohashes
       </span>
     </div>
@@ -200,7 +200,7 @@ const sortedFrentes = computed(() => {
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C7C7CC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto 8px;display:block;">
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
           </svg>
-          <p style="font-size:11px;">Nenhum bairro encontrado</p>
+          <p style="font-size:9px;">Nenhum bairro encontrado</p>
         </div>
         <button
           v-else v-for="(bairro, idx) in rankingList" :key="bairro.name"
@@ -222,11 +222,11 @@ const sortedFrentes = computed(() => {
               color: idx<3 ? 'white' : tabColor,
             }">{{ idx+1 }}</div>
             <div style="flex:1;min-width:0;">
-              <p style="font-size:11px;font-weight:700;color:#1C1C1E;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin:0;">{{ bairro.name }}</p>
+              <p style="font-size:9px;font-weight:700;color:#1C1C1E;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin:0;">{{ bairro.name }}</p>
             </div>
             <div style="text-align:right;flex-shrink:0;">
               <p :style="{fontSize:'12px',fontWeight:700,color:tabColor,margin:0}">{{ bairro.avgShare }}%</p>
-              <p style="font-size:10px;color:#8E8E93;margin:0;">share</p>
+              <p style="font-size:8.5px;color:#8E8E93;margin:0;">share</p>
             </div>
           </div>
           <div style="display:flex;align-items:center;gap:5px;margin-left:30px;flex-wrap:wrap;">
@@ -246,8 +246,8 @@ const sortedFrentes = computed(() => {
         <!-- Estado vazio: Tabela Frentes de Atuação -->
         <div v-if="!selectedBairro" style="height:100%;overflow-y:auto;padding:20px 24px;background:#F2F2F7;">
           <div style="margin-bottom:16px;">
-            <h1 style="font-size:14px;font-weight:700;color:#1C1C1E;margin:0;">Frentes de Atuação</h1>
-            <p style="font-size:10px;color:#8E8E93;margin:3px 0 0;">
+            <h1 style="font-size:12px;font-weight:700;color:#1C1C1E;margin:0;">Frentes de Atuação</h1>
+            <p style="font-size:8.5px;color:#8E8E93;margin:3px 0 0;">
               Goiânia — {{ GEOHASH_DATA.length }} geohashes analisados · Selecione um bairro à esquerda para ver o detalhe
             </p>
           </div>
@@ -257,7 +257,7 @@ const sortedFrentes = computed(() => {
                 <thead>
                   <tr style="background:#F9F9FB;border-bottom:1px solid rgba(0,0,0,0.07);">
                     <th v-for="h in ['Bairro','Geohash','Quadrante','Tecnologia','Share','Ookla','ARPU','Tendência','Score','Prioridade']" :key="h"
-                      style="padding:8px 10px;text-align:left;font-size:9px;font-weight:700;color:#8E8E93;letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap;">
+                      style="padding:8px 10px;text-align:left;font-size:8px;font-weight:700;color:#8E8E93;letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap;">
                       {{ h }}
                     </th>
                   </tr>
@@ -265,8 +265,8 @@ const sortedFrentes = computed(() => {
                 <tbody>
                   <tr v-for="(g, i) in sortedFrentes" :key="g.id"
                     :style="{background: i%2===0 ? 'transparent' : '#FAFAFA', borderBottom:'1px solid rgba(0,0,0,0.04)'}">
-                    <td style="padding:6px 10px;font-size:11px;font-weight:600;color:#1C1C1E;white-space:nowrap;">{{ g.neighborhood }}</td>
-                    <td style="padding:6px 10px;"><span style="font-family:monospace;font-size:10px;color:#8E8E93;">{{ g.id }}</span></td>
+                    <td style="padding:6px 10px;font-size:9px;font-weight:600;color:#1C1C1E;white-space:nowrap;">{{ g.neighborhood }}</td>
+                    <td style="padding:6px 10px;"><span style="font-family:monospace;font-size:8.5px;color:#8E8E93;">{{ g.id }}</span></td>
                     <td style="padding:6px 10px;">
                       <span :style="{display:'inline-flex',alignItems:'center',gap:'4px',fontSize:'12px',fontWeight:600,color:'#fff',background:QUADRANT_CONFIG[g.quadrant].color,padding:'3px 10px 3px 8px',borderRadius:'20px',whiteSpace:'nowrap'}">
                         <span style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.8);flex-shrink:0;display:inline-block;"/>
@@ -284,13 +284,13 @@ const sortedFrentes = computed(() => {
                     <td style="padding:6px 10px;">
                       <span :style="{fontSize:'12px',fontWeight:700,color:g.diagnostico.scoreOokla>=7.5?'#16a34a':g.diagnostico.scoreOokla>=6.5?'#d97706':'#dc2626'}">{{ g.diagnostico.scoreOokla.toFixed(1) }}</span>
                     </td>
-                    <td style="padding:6px 10px;font-size:11px;color:#1C1C1E;">{{ g.crm?.arpuFibra ? `R$ ${g.crm.arpuFibra}` : "—" }}</td>
+                    <td style="padding:6px 10px;font-size:9px;color:#1C1C1E;">{{ g.crm?.arpuFibra ? `R$ ${g.crm.arpuFibra}` : "—" }}</td>
                     <td style="padding:6px 10px;">
                       <span :style="{display:'inline-flex',alignItems:'center',gap:'3px',fontSize:'12px',fontWeight:600,color:trendColor(g.shareTrend?.direction??'STABLE')}">
                         {{ trendArrow(g.shareTrend?.direction??'STABLE') }} {{ Math.abs(g.shareTrend?.delta??0).toFixed(1) }} pp
                       </span>
                     </td>
-                    <td style="padding:6px 10px;"><span style="font-size:11px;font-weight:700;color:#660099;">{{ g.priorityScore.toFixed(1) }}</span></td>
+                    <td style="padding:6px 10px;"><span style="font-size:9px;font-weight:700;color:#660099;">{{ g.priorityScore.toFixed(1) }}</span></td>
                     <td style="padding:6px 10px;">
                       <span :style="{fontSize:'12px',fontWeight:600,color:PRIORITY_CONFIG[g.priority]?.color??'#660099',border:`1px solid ${(PRIORITY_CONFIG[g.priority]?.color??'#660099')}40`,padding:'2px 7px',borderRadius:'20px'}">
                         {{ PRIORITY_CONFIG[g.priority]?.label??g.priority }}
@@ -316,7 +316,7 @@ const sortedFrentes = computed(() => {
                   </svg>
                   <h2 style="font-size:15px;font-weight:700;color:#1C1C1E;margin:0;">{{ selectedBairro.name }}</h2>
                 </div>
-                <p style="font-size:10px;color:#8E8E93;margin:0 0 8px;">
+                <p style="font-size:8.5px;color:#8E8E93;margin:0 0 8px;">
                   {{ selectedBairro.geohashes.length }} geohashes ·
                   {{ selectedBairro.hasFibra ? 'Fibra' : '' }}{{ selectedBairro.hasFibra && selectedBairro.hasMovel ? ' + ' : '' }}{{ selectedBairro.hasMovel ? 'Móvel' : '' }}
                 </p>
@@ -336,30 +336,30 @@ const sortedFrentes = computed(() => {
               </div>
               <div style="text-align:right;flex-shrink:0;">
                 <p :style="{fontSize:'28px',fontWeight:700,color:detail!.dominantColor,margin:0}">{{ selectedBairro.avgShare }}%</p>
-                <p style="font-size:10px;color:#8E8E93;margin:0;">Share Médio Vivo</p>
+                <p style="font-size:8.5px;color:#8E8E93;margin:0;">Share Médio Vivo</p>
               </div>
             </div>
 
             <!-- MiniCards -->
             <div style="display:flex;gap:8px;flex-wrap:wrap;">
               <div style="background:#F9F9FB;border:1px solid rgba(0,0,0,0.06);border-radius:10px;padding:8px 12px;display:flex;flex-direction:column;gap:2px;min-width:90px;">
-                <span style="font-size:9px;font-weight:600;color:#8E8E93;text-transform:uppercase;letter-spacing:0.05em;">População</span>
-                <span style="font-size:11px;font-weight:700;color:#1C1C1E;">{{ selectedBairro.totalPopulation ? fmt(selectedBairro.totalPopulation) : "—" }}</span>
+                <span style="font-size:8px;font-weight:600;color:#8E8E93;text-transform:uppercase;letter-spacing:0.05em;">População</span>
+                <span style="font-size:9px;font-weight:700;color:#1C1C1E;">{{ selectedBairro.totalPopulation ? fmt(selectedBairro.totalPopulation) : "—" }}</span>
               </div>
               <div style="background:#F9F9FB;border:1px solid rgba(0,0,0,0.06);border-radius:10px;padding:8px 12px;display:flex;flex-direction:column;gap:2px;min-width:90px;">
-                <span style="font-size:9px;font-weight:600;color:#8E8E93;text-transform:uppercase;letter-spacing:0.05em;">Clientes Vivo</span>
-                <span style="font-size:11px;font-weight:700;color:#1C1C1E;">{{ fmt(selectedBairro.totalClients) }}</span>
+                <span style="font-size:8px;font-weight:600;color:#8E8E93;text-transform:uppercase;letter-spacing:0.05em;">Clientes Vivo</span>
+                <span style="font-size:9px;font-weight:700;color:#1C1C1E;">{{ fmt(selectedBairro.totalClients) }}</span>
               </div>
               <div style="background:#F9F9FB;border:1px solid rgba(0,0,0,0.06);border-radius:10px;padding:8px 12px;display:flex;flex-direction:column;gap:2px;min-width:90px;">
-                <span style="font-size:9px;font-weight:600;color:#8E8E93;text-transform:uppercase;letter-spacing:0.05em;">Renda Média</span>
-                <span style="font-size:11px;font-weight:700;color:#1C1C1E;">{{ selectedBairro.avgIncome ? `R$ ${fmt(selectedBairro.avgIncome)}` : "—" }}</span>
+                <span style="font-size:8px;font-weight:600;color:#8E8E93;text-transform:uppercase;letter-spacing:0.05em;">Renda Média</span>
+                <span style="font-size:9px;font-weight:700;color:#1C1C1E;">{{ selectedBairro.avgIncome ? `R$ ${fmt(selectedBairro.avgIncome)}` : "—" }}</span>
               </div>
               <div style="background:#F9F9FB;border:1px solid rgba(0,0,0,0.06);border-radius:10px;padding:8px 12px;display:flex;flex-direction:column;gap:2px;min-width:90px;">
-                <span style="font-size:9px;font-weight:600;color:#8E8E93;text-transform:uppercase;letter-spacing:0.05em;">Satisfação Vivo</span>
-                <span style="font-size:11px;font-weight:700;color:#1C1C1E;">{{ selectedBairro.avgVivoScore.toFixed(1) }}</span>
+                <span style="font-size:8px;font-weight:600;color:#8E8E93;text-transform:uppercase;letter-spacing:0.05em;">Satisfação Vivo</span>
+                <span style="font-size:9px;font-weight:700;color:#1C1C1E;">{{ selectedBairro.avgVivoScore.toFixed(1) }}</span>
               </div>
               <div style="background:#F9F9FB;border:1px solid rgba(0,0,0,0.06);border-radius:10px;padding:8px 12px;display:flex;flex-direction:column;gap:2px;min-width:90px;">
-                <span style="font-size:9px;font-weight:600;color:#8E8E93;text-transform:uppercase;letter-spacing:0.05em;">Delta vs. Concorrente</span>
+                <span style="font-size:8px;font-weight:600;color:#8E8E93;text-transform:uppercase;letter-spacing:0.05em;">Delta vs. Concorrente</span>
                 <span :style="{fontSize:'12px',fontWeight:700,color:detail!.deltaColor}">{{ detail!.deltaVsCompetitor > 0 ? '+' : '' }}{{ detail!.deltaVsCompetitor }}</span>
               </div>
             </div>
@@ -370,13 +370,13 @@ const sortedFrentes = computed(() => {
 
             <!-- Satisfação SpeedTest -->
             <div style="background:white;border-radius:14px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 1px 4px rgba(0,0,0,0.04);padding:16px;">
-              <p style="font-size:11px;font-weight:700;color:#1C1C1E;margin:0 0 12px;">Satisfação SpeedTest (0–10)</p>
+              <p style="font-size:9px;font-weight:700;color:#1C1C1E;margin:0 0 12px;">Satisfação SpeedTest (0–10)</p>
               <div
                 v-for="row in [{name:'VIVO',score:selectedBairro.avgVivoScore},{name:'TIM',score:selectedBairro.avgTimScore},{name:'CLARO',score:selectedBairro.avgClaroScore}]"
                 :key="row.name"
                 style="display:flex;align-items:center;gap:8px;margin-bottom:14px;padding-top:2px;padding-bottom:2px;"
               >
-                <span style="font-size:10px;font-weight:700;width:40px;flex-shrink:0;color:#1C1C1E;">{{ row.name }}</span>
+                <span style="font-size:8.5px;font-weight:700;width:40px;flex-shrink:0;color:#1C1C1E;">{{ row.name }}</span>
                 <div style="flex:1;height:7px;background:rgba(0,0,0,0.07);border-radius:4px;overflow:hidden;">
                   <div :style="{height:'100%',borderRadius:'4px',width:`${row.score*10}%`,backgroundColor:OPERATOR_COLORS[row.name]??'#660099',transition:'width 0.4s ease'}" />
                 </div>
@@ -387,8 +387,8 @@ const sortedFrentes = computed(() => {
             <!-- Distribuição Comercial -->
             <div style="background:white;border-radius:14px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 1px 4px rgba(0,0,0,0.04);padding:16px;">
               <div style="display:flex;align-items:center;margin-bottom:12px;">
-                <p style="font-size:11px;font-weight:700;color:#1C1C1E;margin:0;">Distribuição Comercial</p>
-                <span style="margin-left:auto;font-size:10px;color:#8E8E93;">{{ selectedBairro.geohashes.length }} geohashes</span>
+                <p style="font-size:9px;font-weight:700;color:#1C1C1E;margin:0;">Distribuição Comercial</p>
+                <span style="margin-left:auto;font-size:8.5px;color:#8E8E93;">{{ selectedBairro.geohashes.length }} geohashes</span>
               </div>
               <div style="display:flex;flex-direction:column;gap:8px;">
                 <template v-for="q in QUADRANT_ORDER" :key="q">
@@ -398,9 +398,9 @@ const sortedFrentes = computed(() => {
                         <span :style="{width:'7px',height:'7px',borderRadius:'50%',backgroundColor:QUADRANT_CONFIG[q].color,display:'inline-block'}" />
                         <span :style="{fontSize:'12px',fontWeight:600,color:QUADRANT_CONFIG[q].color}">{{ QUADRANT_LABELS[q] }}</span>
                       </div>
-                      <span style="font-size:11px;font-weight:700;color:#1C1C1E;">
+                      <span style="font-size:9px;font-weight:700;color:#1C1C1E;">
                         {{ selectedBairro.quadrantCounts[q] }}
-                        <span style="font-size:10px;color:#8E8E93;font-weight:400;">({{ Math.round((selectedBairro.quadrantCounts[q]/selectedBairro.geohashes.length)*100) }}%)</span>
+                        <span style="font-size:8.5px;color:#8E8E93;font-weight:400;">({{ Math.round((selectedBairro.quadrantCounts[q]/selectedBairro.geohashes.length)*100) }}%)</span>
                       </span>
                     </div>
                     <div style="height:5px;background:rgba(0,0,0,0.07);border-radius:3px;overflow:hidden;">
@@ -414,8 +414,8 @@ const sortedFrentes = computed(() => {
             <!-- Infraestrutura -->
             <div v-if="detail!.ghsWithC2.length > 0" style="background:white;border-radius:14px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 1px 4px rgba(0,0,0,0.04);padding:16px;">
               <div style="display:flex;align-items:center;margin-bottom:12px;">
-                <p style="font-size:11px;font-weight:700;color:#1C1C1E;margin:0;">Infraestrutura</p>
-                <span style="margin-left:auto;font-size:10px;color:#8E8E93;">{{ detail!.ghsWithC2.length }}/{{ selectedBairro.geohashes.length }} gh</span>
+                <p style="font-size:9px;font-weight:700;color:#1C1C1E;margin:0;">Infraestrutura</p>
+                <span style="margin-left:auto;font-size:8.5px;color:#8E8E93;">{{ detail!.ghsWithC2.length }}/{{ selectedBairro.geohashes.length }} gh</span>
               </div>
               <div style="display:flex;flex-direction:column;gap:10px;">
                 <div v-if="selectedBairro.hasFibra && detail!.avgFibraScore !== null">
@@ -424,13 +424,13 @@ const sortedFrentes = computed(() => {
                       <path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/>
                       <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/>
                     </svg>
-                    <span style="font-size:11px;font-weight:700;color:#1C1C1E;">Fibra</span>
-                    <span style="margin-left:auto;font-size:11px;font-weight:700;color:#1C1C1E;">{{ detail!.avgFibraScore }}<span style="font-size:10px;color:#8E8E93;font-weight:400;">/100</span></span>
+                    <span style="font-size:9px;font-weight:700;color:#1C1C1E;">Fibra</span>
+                    <span style="margin-left:auto;font-size:9px;font-weight:700;color:#1C1C1E;">{{ detail!.avgFibraScore }}<span style="font-size:8.5px;color:#8E8E93;font-weight:400;">/100</span></span>
                   </div>
                   <div v-for="(cnt, cls) in detail!.fibraClassCounts" :key="cls" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
                     <div style="display:flex;align-items:center;gap:5px;">
                       <span :style="{width:'5px',height:'5px',borderRadius:'50%',backgroundColor:FIBRA_COLORS[cls]??'#8E8E93',display:'inline-block'}" />
-                      <span style="font-size:11px;color:#3C3C43;">{{ FIBRA_LABELS[cls]??cls }}</span>
+                      <span style="font-size:9px;color:#3C3C43;">{{ FIBRA_LABELS[cls]??cls }}</span>
                     </div>
                     <span :style="{fontSize:'12px',fontWeight:700,color:FIBRA_COLORS[cls]??'#8E8E93'}">{{ cnt }}</span>
                   </div>
@@ -440,13 +440,13 @@ const sortedFrentes = computed(() => {
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#660099" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>
                     </svg>
-                    <span style="font-size:11px;font-weight:700;color:#1C1C1E;">Móvel</span>
-                    <span style="margin-left:auto;font-size:11px;font-weight:700;color:#1C1C1E;">{{ detail!.avgMovelScore }}<span style="font-size:10px;color:#8E8E93;font-weight:400;">/100</span></span>
+                    <span style="font-size:9px;font-weight:700;color:#1C1C1E;">Móvel</span>
+                    <span style="margin-left:auto;font-size:9px;font-weight:700;color:#1C1C1E;">{{ detail!.avgMovelScore }}<span style="font-size:8.5px;color:#8E8E93;font-weight:400;">/100</span></span>
                   </div>
                   <div v-for="(cnt, cls) in detail!.movelClassCounts" :key="cls" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
                     <div style="display:flex;align-items:center;gap:5px;">
                       <span :style="{width:'5px',height:'5px',borderRadius:'50%',backgroundColor:MOVEL_COLORS[cls]??'#8E8E93',display:'inline-block'}" />
-                      <span style="font-size:11px;color:#3C3C43;">{{ MOVEL_LABELS[cls]??cls }}</span>
+                      <span style="font-size:9px;color:#3C3C43;">{{ MOVEL_LABELS[cls]??cls }}</span>
                     </div>
                     <span :style="{fontSize:'12px',fontWeight:700,color:MOVEL_COLORS[cls]??'#8E8E93'}">{{ cnt }}</span>
                   </div>
