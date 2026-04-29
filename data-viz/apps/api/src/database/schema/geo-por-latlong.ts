@@ -1,42 +1,68 @@
-import { pgTable, doublePrecision } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  doublePrecision,
+  integer,
+  smallint,
+  text,
+} from "drizzle-orm/pg-core";
 
 export const geoPorLatlong = pgTable("geo_por_latlong", {
+  idMunicipio: integer("id_municipio"),
+  nmMunicipio: text("nm_municipio"),
+  nmBairro: text("nm_bairro"),
+  situacaoSetor: text("situacao_setor"),
+  perfilSetor: smallint("perfil_setor"),
   latitude: doublePrecision("latitude"),
   longitude: doublePrecision("longitude"),
   populacaoTotalMedia: doublePrecision("populacao_total_media"),
+  totalDeRendimentoMedia: doublePrecision("total_de_rendimento_media"),
+  despesaTotalMediaX: doublePrecision("despesa_total_media_x"),
+  gastosPacote3playMedia: doublePrecision("gastos_pacote_3play_media"),
+  populacaoDiurnaMedia: doublePrecision("populacao_diurna_media"),
   totalDeDomiciliosMedia: doublePrecision("total_de_domicilios_media"),
-  totalTrabalhadoresMedia: doublePrecision("total_trabalhadores_media"),
+  domiciliosClassAMedia: doublePrecision("domicilios_class_a_media"),
+  domiciliosClassB1Media: doublePrecision("domicilios_class_b1_media"),
+  domiciliosClassB2Media: doublePrecision("domicilios_class_b2_media"),
+  domiciliosClassC1Media: doublePrecision("domicilios_class_c1_media"),
+  domiciliosClassC2Media: doublePrecision("domicilios_class_c2_media"),
+  domiciliosClassEDMedia: doublePrecision("domicilios_class_e_d_media"),
+  pessoasSemRendimentoMedia: doublePrecision("pessoas_sem_rendimento_media"),
+  // CSV original: "pessoas_de_1/2_a_1_salario_media" — slash normalizado.
+  pessoasDeMeioA1SalarioMedia: doublePrecision(
+    "pessoas_de_meio_a_1_salario_media"
+  ),
+  pessoasDe1A2SalariosMedia: doublePrecision("pessoas_de_1_a_2_salarios_media"),
+  pessoasDe2A3SalariosMedia: doublePrecision("pessoas_de_2_a_3_salarios_media"),
+  pessoasDe3A5SalariosMedia: doublePrecision("pessoas_de_3_a_5_salarios_media"),
+  pessoasDe5A10SalariosMedia: doublePrecision(
+    "pessoas_de_5_a_10_salarios_media"
+  ),
+  pessoasDe10A15SalariosMedia: doublePrecision(
+    "pessoas_de_10_a_15_salarios_media"
+  ),
+  pessoasDe15A20SalariosMedia: doublePrecision(
+    "pessoas_de_15_a_20_salarios_media"
+  ),
+  pessoasMaisDe20SalariosMedia: doublePrecision(
+    "pessoas_mais_de_20_salarios_media"
+  ),
   rendaPerCapitaMedia: doublePrecision("renda_per_capita_media"),
-  gastosHabitacaoDomMedia: doublePrecision("gastos_habitacao_dom_media"),
-  gastosTransporteDomMedia: doublePrecision("gastos_transporte_dom_media"),
-  gastosSaudeDomMedia: doublePrecision("gastos_saude_dom_media"),
-  gastosEducacaoDomMedia: doublePrecision("gastos_educacao_dom_media"),
-  gastosHigieneECuidadosPessoaisDomMedia: doublePrecision(
-    "gastos_higiene_e_cuidados_pessoais_dom_media"
+  gastosPacote3playPorDomicilioMedia: doublePrecision(
+    "gastos_pacote_3play_por_domicilio_media"
   ),
-  gastosAlimentacaoDomMedia: doublePrecision("gastos_alimentacao_dom_media"),
-  gastosTelefoneFixoDomMedia: doublePrecision(
-    "gastos_telefone_fixo_dom_media"
+  populacaoTotalPorDomicilioMedia: doublePrecision(
+    "populacao_total_por_domicilio_media"
   ),
-  gastosTelefoneCelularDomMedia: doublePrecision(
-    "gastos_telefone_celular_dom_media"
+  totalDeRendimentoPorDomicilioMedia: doublePrecision(
+    "total_de_rendimento_por_domicilio_media"
   ),
-  gastosPacote3playDomMedia: doublePrecision(
-    "gastos_pacote_3play_dom_media"
+  despesaTotalMediaY: doublePrecision("despesa_total_media_y"),
+  despesaTotalPorDomicilioMedia: doublePrecision(
+    "despesa_total_por_domicilio_media"
   ),
-  gastosComunicacaoDomMedia: doublePrecision(
-    "gastos_comunicacao_dom_media"
+  grauDeEndividamentoMedia: doublePrecision("grau_de_endividamento_media"),
+  grauDeEndividamentoPorDomicilioMedia: doublePrecision(
+    "grau_de_endividamento_por_domicilio_media"
   ),
-  gastosRecreacaoECulturaDomMedia: doublePrecision(
-    "gastos_recreacao_e_cultura_dom_media"
-  ),
-  gastosViagensDomMedia: doublePrecision("gastos_viagens_dom_media"),
-  propensaoSeguroSaudeMedia: doublePrecision(
-    "propensao_seguro_saude_media"
-  ),
-  propensaoSeguroVidaMedia: doublePrecision("propensao_seguro_vida_media"),
-  propensaoSeguroResidencialMedia: doublePrecision(
-    "propensao_seguro_residencial_media"
-  ),
-  // geom and geohash7 are GENERATED ALWAYS columns — skipped
+  // geom, geohash7, geohash6 are GENERATED ALWAYS columns — skipped
 });

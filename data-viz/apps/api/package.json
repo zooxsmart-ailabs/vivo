@@ -16,7 +16,8 @@
     "db:migrate": "node --env-file .env --import tsx src/database/migrate.ts",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "db:seed": "node --env-file .env --import tsx src/database/seed.ts"
+    "db:seed": "node --env-file .env --import tsx src/database/seed.ts",
+    "db:load-csv": "node --env-file .env scripts/load-csv-data.mjs"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.0",

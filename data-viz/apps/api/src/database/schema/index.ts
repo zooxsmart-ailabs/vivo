@@ -6,6 +6,7 @@ export * from "./web-browsing";
 export * from "./score";
 export * from "./geo-por-latlong";
 export * from "./vivo-ftth";
+export * from "./vivo-coverage";
 export * from "./vivo-erb";
 export * from "./geohash-cell";
 export * from "./geohash-crm";
