@@ -32,7 +32,7 @@ def catalog() -> None:
 
 
 @cli.command()
-@click.option("--max-days", type=int, default=None, help="Limita N dias (debug).")
+@click.option("--max-days", type=int, default=None, help="Limita N dias por fase (debug).")
 @click.option(
     "--retry-failed",
     is_flag=True,
@@ -51,22 +51,36 @@ def catalog() -> None:
     show_default=True,
     help="Quando --include-latency, carrega só os N primeiros dias de latency.",
 )
+@click.option(
+    "--target-only",
+    is_flag=True,
+    default=False,
+    help="Roda só a Fase 1 (entidades target). Pula upload S3 das demais.",
+)
 def load(
     max_days: int | None,
     retry_failed: bool,
     include_latency: bool,
     latency_days: int,
+    target_only: bool,
 ) -> None:
-    """Fase 2 — baixa, sobe S3 e carrega Postgres dia-a-dia.
+    """Fase 2 do pipeline — em 2 sub-fases.
 
-    Fluxo por arquivo: download local -> upload s3 -> COPY postgres
-    (se entidade alvo) -> delete local.
+    Sub-fase 1 (target): entidades 5 + opcional QoELatency. Pipeline completo
+    (download → S3 → COPY Postgres → delete) com workers paralelos.
+
+    Sub-fase 2 (não-target): entidades fora do alvo. Apenas upload S3 + delete.
+    Pulada com --target-only.
+
+    Cada arquivo é processado de ponta-a-ponta por um worker; até
+    OOKLA_PARALLEL_DOWNLOADS arquivos em paralelo por dia.
     """
     run_load(
         max_days=max_days,
         retry_failed=retry_failed,
         include_latency=include_latency,
         latency_days=latency_days,
+        target_only=target_only,
     )
 
 

@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     OOKLA_PASSWORD: str
     OOKLA_API_URL: str = "https://intelligence.speedtest.net/extracts"
 
-    OOKLA_PARALLEL_DOWNLOADS: int = 4
+    OOKLA_PARALLEL_DOWNLOADS: int = 8
     OOKLA_MAX_ATTEMPTS: int = 5
     OOKLA_RAW_DIR: str = "/data/ookla/raw"
 
