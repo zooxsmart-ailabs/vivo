@@ -31,4 +31,5 @@ Thumbs.db
 .claude/plans/
 tools/prototipo/package-lock.json
 tools/
+**/__pycache__/**
 docs/levantamento/

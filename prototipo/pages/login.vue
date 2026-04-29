@@ -196,10 +196,13 @@ async function handleSubmit() {
         Vivo × Zoox Smart Data · Uso interno
       </div>
     </div>
-
-    <style>
-      @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-      .spin-icon { animation: spin 0.8s linear infinite; }
-    </style>
   </div>
 </template>
+
+<style scoped>
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.spin-icon { animation: spin 0.8s linear infinite; }
+</style>

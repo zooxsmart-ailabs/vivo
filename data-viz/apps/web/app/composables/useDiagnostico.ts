@@ -1,14 +1,13 @@
 /**
  * Diagnóstico Growth — Avaliação dos 4 Pilares + Recomendação IA
  *
- * v5.1 (2026-04-13): Pilar Concorrência usa comparação por categoria
- *  (Excelente/Regular/Crítico) em vez de delta numérico — alinhado ao protótipo.
- *
- * v5 (2026-04-10): Port do prototipo/pages/frentes.vue com:
- *  - Pilar Percepção: até 4 métricas (SpeedTest Móvel/Fibra, Score HAC, Chamados)
- *  - Pilar Concorrência: delta competitivo per-tech (fibra + móvel)
- *  - Fibra: novo estado MELHORA_QUALIDADE
- *  - Recomendação: ATIVAR → ATACAR, + decisões e prioridades per-tech
+ * Port de prototipo/pages/frentes.vue.
+ *  - Pilar 01 Percepção: SpeedTest Móvel + SpeedTest Fibra (opc) + Score HAC (opc).
+ *  - Pilar 02 Concorrência: comparação por categoria (Excelente/Regular/Crítico).
+ *  - Pilar 03 Infraestrutura: enums simplificados (sem variantes _5G/_4G em
+ *    MELHORA_QUALIDADE / EXPANSAO_COBERTURA).
+ *  - Pilar 04 Comportamento: ARPU relativo + afinidade de canal.
+ *  - gerarRec retorna decisão binária ATACAR/AGUARDAR + scoreTotal + prioTotal.
  */
 
 // ─── Tipos ───────────────────────────────────────────────────────────────────
@@ -57,7 +56,7 @@ export interface PilarResult {
   metricas: PilarMetrica[];
 }
 
-export type Decisao = "ATACAR" | "AGUARDAR" | "BLOQUEADO";
+export type Decisao = "ATACAR" | "AGUARDAR";
 export type DecisaoTech = "ATACAR" | "AGUARDAR";
 export type Prioridade = "ALTA" | "MEDIA" | "BAIXA";
 
@@ -68,10 +67,33 @@ export interface AIRec {
   decisaoFibra: DecisaoTech;
   prioMovel: Prioridade;
   prioFibra: Prioridade;
+  scoreTotal: number;
+  prioTotal: Prioridade;
   canal: string;
   abordagem: string;
   raciocinio: string;
 }
+
+/** Estilos por nível de prioridade (ALTA/MEDIA/BAIXA) — usado em UI. */
+export const PRIO_STYLE: Record<
+  Prioridade,
+  { color: string; bg: string; border: string }
+> = {
+  ALTA: { color: "#DC2626", bg: "#FEF2F2", border: "#FECACA" },
+  MEDIA: { color: "#D97706", bg: "#FFFBEB", border: "#FDE68A" },
+  BAIXA: { color: "#16A34A", bg: "#F0FDF4", border: "#BBF7D0" },
+};
+
+/** Labels legíveis para classifications de Camada 2 (fibra + móvel). */
+export const INFRA_LABELS: Record<string, string> = {
+  SAUDAVEL: "Saudável",
+  AUMENTO_CAPACIDADE: "Aumento de Capacidade",
+  EXPANSAO_NOVA_AREA: "Expansão Nova Área",
+  MELHORA_QUALIDADE: "Melhora na Qualidade",
+  EXPANSAO_COBERTURA: "Expansão de Cobertura",
+  EXPANSAO_5G: "Expansão 5G",
+  EXPANSAO_4G: "Expansão 4G",
+};
 
 export interface DiagnosticoGrowth {
   scoreOokla: number;
@@ -155,8 +177,6 @@ export function avaliarPercep(d: DiagnosticoGrowth): PilarResult {
     fibra === 0 ? "ok" : fibra >= 8 ? "ok" : fibra >= 6 ? "alerta" : "critico";
   const sh: Sig3 =
     hac === 0 ? "ok" : hac >= 8 ? "ok" : hac >= 6 ? "alerta" : "critico";
-  const sChamados: Sig3 =
-    d.taxaChamados < 3 ? "ok" : d.taxaChamados <= 5 ? "alerta" : "critico";
 
   const metricas: PilarMetrica[] = [
     {
@@ -188,23 +208,10 @@ export function avaliarPercep(d: DiagnosticoGrowth): PilarResult {
     });
   }
 
-  metricas.push({
-    label: "Vol. Chamados",
-    value: `${d.taxaChamados.toFixed(1)}%`,
-    formula: "(RAC + SAC 30d) / Base Ativa Vivo",
-    signal: sChamados,
-    detail:
-      sChamados === "ok"
-        ? "< 3% — Saudável"
-        : sChamados === "alerta"
-          ? "3–5% — Alerta"
-          : "> 5% — Crítico",
-  });
-
   return {
     id: "01",
     title: "Percepção",
-    signal: worstSig(sm, sf, sh, sChamados),
+    signal: worstSig(sm, sf, sh),
     metricas,
   };
 }
@@ -269,7 +276,7 @@ export function avaliarInfra(c2: Camada2Info | undefined): PilarResult {
   const fc = c2?.fibra?.classification ?? "SAUDAVEL";
   const mc = c2?.movel?.classification ?? "SAUDAVEL";
 
-  // v5: Fibra — SAUDAVEL=ok | MELHORA_QUALIDADE/AUMENTO_CAPACIDADE=alerta | EXPANSAO_NOVA_AREA=critico
+  // Fibra — SAUDAVEL=ok | MELHORA_QUALIDADE/AUMENTO_CAPACIDADE=alerta | EXPANSAO_NOVA_AREA=critico
   const s1: Sig3 =
     fc === "SAUDAVEL"
       ? "ok"
@@ -277,13 +284,11 @@ export function avaliarInfra(c2: Camada2Info | undefined): PilarResult {
         ? "critico"
         : "alerta";
 
-  // Móvel — SAUDAVEL=ok | MELHORA_QUALIDADE=critico | EXPANSAO_COBERTURA=alerta
+  // Móvel — SAUDAVEL=ok | MELHORA_QUALIDADE=critico | demais (EXPANSAO_*)=alerta
   const s2: Sig3 =
     mc === "SAUDAVEL"
       ? "ok"
-      : mc === "MELHORA_QUALIDADE" ||
-          mc === "MELHORA_QUALIDADE_5G" ||
-          mc === "MELHORA_QUALIDADE_4G"
+      : mc === "MELHORA_QUALIDADE"
         ? "critico"
         : "alerta";
 
@@ -296,12 +301,9 @@ export function avaliarInfra(c2: Camada2Info | undefined): PilarResult {
   const ML: Record<string, string> = {
     SAUDAVEL: "Saudável — Growth Liberado",
     MELHORA_QUALIDADE: "Melhora na Qualidade — Crítico",
-    MELHORA_QUALIDADE_5G: "Melhora na Qualidade 5G — Crítico",
-    MELHORA_QUALIDADE_4G: "Melhora na Qualidade 4G — Crítico",
-    EXPANSAO_5G: "Expansão 5G — Controlado",
-    EXPANSAO_4G: "Expansão 4G — Controlado",
-    EXPANSAO_COBERTURA_5G: "Expansão Cobertura 5G — Controlado",
-    EXPANSAO_COBERTURA_4G: "Expansão Cobertura 4G — Controlado",
+    EXPANSAO_COBERTURA: "Expansão de Cobertura — Controlado",
+    EXPANSAO_5G: "Expansão de Cobertura — Controlado",
+    EXPANSAO_4G: "Expansão de Cobertura — Controlado",
   };
   return {
     id: "03",
@@ -383,28 +385,17 @@ export function gerarRec(
   const mc = c2?.movel?.classification ?? "SAUDAVEL";
 
   const fibraBloqueada = fc === "EXPANSAO_NOVA_AREA";
-  const fibraGargalo =
-    fc === "AUMENTO_CAPACIDADE" || fc === "MELHORA_QUALIDADE";
-  const movelProblema =
-    mc === "MELHORA_QUALIDADE" ||
-    mc === "MELHORA_QUALIDADE_5G" ||
-    mc === "MELHORA_QUALIDADE_4G";
-  const movelExpansao =
-    mc === "EXPANSAO_5G" ||
-    mc === "EXPANSAO_4G" ||
-    mc === "EXPANSAO_COBERTURA_5G" ||
-    mc === "EXPANSAO_COBERTURA_4G";
+  const fibraGargalo = fc === "AUMENTO_CAPACIDADE";
+  const movelProblema = mc === "MELHORA_QUALIDADE";
+  const movelExpansao = mc === "EXPANSAO_5G" || mc === "EXPANSAO_4G";
   const percCritica = d.scoreOokla < 6 || d.taxaChamados > 5;
   const concCritica = d.deltaVsLider < -1;
   const infraControle = fibraGargalo || movelProblema;
 
-  // 1. Decisão geral — BLOQUEADO mantido como estado do banco
+  // 1. Decisão geral (Totalização) — binária ATACAR/AGUARDAR
   let decisao: Decisao;
   let decisaoColor: string;
-  if (fibraBloqueada || (percCritica && concCritica)) {
-    decisao = "BLOQUEADO";
-    decisaoColor = "#DC2626";
-  } else if (infraControle || percCritica || concCritica) {
+  if (infraControle || percCritica || concCritica || fibraBloqueada) {
     decisao = "AGUARDAR";
     decisaoColor = "#D97706";
   } else {
@@ -412,13 +403,13 @@ export function gerarRec(
     decisaoColor = "#16A34A";
   }
 
-  // v5: Decisão por tecnologia
+  // Decisão por tecnologia
   const decisaoMovel: DecisaoTech =
     movelProblema || movelExpansao || percCritica ? "AGUARDAR" : "ATACAR";
   const decisaoFibra: DecisaoTech =
     fibraBloqueada || fibraGargalo ? "AGUARDAR" : "ATACAR";
 
-  // v5: Prioridade por tecnologia
+  // Prioridade por tecnologia (baseada nos scores Ookla)
   const scoreMovel = d.scoreOoklaMovel ?? d.scoreOokla;
   const scoreFibra = d.scoreOoklaFibra ?? 0;
   const prioMovel = calcPrio(scoreMovel);
@@ -441,66 +432,55 @@ export function gerarRec(
     abordagem =
       d.arpuRelativo >= 0.9
         ? "Rede móvel saudável — priorizar aquisição via móvel enquanto capacidade de fibra é ampliada. Retomar oferta de fibra após expansão de capacidade."
-        : "Fibra com gargalo de capacidade. Abordar com planos móvel de entrada. Upsell gradual após adesão.";
+        : "Fibra com gargalo de capacidade. Abordar com planos móvel de entrada. Não oferecer fibra até capacidade ser ampliada.";
   } else if (!fibraGargalo && movelProblema) {
     abordagem =
       d.arpuRelativo > 1.1
-        ? "Rede móvel com qualidade comprometida — priorizar oferta de fibra. Perfil premium: apresentar planos de fibra com benefícios de streaming."
-        : "Focar em fibra como produto principal. Rede móvel com qualidade comprometida — não incluir no pitch até resolução técnica.";
+        ? "Rede móvel com qualidade comprometida — priorizar oferta de fibra (rede saudável). Perfil premium: bundle com streaming."
+        : "Focar em fibra como produto principal. Rede móvel com qualidade comprometida.";
   } else if (fibraGargalo && movelProblema) {
     abordagem =
       "Ambas as redes com restrições técnicas. Aguardar resolução de infraestrutura antes de ativar growth.";
   } else if (movelExpansao) {
-    const is5g = mc === "EXPANSAO_5G" || mc === "EXPANSAO_COBERTURA_5G";
-    abordagem = `Expansão de cobertura ${is5g ? "5G" : "4G"} em andamento. Abordar com oferta de fibra como produto principal.`;
+    abordagem = `Expansão de cobertura ${mc === "EXPANSAO_5G" ? "5G" : "4G"} em andamento. Abordar com oferta de fibra como produto principal.`;
   } else {
-    // Infraestrutura saudável
-    if (d.arpuRelativo > 1.1)
-      abordagem =
-        "Oferta de totalização (Fibra + Móvel + Streaming). Perfil premium — apresentar bundle completo com benefícios exclusivos.";
-    else if (d.arpuRelativo >= 0.9)
-      abordagem =
-        "Mix de ofertas com ancoragem de preço. Apresentar comparativo de custo-benefício vs concorrência.";
-    else
-      abordagem =
-        "Oferta de entrada com preço competitivo. Cliente sensível a preço — evitar planos premium no primeiro contato. Upsell gradual após adesão.";
+    abordagem =
+      d.arpuRelativo > 1.1
+        ? "Oferta de totalização (Fibra + Móvel + Streaming). Perfil premium."
+        : d.arpuRelativo >= 0.9
+          ? "Mix de ofertas com ancoragem de preço."
+          : "Oferta de entrada com preço competitivo. Cliente sensível a preço.";
   }
 
   // 4. Raciocínio
   const reasons: string[] = [];
-  if (fibraBloqueada)
-    reasons.push("fibra bloqueada — área sem cobertura (Expansão Nova Área)");
-  if (fibraGargalo)
-    reasons.push("fibra com gargalo de capacidade — growth controlado");
-  if (movelProblema)
-    reasons.push(
-      "qualidade móvel comprometida — intervenção técnica necessária",
-    );
-  if (movelExpansao) {
-    const is5g = mc === "EXPANSAO_5G" || mc === "EXPANSAO_COBERTURA_5G";
-    reasons.push(`expansão de cobertura ${is5g ? "5G" : "4G"} em andamento`);
-  }
+  if (fibraBloqueada) reasons.push("fibra bloqueada — área sem cobertura");
+  if (fibraGargalo) reasons.push("fibra com gargalo de capacidade");
+  if (movelProblema) reasons.push("qualidade móvel comprometida");
+  if (movelExpansao)
+    reasons.push(`expansão ${mc === "EXPANSAO_5G" ? "5G" : "4G"} em andamento`);
   if (d.scoreOokla >= 8) reasons.push("percepção excelente (Ookla ≥ 8.0)");
   else if (d.scoreOokla < 6) reasons.push("percepção crítica (Ookla < 6.0)");
   if (d.taxaChamados > 5) reasons.push("volume crítico de chamados (>5%)");
-  else if (d.taxaChamados < 3)
-    reasons.push("baixo volume de chamados (<3%) — base satisfeita");
-  if (d.sharePenetracao < 20)
-    reasons.push("alta oportunidade de mercado (share < 20%)");
+  else if (d.taxaChamados < 3) reasons.push("baixo volume de chamados (<3%)");
+  if (d.sharePenetracao < 20) reasons.push("alta oportunidade (share < 20%)");
   else if (d.sharePenetracao > 40)
     reasons.push("mercado saturado (share > 40%)");
-  if (d.deltaVsLider > 0) reasons.push("Vivo com vantagem técnica vs líder");
+  if (d.deltaVsLider > 0) reasons.push("Vivo com vantagem técnica");
   else if (d.deltaVsLider < -1)
-    reasons.push("desvantagem técnica significativa vs líder");
-  if (d.canalPct < 20)
-    reasons.push(
-      `canal ${d.canalDominante} ineficiente (<20%) — redefinir estratégia de canal`,
-    );
+    reasons.push("desvantagem técnica significativa");
 
   const raciocinio =
     reasons.length > 0
       ? `Decisão baseada em: ${reasons.join("; ")}.`
-      : "Geohash com perfil equilibrado. Infraestrutura saudável, percepção positiva e canal definido. Ativar growth com oferta adequada ao perfil de preço.";
+      : "Geohash com perfil equilibrado. Ativar growth com oferta adequada ao perfil de preço.";
+
+  // Score de Totalização: média Móvel + Fibra (escala 0–10), arredondado a 1 casa
+  const scoreTotal =
+    scoreFibra > 0
+      ? parseFloat(((scoreMovel + scoreFibra) / 2).toFixed(1))
+      : parseFloat(scoreMovel.toFixed(1));
+  const prioTotal = calcPrio(scoreTotal);
 
   return {
     decisao,
@@ -509,6 +489,8 @@ export function gerarRec(
     decisaoFibra,
     prioMovel,
     prioFibra,
+    scoreTotal,
+    prioTotal,
     canal,
     abordagem,
     raciocinio,
