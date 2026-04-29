@@ -341,7 +341,7 @@ const tooltipVisible = ref<string | null>(null);
   <div
     class="geohash-sidebar-nuxt"
     style="
-      width: clamp(440px, 34vw, 600px); min-width: 420px; max-width: 600px;
+      width: clamp(500px, 38vw, 680px); min-width: 480px; max-width: 680px;
       background: #F2F2F7; border-left: 1px solid rgba(0,0,0,0.08);
       display: flex; flex-direction: column; height: 100%; overflow: hidden;
     "
@@ -470,17 +470,7 @@ const tooltipVisible = ref<string | null>(null);
                   >
                     <div style="font-size: 9px; color: #8E8E93; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; margin-bottom: 1px;">Fibra</div>
                     <span style="font-size: 14px; font-weight: 800; color: #1c1c1e; line-height: 1;">{{ scoreFibraSat }}</span>
-                    <div style="margin-top: -5px;">
-                      <span
-                        :style="{
-                          display: 'inline-block', fontSize: '8px', fontWeight: 700,
-                          color: satColor(scoreFibraSat),
-                          background: `${satColor(scoreFibraSat)}15`,
-                          border: `1px solid ${satColor(scoreFibraSat)}44`,
-                          borderRadius: '4px', padding: '1px 5px', height: '13px', whiteSpace: 'nowrap',
-                        }"
-                      >{{ satLabel(scoreFibraSat) }}</span>
-                    </div>
+                    <div :style="{ fontSize: '8px', fontWeight: 700, color: satColor(scoreFibraSat), whiteSpace: 'nowrap', paddingTop: '5px' }">{{ satLabel(scoreFibraSat) }}</div>
                   </div>
                   <div
                     :style="{
@@ -491,17 +481,7 @@ const tooltipVisible = ref<string | null>(null);
                   >
                     <div style="font-size: 9px; color: #8E8E93; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; margin-bottom: 1px;">Móvel</div>
                     <span style="font-size: 14px; font-weight: 800; color: #1c1c1e; line-height: 1;">{{ scoreMovelSat }}</span>
-                    <div style="margin-top: -5px;">
-                      <span
-                        :style="{
-                          display: 'inline-block', fontSize: '8px', fontWeight: 700,
-                          color: satColor(scoreMovelSat),
-                          background: `${satColor(scoreMovelSat)}15`,
-                          border: `1px solid ${satColor(scoreMovelSat)}44`,
-                          borderRadius: '4px', padding: '1px 5px', height: '13px', whiteSpace: 'nowrap',
-                        }"
-                      >{{ satLabel(scoreMovelSat) }}</span>
-                    </div>
+                    <div :style="{ fontSize: '8px', fontWeight: 700, color: satColor(scoreMovelSat), whiteSpace: 'nowrap', paddingTop: '5px' }">{{ satLabel(scoreMovelSat) }}</div>
                   </div>
                 </div>
               </div>
@@ -714,13 +694,7 @@ const tooltipVisible = ref<string | null>(null);
                   </span>
                   <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8E8E93;">Fibra</span>
                 </div>
-                <div style="padding-top: 3px; margin-bottom: -3px;">
-                  <div style="display: flex; align-items: center; justify-content: space-between;">
-                    <div style="font-size: 10px; font-weight: 700; color: #8E8E93; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px;">Cobertura</div>
-                    <span :style="{ display: 'inline-flex', alignItems: 'center', padding: '0px 7px', borderRadius: '5px', fontSize: '11px', fontWeight: 600, color: fibraCobertura.color, background: fibraCobertura.bg, height: '14px', flexShrink: 0, marginTop: '3px' }">{{ fibraCobertura.label }}</span>
-                  </div>
-                </div>
-                <div style="padding-top: 5px;">
+                <div style="padding-top: 3px;">
                   <div style="display: flex; align-items: center; justify-content: space-between;">
                     <div style="font-size: 10px; font-weight: 700; color: #8E8E93; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px;">Qualidade</div>
                     <span
@@ -879,33 +853,33 @@ const tooltipVisible = ref<string | null>(null);
 @media (min-width: 1920px) {
   .geohash-sidebar-nuxt {
     font-size: 10.5px;
-    width: clamp(500px, 32vw, 640px) !important;
-    min-width: 500px !important;
-    max-width: 640px !important;
+    width: clamp(580px, 36vw, 720px) !important;
+    min-width: 560px !important;
+    max-width: 720px !important;
   }
 }
 @media (min-width: 1600px) and (max-width: 1919px) {
   .geohash-sidebar-nuxt {
     font-size: 10px;
-    width: clamp(460px, 31vw, 580px) !important;
-    min-width: 460px !important;
-    max-width: 580px !important;
+    width: clamp(540px, 36vw, 660px) !important;
+    min-width: 520px !important;
+    max-width: 660px !important;
   }
 }
 @media (min-width: 1280px) and (max-width: 1599px) {
   .geohash-sidebar-nuxt {
     font-size: 9px;
-    width: clamp(420px, 33vw, 520px) !important;
-    min-width: 420px !important;
-    max-width: 520px !important;
+    width: clamp(480px, 38vw, 580px) !important;
+    min-width: 460px !important;
+    max-width: 580px !important;
   }
 }
 @media (max-width: 1279px) {
   .geohash-sidebar-nuxt {
     font-size: 8px;
-    width: clamp(380px, 38vw, 460px) !important;
-    min-width: 380px !important;
-    max-width: 460px !important;
+    width: clamp(440px, 42vw, 520px) !important;
+    min-width: 420px !important;
+    max-width: 520px !important;
   }
 }
 .geohash-sidebar-nuxt * { box-sizing: border-box; max-width: 100%; }
