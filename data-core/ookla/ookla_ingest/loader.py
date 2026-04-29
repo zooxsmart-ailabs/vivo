@@ -10,7 +10,7 @@ from typing import Any
 
 from psycopg import Connection
 
-from .api_client import OoklaApiClient
+from .api_client import OoklaApiClient, OoklaFileExpired
 from .copy_loader import load_file
 from .db import close_run, connect, open_run
 from .path_parser import TARGET_ENTITIES, parse
@@ -90,6 +90,7 @@ def run_load(
         "files_uploaded": 0,
         "files_loaded": 0,
         "files_failed": 0,
+        "files_skipped": 0,
         "rows_loaded": 0,
         "phases": {},
         "include_latency": include_latency,
@@ -150,7 +151,8 @@ def run_load(
 
 
 def _accumulate(total: dict[str, Any], phase: dict[str, Any]) -> None:
-    for k in ("files_uploaded", "files_loaded", "files_failed", "rows_loaded"):
+    for k in ("files_uploaded", "files_loaded", "files_failed", "files_skipped", "rows_loaded"):
+        total.setdefault(k, 0)
         total[k] += phase.get(k, 0)
 
 
@@ -167,6 +169,7 @@ def _run_phase(
         "files_uploaded": 0,
         "files_loaded": 0,
         "files_failed": 0,
+        "files_skipped": 0,
         "rows_loaded": 0,
     }
 
@@ -206,6 +209,9 @@ def _run_phase(
                     if was_target:
                         phase_stats["files_loaded"] += 1
                         phase_stats["rows_loaded"] += rows_loaded
+                except OoklaFileExpired:
+                    # Arquivo sumiu da API; ja foi marcado skipped em _process_file.
+                    phase_stats["files_skipped"] += 1
                 except Exception:
                     log.exception("worker falha em %s", row.remote_path)
                     phase_stats["files_failed"] += 1
@@ -249,7 +255,15 @@ def _process_file(row: CatalogRow) -> tuple[int, bool]:
     key = s3_key_for(row.remote_path, parsed)
 
     _mark(conn, row, status="downloading")
-    url = api.resolve_file_url(row.remote_path)
+    try:
+        url = api.resolve_file_url(row.remote_path)
+    except OoklaFileExpired as exc:
+        # Arquivo sumiu da API entre o catalog e o load (janela rolante,
+        # regeneracao). Marca skipped (sem incrementar attempts) — retentar
+        # nao adianta, so re-cataloga.
+        _mark(conn, row, status="skipped", error=f"expired: {exc}")
+        log.info("expirado da API: %s", row.remote_path)
+        raise
 
     if not is_target:
         # Stream Ookla → S3, sem qualquer buffer adicional.

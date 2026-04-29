@@ -46,6 +46,15 @@ class OoklaApiError(Exception):
     pass
 
 
+class OoklaFileExpired(OoklaApiError):
+    """Arquivo catalogado anteriormente sumiu da API (janela rolante).
+
+    Acontece tipicamente quando o catalogo foi gerado dias atras e a Ookla
+    rotacionou/regenerou a estrutura. O loader trata como 'skipped' sem
+    incrementar attempts, ja que retentar nao adianta.
+    """
+
+
 class OoklaApiClient:
     """Cliente fino sobre a Speedtest Intelligence Extracts API.
 
@@ -169,11 +178,19 @@ class OoklaApiClient:
         if not parent:
             raise OoklaApiError(f"remote_path sem diretorio pai: {remote_path}")
         parent_url = f"{self._base}/{parent}/"
-        for entry in self.list_dir(parent_url):
+        try:
+            entries = self.list_dir(parent_url)
+        except httpx.HTTPStatusError as e:
+            if e.response is not None and e.response.status_code == 404:
+                raise OoklaFileExpired(
+                    f"diretorio pai sumiu da API: {parent}"
+                ) from e
+            raise
+        for entry in entries:
             if entry.name == file_name and not entry.is_dir:
                 return entry.url
-        raise OoklaApiError(
-            f"Arquivo nao encontrado ao re-resolver URL: {remote_path}"
+        raise OoklaFileExpired(
+            f"arquivo sumiu da API (janela rolante? regeneracao?): {remote_path}"
         )
 
     def stream_download(self, url: str) -> httpx.Response:
