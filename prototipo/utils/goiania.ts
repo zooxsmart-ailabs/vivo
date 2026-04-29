@@ -35,8 +35,11 @@ export interface GeohashEntry {
   technology: Technology;
   lat: number;
   lng: number;
-  // Satisfação comparativa
+  // Satisfação comparativa (geral)
   satisfactionScores: { name: string; score: number; color: string }[];
+  // Satisfação por tecnologia (Ficha Técnica) — optional for backward compat
+  satisfactionFibra?: { name: string; score: number; color: string }[];
+  satisfactionMovel?: { name: string; score: number; color: string }[];
   // Market share
   marketShare: {
     percentage: number;
@@ -174,7 +177,7 @@ function calcPriorityScore(
 
 
 
-export const rawData: GeohashEntry[] = [
+export const rawData = [
 
   {
     id: "6vhbwn",
@@ -191,6 +194,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.5, color: "#1E40AF" },
       { name: "Algar", score: 6.6, color: "#28BEA5" },
       { name: "Surf", score: 6.0, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.3, color: "#660099" },
+      { name: "Claro", score: 7.5, color: "#DA291C" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" },
+      { name: "Algar", score: 7.1, color: "#28BEA5" },
+      { name: "Surf", score: 6.3, color: "#0003F9" }
     ],
     marketShare: { percentage: 51.4, activeClients: 4198, totalPopulation: 8169, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 46, shareFibra: 0 },
@@ -220,6 +231,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.7, color: "#660099" },
+      { name: "LinQ", score: 6.3, color: "#F8A81B" },
+      { name: "V.tal", score: 6.3, color: "#FFE84D" },
+      { name: "Claro", score: 6.0, color: "#DA291C" },
+      { name: "Algar", score: 6.0, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 27.3, activeClients: 3116, totalPopulation: 11415, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 24 },
     crm: { arpu: 71, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 78, planoMovel: "Controle" },
@@ -247,6 +266,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.5, color: "#1E40AF" },
       { name: "LinQ", score: 7.1, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "LinQ", score: 7.4, color: "#F8A81B" },
+      { name: "TIM", score: 7.0, color: "#1E40AF" },
+      { name: "V.tal", score: 6.9, color: "#FFE84D" },
+      { name: "Claro", score: 6.7, color: "#DA291C" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "Claro", score: 6.8, color: "#DA291C" },
+      { name: "TIM", score: 6.6, color: "#1E40AF" },
+      { name: "Algar", score: 6.1, color: "#28BEA5" },
+      { name: "Surf", score: 5.8, color: "#0003F9" }
     ],
     marketShare: { percentage: 27.6, activeClients: 3759, totalPopulation: 13622, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 24, shareFibra: 27 },
@@ -276,6 +309,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 7.1, color: "#28BEA5" },
       { name: "Surf", score: 6.4, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.5, color: "#660099" },
+      { name: "Claro", score: 8.4, color: "#DA291C" },
+      { name: "TIM", score: 7.6, color: "#1E40AF" },
+      { name: "Algar", score: 7.3, color: "#28BEA5" },
+      { name: "Surf", score: 7.1, color: "#0003F9" }
+    ],
     marketShare: { percentage: 36.5, activeClients: 3475, totalPopulation: 9522, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 32, shareFibra: 0 },
     crm: { arpu: 137, deviceTier: "Premium", planType: "Fibra 1Gbps", arpuMovel: 125, arpuFibra: 0, planoMovel: "Controle" },
@@ -302,6 +343,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Claro", score: 6.5, color: "#DA291C" },
       { name: "TIM", score: 7.2, color: "#1E40AF" },
       { name: "Algar", score: 7.3, color: "#28BEA5" },
+      { name: "Surf", score: 5.7, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.2, color: "#660099" },
+      { name: "Claro", score: 6.6, color: "#DA291C" },
+      { name: "TIM", score: 6.5, color: "#1E40AF" },
+      { name: "Algar", score: 6.3, color: "#28BEA5" },
       { name: "Surf", score: 5.7, color: "#0003F9" }
     ],
     marketShare: { percentage: 28, activeClients: 4206, totalPopulation: 15022, label: "Média Penetração" },
@@ -332,6 +381,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.5, color: "#660099" },
+      { name: "LinQ", score: 8.0, color: "#F8A81B" },
+      { name: "V.tal", score: 7.6, color: "#FFE84D" },
+      { name: "Claro", score: 7.5, color: "#DA291C" },
+      { name: "TIM", score: 7.4, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 14.5, activeClients: 2208, totalPopulation: 15229, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 13 },
     crm: { arpu: 113, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 0, arpuFibra: 133, planoMovel: "Controle" },
@@ -359,6 +416,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.9, color: "#1E40AF" },
       { name: "Algar", score: 6.4, color: "#28BEA5" },
       { name: "Surf", score: 5.8, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.4, color: "#660099" },
+      { name: "TIM", score: 4.8, color: "#1E40AF" },
+      { name: "Claro", score: 4.7, color: "#DA291C" },
+      { name: "Algar", score: 4.6, color: "#28BEA5" },
+      { name: "Surf", score: 4.2, color: "#0003F9" }
     ],
     marketShare: { percentage: 38.8, activeClients: 6641, totalPopulation: 17116, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 38, shareFibra: 0 },
@@ -388,6 +453,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "LinQ", score: 7.9, color: "#F8A81B" },
+      { name: "VIVO", score: 7.8, color: "#660099" },
+      { name: "V.tal", score: 7.5, color: "#FFE84D" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" },
+      { name: "Claro", score: 7.2, color: "#DA291C" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.2, color: "#660099" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "TIM", score: 6.8, color: "#1E40AF" },
+      { name: "Algar", score: 6.3, color: "#28BEA5" },
+      { name: "Surf", score: 5.8, color: "#0003F9" }
+    ],
     marketShare: { percentage: 47, activeClients: 5144, totalPopulation: 10945, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 42, shareFibra: 47 },
     crm: { arpu: 149, deviceTier: "Premium", planType: "Fibra 1Gbps", arpuMovel: 95, arpuFibra: 197, planoMovel: "Controle" },
@@ -416,6 +495,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.7, color: "#660099" },
+      { name: "LinQ", score: 8.2, color: "#F8A81B" },
+      { name: "Claro", score: 8.1, color: "#DA291C" },
+      { name: "V.tal", score: 7.6, color: "#FFE84D" },
+      { name: "TIM", score: 7.5, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 21.9, activeClients: 1708, totalPopulation: 7803, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 21 },
     crm: { arpu: 103, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 0, arpuFibra: 138, planoMovel: "Controle" },
@@ -443,6 +530,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.2, color: "#1E40AF" },
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "LinQ", score: 5.7, color: "#F8A81B" },
+      { name: "VIVO", score: 5.6, color: "#660099" },
+      { name: "Claro", score: 5.4, color: "#DA291C" },
+      { name: "V.tal", score: 5.4, color: "#FFE84D" },
+      { name: "Algar", score: 5.2, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.6, color: "#660099" },
+      { name: "Claro", score: 5.5, color: "#DA291C" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" },
+      { name: "Algar", score: 4.9, color: "#28BEA5" },
+      { name: "Surf", score: 4.6, color: "#0003F9" }
     ],
     marketShare: { percentage: 42.9, activeClients: 4237, totalPopulation: 9877, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 42, shareFibra: 38 },
@@ -472,6 +573,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.1, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.6, color: "#660099" },
+      { name: "LinQ", score: 6.2, color: "#F8A81B" },
+      { name: "V.tal", score: 6.0, color: "#FFE84D" },
+      { name: "Claro", score: 5.6, color: "#DA291C" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 19.3, activeClients: 3369, totalPopulation: 17461, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 17 },
     crm: { arpu: 55, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 0, arpuFibra: 89, planoMovel: "Controle" },
@@ -499,6 +608,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.8, color: "#1E40AF" },
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.9, color: "#660099" },
+      { name: "Claro", score: 6.4, color: "#DA291C" },
+      { name: "LinQ", score: 6.3, color: "#F8A81B" },
+      { name: "V.tal", score: 6.3, color: "#FFE84D" },
+      { name: "TIM", score: 5.7, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.7, color: "#660099" },
+      { name: "Claro", score: 5.8, color: "#DA291C" },
+      { name: "TIM", score: 5.8, color: "#1E40AF" },
+      { name: "Algar", score: 5.4, color: "#28BEA5" },
+      { name: "Surf", score: 5.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 22.2, activeClients: 2115, totalPopulation: 9531, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 22, shareFibra: 22 },
@@ -528,6 +651,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.7, color: "#660099" },
+      { name: "LinQ", score: 8.1, color: "#F8A81B" },
+      { name: "Claro", score: 7.9, color: "#DA291C" },
+      { name: "TIM", score: 7.7, color: "#1E40AF" },
+      { name: "V.tal", score: 7.6, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.5, color: "#660099" },
+      { name: "Claro", score: 7.5, color: "#DA291C" },
+      { name: "TIM", score: 7.4, color: "#1E40AF" },
+      { name: "Algar", score: 6.8, color: "#28BEA5" },
+      { name: "Surf", score: 6.7, color: "#0003F9" }
+    ],
     marketShare: { percentage: 25.6, activeClients: 4116, totalPopulation: 16080, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 25, shareFibra: 23 },
     crm: { arpu: 94, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 80, arpuFibra: 117, planoMovel: "Controle" },
@@ -556,6 +693,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.7, color: "#660099" },
+      { name: "LinQ", score: 8.4, color: "#F8A81B" },
+      { name: "V.tal", score: 7.8, color: "#FFE84D" },
+      { name: "Claro", score: 7.6, color: "#DA291C" },
+      { name: "TIM", score: 7.4, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 46.9, activeClients: 8345, totalPopulation: 17795, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 46 },
     crm: { arpu: 123, deviceTier: "Premium", planType: "Fibra 1Gbps", arpuMovel: 0, arpuFibra: 194, planoMovel: "Controle" },
@@ -583,6 +728,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.4, color: "#1E40AF" },
       { name: "LinQ", score: 7.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.2, color: "#660099" },
+      { name: "V.tal", score: 6.1, color: "#FFE84D" },
+      { name: "LinQ", score: 6.0, color: "#F8A81B" },
+      { name: "TIM", score: 5.7, color: "#1E40AF" },
+      { name: "Claro", score: 5.6, color: "#DA291C" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.9, color: "#660099" },
+      { name: "TIM", score: 5.5, color: "#1E40AF" },
+      { name: "Claro", score: 5.3, color: "#DA291C" },
+      { name: "Algar", score: 5.2, color: "#28BEA5" },
+      { name: "Surf", score: 4.6, color: "#0003F9" }
     ],
     marketShare: { percentage: 23.8, activeClients: 4218, totalPopulation: 17726, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 23, shareFibra: 21 },
@@ -612,6 +771,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.0, color: "#660099" },
+      { name: "LinQ", score: 7.9, color: "#F8A81B" },
+      { name: "V.tal", score: 7.4, color: "#FFE84D" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "TIM", score: 7.2, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.8, color: "#660099" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "TIM", score: 7.1, color: "#1E40AF" },
+      { name: "Algar", score: 6.9, color: "#28BEA5" },
+      { name: "Surf", score: 6.5, color: "#0003F9" }
+    ],
     marketShare: { percentage: 26.8, activeClients: 2101, totalPopulation: 7842, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 24, shareFibra: 26 },
     crm: { arpu: 98, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 101, arpuFibra: 130, planoMovel: "Controle" },
@@ -640,6 +813,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.1, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.0, color: "#660099" },
+      { name: "Claro", score: 6.5, color: "#DA291C" },
+      { name: "LinQ", score: 6.5, color: "#F8A81B" },
+      { name: "TIM", score: 6.2, color: "#1E40AF" },
+      { name: "V.tal", score: 5.9, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.3, color: "#660099" },
+      { name: "Claro", score: 5.8, color: "#DA291C" },
+      { name: "TIM", score: 5.7, color: "#1E40AF" },
+      { name: "Algar", score: 5.2, color: "#28BEA5" },
+      { name: "Surf", score: 5.2, color: "#0003F9" }
+    ],
     marketShare: { percentage: 16.5, activeClients: 1542, totalPopulation: 9347, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 14, shareFibra: 16 },
     crm: { arpu: 55, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 78, arpuFibra: 86, planoMovel: "Pré" },
@@ -666,6 +853,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Claro", score: 6.6, color: "#DA291C" },
       { name: "TIM", score: 6.8, color: "#1E40AF" },
       { name: "Algar", score: 6.6, color: "#28BEA5" },
+      { name: "Surf", score: 6.8, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.1, color: "#660099" },
+      { name: "Claro", score: 7.7, color: "#DA291C" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" },
+      { name: "Algar", score: 7.2, color: "#28BEA5" },
       { name: "Surf", score: 6.8, color: "#0003F9" }
     ],
     marketShare: { percentage: 48.2, activeClients: 8057, totalPopulation: 16717, label: "Alta Penetração" },
@@ -696,6 +891,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.4, color: "#660099" },
+      { name: "V.tal", score: 8.1, color: "#FFE84D" },
+      { name: "Claro", score: 8.0, color: "#DA291C" },
+      { name: "LinQ", score: 8.0, color: "#F8A81B" },
+      { name: "TIM", score: 7.9, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.8, color: "#660099" },
+      { name: "Claro", score: 7.7, color: "#DA291C" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" },
+      { name: "Algar", score: 6.8, color: "#28BEA5" },
+      { name: "Surf", score: 6.4, color: "#0003F9" }
+    ],
     marketShare: { percentage: 49.6, activeClients: 7016, totalPopulation: 14147, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 49, shareFibra: 49 },
     crm: { arpu: 156, deviceTier: "Premium", planType: "Fibra 1Gbps", arpuMovel: 121, arpuFibra: 158, planoMovel: "Controle" },
@@ -723,6 +932,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.1, color: "#1E40AF" },
       { name: "LinQ", score: 7.1, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.7, color: "#660099" },
+      { name: "LinQ", score: 5.7, color: "#F8A81B" },
+      { name: "Claro", score: 5.4, color: "#DA291C" },
+      { name: "V.tal", score: 5.4, color: "#FFE84D" },
+      { name: "TIM", score: 5.1, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.2, color: "#660099" },
+      { name: "Claro", score: 5.0, color: "#DA291C" },
+      { name: "TIM", score: 4.7, color: "#1E40AF" },
+      { name: "Algar", score: 4.5, color: "#28BEA5" },
+      { name: "Surf", score: 4.2, color: "#0003F9" }
     ],
     marketShare: { percentage: 46.1, activeClients: 5865, totalPopulation: 12724, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 41, shareFibra: 41 },
@@ -752,6 +975,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.6, color: "#660099" },
+      { name: "LinQ", score: 6.6, color: "#F8A81B" },
+      { name: "Claro", score: 6.2, color: "#DA291C" },
+      { name: "TIM", score: 6.2, color: "#1E40AF" },
+      { name: "V.tal", score: 6.1, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.3, color: "#660099" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" },
+      { name: "Claro", score: 5.3, color: "#DA291C" },
+      { name: "Algar", score: 5.2, color: "#28BEA5" },
+      { name: "Surf", score: 5.1, color: "#0003F9" }
+    ],
     marketShare: { percentage: 18.9, activeClients: 1552, totalPopulation: 8215, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 17, shareFibra: 18 },
     crm: { arpu: 57, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 74, arpuFibra: 89, planoMovel: "Pré" },
@@ -779,6 +1016,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.8, color: "#1E40AF" },
       { name: "LinQ", score: 8.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.5, color: "#660099" },
+      { name: "LinQ", score: 5.2, color: "#F8A81B" },
+      { name: "Claro", score: 4.8, color: "#DA291C" },
+      { name: "Algar", score: 4.7, color: "#28BEA5" },
+      { name: "V.tal", score: 4.6, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 4.7, color: "#660099" },
+      { name: "Claro", score: 4.3, color: "#DA291C" },
+      { name: "TIM", score: 4.3, color: "#1E40AF" },
+      { name: "Algar", score: 4.1, color: "#28BEA5" },
+      { name: "Surf", score: 4.0, color: "#0003F9" }
     ],
     marketShare: { percentage: 38.5, activeClients: 3696, totalPopulation: 9600, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 34, shareFibra: 38 },
@@ -808,6 +1059,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 6.4, color: "#28BEA5" },
       { name: "Surf", score: 6.5, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 4.9, color: "#660099" },
+      { name: "Claro", score: 4.2, color: "#DA291C" },
+      { name: "TIM", score: 4.2, color: "#1E40AF" },
+      { name: "Algar", score: 4.0, color: "#28BEA5" },
+      { name: "Surf", score: 4.0, color: "#0003F9" }
+    ],
     marketShare: { percentage: 34.6, activeClients: 3146, totalPopulation: 9093, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 34, shareFibra: 0 },
     crm: { arpu: 76, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 75, arpuFibra: 0, planoMovel: "Pré" },
@@ -836,6 +1095,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.0, color: "#660099" },
+      { name: "LinQ", score: 6.5, color: "#F8A81B" },
+      { name: "Claro", score: 6.1, color: "#DA291C" },
+      { name: "TIM", score: 6.0, color: "#1E40AF" },
+      { name: "V.tal", score: 6.0, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 14.5, activeClients: 1814, totalPopulation: 12517, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 14 },
     crm: { arpu: 59, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 75, planoMovel: "Pós" },
@@ -863,6 +1130,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.1, color: "#1E40AF" },
       { name: "Algar", score: 7.5, color: "#28BEA5" },
       { name: "Surf", score: 6.7, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.8, color: "#660099" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "TIM", score: 6.6, color: "#1E40AF" },
+      { name: "Algar", score: 6.4, color: "#28BEA5" },
+      { name: "Surf", score: 6.3, color: "#0003F9" }
     ],
     marketShare: { percentage: 24.8, activeClients: 3287, totalPopulation: 13256, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 22, shareFibra: 0 },
@@ -892,6 +1167,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "V.tal", score: 5.7, color: "#FFE84D" },
+      { name: "LinQ", score: 5.6, color: "#F8A81B" },
+      { name: "Claro", score: 5.4, color: "#DA291C" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 26.4, activeClients: 1963, totalPopulation: 7436, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 23 },
     crm: { arpu: 67, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 0, arpuFibra: 81, planoMovel: "Pré" },
@@ -920,6 +1203,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.5, color: "#660099" },
+      { name: "LinQ", score: 8.1, color: "#F8A81B" },
+      { name: "Claro", score: 7.7, color: "#DA291C" },
+      { name: "V.tal", score: 7.4, color: "#FFE84D" },
+      { name: "Algar", score: 7.2, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 49.3, activeClients: 7713, totalPopulation: 15647, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 44 },
     crm: { arpu: 127, deviceTier: "Premium", planType: "Fibra 500Mbps", arpuMovel: 0, arpuFibra: 155, planoMovel: "Controle" },
@@ -947,6 +1238,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.6, color: "#1E40AF" },
       { name: "LinQ", score: 7.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.3, color: "#660099" },
+      { name: "LinQ", score: 8.2, color: "#F8A81B" },
+      { name: "Claro", score: 8.1, color: "#DA291C" },
+      { name: "V.tal", score: 7.9, color: "#FFE84D" },
+      { name: "Algar", score: 7.6, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.8, color: "#660099" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" },
+      { name: "Algar", score: 7.1, color: "#28BEA5" },
+      { name: "Surf", score: 6.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 35.4, activeClients: 5528, totalPopulation: 15618, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 31, shareFibra: 31 },
@@ -976,6 +1281,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.0, color: "#660099" },
+      { name: "LinQ", score: 7.8, color: "#F8A81B" },
+      { name: "Claro", score: 7.4, color: "#DA291C" },
+      { name: "V.tal", score: 7.4, color: "#FFE84D" },
+      { name: "Algar", score: 7.1, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.3, color: "#660099" },
+      { name: "TIM", score: 6.8, color: "#1E40AF" },
+      { name: "Claro", score: 6.7, color: "#DA291C" },
+      { name: "Algar", score: 6.2, color: "#28BEA5" },
+      { name: "Surf", score: 6.1, color: "#0003F9" }
+    ],
     marketShare: { percentage: 34.8, activeClients: 3585, totalPopulation: 10302, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 31, shareFibra: 34 },
     crm: { arpu: 152, deviceTier: "Premium", planType: "Fibra 1Gbps", arpuMovel: 129, arpuFibra: 170, planoMovel: "Controle" },
@@ -1003,6 +1322,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.3, color: "#1E40AF" },
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.7, color: "#660099" },
+      { name: "LinQ", score: 8.1, color: "#F8A81B" },
+      { name: "Claro", score: 7.7, color: "#DA291C" },
+      { name: "Algar", score: 7.7, color: "#28BEA5" },
+      { name: "TIM", score: 7.6, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.9, color: "#660099" },
+      { name: "Claro", score: 7.6, color: "#DA291C" },
+      { name: "TIM", score: 7.2, color: "#1E40AF" },
+      { name: "Algar", score: 6.6, color: "#28BEA5" },
+      { name: "Surf", score: 6.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 51.3, activeClients: 8175, totalPopulation: 15937, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 46, shareFibra: 46 },
@@ -1032,6 +1365,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.9, color: "#660099" },
+      { name: "LinQ", score: 7.5, color: "#F8A81B" },
+      { name: "Claro", score: 7.1, color: "#DA291C" },
+      { name: "V.tal", score: 6.8, color: "#FFE84D" },
+      { name: "TIM", score: 6.6, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 27.3, activeClients: 2055, totalPopulation: 7530, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 27 },
     crm: { arpu: 108, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 104, planoMovel: "Pós" },
@@ -1059,6 +1400,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.9, color: "#1E40AF" },
       { name: "LinQ", score: 6.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.8, color: "#660099" },
+      { name: "LinQ", score: 8.5, color: "#F8A81B" },
+      { name: "Claro", score: 8.4, color: "#DA291C" },
+      { name: "TIM", score: 8.1, color: "#1E40AF" },
+      { name: "V.tal", score: 8.0, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 9.0, color: "#660099" },
+      { name: "Claro", score: 8.1, color: "#DA291C" },
+      { name: "TIM", score: 8.0, color: "#1E40AF" },
+      { name: "Algar", score: 7.3, color: "#28BEA5" },
+      { name: "Surf", score: 6.8, color: "#0003F9" }
     ],
     marketShare: { percentage: 44.3, activeClients: 3990, totalPopulation: 9009, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 39, shareFibra: 44 },
@@ -1088,6 +1443,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 6.7, color: "#28BEA5" },
       { name: "Surf", score: 5.8, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "Claro", score: 6.8, color: "#DA291C" },
+      { name: "Algar", score: 6.3, color: "#28BEA5" },
+      { name: "Surf", score: 6.1, color: "#0003F9" }
+    ],
     marketShare: { percentage: 42.4, activeClients: 6293, totalPopulation: 14842, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 42, shareFibra: 0 },
     crm: { arpu: 124, deviceTier: "Premium", planType: "Fibra 500Mbps", arpuMovel: 115, arpuFibra: 0, planoMovel: "Controle" },
@@ -1115,6 +1478,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.6, color: "#1E40AF" },
       { name: "Algar", score: 6.4, color: "#28BEA5" },
       { name: "Surf", score: 6.3, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.9, color: "#660099" },
+      { name: "Claro", score: 6.4, color: "#DA291C" },
+      { name: "TIM", score: 6.4, color: "#1E40AF" },
+      { name: "Algar", score: 6.0, color: "#28BEA5" },
+      { name: "Surf", score: 5.6, color: "#0003F9" }
     ],
     marketShare: { percentage: 17.2, activeClients: 2666, totalPopulation: 15501, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 15, shareFibra: 0 },
@@ -1144,6 +1515,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "Claro", score: 5.0, color: "#DA291C" },
+      { name: "VIVO", score: 4.8, color: "#660099" },
+      { name: "LinQ", score: 4.8, color: "#F8A81B" },
+      { name: "V.tal", score: 4.6, color: "#FFE84D" },
+      { name: "TIM", score: 4.4, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 33.3, activeClients: 3480, totalPopulation: 10453, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 33 },
     crm: { arpu: 70, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 0, arpuFibra: 90, planoMovel: "Controle" },
@@ -1171,6 +1550,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.2, color: "#1E40AF" },
       { name: "LinQ", score: 7.1, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.1, color: "#660099" },
+      { name: "LinQ", score: 8.0, color: "#F8A81B" },
+      { name: "Claro", score: 7.7, color: "#DA291C" },
+      { name: "V.tal", score: 7.6, color: "#FFE84D" },
+      { name: "TIM", score: 7.4, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "TIM", score: 7.0, color: "#1E40AF" },
+      { name: "Algar", score: 6.8, color: "#28BEA5" },
+      { name: "Surf", score: 6.3, color: "#0003F9" }
     ],
     marketShare: { percentage: 24.6, activeClients: 3797, totalPopulation: 15437, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 22, shareFibra: 22 },
@@ -1200,6 +1593,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "Claro", score: 5.6, color: "#DA291C" },
+      { name: "LinQ", score: 5.6, color: "#F8A81B" },
+      { name: "TIM", score: 5.4, color: "#1E40AF" },
+      { name: "Algar", score: 5.3, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.6, color: "#660099" },
+      { name: "Claro", score: 5.3, color: "#DA291C" },
+      { name: "TIM", score: 5.1, color: "#1E40AF" },
+      { name: "Algar", score: 4.9, color: "#28BEA5" },
+      { name: "Surf", score: 4.5, color: "#0003F9" }
+    ],
     marketShare: { percentage: 20.9, activeClients: 3703, totalPopulation: 17719, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 18, shareFibra: 18 },
     crm: { arpu: 59, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 78, arpuFibra: 81, planoMovel: "Controle" },
@@ -1228,6 +1635,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 8.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "LinQ", score: 7.4, color: "#F8A81B" },
+      { name: "V.tal", score: 7.4, color: "#FFE84D" },
+      { name: "Claro", score: 7.1, color: "#DA291C" },
+      { name: "TIM", score: 7.1, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 15.9, activeClients: 1980, totalPopulation: 12456, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 14 },
     crm: { arpu: 117, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 0, arpuFibra: 120, planoMovel: "Controle" },
@@ -1256,6 +1671,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 9.2, color: "#660099" },
+      { name: "LinQ", score: 8.5, color: "#F8A81B" },
+      { name: "V.tal", score: 8.5, color: "#FFE84D" },
+      { name: "Claro", score: 8.2, color: "#DA291C" },
+      { name: "TIM", score: 8.0, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 49.2, activeClients: 8516, totalPopulation: 17309, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 49 },
     crm: { arpu: 170, deviceTier: "Premium", planType: "Pós-pago 5G", arpuMovel: 0, arpuFibra: 176, planoMovel: "Pós" },
@@ -1283,6 +1706,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.2, color: "#1E40AF" },
       { name: "LinQ", score: 7.1, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.5, color: "#660099" },
+      { name: "LinQ", score: 7.7, color: "#F8A81B" },
+      { name: "V.tal", score: 7.6, color: "#FFE84D" },
+      { name: "TIM", score: 7.4, color: "#1E40AF" },
+      { name: "Claro", score: 7.3, color: "#DA291C" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "TIM", score: 7.1, color: "#1E40AF" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "Algar", score: 6.8, color: "#28BEA5" },
+      { name: "Surf", score: 6.2, color: "#0003F9" }
     ],
     marketShare: { percentage: 46.8, activeClients: 6891, totalPopulation: 14726, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 42, shareFibra: 42 },
@@ -1312,6 +1749,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.1, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "LinQ", score: 5.7, color: "#F8A81B" },
+      { name: "V.tal", score: 5.6, color: "#FFE84D" },
+      { name: "Claro", score: 5.3, color: "#DA291C" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 18.9, activeClients: 2169, totalPopulation: 11480, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 18 },
     crm: { arpu: 83, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 81, planoMovel: "Controle" },
@@ -1339,6 +1784,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.6, color: "#1E40AF" },
       { name: "LinQ", score: 7.1, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.4, color: "#660099" },
+      { name: "LinQ", score: 8.3, color: "#F8A81B" },
+      { name: "V.tal", score: 7.6, color: "#FFE84D" },
+      { name: "Claro", score: 7.5, color: "#DA291C" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.3, color: "#660099" },
+      { name: "Claro", score: 7.4, color: "#DA291C" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" },
+      { name: "Algar", score: 6.8, color: "#28BEA5" },
+      { name: "Surf", score: 6.7, color: "#0003F9" }
     ],
     marketShare: { percentage: 45.2, activeClients: 7888, totalPopulation: 17452, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 40, shareFibra: 40 },
@@ -1368,6 +1827,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.9, color: "#660099" },
+      { name: "LinQ", score: 8.5, color: "#F8A81B" },
+      { name: "Claro", score: 8.2, color: "#DA291C" },
+      { name: "V.tal", score: 7.6, color: "#FFE84D" },
+      { name: "Algar", score: 7.5, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 52.3, activeClients: 6141, totalPopulation: 11742, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 52 },
     crm: { arpu: 126, deviceTier: "Premium", planType: "Fibra 1Gbps", arpuMovel: 0, arpuFibra: 158, planoMovel: "Controle" },
@@ -1395,6 +1862,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.4, color: "#1E40AF" },
       { name: "Algar", score: 7.3, color: "#28BEA5" },
       { name: "Surf", score: 5.9, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "Claro", score: 7.1, color: "#DA291C" },
+      { name: "TIM", score: 7.0, color: "#1E40AF" },
+      { name: "Algar", score: 6.9, color: "#28BEA5" },
+      { name: "Surf", score: 6.3, color: "#0003F9" }
     ],
     marketShare: { percentage: 46.8, activeClients: 8173, totalPopulation: 17464, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 42, shareFibra: 0 },
@@ -1424,6 +1899,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "LinQ", score: 5.9, color: "#F8A81B" },
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "Claro", score: 5.6, color: "#DA291C" },
+      { name: "V.tal", score: 5.6, color: "#FFE84D" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.3, color: "#660099" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" },
+      { name: "Claro", score: 5.1, color: "#DA291C" },
+      { name: "Algar", score: 4.7, color: "#28BEA5" },
+      { name: "Surf", score: 4.6, color: "#0003F9" }
+    ],
     marketShare: { percentage: 16.2, activeClients: 2467, totalPopulation: 15233, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 16, shareFibra: 16 },
     crm: { arpu: 75, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 66, arpuFibra: 89, planoMovel: "Controle" },
@@ -1451,6 +1940,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.3, color: "#1E40AF" },
       { name: "LinQ", score: 8.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.9, color: "#660099" },
+      { name: "LinQ", score: 7.5, color: "#F8A81B" },
+      { name: "V.tal", score: 7.4, color: "#FFE84D" },
+      { name: "TIM", score: 7.2, color: "#1E40AF" },
+      { name: "Claro", score: 7.1, color: "#DA291C" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.1, color: "#660099" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "Algar", score: 6.9, color: "#28BEA5" },
+      { name: "Surf", score: 6.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 21.5, activeClients: 2084, totalPopulation: 9695, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 19, shareFibra: 19 },
@@ -1480,6 +1983,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.7, color: "#660099" },
+      { name: "LinQ", score: 8.0, color: "#F8A81B" },
+      { name: "Claro", score: 7.9, color: "#DA291C" },
+      { name: "V.tal", score: 7.8, color: "#FFE84D" },
+      { name: "TIM", score: 7.7, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.2, color: "#660099" },
+      { name: "Claro", score: 7.5, color: "#DA291C" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" },
+      { name: "Algar", score: 6.9, color: "#28BEA5" },
+      { name: "Surf", score: 6.4, color: "#0003F9" }
+    ],
     marketShare: { percentage: 16.5, activeClients: 1520, totalPopulation: 9218, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 14, shareFibra: 14 },
     crm: { arpu: 109, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 107, arpuFibra: 124, planoMovel: "Pós" },
@@ -1507,6 +2024,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.0, color: "#1E40AF" },
       { name: "Algar", score: 6.8, color: "#28BEA5" },
       { name: "Surf", score: 6.0, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.2, color: "#660099" },
+      { name: "Claro", score: 4.7, color: "#DA291C" },
+      { name: "TIM", score: 4.2, color: "#1E40AF" },
+      { name: "Algar", score: 4.0, color: "#28BEA5" },
+      { name: "Surf", score: 4.0, color: "#0003F9" }
     ],
     marketShare: { percentage: 31.8, activeClients: 2813, totalPopulation: 8848, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 28, shareFibra: 0 },
@@ -1536,6 +2061,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 6.8, color: "#28BEA5" },
       { name: "Surf", score: 6.7, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.9, color: "#660099" },
+      { name: "Claro", score: 7.9, color: "#DA291C" },
+      { name: "TIM", score: 7.4, color: "#1E40AF" },
+      { name: "Algar", score: 7.0, color: "#28BEA5" },
+      { name: "Surf", score: 6.6, color: "#0003F9" }
+    ],
     marketShare: { percentage: 49.4, activeClients: 6038, totalPopulation: 12224, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 49, shareFibra: 0 },
     crm: { arpu: 135, deviceTier: "Premium", planType: "Fibra 1Gbps", arpuMovel: 104, arpuFibra: 0, planoMovel: "Controle" },
@@ -1562,6 +2095,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Claro", score: 6.9, color: "#DA291C" },
       { name: "TIM", score: 6.6, color: "#1E40AF" },
       { name: "Algar", score: 7.5, color: "#28BEA5" },
+      { name: "Surf", score: 6.7, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.1, color: "#660099" },
+      { name: "Claro", score: 8.0, color: "#DA291C" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" },
+      { name: "Algar", score: 7.3, color: "#28BEA5" },
       { name: "Surf", score: 6.7, color: "#0003F9" }
     ],
     marketShare: { percentage: 37.1, activeClients: 4884, totalPopulation: 13167, label: "Alta Penetração" },
@@ -1592,6 +2133,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 7.3, color: "#28BEA5" },
       { name: "Surf", score: 5.9, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.2, color: "#660099" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "TIM", score: 6.7, color: "#1E40AF" },
+      { name: "Algar", score: 6.6, color: "#28BEA5" },
+      { name: "Surf", score: 6.0, color: "#0003F9" }
+    ],
     marketShare: { percentage: 16.6, activeClients: 2759, totalPopulation: 16626, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 14, shareFibra: 0 },
     crm: { arpu: 106, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 110, arpuFibra: 0, planoMovel: "Pós" },
@@ -1620,6 +2169,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.1, color: "#660099" },
+      { name: "LinQ", score: 7.5, color: "#F8A81B" },
+      { name: "Claro", score: 7.4, color: "#DA291C" },
+      { name: "V.tal", score: 7.4, color: "#FFE84D" },
+      { name: "TIM", score: 7.2, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 19, activeClients: 2877, totalPopulation: 15147, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 19 },
     crm: { arpu: 105, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 0, arpuFibra: 123, planoMovel: "Controle" },
@@ -1647,6 +2204,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.7, color: "#1E40AF" },
       { name: "Algar", score: 6.6, color: "#28BEA5" },
       { name: "Surf", score: 6.6, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.1, color: "#660099" },
+      { name: "TIM", score: 5.8, color: "#1E40AF" },
+      { name: "Claro", score: 5.7, color: "#DA291C" },
+      { name: "Algar", score: 5.4, color: "#28BEA5" },
+      { name: "Surf", score: 5.3, color: "#0003F9" }
     ],
     marketShare: { percentage: 20.8, activeClients: 3642, totalPopulation: 17513, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 20, shareFibra: 0 },
@@ -1676,6 +2241,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.3, color: "#660099" },
+      { name: "LinQ", score: 5.2, color: "#F8A81B" },
+      { name: "Claro", score: 5.0, color: "#DA291C" },
+      { name: "V.tal", score: 4.9, color: "#FFE84D" },
+      { name: "TIM", score: 4.8, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 4.8, color: "#660099" },
+      { name: "TIM", score: 4.5, color: "#1E40AF" },
+      { name: "Claro", score: 4.2, color: "#DA291C" },
+      { name: "Algar", score: 4.0, color: "#28BEA5" },
+      { name: "Surf", score: 4.0, color: "#0003F9" }
+    ],
     marketShare: { percentage: 37.1, activeClients: 2964, totalPopulation: 7990, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 33, shareFibra: 33 },
     crm: { arpu: 70, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 55, arpuFibra: 87, planoMovel: "Pré" },
@@ -1703,6 +2282,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.4, color: "#1E40AF" },
       { name: "LinQ", score: 7.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "LinQ", score: 7.4, color: "#F8A81B" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "TIM", score: 7.0, color: "#1E40AF" },
+      { name: "NIO", score: 6.7, color: "#32E000" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "Claro", score: 7.1, color: "#DA291C" },
+      { name: "TIM", score: 6.6, color: "#1E40AF" },
+      { name: "Algar", score: 6.4, color: "#28BEA5" },
+      { name: "Surf", score: 6.0, color: "#0003F9" }
     ],
     marketShare: { percentage: 21.9, activeClients: 2343, totalPopulation: 10700, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 19, shareFibra: 21 },
@@ -1732,6 +2325,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "LinQ", score: 7.7, color: "#F8A81B" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "V.tal", score: 7.2, color: "#FFE84D" },
+      { name: "TIM", score: 6.8, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 45.8, activeClients: 3452, totalPopulation: 7539, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 41 },
     crm: { arpu: 133, deviceTier: "Premium", planType: "Pós-pago 5G", arpuMovel: 0, arpuFibra: 149, planoMovel: "Pós" },
@@ -1759,6 +2360,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.2, color: "#1E40AF" },
       { name: "Algar", score: 6.9, color: "#28BEA5" },
       { name: "Surf", score: 6.7, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 4.8, color: "#660099" },
+      { name: "Claro", score: 4.6, color: "#DA291C" },
+      { name: "TIM", score: 4.3, color: "#1E40AF" },
+      { name: "Algar", score: 4.3, color: "#28BEA5" },
+      { name: "Surf", score: 4.0, color: "#0003F9" }
     ],
     marketShare: { percentage: 40.3, activeClients: 6753, totalPopulation: 16758, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 36, shareFibra: 0 },
@@ -1788,6 +2397,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 6.4, color: "#28BEA5" },
       { name: "Surf", score: 5.9, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.8, color: "#660099" },
+      { name: "Claro", score: 7.1, color: "#DA291C" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "Algar", score: 6.7, color: "#28BEA5" },
+      { name: "Surf", score: 6.2, color: "#0003F9" }
+    ],
     marketShare: { percentage: 19, activeClients: 1614, totalPopulation: 8499, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 17, shareFibra: 0 },
     crm: { arpu: 102, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 84, arpuFibra: 0, planoMovel: "Controle" },
@@ -1815,6 +2432,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.3, color: "#1E40AF" },
       { name: "LinQ", score: 7.1, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "LinQ", score: 6.9, color: "#F8A81B" },
+      { name: "V.tal", score: 6.6, color: "#FFE84D" },
+      { name: "Claro", score: 6.5, color: "#DA291C" },
+      { name: "TIM", score: 6.4, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.9, color: "#660099" },
+      { name: "Claro", score: 6.6, color: "#DA291C" },
+      { name: "Algar", score: 6.0, color: "#28BEA5" },
+      { name: "TIM", score: 5.9, color: "#1E40AF" },
+      { name: "Surf", score: 5.3, color: "#0003F9" }
     ],
     marketShare: { percentage: 27.7, activeClients: 4534, totalPopulation: 16370, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 24, shareFibra: 24 },
@@ -1844,6 +2475,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 7.0, color: "#28BEA5" },
       { name: "Surf", score: 6.4, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.9, color: "#660099" },
+      { name: "Claro", score: 5.9, color: "#DA291C" },
+      { name: "TIM", score: 5.7, color: "#1E40AF" },
+      { name: "Algar", score: 5.2, color: "#28BEA5" },
+      { name: "Surf", score: 4.9, color: "#0003F9" }
+    ],
     marketShare: { percentage: 15.9, activeClients: 1948, totalPopulation: 12253, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 14, shareFibra: 0 },
     crm: { arpu: 60, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 85, arpuFibra: 0, planoMovel: "Controle" },
@@ -1872,6 +2511,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.7, color: "#660099" },
+      { name: "LinQ", score: 8.4, color: "#F8A81B" },
+      { name: "TIM", score: 7.7, color: "#1E40AF" },
+      { name: "Claro", score: 7.6, color: "#DA291C" },
+      { name: "V.tal", score: 7.6, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 53.8, activeClients: 5613, totalPopulation: 10434, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 53 },
     crm: { arpu: 172, deviceTier: "Premium", planType: "Fibra 1Gbps", arpuMovel: 0, arpuFibra: 183, planoMovel: "Controle" },
@@ -1899,6 +2546,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.4, color: "#1E40AF" },
       { name: "Algar", score: 6.6, color: "#28BEA5" },
       { name: "Surf", score: 6.2, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.5, color: "#660099" },
+      { name: "Claro", score: 6.5, color: "#DA291C" },
+      { name: "TIM", score: 6.1, color: "#1E40AF" },
+      { name: "Algar", score: 5.7, color: "#28BEA5" },
+      { name: "Surf", score: 5.7, color: "#0003F9" }
     ],
     marketShare: { percentage: 22.3, activeClients: 1871, totalPopulation: 8392, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 20, shareFibra: 0 },
@@ -1928,6 +2583,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.9, color: "#660099" },
+      { name: "LinQ", score: 7.3, color: "#F8A81B" },
+      { name: "V.tal", score: 7.2, color: "#FFE84D" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "TIM", score: 6.8, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "Claro", score: 7.1, color: "#DA291C" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "Algar", score: 6.5, color: "#28BEA5" },
+      { name: "Surf", score: 6.4, color: "#0003F9" }
+    ],
     marketShare: { percentage: 15.5, activeClients: 2141, totalPopulation: 13815, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 15, shareFibra: 15 },
     crm: { arpu: 107, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 90, arpuFibra: 129, planoMovel: "Pós" },
@@ -1956,6 +2625,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 8.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.1, color: "#660099" },
+      { name: "LinQ", score: 7.8, color: "#F8A81B" },
+      { name: "V.tal", score: 7.6, color: "#FFE84D" },
+      { name: "Claro", score: 7.5, color: "#DA291C" },
+      { name: "TIM", score: 7.5, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 47.2, activeClients: 4745, totalPopulation: 10053, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 42 },
     crm: { arpu: 159, deviceTier: "Premium", planType: "Fibra 500Mbps", arpuMovel: 0, arpuFibra: 168, planoMovel: "Controle" },
@@ -1984,6 +2661,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.1, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.9, color: "#660099" },
+      { name: "LinQ", score: 7.8, color: "#F8A81B" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" },
+      { name: "V.tal", score: 7.3, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 22.4, activeClients: 3811, totalPopulation: 17015, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 20 },
     crm: { arpu: 114, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 111, planoMovel: "Controle" },
@@ -2011,6 +2696,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.6, color: "#1E40AF" },
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.8, color: "#660099" },
+      { name: "Claro", score: 7.6, color: "#DA291C" },
+      { name: "LinQ", score: 7.4, color: "#F8A81B" },
+      { name: "V.tal", score: 7.3, color: "#FFE84D" },
+      { name: "TIM", score: 7.2, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.1, color: "#660099" },
+      { name: "Claro", score: 6.7, color: "#DA291C" },
+      { name: "TIM", score: 6.6, color: "#1E40AF" },
+      { name: "Algar", score: 6.4, color: "#28BEA5" },
+      { name: "Surf", score: 5.9, color: "#0003F9" }
     ],
     marketShare: { percentage: 28, activeClients: 4505, totalPopulation: 16091, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 25, shareFibra: 28 },
@@ -2040,6 +2739,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.7, color: "#660099" },
+      { name: "LinQ", score: 5.6, color: "#F8A81B" },
+      { name: "Claro", score: 5.4, color: "#DA291C" },
+      { name: "Algar", score: 5.3, color: "#28BEA5" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 38.2, activeClients: 6258, totalPopulation: 16383, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 38 },
     crm: { arpu: 66, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 0, arpuFibra: 94, planoMovel: "Pré" },
@@ -2067,6 +2774,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.5, color: "#1E40AF" },
       { name: "Algar", score: 7.3, color: "#28BEA5" },
       { name: "Surf", score: 6.1, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.3, color: "#660099" },
+      { name: "Claro", score: 8.0, color: "#DA291C" },
+      { name: "TIM", score: 7.6, color: "#1E40AF" },
+      { name: "Algar", score: 7.4, color: "#28BEA5" },
+      { name: "Surf", score: 6.7, color: "#0003F9" }
     ],
     marketShare: { percentage: 48.9, activeClients: 8492, totalPopulation: 17367, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 48, shareFibra: 0 },
@@ -2096,6 +2811,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.8, color: "#660099" },
+      { name: "LinQ", score: 6.6, color: "#F8A81B" },
+      { name: "V.tal", score: 6.3, color: "#FFE84D" },
+      { name: "Claro", score: 6.2, color: "#DA291C" },
+      { name: "TIM", score: 6.1, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 26.1, activeClients: 2369, totalPopulation: 9078, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 23 },
     crm: { arpu: 65, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 94, planoMovel: "Pós" },
@@ -2124,6 +2847,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.1, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "Claro", score: 5.4, color: "#DA291C" },
+      { name: "LinQ", score: 5.2, color: "#F8A81B" },
+      { name: "TIM", score: 5.1, color: "#1E40AF" },
+      { name: "V.tal", score: 4.9, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 24.2, activeClients: 3511, totalPopulation: 14511, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 24 },
     crm: { arpu: 80, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 76, planoMovel: "Controle" },
@@ -2151,6 +2882,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.7, color: "#1E40AF" },
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.9, color: "#660099" },
+      { name: "LinQ", score: 7.3, color: "#F8A81B" },
+      { name: "TIM", score: 7.2, color: "#1E40AF" },
+      { name: "Claro", score: 7.1, color: "#DA291C" },
+      { name: "V.tal", score: 7.0, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "Claro", score: 7.1, color: "#DA291C" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "Algar", score: 6.2, color: "#28BEA5" },
+      { name: "Surf", score: 6.1, color: "#0003F9" }
     ],
     marketShare: { percentage: 27.9, activeClients: 2555, totalPopulation: 9161, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 27, shareFibra: 27 },
@@ -2180,6 +2925,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.5, color: "#660099" },
+      { name: "TIM", score: 5.4, color: "#1E40AF" },
+      { name: "LinQ", score: 5.4, color: "#F8A81B" },
+      { name: "V.tal", score: 5.3, color: "#FFE84D" },
+      { name: "Claro", score: 5.2, color: "#DA291C" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.7, color: "#660099" },
+      { name: "Claro", score: 5.2, color: "#DA291C" },
+      { name: "TIM", score: 4.8, color: "#1E40AF" },
+      { name: "Algar", score: 4.6, color: "#28BEA5" },
+      { name: "Surf", score: 4.4, color: "#0003F9" }
+    ],
     marketShare: { percentage: 20.7, activeClients: 2225, totalPopulation: 10751, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 18, shareFibra: 18 },
     crm: { arpu: 83, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 59, arpuFibra: 82, planoMovel: "Controle" },
@@ -2207,6 +2966,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.8, color: "#1E40AF" },
       { name: "Algar", score: 6.3, color: "#28BEA5" },
       { name: "Surf", score: 6.6, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 4.9, color: "#660099" },
+      { name: "Claro", score: 4.6, color: "#DA291C" },
+      { name: "TIM", score: 4.3, color: "#1E40AF" },
+      { name: "Algar", score: 4.1, color: "#28BEA5" },
+      { name: "Surf", score: 4.0, color: "#0003F9" }
     ],
     marketShare: { percentage: 39.1, activeClients: 6580, totalPopulation: 16830, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 39, shareFibra: 0 },
@@ -2236,6 +3003,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.4, color: "#660099" },
+      { name: "Claro", score: 5.8, color: "#DA291C" },
+      { name: "LinQ", score: 5.8, color: "#F8A81B" },
+      { name: "V.tal", score: 5.8, color: "#FFE84D" },
+      { name: "TIM", score: 5.4, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 39.4, activeClients: 5116, totalPopulation: 12986, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 35 },
     crm: { arpu: 79, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 0, arpuFibra: 70, planoMovel: "Pré" },
@@ -2263,6 +3038,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.5, color: "#1E40AF" },
       { name: "Algar", score: 6.4, color: "#28BEA5" },
       { name: "Surf", score: 6.8, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.7, color: "#660099" },
+      { name: "Claro", score: 5.4, color: "#DA291C" },
+      { name: "TIM", score: 5.1, color: "#1E40AF" },
+      { name: "Algar", score: 5.0, color: "#28BEA5" },
+      { name: "Surf", score: 4.8, color: "#0003F9" }
     ],
     marketShare: { percentage: 16.8, activeClients: 1603, totalPopulation: 9545, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 15, shareFibra: 0 },
@@ -2292,6 +3075,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.9, color: "#660099" },
+      { name: "LinQ", score: 6.5, color: "#F8A81B" },
+      { name: "V.tal", score: 6.4, color: "#FFE84D" },
+      { name: "Claro", score: 6.2, color: "#DA291C" },
+      { name: "TIM", score: 5.9, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 24.1, activeClients: 2346, totalPopulation: 9735, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 24 },
     crm: { arpu: 78, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 0, arpuFibra: 94, planoMovel: "Pré" },
@@ -2319,6 +3110,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.7, color: "#1E40AF" },
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 9.2, color: "#660099" },
+      { name: "LinQ", score: 8.5, color: "#F8A81B" },
+      { name: "V.tal", score: 8.5, color: "#FFE84D" },
+      { name: "Claro", score: 8.3, color: "#DA291C" },
+      { name: "TIM", score: 8.1, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.2, color: "#660099" },
+      { name: "Claro", score: 7.8, color: "#DA291C" },
+      { name: "TIM", score: 7.6, color: "#1E40AF" },
+      { name: "Algar", score: 7.1, color: "#28BEA5" },
+      { name: "Surf", score: 6.8, color: "#0003F9" }
     ],
     marketShare: { percentage: 49.6, activeClients: 3492, totalPopulation: 7042, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 44, shareFibra: 44 },
@@ -2348,6 +3153,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 7.4, color: "#28BEA5" },
       { name: "Surf", score: 6.0, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.4, color: "#660099" },
+      { name: "Claro", score: 4.8, color: "#DA291C" },
+      { name: "TIM", score: 4.6, color: "#1E40AF" },
+      { name: "Algar", score: 4.6, color: "#28BEA5" },
+      { name: "Surf", score: 4.1, color: "#0003F9" }
+    ],
     marketShare: { percentage: 32, activeClients: 5195, totalPopulation: 16237, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 28, shareFibra: 0 },
     crm: { arpu: 66, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 79, arpuFibra: 0, planoMovel: "Controle" },
@@ -2376,6 +3189,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.6, color: "#660099" },
+      { name: "LinQ", score: 8.4, color: "#F8A81B" },
+      { name: "V.tal", score: 7.8, color: "#FFE84D" },
+      { name: "Claro", score: 7.7, color: "#DA291C" },
+      { name: "TIM", score: 7.5, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 54.6, activeClients: 7577, totalPopulation: 13878, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 54 },
     crm: { arpu: 165, deviceTier: "Premium", planType: "Fibra 1Gbps", arpuMovel: 0, arpuFibra: 145, planoMovel: "Controle" },
@@ -2404,6 +3225,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "LinQ", score: 7.3, color: "#F8A81B" },
+      { name: "V.tal", score: 6.6, color: "#FFE84D" },
+      { name: "Claro", score: 6.5, color: "#DA291C" },
+      { name: "TIM", score: 6.5, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 25.2, activeClients: 3110, totalPopulation: 12345, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 22 },
     crm: { arpu: 97, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 0, arpuFibra: 137, planoMovel: "Controle" },
@@ -2431,6 +3260,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.7, color: "#1E40AF" },
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "LinQ", score: 7.5, color: "#F8A81B" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "V.tal", score: 6.9, color: "#FFE84D" },
+      { name: "Algar", score: 6.8, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "TIM", score: 6.5, color: "#1E40AF" },
+      { name: "Algar", score: 6.3, color: "#28BEA5" },
+      { name: "Surf", score: 5.9, color: "#0003F9" }
     ],
     marketShare: { percentage: 16.1, activeClients: 1781, totalPopulation: 11066, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 14, shareFibra: 14 },
@@ -2460,6 +3303,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.4, color: "#660099" },
+      { name: "LinQ", score: 7.9, color: "#F8A81B" },
+      { name: "Claro", score: 7.6, color: "#DA291C" },
+      { name: "TIM", score: 7.4, color: "#1E40AF" },
+      { name: "V.tal", score: 7.2, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.9, color: "#660099" },
+      { name: "Claro", score: 7.6, color: "#DA291C" },
+      { name: "TIM", score: 7.0, color: "#1E40AF" },
+      { name: "Algar", score: 6.8, color: "#28BEA5" },
+      { name: "Surf", score: 6.3, color: "#0003F9" }
+    ],
     marketShare: { percentage: 26.7, activeClients: 3319, totalPopulation: 12432, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 24, shareFibra: 26 },
     crm: { arpu: 112, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 92, arpuFibra: 131, planoMovel: "Controle" },
@@ -2487,6 +3344,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.5, color: "#1E40AF" },
       { name: "Algar", score: 7.3, color: "#28BEA5" },
       { name: "Surf", score: 6.0, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.6, color: "#660099" },
+      { name: "Claro", score: 6.1, color: "#DA291C" },
+      { name: "TIM", score: 5.7, color: "#1E40AF" },
+      { name: "Algar", score: 5.7, color: "#28BEA5" },
+      { name: "Surf", score: 5.6, color: "#0003F9" }
     ],
     marketShare: { percentage: 25.2, activeClients: 1844, totalPopulation: 7319, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 22, shareFibra: 0 },
@@ -2516,6 +3381,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "Claro", score: 7.4, color: "#DA291C" },
+      { name: "LinQ", score: 7.4, color: "#F8A81B" },
+      { name: "V.tal", score: 7.3, color: "#FFE84D" },
+      { name: "TIM", score: 7.1, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 49.5, activeClients: 5244, totalPopulation: 10594, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 44 },
     crm: { arpu: 179, deviceTier: "Premium", planType: "Fibra 500Mbps", arpuMovel: 0, arpuFibra: 151, planoMovel: "Controle" },
@@ -2543,6 +3416,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.5, color: "#1E40AF" },
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.6, color: "#660099" },
+      { name: "Claro", score: 6.1, color: "#DA291C" },
+      { name: "LinQ", score: 6.1, color: "#F8A81B" },
+      { name: "V.tal", score: 6.1, color: "#FFE84D" },
+      { name: "TIM", score: 5.8, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "Claro", score: 5.5, color: "#DA291C" },
+      { name: "TIM", score: 5.1, color: "#1E40AF" },
+      { name: "Algar", score: 4.6, color: "#28BEA5" },
+      { name: "Surf", score: 4.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 17.1, activeClients: 2671, totalPopulation: 15625, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 15, shareFibra: 17 },
@@ -2572,6 +3459,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.2, color: "#660099" },
+      { name: "Claro", score: 6.0, color: "#DA291C" },
+      { name: "LinQ", score: 5.9, color: "#F8A81B" },
+      { name: "V.tal", score: 5.9, color: "#FFE84D" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 26.5, activeClients: 4519, totalPopulation: 17055, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 26 },
     crm: { arpu: 60, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 79, planoMovel: "Controle" },
@@ -2599,6 +3494,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.5, color: "#1E40AF" },
       { name: "LinQ", score: 8.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.5, color: "#660099" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" },
+      { name: "LinQ", score: 5.2, color: "#F8A81B" },
+      { name: "Claro", score: 5.0, color: "#DA291C" },
+      { name: "V.tal", score: 5.0, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.6, color: "#660099" },
+      { name: "Claro", score: 5.3, color: "#DA291C" },
+      { name: "TIM", score: 4.8, color: "#1E40AF" },
+      { name: "Algar", score: 4.4, color: "#28BEA5" },
+      { name: "Surf", score: 4.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 34.9, activeClients: 4269, totalPopulation: 12234, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 31, shareFibra: 34 },
@@ -2628,6 +3537,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 8.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "Claro", score: 7.5, color: "#DA291C" },
+      { name: "LinQ", score: 7.4, color: "#F8A81B" },
+      { name: "V.tal", score: 7.1, color: "#FFE84D" },
+      { name: "TIM", score: 6.8, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 25.8, activeClients: 3052, totalPopulation: 11831, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 23 },
     crm: { arpu: 106, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 0, arpuFibra: 124, planoMovel: "Controle" },
@@ -2656,6 +3573,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 8.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.9, color: "#660099" },
+      { name: "TIM", score: 6.5, color: "#1E40AF" },
+      { name: "LinQ", score: 6.5, color: "#F8A81B" },
+      { name: "V.tal", score: 6.4, color: "#FFE84D" },
+      { name: "Claro", score: 6.3, color: "#DA291C" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 27, activeClients: 4279, totalPopulation: 15849, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 24 },
     crm: { arpu: 56, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 88, planoMovel: "Controle" },
@@ -2684,6 +3609,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "LinQ", score: 7.1, color: "#F8A81B" },
+      { name: "Claro", score: 6.8, color: "#DA291C" },
+      { name: "V.tal", score: 6.8, color: "#FFE84D" },
+      { name: "TIM", score: 6.6, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 15.3, activeClients: 2434, totalPopulation: 15914, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 13 },
     crm: { arpu: 96, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 102, planoMovel: "Pós" },
@@ -2711,6 +3644,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.9, color: "#1E40AF" },
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "LinQ", score: 7.7, color: "#F8A81B" },
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "TIM", score: 7.2, color: "#1E40AF" },
+      { name: "V.tal", score: 7.1, color: "#FFE84D" },
+      { name: "Claro", score: 7.0, color: "#DA291C" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.1, color: "#660099" },
+      { name: "TIM", score: 6.8, color: "#1E40AF" },
+      { name: "Claro", score: 6.7, color: "#DA291C" },
+      { name: "Algar", score: 6.4, color: "#28BEA5" },
+      { name: "Surf", score: 6.1, color: "#0003F9" }
     ],
     marketShare: { percentage: 23.6, activeClients: 3487, totalPopulation: 14779, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 21, shareFibra: 21 },
@@ -2740,6 +3687,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.1, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.4, color: "#660099" },
+      { name: "LinQ", score: 8.1, color: "#F8A81B" },
+      { name: "Claro", score: 7.7, color: "#DA291C" },
+      { name: "TIM", score: 7.6, color: "#1E40AF" },
+      { name: "V.tal", score: 7.6, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 43.6, activeClients: 3140, totalPopulation: 7202, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 43 },
     crm: { arpu: 146, deviceTier: "Premium", planType: "Fibra 500Mbps", arpuMovel: 0, arpuFibra: 166, planoMovel: "Controle" },
@@ -2767,6 +3722,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.6, color: "#1E40AF" },
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.9, color: "#660099" },
+      { name: "Claro", score: 5.6, color: "#DA291C" },
+      { name: "LinQ", score: 5.5, color: "#F8A81B" },
+      { name: "V.tal", score: 5.5, color: "#FFE84D" },
+      { name: "TIM", score: 5.0, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.3, color: "#660099" },
+      { name: "TIM", score: 4.9, color: "#1E40AF" },
+      { name: "Claro", score: 4.8, color: "#DA291C" },
+      { name: "Algar", score: 4.7, color: "#28BEA5" },
+      { name: "Surf", score: 4.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 30.9, activeClients: 5244, totalPopulation: 16972, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 27, shareFibra: 30 },
@@ -2796,6 +3765,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 9.2, color: "#660099" },
+      { name: "LinQ", score: 8.7, color: "#F8A81B" },
+      { name: "Claro", score: 8.5, color: "#DA291C" },
+      { name: "V.tal", score: 8.4, color: "#FFE84D" },
+      { name: "TIM", score: 8.1, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.2, color: "#660099" },
+      { name: "Claro", score: 7.8, color: "#DA291C" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" },
+      { name: "Algar", score: 7.2, color: "#28BEA5" },
+      { name: "Surf", score: 7.0, color: "#0003F9" }
+    ],
     marketShare: { percentage: 44.8, activeClients: 5880, totalPopulation: 13126, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 40, shareFibra: 40 },
     crm: { arpu: 152, deviceTier: "Premium", planType: "Fibra 1Gbps", arpuMovel: 103, arpuFibra: 189, planoMovel: "Controle" },
@@ -2823,6 +3806,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.9, color: "#1E40AF" },
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.1, color: "#660099" },
+      { name: "LinQ", score: 7.5, color: "#F8A81B" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "V.tal", score: 7.1, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "Algar", score: 6.7, color: "#28BEA5" },
+      { name: "TIM", score: 6.6, color: "#1E40AF" },
+      { name: "Surf", score: 6.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 41.3, activeClients: 3997, totalPopulation: 9679, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 41, shareFibra: 37 },
@@ -2852,6 +3849,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.8, color: "#660099" },
+      { name: "LinQ", score: 7.8, color: "#F8A81B" },
+      { name: "Claro", score: 7.5, color: "#DA291C" },
+      { name: "V.tal", score: 7.2, color: "#FFE84D" },
+      { name: "Algar", score: 7.2, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 18.9, activeClients: 2103, totalPopulation: 11128, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 18 },
     crm: { arpu: 124, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 137, planoMovel: "Pós" },
@@ -2880,6 +3885,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.5, color: "#660099" },
+      { name: "Claro", score: 7.8, color: "#DA291C" },
+      { name: "LinQ", score: 7.8, color: "#F8A81B" },
+      { name: "V.tal", score: 7.8, color: "#FFE84D" },
+      { name: "TIM", score: 7.4, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 16.6, activeClients: 2568, totalPopulation: 15475, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 16 },
     crm: { arpu: 123, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 120, planoMovel: "Pós" },
@@ -2908,6 +3921,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.8, color: "#660099" },
+      { name: "LinQ", score: 6.7, color: "#F8A81B" },
+      { name: "Claro", score: 6.2, color: "#DA291C" },
+      { name: "TIM", score: 6.0, color: "#1E40AF" },
+      { name: "V.tal", score: 5.9, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 21.1, activeClients: 2064, totalPopulation: 9785, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 18 },
     crm: { arpu: 58, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 74, planoMovel: "Controle" },
@@ -2935,6 +3956,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.2, color: "#1E40AF" },
       { name: "Algar", score: 6.3, color: "#28BEA5" },
       { name: "Surf", score: 6.0, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.3, color: "#660099" },
+      { name: "Claro", score: 5.2, color: "#DA291C" },
+      { name: "TIM", score: 4.7, color: "#1E40AF" },
+      { name: "Algar", score: 4.7, color: "#28BEA5" },
+      { name: "Surf", score: 4.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 22.7, activeClients: 3345, totalPopulation: 14736, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 22, shareFibra: 0 },
@@ -2964,6 +3993,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.5, color: "#660099" },
+      { name: "LinQ", score: 8.2, color: "#F8A81B" },
+      { name: "Claro", score: 8.0, color: "#DA291C" },
+      { name: "V.tal", score: 7.7, color: "#FFE84D" },
+      { name: "TIM", score: 7.4, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 50, activeClients: 4881, totalPopulation: 9762, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 50 },
     crm: { arpu: 169, deviceTier: "Premium", planType: "Fibra 500Mbps", arpuMovel: 0, arpuFibra: 148, planoMovel: "Controle" },
@@ -2991,6 +4028,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.8, color: "#1E40AF" },
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.1, color: "#660099" },
+      { name: "LinQ", score: 7.9, color: "#F8A81B" },
+      { name: "Claro", score: 7.7, color: "#DA291C" },
+      { name: "V.tal", score: 7.6, color: "#FFE84D" },
+      { name: "Algar", score: 7.2, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.8, color: "#660099" },
+      { name: "Claro", score: 7.1, color: "#DA291C" },
+      { name: "Algar", score: 6.8, color: "#28BEA5" },
+      { name: "TIM", score: 6.7, color: "#1E40AF" },
+      { name: "Surf", score: 6.0, color: "#0003F9" }
     ],
     marketShare: { percentage: 36.2, activeClients: 5519, totalPopulation: 15246, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 36, shareFibra: 32 },
@@ -3020,6 +4071,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 6.4, color: "#28BEA5" },
       { name: "Surf", score: 6.3, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.3, color: "#660099" },
+      { name: "Claro", score: 5.7, color: "#DA291C" },
+      { name: "TIM", score: 5.5, color: "#1E40AF" },
+      { name: "Algar", score: 5.2, color: "#28BEA5" },
+      { name: "Surf", score: 5.1, color: "#0003F9" }
+    ],
     marketShare: { percentage: 17.6, activeClients: 2773, totalPopulation: 15761, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 15, shareFibra: 0 },
     crm: { arpu: 58, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 56, arpuFibra: 0, planoMovel: "Pré" },
@@ -3047,6 +4106,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.9, color: "#1E40AF" },
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.3, color: "#660099" },
+      { name: "LinQ", score: 8.1, color: "#F8A81B" },
+      { name: "V.tal", score: 7.5, color: "#FFE84D" },
+      { name: "Claro", score: 7.4, color: "#DA291C" },
+      { name: "TIM", score: 7.1, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.3, color: "#660099" },
+      { name: "Claro", score: 7.1, color: "#DA291C" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "Algar", score: 6.4, color: "#28BEA5" },
+      { name: "Surf", score: 6.0, color: "#0003F9" }
     ],
     marketShare: { percentage: 47, activeClients: 5466, totalPopulation: 11631, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 42, shareFibra: 42 },
@@ -3076,6 +4149,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 6.5, color: "#28BEA5" },
       { name: "Surf", score: 5.7, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.9, color: "#660099" },
+      { name: "Claro", score: 5.7, color: "#DA291C" },
+      { name: "Algar", score: 5.4, color: "#28BEA5" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" },
+      { name: "Surf", score: 4.9, color: "#0003F9" }
+    ],
     marketShare: { percentage: 14.7, activeClients: 1449, totalPopulation: 9862, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 13, shareFibra: 0 },
     crm: { arpu: 76, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 68, arpuFibra: 0, planoMovel: "Controle" },
@@ -3102,6 +4183,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Claro", score: 6.5, color: "#DA291C" },
       { name: "TIM", score: 7.1, color: "#1E40AF" },
       { name: "Algar", score: 7.3, color: "#28BEA5" },
+      { name: "Surf", score: 5.8, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.0, color: "#660099" },
+      { name: "Claro", score: 6.2, color: "#DA291C" },
+      { name: "TIM", score: 6.1, color: "#1E40AF" },
+      { name: "Algar", score: 6.1, color: "#28BEA5" },
       { name: "Surf", score: 5.8, color: "#0003F9" }
     ],
     marketShare: { percentage: 25.7, activeClients: 3812, totalPopulation: 14835, label: "Média Penetração" },
@@ -3132,6 +4221,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 4.9, color: "#660099" },
+      { name: "TIM", score: 4.7, color: "#1E40AF" },
+      { name: "LinQ", score: 4.7, color: "#F8A81B" },
+      { name: "Claro", score: 4.5, color: "#DA291C" },
+      { name: "V.tal", score: 4.5, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 33.2, activeClients: 4033, totalPopulation: 12148, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 33 },
     crm: { arpu: 78, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 91, planoMovel: "Pós" },
@@ -3160,6 +4257,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.9, color: "#660099" },
+      { name: "LinQ", score: 8.2, color: "#F8A81B" },
+      { name: "V.tal", score: 8.2, color: "#FFE84D" },
+      { name: "Claro", score: 8.0, color: "#DA291C" },
+      { name: "TIM", score: 8.0, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 35.6, activeClients: 5359, totalPopulation: 15055, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 32 },
     crm: { arpu: 152, deviceTier: "Premium", planType: "Fibra 500Mbps", arpuMovel: 0, arpuFibra: 175, planoMovel: "Controle" },
@@ -3187,6 +4292,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.4, color: "#1E40AF" },
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "LinQ", score: 6.4, color: "#F8A81B" },
+      { name: "VIVO", score: 6.3, color: "#660099" },
+      { name: "V.tal", score: 5.8, color: "#FFE84D" },
+      { name: "Algar", score: 5.8, color: "#28BEA5" },
+      { name: "Claro", score: 5.7, color: "#DA291C" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "Claro", score: 5.7, color: "#DA291C" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" },
+      { name: "Algar", score: 5.3, color: "#28BEA5" },
+      { name: "Surf", score: 5.1, color: "#0003F9" }
     ],
     marketShare: { percentage: 22.5, activeClients: 3856, totalPopulation: 17142, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 20, shareFibra: 22 },
@@ -3216,6 +4335,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.9, color: "#660099" },
+      { name: "LinQ", score: 8.5, color: "#F8A81B" },
+      { name: "Claro", score: 8.2, color: "#DA291C" },
+      { name: "TIM", score: 8.1, color: "#1E40AF" },
+      { name: "V.tal", score: 8.1, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 39.3, activeClients: 4012, totalPopulation: 10209, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 35 },
     crm: { arpu: 149, deviceTier: "Premium", planType: "Fibra 500Mbps", arpuMovel: 0, arpuFibra: 185, planoMovel: "Controle" },
@@ -3243,6 +4370,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.5, color: "#1E40AF" },
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.4, color: "#660099" },
+      { name: "Claro", score: 6.0, color: "#DA291C" },
+      { name: "LinQ", score: 5.9, color: "#F8A81B" },
+      { name: "V.tal", score: 5.9, color: "#FFE84D" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.5, color: "#660099" },
+      { name: "Claro", score: 5.4, color: "#DA291C" },
+      { name: "Algar", score: 5.1, color: "#28BEA5" },
+      { name: "TIM", score: 5.0, color: "#1E40AF" },
+      { name: "Surf", score: 4.7, color: "#0003F9" }
     ],
     marketShare: { percentage: 38.2, activeClients: 3782, totalPopulation: 9903, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 38, shareFibra: 34 },
@@ -3272,6 +4413,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "LinQ", score: 7.4, color: "#F8A81B" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "V.tal", score: 6.8, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 27.7, activeClients: 4889, totalPopulation: 17651, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 27 },
     crm: { arpu: 125, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 107, planoMovel: "Pós" },
@@ -3299,6 +4448,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.2, color: "#1E40AF" },
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "V.tal", score: 5.6, color: "#FFE84D" },
+      { name: "LinQ", score: 5.4, color: "#F8A81B" },
+      { name: "Claro", score: 5.2, color: "#DA291C" },
+      { name: "TIM", score: 5.1, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.5, color: "#660099" },
+      { name: "Claro", score: 5.2, color: "#DA291C" },
+      { name: "Algar", score: 4.7, color: "#28BEA5" },
+      { name: "TIM", score: 4.6, color: "#1E40AF" },
+      { name: "Surf", score: 4.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 25, activeClients: 2923, totalPopulation: 11695, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 22, shareFibra: 25 },
@@ -3328,6 +4491,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.9, color: "#660099" },
+      { name: "LinQ", score: 7.9, color: "#F8A81B" },
+      { name: "Claro", score: 7.4, color: "#DA291C" },
+      { name: "V.tal", score: 7.4, color: "#FFE84D" },
+      { name: "TIM", score: 7.1, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 23.9, activeClients: 4208, totalPopulation: 17610, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 23 },
     crm: { arpu: 97, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 112, planoMovel: "Controle" },
@@ -3356,6 +4527,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.1, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.2, color: "#660099" },
+      { name: "Claro", score: 7.6, color: "#DA291C" },
+      { name: "LinQ", score: 7.6, color: "#F8A81B" },
+      { name: "V.tal", score: 7.3, color: "#FFE84D" },
+      { name: "NIO", score: 7.1, color: "#32E000" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 18.5, activeClients: 1449, totalPopulation: 7833, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 18 },
     crm: { arpu: 104, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 136, planoMovel: "Pós" },
@@ -3383,6 +4562,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.1, color: "#1E40AF" },
       { name: "Algar", score: 7.1, color: "#28BEA5" },
       { name: "Surf", score: 6.0, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.2, color: "#660099" },
+      { name: "Claro", score: 5.0, color: "#DA291C" },
+      { name: "TIM", score: 4.5, color: "#1E40AF" },
+      { name: "Algar", score: 4.1, color: "#28BEA5" },
+      { name: "Surf", score: 4.1, color: "#0003F9" }
     ],
     marketShare: { percentage: 38.6, activeClients: 6251, totalPopulation: 16196, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 34, shareFibra: 0 },
@@ -3412,6 +4599,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.1, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.5, color: "#660099" },
+      { name: "LinQ", score: 6.2, color: "#F8A81B" },
+      { name: "TIM", score: 5.9, color: "#1E40AF" },
+      { name: "Claro", score: 5.8, color: "#DA291C" },
+      { name: "V.tal", score: 5.8, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "Claro", score: 5.8, color: "#DA291C" },
+      { name: "TIM", score: 5.4, color: "#1E40AF" },
+      { name: "Algar", score: 5.3, color: "#28BEA5" },
+      { name: "Surf", score: 5.2, color: "#0003F9" }
+    ],
     marketShare: { percentage: 23.1, activeClients: 2829, totalPopulation: 12248, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 20, shareFibra: 23 },
     crm: { arpu: 72, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 75, arpuFibra: 72, planoMovel: "Pré" },
@@ -3439,6 +4640,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.7, color: "#1E40AF" },
       { name: "Algar", score: 6.6, color: "#28BEA5" },
       { name: "Surf", score: 6.5, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.7, color: "#660099" },
+      { name: "TIM", score: 5.4, color: "#1E40AF" },
+      { name: "Claro", score: 5.2, color: "#DA291C" },
+      { name: "Algar", score: 4.8, color: "#28BEA5" },
+      { name: "Surf", score: 4.7, color: "#0003F9" }
     ],
     marketShare: { percentage: 19.4, activeClients: 3361, totalPopulation: 17325, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 17, shareFibra: 0 },
@@ -3468,6 +4677,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 6.8, color: "#28BEA5" },
       { name: "Surf", score: 6.4, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.8, color: "#660099" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "Algar", score: 6.4, color: "#28BEA5" },
+      { name: "Surf", score: 6.2, color: "#0003F9" }
+    ],
     marketShare: { percentage: 45.5, activeClients: 7911, totalPopulation: 17388, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 45, shareFibra: 0 },
     crm: { arpu: 170, deviceTier: "Premium", planType: "Pós-pago 5G", arpuMovel: 118, arpuFibra: 0, planoMovel: "Pós" },
@@ -3495,6 +4712,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.7, color: "#1E40AF" },
       { name: "Algar", score: 6.8, color: "#28BEA5" },
       { name: "Surf", score: 6.8, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.0, color: "#660099" },
+      { name: "Claro", score: 7.1, color: "#DA291C" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "Algar", score: 6.7, color: "#28BEA5" },
+      { name: "Surf", score: 6.3, color: "#0003F9" }
     ],
     marketShare: { percentage: 17.1, activeClients: 1904, totalPopulation: 11140, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 17, shareFibra: 0 },
@@ -3524,6 +4749,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.2, color: "#660099" },
+      { name: "LinQ", score: 8.0, color: "#F8A81B" },
+      { name: "V.tal", score: 7.8, color: "#FFE84D" },
+      { name: "Claro", score: 7.6, color: "#DA291C" },
+      { name: "Algar", score: 7.3, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 48.6, activeClients: 4615, totalPopulation: 9496, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 43 },
     crm: { arpu: 147, deviceTier: "Premium", planType: "Fibra 500Mbps", arpuMovel: 0, arpuFibra: 140, planoMovel: "Controle" },
@@ -3552,6 +4785,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "V.tal", score: 7.0, color: "#FFE84D" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "LinQ", score: 6.8, color: "#F8A81B" },
+      { name: "TIM", score: 6.7, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 26.5, activeClients: 2707, totalPopulation: 10218, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 23 },
     crm: { arpu: 89, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 0, arpuFibra: 132, planoMovel: "Controle" },
@@ -3579,6 +4820,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.6, color: "#1E40AF" },
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "LinQ", score: 5.4, color: "#F8A81B" },
+      { name: "Claro", score: 5.3, color: "#DA291C" },
+      { name: "V.tal", score: 5.1, color: "#FFE84D" },
+      { name: "TIM", score: 4.9, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.3, color: "#660099" },
+      { name: "Claro", score: 5.0, color: "#DA291C" },
+      { name: "TIM", score: 4.8, color: "#1E40AF" },
+      { name: "Surf", score: 4.5, color: "#0003F9" },
+      { name: "Algar", score: 4.4, color: "#28BEA5" }
     ],
     marketShare: { percentage: 41.3, activeClients: 7045, totalPopulation: 17060, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 37, shareFibra: 37 },
@@ -3608,6 +4863,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 6.6, color: "#28BEA5" },
       { name: "Surf", score: 6.0, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.2, color: "#660099" },
+      { name: "Claro", score: 6.1, color: "#DA291C" },
+      { name: "TIM", score: 5.7, color: "#1E40AF" },
+      { name: "Algar", score: 5.6, color: "#28BEA5" },
+      { name: "Surf", score: 5.1, color: "#0003F9" }
+    ],
     marketShare: { percentage: 19.3, activeClients: 2547, totalPopulation: 13201, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 19, shareFibra: 0 },
     crm: { arpu: 71, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 67, arpuFibra: 0, planoMovel: "Controle" },
@@ -3635,6 +4898,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.5, color: "#1E40AF" },
       { name: "Algar", score: 6.7, color: "#28BEA5" },
       { name: "Surf", score: 6.5, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.8, color: "#660099" },
+      { name: "Claro", score: 7.5, color: "#DA291C" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "Algar", score: 6.7, color: "#28BEA5" },
+      { name: "Surf", score: 6.6, color: "#0003F9" }
     ],
     marketShare: { percentage: 38.8, activeClients: 4815, totalPopulation: 12410, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 34, shareFibra: 0 },
@@ -3664,6 +4935,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "LinQ", score: 5.9, color: "#F8A81B" },
+      { name: "VIVO", score: 5.6, color: "#660099" },
+      { name: "TIM", score: 5.5, color: "#1E40AF" },
+      { name: "V.tal", score: 5.4, color: "#FFE84D" },
+      { name: "Claro", score: 5.2, color: "#DA291C" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 42.4, activeClients: 7565, totalPopulation: 17842, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 38 },
     crm: { arpu: 74, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 85, planoMovel: "Controle" },
@@ -3692,6 +4971,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "Claro", score: 5.8, color: "#DA291C" },
+      { name: "LinQ", score: 5.7, color: "#F8A81B" },
+      { name: "V.tal", score: 5.6, color: "#FFE84D" },
+      { name: "TIM", score: 5.5, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 26, activeClients: 3968, totalPopulation: 15263, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 26 },
     crm: { arpu: 60, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 89, planoMovel: "Controle" },
@@ -3719,6 +5006,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.3, color: "#1E40AF" },
       { name: "LinQ", score: 7.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "LinQ", score: 5.4, color: "#F8A81B" },
+      { name: "V.tal", score: 5.3, color: "#FFE84D" },
+      { name: "Claro", score: 5.0, color: "#DA291C" },
+      { name: "TIM", score: 4.9, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.5, color: "#660099" },
+      { name: "TIM", score: 4.8, color: "#1E40AF" },
+      { name: "Claro", score: 4.6, color: "#DA291C" },
+      { name: "Algar", score: 4.4, color: "#28BEA5" },
+      { name: "Surf", score: 4.1, color: "#0003F9" }
     ],
     marketShare: { percentage: 43.4, activeClients: 5530, totalPopulation: 12742, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 43, shareFibra: 43 },
@@ -3748,6 +5049,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.1, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.4, color: "#660099" },
+      { name: "LinQ", score: 8.4, color: "#F8A81B" },
+      { name: "V.tal", score: 8.1, color: "#FFE84D" },
+      { name: "Claro", score: 8.0, color: "#DA291C" },
+      { name: "TIM", score: 8.0, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.6, color: "#660099" },
+      { name: "Claro", score: 7.9, color: "#DA291C" },
+      { name: "TIM", score: 7.7, color: "#1E40AF" },
+      { name: "Algar", score: 7.1, color: "#28BEA5" },
+      { name: "Surf", score: 6.8, color: "#0003F9" }
+    ],
     marketShare: { percentage: 39.8, activeClients: 5377, totalPopulation: 13511, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 39, shareFibra: 35 },
     crm: { arpu: 143, deviceTier: "Premium", planType: "Pós-pago 5G", arpuMovel: 130, arpuFibra: 170, planoMovel: "Pós" },
@@ -3775,6 +5090,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.0, color: "#1E40AF" },
       { name: "Algar", score: 7.2, color: "#28BEA5" },
       { name: "Surf", score: 6.7, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "Claro", score: 7.4, color: "#DA291C" },
+      { name: "TIM", score: 6.7, color: "#1E40AF" },
+      { name: "Algar", score: 6.6, color: "#28BEA5" },
+      { name: "Surf", score: 6.3, color: "#0003F9" }
     ],
     marketShare: { percentage: 20.6, activeClients: 3467, totalPopulation: 16834, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 18, shareFibra: 0 },
@@ -3804,6 +5127,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 6.3, color: "#28BEA5" },
       { name: "Surf", score: 6.3, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.7, color: "#660099" },
+      { name: "Claro", score: 5.4, color: "#DA291C" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" },
+      { name: "Algar", score: 5.0, color: "#28BEA5" },
+      { name: "Surf", score: 4.8, color: "#0003F9" }
+    ],
     marketShare: { percentage: 40.3, activeClients: 3058, totalPopulation: 7590, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 40, shareFibra: 0 },
     crm: { arpu: 57, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 79, arpuFibra: 0, planoMovel: "Controle" },
@@ -3831,6 +5162,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.9, color: "#1E40AF" },
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.9, color: "#660099" },
+      { name: "Claro", score: 5.8, color: "#DA291C" },
+      { name: "LinQ", score: 5.7, color: "#F8A81B" },
+      { name: "V.tal", score: 5.7, color: "#FFE84D" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.9, color: "#660099" },
+      { name: "TIM", score: 5.4, color: "#1E40AF" },
+      { name: "Claro", score: 5.3, color: "#DA291C" },
+      { name: "Algar", score: 5.0, color: "#28BEA5" },
+      { name: "Surf", score: 4.7, color: "#0003F9" }
     ],
     marketShare: { percentage: 37.1, activeClients: 5052, totalPopulation: 13618, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 33, shareFibra: 33 },
@@ -3860,6 +5205,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 7.4, color: "#28BEA5" },
       { name: "Surf", score: 5.9, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "Algar", score: 6.3, color: "#28BEA5" },
+      { name: "Surf", score: 6.3, color: "#0003F9" }
+    ],
     marketShare: { percentage: 18.9, activeClients: 2981, totalPopulation: 15776, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 17, shareFibra: 0 },
     crm: { arpu: 90, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 101, arpuFibra: 0, planoMovel: "Pós" },
@@ -3888,6 +5241,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.1, color: "#660099" },
+      { name: "LinQ", score: 7.8, color: "#F8A81B" },
+      { name: "Claro", score: 7.6, color: "#DA291C" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" },
+      { name: "V.tal", score: 7.2, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 16.8, activeClients: 1863, totalPopulation: 11091, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 16 },
     crm: { arpu: 92, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 0, arpuFibra: 131, planoMovel: "Controle" },
@@ -3916,6 +5277,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.4, color: "#660099" },
+      { name: "Claro", score: 6.2, color: "#DA291C" },
+      { name: "LinQ", score: 6.1, color: "#F8A81B" },
+      { name: "TIM", score: 5.8, color: "#1E40AF" },
+      { name: "V.tal", score: 5.7, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 19.9, activeClients: 3155, totalPopulation: 15859, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 19 },
     crm: { arpu: 79, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 84, planoMovel: "Pós" },
@@ -3943,6 +5312,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.2, color: "#1E40AF" },
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.4, color: "#660099" },
+      { name: "LinQ", score: 5.2, color: "#F8A81B" },
+      { name: "V.tal", score: 5.1, color: "#FFE84D" },
+      { name: "Claro", score: 5.0, color: "#DA291C" },
+      { name: "Algar", score: 4.8, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 4.7, color: "#660099" },
+      { name: "Claro", score: 4.7, color: "#DA291C" },
+      { name: "TIM", score: 4.6, color: "#1E40AF" },
+      { name: "Algar", score: 4.4, color: "#28BEA5" },
+      { name: "Surf", score: 4.1, color: "#0003F9" }
     ],
     marketShare: { percentage: 43, activeClients: 5581, totalPopulation: 12981, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 38, shareFibra: 38 },
@@ -3972,6 +5355,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "Claro", score: 7.4, color: "#DA291C" },
+      { name: "LinQ", score: 7.3, color: "#F8A81B" },
+      { name: "V.tal", score: 7.2, color: "#FFE84D" },
+      { name: "TIM", score: 6.8, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.3, color: "#660099" },
+      { name: "Claro", score: 6.8, color: "#DA291C" },
+      { name: "TIM", score: 6.6, color: "#1E40AF" },
+      { name: "Algar", score: 6.1, color: "#28BEA5" },
+      { name: "Surf", score: 6.0, color: "#0003F9" }
+    ],
     marketShare: { percentage: 25.4, activeClients: 3760, totalPopulation: 14807, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 25, shareFibra: 22 },
     crm: { arpu: 108, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 97, arpuFibra: 116, planoMovel: "Controle" },
@@ -4000,6 +5397,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.3, color: "#660099" },
+      { name: "Claro", score: 4.8, color: "#DA291C" },
+      { name: "LinQ", score: 4.8, color: "#F8A81B" },
+      { name: "V.tal", score: 4.8, color: "#FFE84D" },
+      { name: "NIO", score: 4.5, color: "#32E000" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 34.7, activeClients: 6017, totalPopulation: 17342, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 34 },
     crm: { arpu: 57, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 80, planoMovel: "Pós" },
@@ -4027,6 +5432,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.6, color: "#1E40AF" },
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "TIM", score: 4.7, color: "#1E40AF" },
+      { name: "VIVO", score: 4.6, color: "#660099" },
+      { name: "LinQ", score: 4.6, color: "#F8A81B" },
+      { name: "Claro", score: 4.4, color: "#DA291C" },
+      { name: "V.tal", score: 4.2, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 4.9, color: "#660099" },
+      { name: "Claro", score: 4.4, color: "#DA291C" },
+      { name: "TIM", score: 4.1, color: "#1E40AF" },
+      { name: "Algar", score: 4.0, color: "#28BEA5" },
+      { name: "Surf", score: 4.0, color: "#0003F9" }
     ],
     marketShare: { percentage: 46.8, activeClients: 3889, totalPopulation: 8311, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 42, shareFibra: 46 },
@@ -4056,6 +5475,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.2, color: "#660099" },
+      { name: "LinQ", score: 6.7, color: "#F8A81B" },
+      { name: "Claro", score: 6.6, color: "#DA291C" },
+      { name: "TIM", score: 6.2, color: "#1E40AF" },
+      { name: "V.tal", score: 6.1, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.6, color: "#660099" },
+      { name: "Claro", score: 5.9, color: "#DA291C" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" },
+      { name: "Surf", score: 5.5, color: "#0003F9" },
+      { name: "Algar", score: 5.3, color: "#28BEA5" }
+    ],
     marketShare: { percentage: 20.2, activeClients: 3198, totalPopulation: 15835, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 18, shareFibra: 20 },
     crm: { arpu: 73, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 71, arpuFibra: 90, planoMovel: "Controle" },
@@ -4083,6 +5516,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.7, color: "#1E40AF" },
       { name: "Algar", score: 7.2, color: "#28BEA5" },
       { name: "Surf", score: 6.1, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.6, color: "#660099" },
+      { name: "Claro", score: 6.1, color: "#DA291C" },
+      { name: "TIM", score: 5.9, color: "#1E40AF" },
+      { name: "Algar", score: 5.7, color: "#28BEA5" },
+      { name: "Surf", score: 5.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 21.7, activeClients: 2189, totalPopulation: 10089, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 19, shareFibra: 0 },
@@ -4112,6 +5553,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.3, color: "#660099" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "LinQ", score: 7.1, color: "#F8A81B" },
+      { name: "TIM", score: 7.0, color: "#1E40AF" },
+      { name: "V.tal", score: 7.0, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 20.3, activeClients: 3492, totalPopulation: 17203, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 18 },
     crm: { arpu: 119, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 0, arpuFibra: 111, planoMovel: "Controle" },
@@ -4139,6 +5588,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.5, color: "#1E40AF" },
       { name: "Algar", score: 6.4, color: "#28BEA5" },
       { name: "Surf", score: 6.9, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.3, color: "#660099" },
+      { name: "Claro", score: 5.5, color: "#DA291C" },
+      { name: "TIM", score: 5.5, color: "#1E40AF" },
+      { name: "Algar", score: 5.3, color: "#28BEA5" },
+      { name: "Surf", score: 5.2, color: "#0003F9" }
     ],
     marketShare: { percentage: 19.5, activeClients: 3100, totalPopulation: 15899, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 19, shareFibra: 0 },
@@ -4168,6 +5625,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "LinQ", score: 7.4, color: "#F8A81B" },
+      { name: "TIM", score: 7.0, color: "#1E40AF" },
+      { name: "V.tal", score: 6.9, color: "#FFE84D" },
+      { name: "Claro", score: 6.7, color: "#DA291C" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 27.1, activeClients: 4209, totalPopulation: 15534, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 24 },
     crm: { arpu: 108, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 0, arpuFibra: 113, planoMovel: "Controle" },
@@ -4195,6 +5660,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.7, color: "#1E40AF" },
       { name: "Algar", score: 6.6, color: "#28BEA5" },
       { name: "Surf", score: 6.7, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "Claro", score: 6.8, color: "#DA291C" },
+      { name: "TIM", score: 6.5, color: "#1E40AF" },
+      { name: "Algar", score: 6.3, color: "#28BEA5" },
+      { name: "Surf", score: 6.3, color: "#0003F9" }
     ],
     marketShare: { percentage: 41.1, activeClients: 7086, totalPopulation: 17242, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 36, shareFibra: 0 },
@@ -4224,6 +5697,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "LinQ", score: 7.4, color: "#F8A81B" },
+      { name: "V.tal", score: 6.8, color: "#FFE84D" },
+      { name: "Algar", score: 6.8, color: "#28BEA5" },
+      { name: "Claro", score: 6.7, color: "#DA291C" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 16.7, activeClients: 1679, totalPopulation: 10057, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 15 },
     crm: { arpu: 123, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 110, planoMovel: "Controle" },
@@ -4252,6 +5733,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.9, color: "#660099" },
+      { name: "Claro", score: 7.6, color: "#DA291C" },
+      { name: "LinQ", score: 7.5, color: "#F8A81B" },
+      { name: "V.tal", score: 7.4, color: "#FFE84D" },
+      { name: "Algar", score: 7.2, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 21.3, activeClients: 3227, totalPopulation: 15151, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 19 },
     crm: { arpu: 111, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 120, planoMovel: "Controle" },
@@ -4279,6 +5768,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.8, color: "#1E40AF" },
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.1, color: "#660099" },
+      { name: "Claro", score: 6.0, color: "#DA291C" },
+      { name: "LinQ", score: 5.9, color: "#F8A81B" },
+      { name: "V.tal", score: 5.8, color: "#FFE84D" },
+      { name: "TIM", score: 5.7, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "Claro", score: 5.6, color: "#DA291C" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" },
+      { name: "Surf", score: 5.1, color: "#0003F9" },
+      { name: "Algar", score: 5.0, color: "#28BEA5" }
     ],
     marketShare: { percentage: 24, activeClients: 1731, totalPopulation: 7214, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 21, shareFibra: 24 },
@@ -4308,6 +5811,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.4, color: "#660099" },
+      { name: "LinQ", score: 5.2, color: "#F8A81B" },
+      { name: "V.tal", score: 5.1, color: "#FFE84D" },
+      { name: "Claro", score: 5.0, color: "#DA291C" },
+      { name: "TIM", score: 4.8, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 4.7, color: "#660099" },
+      { name: "Claro", score: 4.4, color: "#DA291C" },
+      { name: "TIM", score: 4.3, color: "#1E40AF" },
+      { name: "Algar", score: 4.0, color: "#28BEA5" },
+      { name: "Surf", score: 4.0, color: "#0003F9" }
+    ],
     marketShare: { percentage: 43, activeClients: 5934, totalPopulation: 13802, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 38, shareFibra: 43 },
     crm: { arpu: 77, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 83, arpuFibra: 73, planoMovel: "Controle" },
@@ -4335,6 +5852,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.5, color: "#1E40AF" },
       { name: "Algar", score: 6.7, color: "#28BEA5" },
       { name: "Surf", score: 6.8, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.2, color: "#660099" },
+      { name: "Claro", score: 5.0, color: "#DA291C" },
+      { name: "TIM", score: 4.8, color: "#1E40AF" },
+      { name: "Algar", score: 4.7, color: "#28BEA5" },
+      { name: "Surf", score: 4.1, color: "#0003F9" }
     ],
     marketShare: { percentage: 35.2, activeClients: 5073, totalPopulation: 14412, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 35, shareFibra: 0 },
@@ -4364,6 +5889,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "LinQ", score: 5.5, color: "#F8A81B" },
+      { name: "V.tal", score: 5.3, color: "#FFE84D" },
+      { name: "Algar", score: 5.1, color: "#28BEA5" },
+      { name: "Claro", score: 5.0, color: "#DA291C" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.4, color: "#660099" },
+      { name: "Claro", score: 5.0, color: "#DA291C" },
+      { name: "TIM", score: 4.7, color: "#1E40AF" },
+      { name: "Algar", score: 4.4, color: "#28BEA5" },
+      { name: "Surf", score: 4.2, color: "#0003F9" }
+    ],
     marketShare: { percentage: 19.1, activeClients: 3158, totalPopulation: 16538, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 17, shareFibra: 19 },
     crm: { arpu: 73, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 78, arpuFibra: 72, planoMovel: "Pós" },
@@ -4391,6 +5930,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.4, color: "#1E40AF" },
       { name: "Algar", score: 6.9, color: "#28BEA5" },
       { name: "Surf", score: 6.6, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.0, color: "#660099" },
+      { name: "Claro", score: 7.5, color: "#DA291C" },
+      { name: "TIM", score: 7.0, color: "#1E40AF" },
+      { name: "Algar", score: 7.0, color: "#28BEA5" },
+      { name: "Surf", score: 6.5, color: "#0003F9" }
     ],
     marketShare: { percentage: 50.3, activeClients: 6672, totalPopulation: 13266, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 45, shareFibra: 0 },
@@ -4420,6 +5967,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 6.9, color: "#28BEA5" },
       { name: "Surf", score: 6.7, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "Claro", score: 6.6, color: "#DA291C" },
+      { name: "Algar", score: 6.1, color: "#28BEA5" },
+      { name: "Surf", score: 6.0, color: "#0003F9" }
+    ],
     marketShare: { percentage: 17.7, activeClients: 2394, totalPopulation: 13529, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 15, shareFibra: 0 },
     crm: { arpu: 93, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 97, arpuFibra: 0, planoMovel: "Pós" },
@@ -4448,6 +6003,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.1, color: "#660099" },
+      { name: "Claro", score: 6.0, color: "#DA291C" },
+      { name: "LinQ", score: 6.0, color: "#F8A81B" },
+      { name: "V.tal", score: 5.8, color: "#FFE84D" },
+      { name: "TIM", score: 5.5, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 22.3, activeClients: 1649, totalPopulation: 7396, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 20 },
     crm: { arpu: 81, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 89, planoMovel: "Controle" },
@@ -4475,6 +6038,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.1, color: "#1E40AF" },
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.3, color: "#660099" },
+      { name: "Claro", score: 4.9, color: "#DA291C" },
+      { name: "LinQ", score: 4.7, color: "#F8A81B" },
+      { name: "TIM", score: 4.5, color: "#1E40AF" },
+      { name: "V.tal", score: 4.5, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.0, color: "#660099" },
+      { name: "Claro", score: 4.7, color: "#DA291C" },
+      { name: "TIM", score: 4.4, color: "#1E40AF" },
+      { name: "Algar", score: 4.2, color: "#28BEA5" },
+      { name: "Surf", score: 4.0, color: "#0003F9" }
     ],
     marketShare: { percentage: 32.2, activeClients: 5092, totalPopulation: 15814, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 32, shareFibra: 32 },
@@ -4504,6 +6081,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.2, color: "#660099" },
+      { name: "LinQ", score: 6.0, color: "#F8A81B" },
+      { name: "Claro", score: 5.9, color: "#DA291C" },
+      { name: "TIM", score: 5.5, color: "#1E40AF" },
+      { name: "V.tal", score: 5.4, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.7, color: "#660099" },
+      { name: "Claro", score: 5.3, color: "#DA291C" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" },
+      { name: "Surf", score: 5.0, color: "#0003F9" },
+      { name: "Algar", score: 4.8, color: "#28BEA5" }
+    ],
     marketShare: { percentage: 35.6, activeClients: 3072, totalPopulation: 8631, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 32, shareFibra: 32 },
     crm: { arpu: 61, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 72, arpuFibra: 92, planoMovel: "Controle" },
@@ -4531,6 +6122,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.6, color: "#1E40AF" },
       { name: "LinQ", score: 7.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "TIM", score: 5.5, color: "#1E40AF" },
+      { name: "LinQ", score: 5.5, color: "#F8A81B" },
+      { name: "V.tal", score: 5.4, color: "#FFE84D" },
+      { name: "Algar", score: 5.3, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "Claro", score: 5.3, color: "#DA291C" },
+      { name: "TIM", score: 5.0, color: "#1E40AF" },
+      { name: "Algar", score: 5.0, color: "#28BEA5" },
+      { name: "Surf", score: 4.9, color: "#0003F9" }
     ],
     marketShare: { percentage: 23.2, activeClients: 1957, totalPopulation: 8438, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 23, shareFibra: 23 },
@@ -4560,6 +6165,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.4, color: "#660099" },
+      { name: "LinQ", score: 5.9, color: "#F8A81B" },
+      { name: "V.tal", score: 5.8, color: "#FFE84D" },
+      { name: "Claro", score: 5.7, color: "#DA291C" },
+      { name: "TIM", score: 5.7, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 45.6, activeClients: 3412, totalPopulation: 7483, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 41 },
     crm: { arpu: 68, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 0, arpuFibra: 84, planoMovel: "Controle" },
@@ -4588,6 +6201,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 8.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "LinQ", score: 7.5, color: "#F8A81B" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "V.tal", score: 7.1, color: "#FFE84D" },
+      { name: "Algar", score: 6.9, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 24, activeClients: 3150, totalPopulation: 13126, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 21 },
     crm: { arpu: 95, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 0, arpuFibra: 114, planoMovel: "Controle" },
@@ -4615,6 +6236,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.6, color: "#1E40AF" },
       { name: "Algar", score: 6.5, color: "#28BEA5" },
       { name: "Surf", score: 6.0, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.1, color: "#660099" },
+      { name: "Claro", score: 5.1, color: "#DA291C" },
+      { name: "Algar", score: 4.8, color: "#28BEA5" },
+      { name: "TIM", score: 4.7, color: "#1E40AF" },
+      { name: "Surf", score: 4.2, color: "#0003F9" }
     ],
     marketShare: { percentage: 24.3, activeClients: 3215, totalPopulation: 13232, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 24, shareFibra: 0 },
@@ -4644,6 +6273,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.7, color: "#660099" },
+      { name: "Claro", score: 8.0, color: "#DA291C" },
+      { name: "LinQ", score: 8.0, color: "#F8A81B" },
+      { name: "TIM", score: 7.8, color: "#1E40AF" },
+      { name: "V.tal", score: 7.7, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 16.3, activeClients: 1927, totalPopulation: 11823, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 16 },
     crm: { arpu: 94, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 128, planoMovel: "Pós" },
@@ -4671,6 +6308,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.2, color: "#1E40AF" },
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "Claro", score: 7.4, color: "#DA291C" },
+      { name: "LinQ", score: 7.4, color: "#F8A81B" },
+      { name: "V.tal", score: 7.2, color: "#FFE84D" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.3, color: "#660099" },
+      { name: "Claro", score: 6.5, color: "#DA291C" },
+      { name: "TIM", score: 6.2, color: "#1E40AF" },
+      { name: "Algar", score: 6.1, color: "#28BEA5" },
+      { name: "Surf", score: 5.9, color: "#0003F9" }
     ],
     marketShare: { percentage: 25.2, activeClients: 2274, totalPopulation: 9024, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 22, shareFibra: 22 },
@@ -4700,6 +6351,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.9, color: "#660099" },
+      { name: "LinQ", score: 8.3, color: "#F8A81B" },
+      { name: "V.tal", score: 8.3, color: "#FFE84D" },
+      { name: "Claro", score: 7.9, color: "#DA291C" },
+      { name: "TIM", score: 7.8, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.4, color: "#660099" },
+      { name: "Claro", score: 8.3, color: "#DA291C" },
+      { name: "TIM", score: 7.6, color: "#1E40AF" },
+      { name: "Algar", score: 7.4, color: "#28BEA5" },
+      { name: "Surf", score: 7.0, color: "#0003F9" }
+    ],
     marketShare: { percentage: 34.3, activeClients: 5197, totalPopulation: 15153, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 30, shareFibra: 34 },
     crm: { arpu: 135, deviceTier: "Premium", planType: "Fibra 500Mbps", arpuMovel: 125, arpuFibra: 169, planoMovel: "Controle" },
@@ -4728,6 +6393,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.9, color: "#660099" },
+      { name: "LinQ", score: 5.7, color: "#F8A81B" },
+      { name: "TIM", score: 5.4, color: "#1E40AF" },
+      { name: "Claro", score: 5.3, color: "#DA291C" },
+      { name: "V.tal", score: 5.2, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 40.2, activeClients: 6732, totalPopulation: 16747, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 40 },
     crm: { arpu: 78, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 0, arpuFibra: 71, planoMovel: "Controle" },
@@ -4755,6 +6428,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.1, color: "#1E40AF" },
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "LinQ", score: 5.6, color: "#F8A81B" },
+      { name: "V.tal", score: 5.6, color: "#FFE84D" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" },
+      { name: "Algar", score: 5.2, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.0, color: "#660099" },
+      { name: "Claro", score: 4.7, color: "#DA291C" },
+      { name: "Algar", score: 4.7, color: "#28BEA5" },
+      { name: "TIM", score: 4.6, color: "#1E40AF" },
+      { name: "Surf", score: 4.1, color: "#0003F9" }
     ],
     marketShare: { percentage: 40.6, activeClients: 3425, totalPopulation: 8436, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 40, shareFibra: 40 },
@@ -4784,6 +6471,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "Claro", score: 5.3, color: "#DA291C" },
+      { name: "LinQ", score: 5.3, color: "#F8A81B" },
+      { name: "VIVO", score: 5.2, color: "#660099" },
+      { name: "V.tal", score: 4.8, color: "#FFE84D" },
+      { name: "TIM", score: 4.6, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.1, color: "#660099" },
+      { name: "TIM", score: 4.5, color: "#1E40AF" },
+      { name: "Algar", score: 4.5, color: "#28BEA5" },
+      { name: "Claro", score: 4.4, color: "#DA291C" },
+      { name: "Surf", score: 4.1, color: "#0003F9" }
+    ],
     marketShare: { percentage: 28.9, activeClients: 3678, totalPopulation: 12728, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 26, shareFibra: 26 },
     crm: { arpu: 64, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 80, arpuFibra: 72, planoMovel: "Controle" },
@@ -4811,6 +6512,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.9, color: "#1E40AF" },
       { name: "Algar", score: 7.5, color: "#28BEA5" },
       { name: "Surf", score: 5.8, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.3, color: "#660099" },
+      { name: "Claro", score: 5.3, color: "#DA291C" },
+      { name: "TIM", score: 4.9, color: "#1E40AF" },
+      { name: "Algar", score: 4.4, color: "#28BEA5" },
+      { name: "Surf", score: 4.3, color: "#0003F9" }
     ],
     marketShare: { percentage: 34.7, activeClients: 4782, totalPopulation: 13782, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 31, shareFibra: 0 },
@@ -4840,6 +6549,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.9, color: "#660099" },
+      { name: "LinQ", score: 7.4, color: "#F8A81B" },
+      { name: "Algar", score: 6.9, color: "#28BEA5" },
+      { name: "Claro", score: 6.8, color: "#DA291C" },
+      { name: "V.tal", score: 6.8, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "TIM", score: 7.0, color: "#1E40AF" },
+      { name: "Algar", score: 6.7, color: "#28BEA5" },
+      { name: "Surf", score: 6.2, color: "#0003F9" }
+    ],
     marketShare: { percentage: 25, activeClients: 3012, totalPopulation: 12050, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 22, shareFibra: 22 },
     crm: { arpu: 116, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 91, arpuFibra: 128, planoMovel: "Controle" },
@@ -4868,6 +6591,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "LinQ", score: 7.6, color: "#F8A81B" },
+      { name: "V.tal", score: 7.3, color: "#FFE84D" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "Algar", score: 6.9, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 54.8, activeClients: 5677, totalPopulation: 10361, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 54 },
     crm: { arpu: 153, deviceTier: "Premium", planType: "Fibra 500Mbps", arpuMovel: 0, arpuFibra: 140, planoMovel: "Controle" },
@@ -4895,6 +6626,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.9, color: "#1E40AF" },
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "LinQ", score: 6.0, color: "#F8A81B" },
+      { name: "VIVO", score: 5.9, color: "#660099" },
+      { name: "Claro", score: 5.9, color: "#DA291C" },
+      { name: "TIM", score: 5.5, color: "#1E40AF" },
+      { name: "V.tal", score: 5.5, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "Claro", score: 5.2, color: "#DA291C" },
+      { name: "TIM", score: 5.0, color: "#1E40AF" },
+      { name: "Algar", score: 5.0, color: "#28BEA5" },
+      { name: "Surf", score: 4.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 15.6, activeClients: 1473, totalPopulation: 9446, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 15, shareFibra: 15 },
@@ -4924,6 +6669,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "LinQ", score: 6.5, color: "#F8A81B" },
+      { name: "VIVO", score: 6.4, color: "#660099" },
+      { name: "TIM", score: 6.2, color: "#1E40AF" },
+      { name: "Claro", score: 6.1, color: "#DA291C" },
+      { name: "V.tal", score: 6.1, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "TIM", score: 5.5, color: "#1E40AF" },
+      { name: "Claro", score: 5.4, color: "#DA291C" },
+      { name: "Algar", score: 5.1, color: "#28BEA5" },
+      { name: "Surf", score: 4.8, color: "#0003F9" }
+    ],
     marketShare: { percentage: 22.6, activeClients: 2738, totalPopulation: 12119, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 22, shareFibra: 22 },
     crm: { arpu: 57, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 73, arpuFibra: 74, planoMovel: "Controle" },
@@ -4952,6 +6711,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.9, color: "#660099" },
+      { name: "LinQ", score: 7.1, color: "#F8A81B" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "TIM", score: 7.0, color: "#1E40AF" },
+      { name: "V.tal", score: 6.9, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 39.9, activeClients: 5071, totalPopulation: 12711, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 35 },
     crm: { arpu: 172, deviceTier: "Premium", planType: "Pós-pago 5G", arpuMovel: 0, arpuFibra: 190, planoMovel: "Pós" },
@@ -4979,6 +6746,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.0, color: "#1E40AF" },
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.5, color: "#660099" },
+      { name: "LinQ", score: 8.4, color: "#F8A81B" },
+      { name: "V.tal", score: 8.1, color: "#FFE84D" },
+      { name: "Claro", score: 8.0, color: "#DA291C" },
+      { name: "TIM", score: 7.6, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.5, color: "#660099" },
+      { name: "Claro", score: 8.0, color: "#DA291C" },
+      { name: "TIM", score: 7.2, color: "#1E40AF" },
+      { name: "Algar", score: 7.1, color: "#28BEA5" },
+      { name: "Surf", score: 7.0, color: "#0003F9" }
     ],
     marketShare: { percentage: 45.4, activeClients: 4934, totalPopulation: 10869, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 45, shareFibra: 45 },
@@ -5008,6 +6789,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "LinQ", score: 5.7, color: "#F8A81B" },
+      { name: "V.tal", score: 5.4, color: "#FFE84D" },
+      { name: "Algar", score: 5.2, color: "#28BEA5" },
+      { name: "Claro", score: 5.1, color: "#DA291C" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.6, color: "#660099" },
+      { name: "Claro", score: 5.2, color: "#DA291C" },
+      { name: "TIM", score: 5.0, color: "#1E40AF" },
+      { name: "Surf", score: 4.7, color: "#0003F9" },
+      { name: "Algar", score: 4.6, color: "#28BEA5" }
+    ],
     marketShare: { percentage: 22.1, activeClients: 2255, totalPopulation: 10205, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 19, shareFibra: 22 },
     crm: { arpu: 76, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 84, arpuFibra: 83, planoMovel: "Controle" },
@@ -5035,6 +6830,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.6, color: "#1E40AF" },
       { name: "Algar", score: 7.2, color: "#28BEA5" },
       { name: "Surf", score: 6.5, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "Claro", score: 6.8, color: "#DA291C" },
+      { name: "TIM", score: 6.7, color: "#1E40AF" },
+      { name: "Algar", score: 6.5, color: "#28BEA5" },
+      { name: "Surf", score: 6.2, color: "#0003F9" }
     ],
     marketShare: { percentage: 16.4, activeClients: 1521, totalPopulation: 9278, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 16, shareFibra: 0 },
@@ -5064,6 +6867,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.2, color: "#660099" },
+      { name: "LinQ", score: 7.8, color: "#F8A81B" },
+      { name: "Claro", score: 7.6, color: "#DA291C" },
+      { name: "V.tal", score: 7.5, color: "#FFE84D" },
+      { name: "TIM", score: 7.2, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.2, color: "#660099" },
+      { name: "Claro", score: 7.1, color: "#DA291C" },
+      { name: "TIM", score: 6.5, color: "#1E40AF" },
+      { name: "Algar", score: 6.4, color: "#28BEA5" },
+      { name: "Surf", score: 6.0, color: "#0003F9" }
+    ],
     marketShare: { percentage: 16.5, activeClients: 2532, totalPopulation: 15346, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 14, shareFibra: 14 },
     crm: { arpu: 112, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 80, arpuFibra: 136, planoMovel: "Controle" },
@@ -5092,6 +6909,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "LinQ", score: 7.4, color: "#F8A81B" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "V.tal", score: 7.0, color: "#FFE84D" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 22.8, activeClients: 4075, totalPopulation: 17874, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 22 },
     crm: { arpu: 122, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 139, planoMovel: "Pós" },
@@ -5120,6 +6945,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.1, color: "#660099" },
+      { name: "Claro", score: 5.1, color: "#DA291C" },
+      { name: "LinQ", score: 4.9, color: "#F8A81B" },
+      { name: "V.tal", score: 4.9, color: "#FFE84D" },
+      { name: "Algar", score: 4.6, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 39.5, activeClients: 7012, totalPopulation: 17753, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 39 },
     crm: { arpu: 64, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 72, planoMovel: "Controle" },
@@ -5148,6 +6981,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "Claro", score: 7.1, color: "#DA291C" },
+      { name: "LinQ", score: 7.1, color: "#F8A81B" },
+      { name: "Algar", score: 6.8, color: "#28BEA5" },
+      { name: "TIM", score: 6.7, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 25.2, activeClients: 1900, totalPopulation: 7542, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 22 },
     crm: { arpu: 94, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 126, planoMovel: "Pós" },
@@ -5175,6 +7016,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.1, color: "#1E40AF" },
       { name: "Algar", score: 6.9, color: "#28BEA5" },
       { name: "Surf", score: 5.8, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.2, color: "#660099" },
+      { name: "Claro", score: 6.0, color: "#DA291C" },
+      { name: "TIM", score: 5.5, color: "#1E40AF" },
+      { name: "Surf", score: 5.3, color: "#0003F9" },
+      { name: "Algar", score: 5.2, color: "#28BEA5" }
     ],
     marketShare: { percentage: 19.3, activeClients: 2584, totalPopulation: 13390, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 19, shareFibra: 0 },
@@ -5204,6 +7053,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.7, color: "#660099" },
+      { name: "LinQ", score: 5.6, color: "#F8A81B" },
+      { name: "V.tal", score: 5.4, color: "#FFE84D" },
+      { name: "Claro", score: 5.2, color: "#DA291C" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 24.8, activeClients: 2718, totalPopulation: 10961, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 22 },
     crm: { arpu: 65, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 80, planoMovel: "Pós" },
@@ -5231,6 +7088,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.7, color: "#1E40AF" },
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.9, color: "#660099" },
+      { name: "Claro", score: 5.9, color: "#DA291C" },
+      { name: "LinQ", score: 5.8, color: "#F8A81B" },
+      { name: "V.tal", score: 5.8, color: "#FFE84D" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "Claro", score: 5.8, color: "#DA291C" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" },
+      { name: "Algar", score: 5.2, color: "#28BEA5" },
+      { name: "Surf", score: 5.0, color: "#0003F9" }
     ],
     marketShare: { percentage: 42.2, activeClients: 3783, totalPopulation: 8965, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 37, shareFibra: 42 },
@@ -5260,6 +7131,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.0, color: "#660099" },
+      { name: "LinQ", score: 7.6, color: "#F8A81B" },
+      { name: "V.tal", score: 7.5, color: "#FFE84D" },
+      { name: "Claro", score: 7.4, color: "#DA291C" },
+      { name: "TIM", score: 7.2, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 46.8, activeClients: 4643, totalPopulation: 9923, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 46 },
     crm: { arpu: 147, deviceTier: "Premium", planType: "Fibra 500Mbps", arpuMovel: 0, arpuFibra: 179, planoMovel: "Controle" },
@@ -5288,6 +7167,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.0, color: "#660099" },
+      { name: "LinQ", score: 7.7, color: "#F8A81B" },
+      { name: "V.tal", score: 7.4, color: "#FFE84D" },
+      { name: "Claro", score: 7.1, color: "#DA291C" },
+      { name: "TIM", score: 7.1, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 34.1, activeClients: 5128, totalPopulation: 15039, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 34 },
     crm: { arpu: 171, deviceTier: "Premium", planType: "Fibra 500Mbps", arpuMovel: 0, arpuFibra: 174, planoMovel: "Controle" },
@@ -5315,6 +7202,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.7, color: "#1E40AF" },
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.9, color: "#660099" },
+      { name: "Claro", score: 6.5, color: "#DA291C" },
+      { name: "LinQ", score: 6.3, color: "#F8A81B" },
+      { name: "V.tal", score: 6.0, color: "#FFE84D" },
+      { name: "TIM", score: 5.9, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.4, color: "#660099" },
+      { name: "Claro", score: 6.1, color: "#DA291C" },
+      { name: "TIM", score: 5.9, color: "#1E40AF" },
+      { name: "Algar", score: 5.4, color: "#28BEA5" },
+      { name: "Surf", score: 5.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 24.7, activeClients: 4350, totalPopulation: 17613, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 24, shareFibra: 24 },
@@ -5344,6 +7245,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 6.7, color: "#28BEA5" },
       { name: "Surf", score: 6.1, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.4, color: "#660099" },
+      { name: "Claro", score: 5.8, color: "#DA291C" },
+      { name: "TIM", score: 5.4, color: "#1E40AF" },
+      { name: "Algar", score: 5.3, color: "#28BEA5" },
+      { name: "Surf", score: 5.2, color: "#0003F9" }
+    ],
     marketShare: { percentage: 25.3, activeClients: 4537, totalPopulation: 17933, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 25, shareFibra: 0 },
     crm: { arpu: 72, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 78, arpuFibra: 0, planoMovel: "Pós" },
@@ -5372,6 +7281,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "LinQ", score: 7.5, color: "#F8A81B" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "Claro", score: 6.8, color: "#DA291C" },
+      { name: "V.tal", score: 6.8, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 25.4, activeClients: 2220, totalPopulation: 8742, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 25 },
     crm: { arpu: 89, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 0, arpuFibra: 127, planoMovel: "Controle" },
@@ -5399,6 +7316,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.6, color: "#1E40AF" },
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.8, color: "#660099" },
+      { name: "LinQ", score: 7.8, color: "#F8A81B" },
+      { name: "Claro", score: 7.4, color: "#DA291C" },
+      { name: "V.tal", score: 7.3, color: "#FFE84D" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.8, color: "#660099" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "TIM", score: 6.6, color: "#1E40AF" },
+      { name: "Algar", score: 6.5, color: "#28BEA5" },
+      { name: "Surf", score: 6.2, color: "#0003F9" }
     ],
     marketShare: { percentage: 27, activeClients: 2069, totalPopulation: 7666, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 24, shareFibra: 24 },
@@ -5428,6 +7359,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.4, color: "#660099" },
+      { name: "Claro", score: 5.9, color: "#DA291C" },
+      { name: "LinQ", score: 5.9, color: "#F8A81B" },
+      { name: "V.tal", score: 5.9, color: "#FFE84D" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 25, activeClients: 3174, totalPopulation: 12699, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 22 },
     crm: { arpu: 71, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 0, arpuFibra: 89, planoMovel: "Pré" },
@@ -5456,6 +7395,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 8.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "LinQ", score: 7.1, color: "#F8A81B" },
+      { name: "V.tal", score: 7.0, color: "#FFE84D" },
+      { name: "Claro", score: 6.8, color: "#DA291C" },
+      { name: "Algar", score: 6.8, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 26.5, activeClients: 3822, totalPopulation: 14424, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 26 },
     crm: { arpu: 96, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 0, arpuFibra: 101, planoMovel: "Controle" },
@@ -5482,6 +7429,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Claro", score: 6.9, color: "#DA291C" },
       { name: "TIM", score: 7.0, color: "#1E40AF" },
       { name: "Algar", score: 6.5, color: "#28BEA5" },
+      { name: "Surf", score: 6.1, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "TIM", score: 7.0, color: "#1E40AF" },
+      { name: "Algar", score: 6.4, color: "#28BEA5" },
       { name: "Surf", score: 6.1, color: "#0003F9" }
     ],
     marketShare: { percentage: 46.3, activeClients: 3653, totalPopulation: 7890, label: "Alta Penetração" },
@@ -5512,6 +7467,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.5, color: "#660099" },
+      { name: "LinQ", score: 5.8, color: "#F8A81B" },
+      { name: "Claro", score: 5.7, color: "#DA291C" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" },
+      { name: "V.tal", score: 5.5, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "Claro", score: 5.6, color: "#DA291C" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" },
+      { name: "Algar", score: 4.9, color: "#28BEA5" },
+      { name: "Surf", score: 4.7, color: "#0003F9" }
+    ],
     marketShare: { percentage: 31.1, activeClients: 5427, totalPopulation: 17452, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 27, shareFibra: 31 },
     crm: { arpu: 62, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 68, arpuFibra: 86, planoMovel: "Pré" },
@@ -5539,6 +7508,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.6, color: "#1E40AF" },
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "Claro", score: 5.0, color: "#DA291C" },
+      { name: "LinQ", score: 5.0, color: "#F8A81B" },
+      { name: "VIVO", score: 4.8, color: "#660099" },
+      { name: "TIM", score: 4.7, color: "#1E40AF" },
+      { name: "V.tal", score: 4.4, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 4.9, color: "#660099" },
+      { name: "Claro", score: 4.6, color: "#DA291C" },
+      { name: "TIM", score: 4.4, color: "#1E40AF" },
+      { name: "Algar", score: 4.1, color: "#28BEA5" },
+      { name: "Surf", score: 4.0, color: "#0003F9" }
     ],
     marketShare: { percentage: 44, activeClients: 3786, totalPopulation: 8605, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 39, shareFibra: 39 },
@@ -5568,6 +7551,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.2, color: "#660099" },
+      { name: "Claro", score: 4.9, color: "#DA291C" },
+      { name: "V.tal", score: 4.7, color: "#FFE84D" },
+      { name: "TIM", score: 4.6, color: "#1E40AF" },
+      { name: "LinQ", score: 4.6, color: "#F8A81B" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 4.5, color: "#660099" },
+      { name: "Claro", score: 4.1, color: "#DA291C" },
+      { name: "TIM", score: 4.1, color: "#1E40AF" },
+      { name: "Algar", score: 4.0, color: "#28BEA5" },
+      { name: "Surf", score: 4.0, color: "#0003F9" }
+    ],
     marketShare: { percentage: 41.8, activeClients: 6561, totalPopulation: 15698, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 37, shareFibra: 41 },
     crm: { arpu: 72, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 80, arpuFibra: 91, planoMovel: "Pós" },
@@ -5596,6 +7593,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "LinQ", score: 6.4, color: "#F8A81B" },
+      { name: "VIVO", score: 6.3, color: "#660099" },
+      { name: "V.tal", score: 6.2, color: "#FFE84D" },
+      { name: "TIM", score: 5.8, color: "#1E40AF" },
+      { name: "Algar", score: 5.8, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 26.2, activeClients: 2734, totalPopulation: 10437, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 23 },
     crm: { arpu: 83, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 0, arpuFibra: 86, planoMovel: "Controle" },
@@ -5624,6 +7629,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.1, color: "#660099" },
+      { name: "LinQ", score: 7.5, color: "#F8A81B" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "V.tal", score: 7.1, color: "#FFE84D" },
+      { name: "TIM", score: 7.0, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 15.1, activeClients: 1464, totalPopulation: 9699, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 13 },
     crm: { arpu: 98, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 140, planoMovel: "Controle" },
@@ -5651,6 +7664,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.1, color: "#1E40AF" },
       { name: "Algar", score: 7.2, color: "#28BEA5" },
       { name: "Surf", score: 6.3, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.1, color: "#660099" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "TIM", score: 7.2, color: "#1E40AF" },
+      { name: "Algar", score: 6.5, color: "#28BEA5" },
+      { name: "Surf", score: 6.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 44.2, activeClients: 7915, totalPopulation: 17909, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 39, shareFibra: 0 },
@@ -5680,6 +7701,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 8.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.8, color: "#660099" },
+      { name: "LinQ", score: 7.4, color: "#F8A81B" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" },
+      { name: "V.tal", score: 7.0, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 16.3, activeClients: 1453, totalPopulation: 8915, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 14 },
     crm: { arpu: 101, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 111, planoMovel: "Pós" },
@@ -5707,6 +7736,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.0, color: "#1E40AF" },
       { name: "LinQ", score: 7.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.1, color: "#660099" },
+      { name: "LinQ", score: 6.9, color: "#F8A81B" },
+      { name: "Claro", score: 6.6, color: "#DA291C" },
+      { name: "V.tal", score: 6.1, color: "#FFE84D" },
+      { name: "TIM", score: 6.0, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.7, color: "#660099" },
+      { name: "TIM", score: 6.2, color: "#1E40AF" },
+      { name: "Claro", score: 6.1, color: "#DA291C" },
+      { name: "Surf", score: 5.7, color: "#0003F9" },
+      { name: "Algar", score: 5.6, color: "#28BEA5" }
     ],
     marketShare: { percentage: 18.6, activeClients: 2202, totalPopulation: 11842, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 18, shareFibra: 18 },
@@ -5736,6 +7779,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.1, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.3, color: "#660099" },
+      { name: "LinQ", score: 7.8, color: "#F8A81B" },
+      { name: "Claro", score: 7.5, color: "#DA291C" },
+      { name: "TIM", score: 7.5, color: "#1E40AF" },
+      { name: "V.tal", score: 7.3, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.0, color: "#660099" },
+      { name: "Claro", score: 7.6, color: "#DA291C" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" },
+      { name: "Algar", score: 7.1, color: "#28BEA5" },
+      { name: "Surf", score: 6.5, color: "#0003F9" }
+    ],
     marketShare: { percentage: 35.8, activeClients: 5507, totalPopulation: 15385, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 32, shareFibra: 35 },
     crm: { arpu: 123, deviceTier: "Premium", planType: "Pós-pago 5G", arpuMovel: 118, arpuFibra: 165, planoMovel: "Pós" },
@@ -5763,6 +7820,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.6, color: "#1E40AF" },
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.7, color: "#660099" },
+      { name: "LinQ", score: 6.3, color: "#F8A81B" },
+      { name: "V.tal", score: 6.2, color: "#FFE84D" },
+      { name: "Claro", score: 6.0, color: "#DA291C" },
+      { name: "TIM", score: 5.7, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.2, color: "#660099" },
+      { name: "Claro", score: 6.0, color: "#DA291C" },
+      { name: "TIM", score: 5.7, color: "#1E40AF" },
+      { name: "Algar", score: 5.1, color: "#28BEA5" },
+      { name: "Surf", score: 5.1, color: "#0003F9" }
     ],
     marketShare: { percentage: 27.8, activeClients: 4338, totalPopulation: 15606, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 27, shareFibra: 27 },
@@ -5792,6 +7863,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "Claro", score: 5.7, color: "#DA291C" },
+      { name: "LinQ", score: 5.6, color: "#F8A81B" },
+      { name: "V.tal", score: 5.4, color: "#FFE84D" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 41.3, activeClients: 4837, totalPopulation: 11713, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 41 },
     crm: { arpu: 62, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 0, arpuFibra: 73, planoMovel: "Pré" },
@@ -5820,6 +7899,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "LinQ", score: 5.6, color: "#F8A81B" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" },
+      { name: "Claro", score: 5.1, color: "#DA291C" },
+      { name: "V.tal", score: 5.1, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 41.9, activeClients: 5386, totalPopulation: 12855, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 37 },
     crm: { arpu: 84, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 0, arpuFibra: 71, planoMovel: "Controle" },
@@ -5847,6 +7934,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.2, color: "#1E40AF" },
       { name: "Algar", score: 6.8, color: "#28BEA5" },
       { name: "Surf", score: 6.1, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.3, color: "#660099" },
+      { name: "Claro", score: 5.7, color: "#DA291C" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" },
+      { name: "Algar", score: 5.3, color: "#28BEA5" },
+      { name: "Surf", score: 5.0, color: "#0003F9" }
     ],
     marketShare: { percentage: 18.9, activeClients: 1767, totalPopulation: 9354, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 17, shareFibra: 0 },
@@ -5876,6 +7971,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 7.0, color: "#28BEA5" },
       { name: "Surf", score: 6.0, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.5, color: "#660099" },
+      { name: "TIM", score: 6.0, color: "#1E40AF" },
+      { name: "Claro", score: 5.9, color: "#DA291C" },
+      { name: "Algar", score: 5.6, color: "#28BEA5" },
+      { name: "Surf", score: 5.1, color: "#0003F9" }
+    ],
     marketShare: { percentage: 18.4, activeClients: 2380, totalPopulation: 12940, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 18, shareFibra: 0 },
     crm: { arpu: 71, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 60, arpuFibra: 0, planoMovel: "Controle" },
@@ -5903,6 +8006,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.6, color: "#1E40AF" },
       { name: "Algar", score: 7.2, color: "#28BEA5" },
       { name: "Surf", score: 6.5, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.4, color: "#660099" },
+      { name: "Claro", score: 7.7, color: "#DA291C" },
+      { name: "TIM", score: 7.7, color: "#1E40AF" },
+      { name: "Algar", score: 7.2, color: "#28BEA5" },
+      { name: "Surf", score: 6.8, color: "#0003F9" }
     ],
     marketShare: { percentage: 50.7, activeClients: 7813, totalPopulation: 15412, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 50, shareFibra: 0 },
@@ -5932,6 +8043,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 7.1, color: "#28BEA5" },
       { name: "Surf", score: 6.7, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.9, color: "#660099" },
+      { name: "Claro", score: 5.5, color: "#DA291C" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" },
+      { name: "Algar", score: 4.9, color: "#28BEA5" },
+      { name: "Surf", score: 4.8, color: "#0003F9" }
+    ],
     marketShare: { percentage: 17.4, activeClients: 2843, totalPopulation: 16342, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 17, shareFibra: 0 },
     crm: { arpu: 71, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 77, arpuFibra: 0, planoMovel: "Pós" },
@@ -5960,6 +8079,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "LinQ", score: 7.8, color: "#F8A81B" },
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "V.tal", score: 7.4, color: "#FFE84D" },
+      { name: "Claro", score: 7.1, color: "#DA291C" },
+      { name: "Algar", score: 7.0, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 21.2, activeClients: 2899, totalPopulation: 13677, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 19 },
     crm: { arpu: 92, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 108, planoMovel: "Controle" },
@@ -5987,6 +8114,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.5, color: "#1E40AF" },
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.6, color: "#660099" },
+      { name: "LinQ", score: 8.0, color: "#F8A81B" },
+      { name: "Claro", score: 7.9, color: "#DA291C" },
+      { name: "TIM", score: 7.7, color: "#1E40AF" },
+      { name: "V.tal", score: 7.5, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "Algar", score: 6.7, color: "#28BEA5" },
+      { name: "Surf", score: 6.3, color: "#0003F9" }
     ],
     marketShare: { percentage: 27.1, activeClients: 3528, totalPopulation: 13020, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 24, shareFibra: 24 },
@@ -6016,6 +8157,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.3, color: "#660099" },
+      { name: "LinQ", score: 8.1, color: "#F8A81B" },
+      { name: "V.tal", score: 7.9, color: "#FFE84D" },
+      { name: "Claro", score: 7.7, color: "#DA291C" },
+      { name: "Algar", score: 7.5, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.2, color: "#660099" },
+      { name: "Claro", score: 7.5, color: "#DA291C" },
+      { name: "TIM", score: 7.2, color: "#1E40AF" },
+      { name: "Algar", score: 6.6, color: "#28BEA5" },
+      { name: "Surf", score: 6.3, color: "#0003F9" }
+    ],
     marketShare: { percentage: 46.7, activeClients: 6363, totalPopulation: 13626, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 42, shareFibra: 42 },
     crm: { arpu: 127, deviceTier: "Premium", planType: "Fibra 1Gbps", arpuMovel: 126, arpuFibra: 171, planoMovel: "Controle" },
@@ -6044,6 +8199,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "LinQ", score: 7.2, color: "#F8A81B" },
+      { name: "Claro", score: 6.8, color: "#DA291C" },
+      { name: "Algar", score: 6.8, color: "#28BEA5" },
+      { name: "V.tal", score: 6.7, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 25.3, activeClients: 4011, totalPopulation: 15856, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 22 },
     crm: { arpu: 112, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 0, arpuFibra: 124, planoMovel: "Controle" },
@@ -6071,6 +8234,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.3, color: "#1E40AF" },
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.5, color: "#660099" },
+      { name: "LinQ", score: 6.2, color: "#F8A81B" },
+      { name: "Claro", score: 6.1, color: "#DA291C" },
+      { name: "V.tal", score: 6.1, color: "#FFE84D" },
+      { name: "Algar", score: 5.9, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.3, color: "#660099" },
+      { name: "Claro", score: 5.9, color: "#DA291C" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" },
+      { name: "Algar", score: 5.3, color: "#28BEA5" },
+      { name: "Surf", score: 5.3, color: "#0003F9" }
     ],
     marketShare: { percentage: 22, activeClients: 3255, totalPopulation: 14797, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 19, shareFibra: 19 },
@@ -6100,6 +8277,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.6, color: "#660099" },
+      { name: "LinQ", score: 5.3, color: "#F8A81B" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" },
+      { name: "V.tal", score: 5.2, color: "#FFE84D" },
+      { name: "Claro", score: 5.0, color: "#DA291C" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "TIM", score: 5.1, color: "#1E40AF" },
+      { name: "Claro", score: 4.9, color: "#DA291C" },
+      { name: "Algar", score: 4.9, color: "#28BEA5" },
+      { name: "Surf", score: 4.7, color: "#0003F9" }
+    ],
     marketShare: { percentage: 15.6, activeClients: 1525, totalPopulation: 9781, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 14, shareFibra: 15 },
     crm: { arpu: 73, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 63, arpuFibra: 70, planoMovel: "Controle" },
@@ -6128,6 +8319,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "LinQ", score: 6.0, color: "#F8A81B" },
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "Claro", score: 5.8, color: "#DA291C" },
+      { name: "TIM", score: 5.7, color: "#1E40AF" },
+      { name: "V.tal", score: 5.7, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 19.6, activeClients: 2097, totalPopulation: 10700, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 19 },
     crm: { arpu: 73, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 0, arpuFibra: 88, planoMovel: "Pré" },
@@ -6155,6 +8354,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.3, color: "#1E40AF" },
       { name: "LinQ", score: 7.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.3, color: "#660099" },
+      { name: "LinQ", score: 5.2, color: "#F8A81B" },
+      { name: "V.tal", score: 5.2, color: "#FFE84D" },
+      { name: "TIM", score: 5.1, color: "#1E40AF" },
+      { name: "Claro", score: 5.0, color: "#DA291C" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.2, color: "#660099" },
+      { name: "Claro", score: 5.2, color: "#DA291C" },
+      { name: "TIM", score: 4.6, color: "#1E40AF" },
+      { name: "Algar", score: 4.5, color: "#28BEA5" },
+      { name: "Surf", score: 4.3, color: "#0003F9" }
     ],
     marketShare: { percentage: 45.6, activeClients: 7882, totalPopulation: 17286, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 41, shareFibra: 41 },
@@ -6184,6 +8397,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.7, color: "#660099" },
+      { name: "Claro", score: 5.6, color: "#DA291C" },
+      { name: "LinQ", score: 5.5, color: "#F8A81B" },
+      { name: "NIO", score: 5.2, color: "#32E000" },
+      { name: "V.tal", score: 5.2, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "TIM", score: 4.9, color: "#1E40AF" },
+      { name: "Claro", score: 4.8, color: "#DA291C" },
+      { name: "Algar", score: 4.8, color: "#28BEA5" },
+      { name: "Surf", score: 4.3, color: "#0003F9" }
+    ],
     marketShare: { percentage: 15.6, activeClients: 1582, totalPopulation: 10144, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 14, shareFibra: 14 },
     crm: { arpu: 68, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 75, arpuFibra: 71, planoMovel: "Controle" },
@@ -6211,6 +8438,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.0, color: "#1E40AF" },
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "LinQ", score: 6.9, color: "#F8A81B" },
+      { name: "VIVO", score: 6.7, color: "#660099" },
+      { name: "TIM", score: 6.5, color: "#1E40AF" },
+      { name: "V.tal", score: 6.3, color: "#FFE84D" },
+      { name: "Claro", score: 6.2, color: "#DA291C" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.3, color: "#660099" },
+      { name: "Claro", score: 6.0, color: "#DA291C" },
+      { name: "TIM", score: 5.9, color: "#1E40AF" },
+      { name: "Surf", score: 5.4, color: "#0003F9" },
+      { name: "Algar", score: 5.3, color: "#28BEA5" }
     ],
     marketShare: { percentage: 25.8, activeClients: 2803, totalPopulation: 10867, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 25, shareFibra: 25 },
@@ -6240,6 +8481,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.5, color: "#660099" },
+      { name: "Claro", score: 8.1, color: "#DA291C" },
+      { name: "LinQ", score: 8.0, color: "#F8A81B" },
+      { name: "V.tal", score: 7.7, color: "#FFE84D" },
+      { name: "TIM", score: 7.4, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.2, color: "#660099" },
+      { name: "Claro", score: 7.5, color: "#DA291C" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" },
+      { name: "Algar", score: 6.6, color: "#28BEA5" },
+      { name: "Surf", score: 6.4, color: "#0003F9" }
+    ],
     marketShare: { percentage: 52.5, activeClients: 4921, totalPopulation: 9374, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 52, shareFibra: 47 },
     crm: { arpu: 177, deviceTier: "Premium", planType: "Pós-pago 5G", arpuMovel: 97, arpuFibra: 193, planoMovel: "Pós" },
@@ -6267,6 +8522,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.1, color: "#1E40AF" },
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.3, color: "#660099" },
+      { name: "Claro", score: 6.7, color: "#DA291C" },
+      { name: "LinQ", score: 6.6, color: "#F8A81B" },
+      { name: "V.tal", score: 6.3, color: "#FFE84D" },
+      { name: "TIM", score: 6.0, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.3, color: "#660099" },
+      { name: "Claro", score: 5.9, color: "#DA291C" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" },
+      { name: "Algar", score: 5.4, color: "#28BEA5" },
+      { name: "Surf", score: 5.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 26.3, activeClients: 4617, totalPopulation: 17558, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 26, shareFibra: 26 },
@@ -6296,6 +8565,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.4, color: "#660099" },
+      { name: "Claro", score: 5.9, color: "#DA291C" },
+      { name: "LinQ", score: 5.8, color: "#F8A81B" },
+      { name: "V.tal", score: 5.8, color: "#FFE84D" },
+      { name: "NIO", score: 5.5, color: "#32E000" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.6, color: "#660099" },
+      { name: "Claro", score: 5.1, color: "#DA291C" },
+      { name: "Algar", score: 5.1, color: "#28BEA5" },
+      { name: "TIM", score: 5.0, color: "#1E40AF" },
+      { name: "Surf", score: 4.4, color: "#0003F9" }
+    ],
     marketShare: { percentage: 15.2, activeClients: 1456, totalPopulation: 9585, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 15, shareFibra: 15 },
     crm: { arpu: 59, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 80, arpuFibra: 80, planoMovel: "Controle" },
@@ -6323,6 +8606,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.6, color: "#1E40AF" },
       { name: "LinQ", score: 7.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.1, color: "#660099" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "LinQ", score: 6.9, color: "#F8A81B" },
+      { name: "V.tal", score: 6.8, color: "#FFE84D" },
+      { name: "TIM", score: 6.4, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.0, color: "#660099" },
+      { name: "Claro", score: 6.3, color: "#DA291C" },
+      { name: "TIM", score: 6.3, color: "#1E40AF" },
+      { name: "Surf", score: 5.8, color: "#0003F9" },
+      { name: "Algar", score: 5.7, color: "#28BEA5" }
     ],
     marketShare: { percentage: 22.7, activeClients: 3821, totalPopulation: 16836, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 20, shareFibra: 22 },
@@ -6352,6 +8649,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.2, color: "#660099" },
+      { name: "Claro", score: 7.7, color: "#DA291C" },
+      { name: "V.tal", score: 7.7, color: "#FFE84D" },
+      { name: "LinQ", score: 7.6, color: "#F8A81B" },
+      { name: "TIM", score: 7.2, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 53.1, activeClients: 6932, totalPopulation: 13056, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 47 },
     crm: { arpu: 150, deviceTier: "Premium", planType: "Fibra 500Mbps", arpuMovel: 0, arpuFibra: 195, planoMovel: "Controle" },
@@ -6379,6 +8684,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.3, color: "#1E40AF" },
       { name: "Algar", score: 6.5, color: "#28BEA5" },
       { name: "Surf", score: 6.2, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.2, color: "#660099" },
+      { name: "Claro", score: 5.7, color: "#DA291C" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" },
+      { name: "Algar", score: 5.3, color: "#28BEA5" },
+      { name: "Surf", score: 4.7, color: "#0003F9" }
     ],
     marketShare: { percentage: 19.2, activeClients: 3104, totalPopulation: 16167, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 17, shareFibra: 0 },
@@ -6408,6 +8721,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.1, color: "#660099" },
+      { name: "LinQ", score: 8.0, color: "#F8A81B" },
+      { name: "Claro", score: 7.7, color: "#DA291C" },
+      { name: "V.tal", score: 7.6, color: "#FFE84D" },
+      { name: "Algar", score: 7.3, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.9, color: "#660099" },
+      { name: "Claro", score: 7.4, color: "#DA291C" },
+      { name: "TIM", score: 6.8, color: "#1E40AF" },
+      { name: "Algar", score: 6.6, color: "#28BEA5" },
+      { name: "Surf", score: 6.6, color: "#0003F9" }
+    ],
     marketShare: { percentage: 26.5, activeClients: 3224, totalPopulation: 12169, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 26, shareFibra: 26 },
     crm: { arpu: 125, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 81, arpuFibra: 112, planoMovel: "Pós" },
@@ -6436,6 +8763,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.3, color: "#660099" },
+      { name: "LinQ", score: 6.7, color: "#F8A81B" },
+      { name: "Claro", score: 6.4, color: "#DA291C" },
+      { name: "V.tal", score: 6.3, color: "#FFE84D" },
+      { name: "TIM", score: 6.1, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 21.1, activeClients: 2419, totalPopulation: 11469, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 18 },
     crm: { arpu: 55, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 83, planoMovel: "Pós" },
@@ -6464,6 +8799,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "LinQ", score: 7.3, color: "#F8A81B" },
+      { name: "V.tal", score: 7.3, color: "#FFE84D" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "Algar", score: 6.8, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 23.2, activeClients: 2876, totalPopulation: 12397, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 23 },
     crm: { arpu: 105, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 136, planoMovel: "Controle" },
@@ -6492,6 +8835,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 8.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.7, color: "#660099" },
+      { name: "Claro", score: 5.7, color: "#DA291C" },
+      { name: "LinQ", score: 5.7, color: "#F8A81B" },
+      { name: "V.tal", score: 5.4, color: "#FFE84D" },
+      { name: "NIO", score: 5.2, color: "#32E000" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 23.1, activeClients: 4092, totalPopulation: 17716, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 23 },
     crm: { arpu: 78, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 0, arpuFibra: 91, planoMovel: "Controle" },
@@ -6519,6 +8870,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.2, color: "#1E40AF" },
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.3, color: "#660099" },
+      { name: "LinQ", score: 7.0, color: "#F8A81B" },
+      { name: "Claro", score: 6.8, color: "#DA291C" },
+      { name: "V.tal", score: 6.5, color: "#FFE84D" },
+      { name: "TIM", score: 6.3, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.4, color: "#660099" },
+      { name: "Claro", score: 6.4, color: "#DA291C" },
+      { name: "TIM", score: 6.0, color: "#1E40AF" },
+      { name: "Algar", score: 5.5, color: "#28BEA5" },
+      { name: "Surf", score: 5.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 17.1, activeClients: 1631, totalPopulation: 9540, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 15, shareFibra: 15 },
@@ -6548,6 +8913,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.7, color: "#660099" },
+      { name: "LinQ", score: 5.7, color: "#F8A81B" },
+      { name: "TIM", score: 5.5, color: "#1E40AF" },
+      { name: "Claro", score: 5.2, color: "#DA291C" },
+      { name: "NIO", score: 5.2, color: "#32E000" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 31.6, activeClients: 3155, totalPopulation: 9985, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 28 },
     crm: { arpu: 77, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 0, arpuFibra: 80, planoMovel: "Controle" },
@@ -6576,6 +8949,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "LinQ", score: 7.0, color: "#F8A81B" },
+      { name: "Claro", score: 6.8, color: "#DA291C" },
+      { name: "V.tal", score: 6.6, color: "#FFE84D" },
+      { name: "TIM", score: 6.4, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 42.5, activeClients: 7554, totalPopulation: 17776, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 38 },
     crm: { arpu: 159, deviceTier: "Premium", planType: "Pós-pago 5G", arpuMovel: 0, arpuFibra: 163, planoMovel: "Pós" },
@@ -6604,6 +8985,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.4, color: "#660099" },
+      { name: "LinQ", score: 6.0, color: "#F8A81B" },
+      { name: "Claro", score: 5.9, color: "#DA291C" },
+      { name: "TIM", score: 5.7, color: "#1E40AF" },
+      { name: "V.tal", score: 5.7, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 16.1, activeClients: 2239, totalPopulation: 13912, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 14 },
     crm: { arpu: 77, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 85, planoMovel: "Controle" },
@@ -6632,6 +9021,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "LinQ", score: 6.0, color: "#F8A81B" },
+      { name: "TIM", score: 5.8, color: "#1E40AF" },
+      { name: "V.tal", score: 5.7, color: "#FFE84D" },
+      { name: "Claro", score: 5.6, color: "#DA291C" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 26.7, activeClients: 4003, totalPopulation: 14993, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 24 },
     crm: { arpu: 73, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 0, arpuFibra: 87, planoMovel: "Controle" },
@@ -6659,6 +9056,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.9, color: "#1E40AF" },
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.9, color: "#660099" },
+      { name: "V.tal", score: 6.5, color: "#FFE84D" },
+      { name: "Claro", score: 6.4, color: "#DA291C" },
+      { name: "LinQ", score: 6.4, color: "#F8A81B" },
+      { name: "TIM", score: 6.2, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.3, color: "#660099" },
+      { name: "Claro", score: 5.7, color: "#DA291C" },
+      { name: "TIM", score: 5.5, color: "#1E40AF" },
+      { name: "Algar", score: 5.5, color: "#28BEA5" },
+      { name: "Surf", score: 5.1, color: "#0003F9" }
     ],
     marketShare: { percentage: 25.8, activeClients: 4582, totalPopulation: 17763, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 25, shareFibra: 23 },
@@ -6688,6 +9099,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 9.0, color: "#660099" },
+      { name: "LinQ", score: 8.4, color: "#F8A81B" },
+      { name: "Claro", score: 8.3, color: "#DA291C" },
+      { name: "V.tal", score: 8.3, color: "#FFE84D" },
+      { name: "Algar", score: 7.8, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.3, color: "#660099" },
+      { name: "Claro", score: 7.7, color: "#DA291C" },
+      { name: "TIM", score: 7.6, color: "#1E40AF" },
+      { name: "Algar", score: 7.4, color: "#28BEA5" },
+      { name: "Surf", score: 7.0, color: "#0003F9" }
+    ],
     marketShare: { percentage: 38.8, activeClients: 6288, totalPopulation: 16207, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 34, shareFibra: 34 },
     crm: { arpu: 122, deviceTier: "Premium", planType: "Pós-pago 5G", arpuMovel: 112, arpuFibra: 197, planoMovel: "Pós" },
@@ -6715,6 +9140,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.7, color: "#1E40AF" },
       { name: "Algar", score: 6.9, color: "#28BEA5" },
       { name: "Surf", score: 6.9, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.6, color: "#660099" },
+      { name: "Claro", score: 5.5, color: "#DA291C" },
+      { name: "TIM", score: 5.1, color: "#1E40AF" },
+      { name: "Algar", score: 4.6, color: "#28BEA5" },
+      { name: "Surf", score: 4.5, color: "#0003F9" }
     ],
     marketShare: { percentage: 23.9, activeClients: 3653, totalPopulation: 15288, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 21, shareFibra: 0 },
@@ -6744,6 +9177,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "LinQ", score: 7.3, color: "#F8A81B" },
+      { name: "TIM", score: 7.2, color: "#1E40AF" },
+      { name: "Claro", score: 7.1, color: "#DA291C" },
+      { name: "V.tal", score: 7.0, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "Claro", score: 6.6, color: "#DA291C" },
+      { name: "TIM", score: 6.5, color: "#1E40AF" },
+      { name: "Algar", score: 6.4, color: "#28BEA5" },
+      { name: "Surf", score: 5.8, color: "#0003F9" }
+    ],
     marketShare: { percentage: 21.4, activeClients: 2297, totalPopulation: 10738, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 21, shareFibra: 21 },
     crm: { arpu: 118, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 91, arpuFibra: 101, planoMovel: "Controle" },
@@ -6771,6 +9218,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.1, color: "#1E40AF" },
       { name: "Algar", score: 7.3, color: "#28BEA5" },
       { name: "Surf", score: 6.6, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.2, color: "#660099" },
+      { name: "TIM", score: 5.9, color: "#1E40AF" },
+      { name: "Claro", score: 5.7, color: "#DA291C" },
+      { name: "Algar", score: 5.7, color: "#28BEA5" },
+      { name: "Surf", score: 5.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 24.1, activeClients: 2925, totalPopulation: 12139, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 21, shareFibra: 0 },
@@ -6800,6 +9255,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 7.5, color: "#28BEA5" },
       { name: "Surf", score: 5.9, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.1, color: "#660099" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "TIM", score: 6.3, color: "#1E40AF" },
+      { name: "Algar", score: 6.2, color: "#28BEA5" },
+      { name: "Surf", score: 5.8, color: "#0003F9" }
+    ],
     marketShare: { percentage: 21.3, activeClients: 3378, totalPopulation: 15860, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 19, shareFibra: 0 },
     crm: { arpu: 118, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 104, arpuFibra: 0, planoMovel: "Pós" },
@@ -6827,6 +9290,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.5, color: "#1E40AF" },
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.1, color: "#660099" },
+      { name: "Claro", score: 5.8, color: "#DA291C" },
+      { name: "LinQ", score: 5.8, color: "#F8A81B" },
+      { name: "TIM", score: 5.7, color: "#1E40AF" },
+      { name: "V.tal", score: 5.4, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.2, color: "#660099" },
+      { name: "Claro", score: 5.4, color: "#DA291C" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" },
+      { name: "Algar", score: 5.1, color: "#28BEA5" },
+      { name: "Surf", score: 4.8, color: "#0003F9" }
     ],
     marketShare: { percentage: 15.7, activeClients: 1865, totalPopulation: 11881, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 14, shareFibra: 14 },
@@ -6856,6 +9333,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.4, color: "#660099" },
+      { name: "LinQ", score: 8.0, color: "#F8A81B" },
+      { name: "V.tal", score: 7.8, color: "#FFE84D" },
+      { name: "Claro", score: 7.5, color: "#DA291C" },
+      { name: "TIM", score: 7.4, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "TIM", score: 7.2, color: "#1E40AF" },
+      { name: "Algar", score: 6.7, color: "#28BEA5" },
+      { name: "Surf", score: 6.2, color: "#0003F9" }
+    ],
     marketShare: { percentage: 52.3, activeClients: 8667, totalPopulation: 16573, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 47, shareFibra: 52 },
     crm: { arpu: 151, deviceTier: "Premium", planType: "Pós-pago 5G", arpuMovel: 121, arpuFibra: 192, planoMovel: "Pós" },
@@ -6883,6 +9374,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.1, color: "#1E40AF" },
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.2, color: "#660099" },
+      { name: "LinQ", score: 7.9, color: "#F8A81B" },
+      { name: "Claro", score: 7.8, color: "#DA291C" },
+      { name: "TIM", score: 7.5, color: "#1E40AF" },
+      { name: "V.tal", score: 7.3, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.2, color: "#660099" },
+      { name: "Claro", score: 7.7, color: "#DA291C" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" },
+      { name: "Algar", score: 6.9, color: "#28BEA5" },
+      { name: "Surf", score: 6.8, color: "#0003F9" }
     ],
     marketShare: { percentage: 41.9, activeClients: 4950, totalPopulation: 11816, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 37, shareFibra: 41 },
@@ -6912,6 +9417,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.1, color: "#660099" },
+      { name: "LinQ", score: 6.8, color: "#F8A81B" },
+      { name: "Claro", score: 6.4, color: "#DA291C" },
+      { name: "TIM", score: 6.2, color: "#1E40AF" },
+      { name: "V.tal", score: 6.1, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 23.3, activeClients: 3194, totalPopulation: 13711, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 20 },
     crm: { arpu: 56, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 93, planoMovel: "Controle" },
@@ -6939,6 +9452,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.8, color: "#1E40AF" },
       { name: "LinQ", score: 6.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.0, color: "#660099" },
+      { name: "LinQ", score: 7.5, color: "#F8A81B" },
+      { name: "V.tal", score: 7.2, color: "#FFE84D" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "Algar", score: 7.0, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "TIM", score: 6.8, color: "#1E40AF" },
+      { name: "Algar", score: 6.5, color: "#28BEA5" },
+      { name: "Surf", score: 6.3, color: "#0003F9" }
     ],
     marketShare: { percentage: 23.2, activeClients: 3645, totalPopulation: 15713, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 23, shareFibra: 20 },
@@ -6968,6 +9495,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 6.6, color: "#28BEA5" },
       { name: "Surf", score: 5.8, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.3, color: "#660099" },
+      { name: "TIM", score: 7.0, color: "#1E40AF" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "Algar", score: 6.6, color: "#28BEA5" },
+      { name: "Surf", score: 6.2, color: "#0003F9" }
+    ],
     marketShare: { percentage: 18.6, activeClients: 1384, totalPopulation: 7445, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 16, shareFibra: 0 },
     crm: { arpu: 94, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 108, arpuFibra: 0, planoMovel: "Pós" },
@@ -6995,6 +9530,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.6, color: "#1E40AF" },
       { name: "Algar", score: 6.7, color: "#28BEA5" },
       { name: "Surf", score: 6.2, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.8, color: "#660099" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "TIM", score: 7.0, color: "#1E40AF" },
+      { name: "Algar", score: 6.9, color: "#28BEA5" },
+      { name: "Surf", score: 6.6, color: "#0003F9" }
     ],
     marketShare: { percentage: 47.3, activeClients: 3455, totalPopulation: 7305, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 47, shareFibra: 0 },
@@ -7024,6 +9567,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.0, color: "#660099" },
+      { name: "LinQ", score: 7.8, color: "#F8A81B" },
+      { name: "V.tal", score: 7.7, color: "#FFE84D" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "TIM", score: 7.0, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 54.4, activeClients: 3812, totalPopulation: 7008, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 48 },
     crm: { arpu: 136, deviceTier: "Premium", planType: "Pós-pago 5G", arpuMovel: 0, arpuFibra: 164, planoMovel: "Pós" },
@@ -7051,6 +9602,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.6, color: "#1E40AF" },
       { name: "LinQ", score: 7.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.8, color: "#660099" },
+      { name: "LinQ", score: 8.3, color: "#F8A81B" },
+      { name: "Claro", score: 8.1, color: "#DA291C" },
+      { name: "TIM", score: 7.9, color: "#1E40AF" },
+      { name: "V.tal", score: 7.7, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.6, color: "#660099" },
+      { name: "TIM", score: 7.8, color: "#1E40AF" },
+      { name: "Claro", score: 7.6, color: "#DA291C" },
+      { name: "Algar", score: 7.2, color: "#28BEA5" },
+      { name: "Surf", score: 6.8, color: "#0003F9" }
     ],
     marketShare: { percentage: 41.2, activeClients: 4648, totalPopulation: 11282, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 37, shareFibra: 41 },
@@ -7080,6 +9645,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.1, color: "#660099" },
+      { name: "LinQ", score: 7.9, color: "#F8A81B" },
+      { name: "V.tal", score: 7.9, color: "#FFE84D" },
+      { name: "Claro", score: 7.7, color: "#DA291C" },
+      { name: "TIM", score: 7.4, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "TIM", score: 7.1, color: "#1E40AF" },
+      { name: "Algar", score: 6.4, color: "#28BEA5" },
+      { name: "Surf", score: 6.2, color: "#0003F9" }
+    ],
     marketShare: { percentage: 18.9, activeClients: 2488, totalPopulation: 13166, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 17, shareFibra: 18 },
     crm: { arpu: 85, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 94, arpuFibra: 123, planoMovel: "Controle" },
@@ -7108,6 +9687,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.6, color: "#660099" },
+      { name: "LinQ", score: 6.3, color: "#F8A81B" },
+      { name: "V.tal", score: 6.0, color: "#FFE84D" },
+      { name: "Claro", score: 5.9, color: "#DA291C" },
+      { name: "Algar", score: 5.9, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 21, activeClients: 2056, totalPopulation: 9793, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 21 },
     crm: { arpu: 76, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 72, planoMovel: "Pós" },
@@ -7136,6 +9723,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.2, color: "#660099" },
+      { name: "LinQ", score: 7.9, color: "#F8A81B" },
+      { name: "Claro", score: 7.7, color: "#DA291C" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" },
+      { name: "V.tal", score: 7.2, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 14.7, activeClients: 1806, totalPopulation: 12292, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 13 },
     crm: { arpu: 118, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 131, planoMovel: "Pós" },
@@ -7163,6 +9758,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.0, color: "#1E40AF" },
       { name: "LinQ", score: 7.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.3, color: "#660099" },
+      { name: "LinQ", score: 7.3, color: "#F8A81B" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "Claro", score: 6.6, color: "#DA291C" },
+      { name: "V.tal", score: 6.6, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.0, color: "#660099" },
+      { name: "Claro", score: 6.1, color: "#DA291C" },
+      { name: "TIM", score: 5.9, color: "#1E40AF" },
+      { name: "Algar", score: 5.8, color: "#28BEA5" },
+      { name: "Surf", score: 5.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 18.4, activeClients: 3175, totalPopulation: 17256, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 16, shareFibra: 16 },
@@ -7192,6 +9801,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.9, color: "#660099" },
+      { name: "LinQ", score: 7.6, color: "#F8A81B" },
+      { name: "V.tal", score: 7.0, color: "#FFE84D" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 43.3, activeClients: 5169, totalPopulation: 11939, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 38 },
     crm: { arpu: 123, deviceTier: "Premium", planType: "Pós-pago 5G", arpuMovel: 0, arpuFibra: 143, planoMovel: "Pós" },
@@ -7219,6 +9836,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.0, color: "#1E40AF" },
       { name: "LinQ", score: 7.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.5, color: "#660099" },
+      { name: "Claro", score: 6.1, color: "#DA291C" },
+      { name: "LinQ", score: 6.1, color: "#F8A81B" },
+      { name: "TIM", score: 6.0, color: "#1E40AF" },
+      { name: "Algar", score: 5.8, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.4, color: "#660099" },
+      { name: "Claro", score: 5.5, color: "#DA291C" },
+      { name: "TIM", score: 5.4, color: "#1E40AF" },
+      { name: "Algar", score: 5.4, color: "#28BEA5" },
+      { name: "Surf", score: 5.2, color: "#0003F9" }
     ],
     marketShare: { percentage: 22.2, activeClients: 1946, totalPopulation: 8769, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 19, shareFibra: 22 },
@@ -7248,6 +9879,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.5, color: "#660099" },
+      { name: "LinQ", score: 6.3, color: "#F8A81B" },
+      { name: "TIM", score: 5.9, color: "#1E40AF" },
+      { name: "V.tal", score: 5.9, color: "#FFE84D" },
+      { name: "Claro", score: 5.8, color: "#DA291C" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 21.1, activeClients: 3411, totalPopulation: 16166, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 18 },
     crm: { arpu: 61, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 95, planoMovel: "Pós" },
@@ -7275,6 +9914,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.5, color: "#1E40AF" },
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "Claro", score: 5.6, color: "#DA291C" },
+      { name: "V.tal", score: 5.5, color: "#FFE84D" },
+      { name: "LinQ", score: 5.4, color: "#F8A81B" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.9, color: "#660099" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" },
+      { name: "Claro", score: 5.1, color: "#DA291C" },
+      { name: "Algar", score: 5.0, color: "#28BEA5" },
+      { name: "Surf", score: 4.6, color: "#0003F9" }
     ],
     marketShare: { percentage: 17.2, activeClients: 2962, totalPopulation: 17222, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 17, shareFibra: 17 },
@@ -7304,6 +9957,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.9, color: "#660099" },
+      { name: "LinQ", score: 5.8, color: "#F8A81B" },
+      { name: "Claro", score: 5.6, color: "#DA291C" },
+      { name: "V.tal", score: 5.3, color: "#FFE84D" },
+      { name: "TIM", score: 5.1, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 15.4, activeClients: 1424, totalPopulation: 9248, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 13 },
     crm: { arpu: 84, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 79, planoMovel: "Pós" },
@@ -7331,6 +9992,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.8, color: "#1E40AF" },
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "LinQ", score: 7.6, color: "#F8A81B" },
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "V.tal", score: 7.3, color: "#FFE84D" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "TIM", score: 6.6, color: "#1E40AF" },
+      { name: "Algar", score: 6.4, color: "#28BEA5" },
+      { name: "Surf", score: 5.8, color: "#0003F9" }
     ],
     marketShare: { percentage: 27.7, activeClients: 3048, totalPopulation: 11006, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 24, shareFibra: 27 },
@@ -7360,6 +10035,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.4, color: "#660099" },
+      { name: "Claro", score: 6.0, color: "#DA291C" },
+      { name: "LinQ", score: 6.0, color: "#F8A81B" },
+      { name: "V.tal", score: 5.9, color: "#FFE84D" },
+      { name: "TIM", score: 5.7, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 33.4, activeClients: 4532, totalPopulation: 13569, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 33 },
     crm: { arpu: 61, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 76, planoMovel: "Pós" },
@@ -7387,6 +10070,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.7, color: "#1E40AF" },
       { name: "LinQ", score: 7.1, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.4, color: "#660099" },
+      { name: "LinQ", score: 6.3, color: "#F8A81B" },
+      { name: "Claro", score: 6.1, color: "#DA291C" },
+      { name: "V.tal", score: 5.9, color: "#FFE84D" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "Claro", score: 5.5, color: "#DA291C" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" },
+      { name: "Algar", score: 5.0, color: "#28BEA5" },
+      { name: "Surf", score: 4.9, color: "#0003F9" }
     ],
     marketShare: { percentage: 20.5, activeClients: 2808, totalPopulation: 13700, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 18, shareFibra: 18 },
@@ -7416,6 +10113,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.7, color: "#660099" },
+      { name: "LinQ", score: 8.4, color: "#F8A81B" },
+      { name: "Claro", score: 8.1, color: "#DA291C" },
+      { name: "TIM", score: 7.9, color: "#1E40AF" },
+      { name: "V.tal", score: 7.8, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 26.8, activeClients: 1913, totalPopulation: 7139, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 24 },
     crm: { arpu: 110, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 137, planoMovel: "Pós" },
@@ -7444,6 +10149,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "V.tal", score: 5.2, color: "#FFE84D" },
+      { name: "TIM", score: 5.1, color: "#1E40AF" },
+      { name: "LinQ", score: 5.1, color: "#F8A81B" },
+      { name: "Claro", score: 4.9, color: "#DA291C" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 36.6, activeClients: 5066, totalPopulation: 13843, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 36 },
     crm: { arpu: 66, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 88, planoMovel: "Pós" },
@@ -7471,6 +10184,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.1, color: "#1E40AF" },
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "LinQ", score: 7.2, color: "#F8A81B" },
+      { name: "Claro", score: 7.1, color: "#DA291C" },
+      { name: "V.tal", score: 7.1, color: "#FFE84D" },
+      { name: "Algar", score: 6.7, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.2, color: "#660099" },
+      { name: "Claro", score: 6.5, color: "#DA291C" },
+      { name: "TIM", score: 6.5, color: "#1E40AF" },
+      { name: "Surf", score: 6.1, color: "#0003F9" },
+      { name: "Algar", score: 6.0, color: "#28BEA5" }
     ],
     marketShare: { percentage: 54.9, activeClients: 8953, totalPopulation: 16309, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 49, shareFibra: 54 },
@@ -7500,6 +10227,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.0, color: "#660099" },
+      { name: "LinQ", score: 6.4, color: "#F8A81B" },
+      { name: "TIM", score: 6.2, color: "#1E40AF" },
+      { name: "V.tal", score: 6.1, color: "#FFE84D" },
+      { name: "Claro", score: 6.0, color: "#DA291C" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 21.3, activeClients: 2090, totalPopulation: 9815, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 19 },
     crm: { arpu: 58, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 87, planoMovel: "Pós" },
@@ -7528,6 +10263,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.1, color: "#660099" },
+      { name: "LinQ", score: 7.6, color: "#F8A81B" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "V.tal", score: 7.0, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 16, activeClients: 1287, totalPopulation: 8048, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 14 },
     crm: { arpu: 106, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 131, planoMovel: "Controle" },
@@ -7556,6 +10299,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 8.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.5, color: "#660099" },
+      { name: "Claro", score: 6.1, color: "#DA291C" },
+      { name: "LinQ", score: 6.1, color: "#F8A81B" },
+      { name: "TIM", score: 5.7, color: "#1E40AF" },
+      { name: "V.tal", score: 5.6, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 46.2, activeClients: 4622, totalPopulation: 10005, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 46 },
     crm: { arpu: 56, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 75, planoMovel: "Pós" },
@@ -7584,6 +10335,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "LinQ", score: 7.7, color: "#F8A81B" },
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "V.tal", score: 7.3, color: "#FFE84D" },
+      { name: "TIM", score: 7.2, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 14.6, activeClients: 1085, totalPopulation: 7437, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 14 },
     crm: { arpu: 109, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 125, planoMovel: "Pós" },
@@ -7611,6 +10370,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.6, color: "#1E40AF" },
       { name: "Algar", score: 6.4, color: "#28BEA5" },
       { name: "Surf", score: 6.4, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.4, color: "#660099" },
+      { name: "Claro", score: 5.1, color: "#DA291C" },
+      { name: "TIM", score: 5.1, color: "#1E40AF" },
+      { name: "Algar", score: 4.8, color: "#28BEA5" },
+      { name: "Surf", score: 4.5, color: "#0003F9" }
     ],
     marketShare: { percentage: 22.5, activeClients: 2228, totalPopulation: 9903, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 20, shareFibra: 0 },
@@ -7640,6 +10407,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "LinQ", score: 5.7, color: "#F8A81B" },
+      { name: "Claro", score: 5.2, color: "#DA291C" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" },
+      { name: "V.tal", score: 5.2, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.5, color: "#660099" },
+      { name: "Claro", score: 4.8, color: "#DA291C" },
+      { name: "TIM", score: 4.6, color: "#1E40AF" },
+      { name: "Algar", score: 4.5, color: "#28BEA5" },
+      { name: "Surf", score: 4.5, color: "#0003F9" }
+    ],
     marketShare: { percentage: 24.7, activeClients: 2739, totalPopulation: 11091, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 22, shareFibra: 22 },
     crm: { arpu: 55, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 81, arpuFibra: 76, planoMovel: "Controle" },
@@ -7668,6 +10449,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "LinQ", score: 6.2, color: "#F8A81B" },
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "V.tal", score: 5.7, color: "#FFE84D" },
+      { name: "Claro", score: 5.6, color: "#DA291C" },
+      { name: "TIM", score: 5.5, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 20.4, activeClients: 1648, totalPopulation: 8081, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 20 },
     crm: { arpu: 56, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 0, arpuFibra: 76, planoMovel: "Pré" },
@@ -7695,6 +10484,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.6, color: "#1E40AF" },
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.4, color: "#660099" },
+      { name: "Claro", score: 6.4, color: "#DA291C" },
+      { name: "LinQ", score: 6.3, color: "#F8A81B" },
+      { name: "TIM", score: 6.2, color: "#1E40AF" },
+      { name: "Algar", score: 5.9, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.9, color: "#660099" },
+      { name: "Claro", score: 6.3, color: "#DA291C" },
+      { name: "TIM", score: 5.8, color: "#1E40AF" },
+      { name: "Algar", score: 5.6, color: "#28BEA5" },
+      { name: "Surf", score: 5.6, color: "#0003F9" }
     ],
     marketShare: { percentage: 20.7, activeClients: 2585, totalPopulation: 12490, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 18, shareFibra: 20 },
@@ -7724,6 +10527,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.0, color: "#660099" },
+      { name: "LinQ", score: 7.5, color: "#F8A81B" },
+      { name: "V.tal", score: 7.3, color: "#FFE84D" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "TIM", score: 6.8, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 25.1, activeClients: 3463, totalPopulation: 13797, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 22 },
     crm: { arpu: 106, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 115, planoMovel: "Pós" },
@@ -7751,6 +10562,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.8, color: "#1E40AF" },
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 9.1, color: "#660099" },
+      { name: "LinQ", score: 8.5, color: "#F8A81B" },
+      { name: "V.tal", score: 8.2, color: "#FFE84D" },
+      { name: "Claro", score: 8.0, color: "#DA291C" },
+      { name: "TIM", score: 7.8, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.5, color: "#660099" },
+      { name: "Claro", score: 8.3, color: "#DA291C" },
+      { name: "TIM", score: 7.7, color: "#1E40AF" },
+      { name: "Algar", score: 7.3, color: "#28BEA5" },
+      { name: "Surf", score: 7.1, color: "#0003F9" }
     ],
     marketShare: { percentage: 37.6, activeClients: 6012, totalPopulation: 15992, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 33, shareFibra: 33 },
@@ -7780,6 +10605,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 6.8, color: "#28BEA5" },
       { name: "Surf", score: 6.5, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.9, color: "#660099" },
+      { name: "Claro", score: 5.5, color: "#DA291C" },
+      { name: "TIM", score: 5.5, color: "#1E40AF" },
+      { name: "Algar", score: 5.1, color: "#28BEA5" },
+      { name: "Surf", score: 4.8, color: "#0003F9" }
+    ],
     marketShare: { percentage: 36.5, activeClients: 3052, totalPopulation: 8363, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 32, shareFibra: 0 },
     crm: { arpu: 59, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 63, arpuFibra: 0, planoMovel: "Pós" },
@@ -7807,6 +10640,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.7, color: "#1E40AF" },
       { name: "LinQ", score: 7.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.9, color: "#660099" },
+      { name: "Claro", score: 7.5, color: "#DA291C" },
+      { name: "LinQ", score: 7.5, color: "#F8A81B" },
+      { name: "V.tal", score: 7.4, color: "#FFE84D" },
+      { name: "TIM", score: 7.2, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "Claro", score: 6.8, color: "#DA291C" },
+      { name: "TIM", score: 6.3, color: "#1E40AF" },
+      { name: "Algar", score: 6.2, color: "#28BEA5" },
+      { name: "Surf", score: 5.8, color: "#0003F9" }
     ],
     marketShare: { percentage: 27.6, activeClients: 3619, totalPopulation: 13113, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 27, shareFibra: 24 },
@@ -7836,6 +10683,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 6.4, color: "#28BEA5" },
       { name: "Surf", score: 6.6, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.1, color: "#660099" },
+      { name: "Claro", score: 5.1, color: "#DA291C" },
+      { name: "TIM", score: 4.9, color: "#1E40AF" },
+      { name: "Surf", score: 4.5, color: "#0003F9" },
+      { name: "Algar", score: 4.4, color: "#28BEA5" }
+    ],
     marketShare: { percentage: 16.1, activeClients: 1779, totalPopulation: 11053, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 16, shareFibra: 0 },
     crm: { arpu: 55, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 79, arpuFibra: 0, planoMovel: "Pré" },
@@ -7864,6 +10719,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.9, color: "#660099" },
+      { name: "LinQ", score: 7.9, color: "#F8A81B" },
+      { name: "Claro", score: 7.5, color: "#DA291C" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" },
+      { name: "V.tal", score: 7.2, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 15.5, activeClients: 2539, totalPopulation: 16381, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 13 },
     crm: { arpu: 98, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 125, planoMovel: "Controle" },
@@ -7891,6 +10754,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.6, color: "#1E40AF" },
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.2, color: "#660099" },
+      { name: "LinQ", score: 7.7, color: "#F8A81B" },
+      { name: "Claro", score: 7.6, color: "#DA291C" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" },
+      { name: "V.tal", score: 7.3, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.0, color: "#660099" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "TIM", score: 7.1, color: "#1E40AF" },
+      { name: "Algar", score: 6.7, color: "#28BEA5" },
+      { name: "Surf", score: 6.6, color: "#0003F9" }
     ],
     marketShare: { percentage: 45.9, activeClients: 4811, totalPopulation: 10482, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 41, shareFibra: 45 },
@@ -7920,6 +10797,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "LinQ", score: 5.4, color: "#F8A81B" },
+      { name: "VIVO", score: 5.3, color: "#660099" },
+      { name: "TIM", score: 5.0, color: "#1E40AF" },
+      { name: "Claro", score: 4.9, color: "#DA291C" },
+      { name: "V.tal", score: 4.8, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.0, color: "#660099" },
+      { name: "TIM", score: 4.7, color: "#1E40AF" },
+      { name: "Claro", score: 4.6, color: "#DA291C" },
+      { name: "Algar", score: 4.3, color: "#28BEA5" },
+      { name: "Surf", score: 4.0, color: "#0003F9" }
+    ],
     marketShare: { percentage: 33.3, activeClients: 4982, totalPopulation: 14961, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 29, shareFibra: 29 },
     crm: { arpu: 83, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 65, arpuFibra: 77, planoMovel: "Controle" },
@@ -7948,6 +10839,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.6, color: "#660099" },
+      { name: "Claro", score: 8.1, color: "#DA291C" },
+      { name: "LinQ", score: 8.0, color: "#F8A81B" },
+      { name: "V.tal", score: 8.0, color: "#FFE84D" },
+      { name: "TIM", score: 7.9, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 47.9, activeClients: 3377, totalPopulation: 7051, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 47 },
     crm: { arpu: 121, deviceTier: "Premium", planType: "Pós-pago 5G", arpuMovel: 0, arpuFibra: 163, planoMovel: "Pós" },
@@ -7975,6 +10874,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.8, color: "#1E40AF" },
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.1, color: "#660099" },
+      { name: "LinQ", score: 5.9, color: "#F8A81B" },
+      { name: "V.tal", score: 5.7, color: "#FFE84D" },
+      { name: "Claro", score: 5.3, color: "#DA291C" },
+      { name: "Algar", score: 5.3, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "Claro", score: 5.4, color: "#DA291C" },
+      { name: "VIVO", score: 5.3, color: "#660099" },
+      { name: "TIM", score: 5.0, color: "#1E40AF" },
+      { name: "Algar", score: 4.5, color: "#28BEA5" },
+      { name: "Surf", score: 4.5, color: "#0003F9" }
     ],
     marketShare: { percentage: 45.5, activeClients: 6946, totalPopulation: 15267, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 40, shareFibra: 45 },
@@ -8004,6 +10917,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.1, color: "#660099" },
+      { name: "LinQ", score: 5.6, color: "#F8A81B" },
+      { name: "TIM", score: 5.5, color: "#1E40AF" },
+      { name: "Claro", score: 5.4, color: "#DA291C" },
+      { name: "V.tal", score: 5.3, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 15.3, activeClients: 1905, totalPopulation: 12452, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 15 },
     crm: { arpu: 74, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 0, arpuFibra: 90, planoMovel: "Pré" },
@@ -8031,6 +10952,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.7, color: "#1E40AF" },
       { name: "Algar", score: 7.3, color: "#28BEA5" },
       { name: "Surf", score: 6.4, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.1, color: "#660099" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "TIM", score: 6.7, color: "#1E40AF" },
+      { name: "Algar", score: 6.3, color: "#28BEA5" },
+      { name: "Surf", score: 6.1, color: "#0003F9" }
     ],
     marketShare: { percentage: 36.7, activeClients: 4453, totalPopulation: 12134, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 33, shareFibra: 0 },
@@ -8060,6 +10989,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.6, color: "#660099" },
+      { name: "LinQ", score: 8.0, color: "#F8A81B" },
+      { name: "V.tal", score: 7.8, color: "#FFE84D" },
+      { name: "Claro", score: 7.6, color: "#DA291C" },
+      { name: "Algar", score: 7.5, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 20.4, activeClients: 3438, totalPopulation: 16854, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 20 },
     crm: { arpu: 87, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 120, planoMovel: "Controle" },
@@ -8087,6 +11024,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.7, color: "#1E40AF" },
       { name: "Algar", score: 7.1, color: "#28BEA5" },
       { name: "Surf", score: 6.1, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.4, color: "#660099" },
+      { name: "Claro", score: 5.2, color: "#DA291C" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" },
+      { name: "Surf", score: 4.6, color: "#0003F9" },
+      { name: "Algar", score: 4.5, color: "#28BEA5" }
     ],
     marketShare: { percentage: 45.3, activeClients: 4499, totalPopulation: 9933, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 40, shareFibra: 0 },
@@ -8116,6 +11061,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.9, color: "#660099" },
+      { name: "LinQ", score: 5.9, color: "#F8A81B" },
+      { name: "Claro", score: 5.5, color: "#DA291C" },
+      { name: "V.tal", score: 5.5, color: "#FFE84D" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 25.3, activeClients: 3031, totalPopulation: 11981, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 22 },
     crm: { arpu: 77, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 79, planoMovel: "Controle" },
@@ -8143,6 +11096,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.7, color: "#1E40AF" },
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.5, color: "#660099" },
+      { name: "LinQ", score: 6.0, color: "#F8A81B" },
+      { name: "V.tal", score: 6.0, color: "#FFE84D" },
+      { name: "Claro", score: 5.7, color: "#DA291C" },
+      { name: "TIM", score: 5.7, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.2, color: "#660099" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" },
+      { name: "Claro", score: 5.4, color: "#DA291C" },
+      { name: "Algar", score: 5.3, color: "#28BEA5" },
+      { name: "Surf", score: 4.9, color: "#0003F9" }
     ],
     marketShare: { percentage: 47.6, activeClients: 8401, totalPopulation: 17651, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 42, shareFibra: 47 },
@@ -8172,6 +11139,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 6.8, color: "#28BEA5" },
       { name: "Surf", score: 6.1, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.6, color: "#660099" },
+      { name: "Claro", score: 5.4, color: "#DA291C" },
+      { name: "TIM", score: 5.1, color: "#1E40AF" },
+      { name: "Algar", score: 4.6, color: "#28BEA5" },
+      { name: "Surf", score: 4.6, color: "#0003F9" }
+    ],
     marketShare: { percentage: 39.7, activeClients: 6503, totalPopulation: 16381, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 35, shareFibra: 0 },
     crm: { arpu: 73, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 67, arpuFibra: 0, planoMovel: "Pós" },
@@ -8200,6 +11175,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.1, color: "#660099" },
+      { name: "TIM", score: 5.8, color: "#1E40AF" },
+      { name: "LinQ", score: 5.7, color: "#F8A81B" },
+      { name: "V.tal", score: 5.7, color: "#FFE84D" },
+      { name: "Claro", score: 5.6, color: "#DA291C" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 21.5, activeClients: 3800, totalPopulation: 17677, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 21 },
     crm: { arpu: 83, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 0, arpuFibra: 75, planoMovel: "Pré" },
@@ -8227,6 +11210,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.6, color: "#1E40AF" },
       { name: "Algar", score: 6.5, color: "#28BEA5" },
       { name: "Surf", score: 6.4, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.9, color: "#660099" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "Algar", score: 6.6, color: "#28BEA5" },
+      { name: "Surf", score: 6.5, color: "#0003F9" }
     ],
     marketShare: { percentage: 14.6, activeClients: 2264, totalPopulation: 15510, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 13, shareFibra: 0 },
@@ -8256,6 +11247,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.3, color: "#660099" },
+      { name: "LinQ", score: 5.1, color: "#F8A81B" },
+      { name: "Claro", score: 4.9, color: "#DA291C" },
+      { name: "V.tal", score: 4.9, color: "#FFE84D" },
+      { name: "TIM", score: 4.7, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 4.6, color: "#660099" },
+      { name: "Claro", score: 4.5, color: "#DA291C" },
+      { name: "TIM", score: 4.3, color: "#1E40AF" },
+      { name: "Algar", score: 4.0, color: "#28BEA5" },
+      { name: "Surf", score: 4.0, color: "#0003F9" }
+    ],
     marketShare: { percentage: 40.4, activeClients: 3320, totalPopulation: 8218, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 36, shareFibra: 36 },
     crm: { arpu: 69, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 85, arpuFibra: 78, planoMovel: "Pré" },
@@ -8283,6 +11288,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.8, color: "#1E40AF" },
       { name: "Algar", score: 7.2, color: "#28BEA5" },
       { name: "Surf", score: 5.8, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.0, color: "#660099" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "TIM", score: 6.8, color: "#1E40AF" },
+      { name: "Algar", score: 6.5, color: "#28BEA5" },
+      { name: "Surf", score: 6.1, color: "#0003F9" }
     ],
     marketShare: { percentage: 42.5, activeClients: 5268, totalPopulation: 12396, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 38, shareFibra: 0 },
@@ -8312,6 +11325,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.8, color: "#660099" },
+      { name: "LinQ", score: 7.6, color: "#F8A81B" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "V.tal", score: 7.0, color: "#FFE84D" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 22.5, activeClients: 1751, totalPopulation: 7785, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 20 },
     crm: { arpu: 107, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 134, planoMovel: "Controle" },
@@ -8339,6 +11360,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.6, color: "#1E40AF" },
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.2, color: "#660099" },
+      { name: "LinQ", score: 7.8, color: "#F8A81B" },
+      { name: "V.tal", score: 7.7, color: "#FFE84D" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" },
+      { name: "Claro", score: 7.2, color: "#DA291C" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.8, color: "#660099" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "Algar", score: 6.6, color: "#28BEA5" },
+      { name: "Surf", score: 6.3, color: "#0003F9" }
     ],
     marketShare: { percentage: 20.1, activeClients: 2572, totalPopulation: 12799, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 18, shareFibra: 18 },
@@ -8368,6 +11403,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.1, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "LinQ", score: 6.4, color: "#F8A81B" },
+      { name: "VIVO", score: 6.3, color: "#660099" },
+      { name: "V.tal", score: 6.2, color: "#FFE84D" },
+      { name: "Claro", score: 5.8, color: "#DA291C" },
+      { name: "TIM", score: 5.8, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 36.1, activeClients: 6172, totalPopulation: 17097, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 32 },
     crm: { arpu: 68, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 0, arpuFibra: 77, planoMovel: "Controle" },
@@ -8395,6 +11438,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.9, color: "#1E40AF" },
       { name: "LinQ", score: 6.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "Claro", score: 6.0, color: "#DA291C" },
+      { name: "LinQ", score: 6.0, color: "#F8A81B" },
+      { name: "TIM", score: 5.9, color: "#1E40AF" },
+      { name: "V.tal", score: 5.9, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.5, color: "#660099" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" },
+      { name: "Claro", score: 5.1, color: "#DA291C" },
+      { name: "Algar", score: 4.7, color: "#28BEA5" },
+      { name: "Surf", score: 4.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 17.5, activeClients: 2770, totalPopulation: 15832, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 15, shareFibra: 15 },
@@ -8424,6 +11481,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.2, color: "#660099" },
+      { name: "LinQ", score: 8.2, color: "#F8A81B" },
+      { name: "V.tal", score: 8.0, color: "#FFE84D" },
+      { name: "Claro", score: 7.8, color: "#DA291C" },
+      { name: "TIM", score: 7.5, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 52.9, activeClients: 7262, totalPopulation: 13729, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 47 },
     crm: { arpu: 162, deviceTier: "Premium", planType: "Fibra 1Gbps", arpuMovel: 0, arpuFibra: 154, planoMovel: "Controle" },
@@ -8451,6 +11516,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.5, color: "#1E40AF" },
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.0, color: "#660099" },
+      { name: "LinQ", score: 7.6, color: "#F8A81B" },
+      { name: "Claro", score: 7.4, color: "#DA291C" },
+      { name: "TIM", score: 7.4, color: "#1E40AF" },
+      { name: "V.tal", score: 7.3, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "TIM", score: 6.8, color: "#1E40AF" },
+      { name: "Algar", score: 6.7, color: "#28BEA5" },
+      { name: "Surf", score: 6.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 15.9, activeClients: 2209, totalPopulation: 13898, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 14, shareFibra: 14 },
@@ -8480,6 +11559,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.2, color: "#660099" },
+      { name: "LinQ", score: 5.9, color: "#F8A81B" },
+      { name: "Claro", score: 5.5, color: "#DA291C" },
+      { name: "V.tal", score: 5.4, color: "#FFE84D" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.7, color: "#660099" },
+      { name: "Claro", score: 5.3, color: "#DA291C" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" },
+      { name: "Algar", score: 4.9, color: "#28BEA5" },
+      { name: "Surf", score: 4.7, color: "#0003F9" }
+    ],
     marketShare: { percentage: 27.7, activeClients: 1975, totalPopulation: 7131, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 24, shareFibra: 27 },
     crm: { arpu: 62, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 78, arpuFibra: 86, planoMovel: "Pós" },
@@ -8507,6 +11600,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.2, color: "#1E40AF" },
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "V.tal", score: 5.6, color: "#FFE84D" },
+      { name: "LinQ", score: 5.5, color: "#F8A81B" },
+      { name: "Claro", score: 5.4, color: "#DA291C" },
+      { name: "Algar", score: 5.3, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "Claro", score: 5.2, color: "#DA291C" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" },
+      { name: "Algar", score: 5.0, color: "#28BEA5" },
+      { name: "Surf", score: 4.6, color: "#0003F9" }
     ],
     marketShare: { percentage: 14.2, activeClients: 1458, totalPopulation: 10270, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 12, shareFibra: 12 },
@@ -8536,6 +11643,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "LinQ", score: 7.1, color: "#F8A81B" },
+      { name: "V.tal", score: 6.9, color: "#FFE84D" },
+      { name: "Claro", score: 6.7, color: "#DA291C" },
+      { name: "TIM", score: 6.6, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.3, color: "#660099" },
+      { name: "Claro", score: 6.7, color: "#DA291C" },
+      { name: "TIM", score: 6.4, color: "#1E40AF" },
+      { name: "Algar", score: 6.3, color: "#28BEA5" },
+      { name: "Surf", score: 5.8, color: "#0003F9" }
+    ],
     marketShare: { percentage: 18.3, activeClients: 1571, totalPopulation: 8587, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 18, shareFibra: 16 },
     crm: { arpu: 108, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 105, arpuFibra: 123, planoMovel: "Controle" },
@@ -8563,6 +11684,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.5, color: "#1E40AF" },
       { name: "Algar", score: 7.4, color: "#28BEA5" },
       { name: "Surf", score: 5.8, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "Claro", score: 6.6, color: "#DA291C" },
+      { name: "TIM", score: 6.6, color: "#1E40AF" },
+      { name: "Algar", score: 6.2, color: "#28BEA5" },
+      { name: "Surf", score: 5.9, color: "#0003F9" }
     ],
     marketShare: { percentage: 21.5, activeClients: 2046, totalPopulation: 9517, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 19, shareFibra: 0 },
@@ -8592,6 +11721,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "LinQ", score: 7.4, color: "#F8A81B" },
+      { name: "V.tal", score: 7.3, color: "#FFE84D" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.8, color: "#660099" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "TIM", score: 7.0, color: "#1E40AF" },
+      { name: "Algar", score: 6.6, color: "#28BEA5" },
+      { name: "Surf", score: 6.4, color: "#0003F9" }
+    ],
     marketShare: { percentage: 24.4, activeClients: 3296, totalPopulation: 13512, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 21, shareFibra: 21 },
     crm: { arpu: 113, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 92, arpuFibra: 135, planoMovel: "Controle" },
@@ -8619,6 +11762,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.9, color: "#1E40AF" },
       { name: "Algar", score: 6.7, color: "#28BEA5" },
       { name: "Surf", score: 6.1, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "TIM", score: 6.8, color: "#1E40AF" },
+      { name: "Claro", score: 6.7, color: "#DA291C" },
+      { name: "Algar", score: 6.1, color: "#28BEA5" },
+      { name: "Surf", score: 5.9, color: "#0003F9" }
     ],
     marketShare: { percentage: 37.1, activeClients: 4285, totalPopulation: 11550, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 37, shareFibra: 0 },
@@ -8648,6 +11799,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.9, color: "#660099" },
+      { name: "LinQ", score: 6.8, color: "#F8A81B" },
+      { name: "TIM", score: 6.2, color: "#1E40AF" },
+      { name: "V.tal", score: 6.1, color: "#FFE84D" },
+      { name: "Claro", score: 6.0, color: "#DA291C" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.3, color: "#660099" },
+      { name: "Claro", score: 6.3, color: "#DA291C" },
+      { name: "TIM", score: 5.9, color: "#1E40AF" },
+      { name: "Algar", score: 5.8, color: "#28BEA5" },
+      { name: "Surf", score: 5.5, color: "#0003F9" }
+    ],
     marketShare: { percentage: 27.5, activeClients: 2721, totalPopulation: 9895, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 24, shareFibra: 27 },
     crm: { arpu: 85, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 78, arpuFibra: 93, planoMovel: "Pré" },
@@ -8675,6 +11840,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.9, color: "#1E40AF" },
       { name: "Algar", score: 7.2, color: "#28BEA5" },
       { name: "Surf", score: 6.7, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "Claro", score: 5.3, color: "#DA291C" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" },
+      { name: "Algar", score: 4.9, color: "#28BEA5" },
+      { name: "Surf", score: 4.8, color: "#0003F9" }
     ],
     marketShare: { percentage: 42.6, activeClients: 7501, totalPopulation: 17609, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 42, shareFibra: 0 },
@@ -8704,6 +11877,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.3, color: "#660099" },
+      { name: "LinQ", score: 6.8, color: "#F8A81B" },
+      { name: "TIM", score: 6.7, color: "#1E40AF" },
+      { name: "Algar", score: 6.4, color: "#28BEA5" },
+      { name: "Claro", score: 6.3, color: "#DA291C" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.9, color: "#660099" },
+      { name: "Claro", score: 6.4, color: "#DA291C" },
+      { name: "TIM", score: 5.9, color: "#1E40AF" },
+      { name: "Algar", score: 5.8, color: "#28BEA5" },
+      { name: "Surf", score: 5.6, color: "#0003F9" }
+    ],
     marketShare: { percentage: 15.9, activeClients: 1330, totalPopulation: 8369, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 14, shareFibra: 15 },
     crm: { arpu: 85, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 97, arpuFibra: 121, planoMovel: "Controle" },
@@ -8732,6 +11919,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "LinQ", score: 5.2, color: "#F8A81B" },
+      { name: "VIVO", score: 5.0, color: "#660099" },
+      { name: "V.tal", score: 5.0, color: "#FFE84D" },
+      { name: "TIM", score: 4.8, color: "#1E40AF" },
+      { name: "Claro", score: 4.7, color: "#DA291C" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 35.1, activeClients: 4106, totalPopulation: 11699, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 31 },
     crm: { arpu: 83, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 0, arpuFibra: 85, planoMovel: "Pré" },
@@ -8759,6 +11954,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.1, color: "#1E40AF" },
       { name: "Algar", score: 7.2, color: "#28BEA5" },
       { name: "Surf", score: 6.6, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "TIM", score: 6.8, color: "#1E40AF" },
+      { name: "Algar", score: 6.5, color: "#28BEA5" },
+      { name: "Surf", score: 6.1, color: "#0003F9" }
     ],
     marketShare: { percentage: 48.4, activeClients: 8342, totalPopulation: 17236, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 43, shareFibra: 0 },
@@ -8788,6 +11991,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "Claro", score: 4.9, color: "#DA291C" },
+      { name: "VIVO", score: 4.8, color: "#660099" },
+      { name: "LinQ", score: 4.7, color: "#F8A81B" },
+      { name: "V.tal", score: 4.7, color: "#FFE84D" },
+      { name: "TIM", score: 4.6, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 35.7, activeClients: 4366, totalPopulation: 12231, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 35 },
     crm: { arpu: 74, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 0, arpuFibra: 74, planoMovel: "Controle" },
@@ -8815,6 +12026,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.5, color: "#1E40AF" },
       { name: "Algar", score: 7.1, color: "#28BEA5" },
       { name: "Surf", score: 5.9, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.0, color: "#660099" },
+      { name: "Claro", score: 6.8, color: "#DA291C" },
+      { name: "TIM", score: 6.1, color: "#1E40AF" },
+      { name: "Algar", score: 5.9, color: "#28BEA5" },
+      { name: "Surf", score: 5.8, color: "#0003F9" }
     ],
     marketShare: { percentage: 14.2, activeClients: 2293, totalPopulation: 16148, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 12, shareFibra: 0 },
@@ -8844,6 +12063,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.1, color: "#660099" },
+      { name: "LinQ", score: 5.8, color: "#F8A81B" },
+      { name: "V.tal", score: 5.6, color: "#FFE84D" },
+      { name: "Claro", score: 5.2, color: "#DA291C" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.5, color: "#660099" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" },
+      { name: "Claro", score: 5.2, color: "#DA291C" },
+      { name: "Algar", score: 4.9, color: "#28BEA5" },
+      { name: "Surf", score: 4.5, color: "#0003F9" }
+    ],
     marketShare: { percentage: 30.1, activeClients: 4975, totalPopulation: 16529, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 30, shareFibra: 27 },
     crm: { arpu: 66, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 57, arpuFibra: 77, planoMovel: "Pós" },
@@ -8871,6 +12104,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.1, color: "#1E40AF" },
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "LinQ", score: 5.6, color: "#F8A81B" },
+      { name: "V.tal", score: 5.5, color: "#FFE84D" },
+      { name: "Claro", score: 5.2, color: "#DA291C" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.9, color: "#660099" },
+      { name: "Claro", score: 5.6, color: "#DA291C" },
+      { name: "TIM", score: 5.0, color: "#1E40AF" },
+      { name: "Algar", score: 5.0, color: "#28BEA5" },
+      { name: "Surf", score: 4.7, color: "#0003F9" }
     ],
     marketShare: { percentage: 44.7, activeClients: 6456, totalPopulation: 14443, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 44, shareFibra: 44 },
@@ -8900,6 +12147,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.1, color: "#660099" },
+      { name: "LinQ", score: 7.7, color: "#F8A81B" },
+      { name: "Claro", score: 7.4, color: "#DA291C" },
+      { name: "V.tal", score: 7.3, color: "#FFE84D" },
+      { name: "TIM", score: 7.2, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 15.5, activeClients: 1282, totalPopulation: 8274, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 13 },
     crm: { arpu: 100, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 110, planoMovel: "Pós" },
@@ -8927,6 +12182,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.2, color: "#1E40AF" },
       { name: "Algar", score: 6.9, color: "#28BEA5" },
       { name: "Surf", score: 6.3, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "Claro", score: 6.7, color: "#DA291C" },
+      { name: "TIM", score: 6.7, color: "#1E40AF" },
+      { name: "Algar", score: 6.1, color: "#28BEA5" },
+      { name: "Surf", score: 6.1, color: "#0003F9" }
     ],
     marketShare: { percentage: 49.8, activeClients: 6734, totalPopulation: 13523, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 44, shareFibra: 0 },
@@ -8956,6 +12219,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 7.4, color: "#28BEA5" },
       { name: "Surf", score: 6.2, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 4.8, color: "#660099" },
+      { name: "Claro", score: 4.4, color: "#DA291C" },
+      { name: "TIM", score: 4.0, color: "#1E40AF" },
+      { name: "Algar", score: 4.0, color: "#28BEA5" },
+      { name: "Surf", score: 4.0, color: "#0003F9" }
+    ],
     marketShare: { percentage: 44.1, activeClients: 7813, totalPopulation: 17718, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 44, shareFibra: 0 },
     crm: { arpu: 71, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 69, arpuFibra: 0, planoMovel: "Controle" },
@@ -8983,6 +12254,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.3, color: "#1E40AF" },
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.2, color: "#660099" },
+      { name: "LinQ", score: 5.9, color: "#F8A81B" },
+      { name: "Claro", score: 5.6, color: "#DA291C" },
+      { name: "V.tal", score: 5.6, color: "#FFE84D" },
+      { name: "NIO", score: 5.3, color: "#32E000" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.4, color: "#660099" },
+      { name: "Claro", score: 4.8, color: "#DA291C" },
+      { name: "TIM", score: 4.7, color: "#1E40AF" },
+      { name: "Algar", score: 4.4, color: "#28BEA5" },
+      { name: "Surf", score: 4.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 18.3, activeClients: 1542, totalPopulation: 8428, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 16, shareFibra: 16 },
@@ -9012,6 +12297,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.3, color: "#660099" },
+      { name: "Claro", score: 6.0, color: "#DA291C" },
+      { name: "LinQ", score: 5.9, color: "#F8A81B" },
+      { name: "V.tal", score: 5.9, color: "#FFE84D" },
+      { name: "TIM", score: 5.7, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 19.8, activeClients: 2846, totalPopulation: 14374, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 19 },
     crm: { arpu: 74, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 0, arpuFibra: 93, planoMovel: "Pré" },
@@ -9040,6 +12333,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "LinQ", score: 5.1, color: "#F8A81B" },
+      { name: "VIVO", score: 4.9, color: "#660099" },
+      { name: "TIM", score: 4.9, color: "#1E40AF" },
+      { name: "V.tal", score: 4.8, color: "#FFE84D" },
+      { name: "Claro", score: 4.5, color: "#DA291C" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 36.7, activeClients: 4983, totalPopulation: 13578, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 36 },
     crm: { arpu: 70, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 92, planoMovel: "Pós" },
@@ -9067,6 +12368,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.0, color: "#1E40AF" },
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.8, color: "#660099" },
+      { name: "LinQ", score: 7.8, color: "#F8A81B" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "TIM", score: 7.1, color: "#1E40AF" },
+      { name: "V.tal", score: 7.1, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "Claro", score: 7.1, color: "#DA291C" },
+      { name: "TIM", score: 6.8, color: "#1E40AF" },
+      { name: "Algar", score: 6.7, color: "#28BEA5" },
+      { name: "Surf", score: 6.5, color: "#0003F9" }
     ],
     marketShare: { percentage: 49.9, activeClients: 6950, totalPopulation: 13929, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 44, shareFibra: 44 },
@@ -9096,6 +12411,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.1, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "LinQ", score: 7.7, color: "#F8A81B" },
+      { name: "Claro", score: 7.4, color: "#DA291C" },
+      { name: "V.tal", score: 7.0, color: "#FFE84D" },
+      { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "Claro", score: 6.8, color: "#DA291C" },
+      { name: "TIM", score: 6.6, color: "#1E40AF" },
+      { name: "Algar", score: 6.3, color: "#28BEA5" },
+      { name: "Surf", score: 5.9, color: "#0003F9" }
+    ],
     marketShare: { percentage: 26.5, activeClients: 2717, totalPopulation: 10253, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 23, shareFibra: 23 },
     crm: { arpu: 105, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 84, arpuFibra: 129, planoMovel: "Controle" },
@@ -9123,6 +12452,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.2, color: "#1E40AF" },
       { name: "Algar", score: 7.2, color: "#28BEA5" },
       { name: "Surf", score: 6.5, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.0, color: "#660099" },
+      { name: "Claro", score: 4.9, color: "#DA291C" },
+      { name: "TIM", score: 4.4, color: "#1E40AF" },
+      { name: "Algar", score: 4.4, color: "#28BEA5" },
+      { name: "Surf", score: 4.2, color: "#0003F9" }
     ],
     marketShare: { percentage: 47.4, activeClients: 7797, totalPopulation: 16450, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 42, shareFibra: 0 },
@@ -9152,6 +12489,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.9, color: "#660099" },
+      { name: "V.tal", score: 7.6, color: "#FFE84D" },
+      { name: "LinQ", score: 7.5, color: "#F8A81B" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "Algar", score: 7.1, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.8, color: "#660099" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "Claro", score: 6.7, color: "#DA291C" },
+      { name: "Algar", score: 6.6, color: "#28BEA5" },
+      { name: "Surf", score: 5.9, color: "#0003F9" }
+    ],
     marketShare: { percentage: 25.8, activeClients: 3655, totalPopulation: 14167, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 25, shareFibra: 25 },
     crm: { arpu: 91, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 105, arpuFibra: 106, planoMovel: "Controle" },
@@ -9179,6 +12530,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.3, color: "#1E40AF" },
       { name: "Algar", score: 7.4, color: "#28BEA5" },
       { name: "Surf", score: 6.7, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 4.8, color: "#660099" },
+      { name: "Claro", score: 4.3, color: "#DA291C" },
+      { name: "TIM", score: 4.1, color: "#1E40AF" },
+      { name: "Algar", score: 4.1, color: "#28BEA5" },
+      { name: "Surf", score: 4.0, color: "#0003F9" }
     ],
     marketShare: { percentage: 36.3, activeClients: 6376, totalPopulation: 17565, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 32, shareFibra: 0 },
@@ -9208,6 +12567,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.9, color: "#660099" },
+      { name: "LinQ", score: 6.5, color: "#F8A81B" },
+      { name: "TIM", score: 6.2, color: "#1E40AF" },
+      { name: "Algar", score: 6.2, color: "#28BEA5" },
+      { name: "Claro", score: 6.1, color: "#DA291C" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.5, color: "#660099" },
+      { name: "Claro", score: 5.8, color: "#DA291C" },
+      { name: "TIM", score: 5.7, color: "#1E40AF" },
+      { name: "Algar", score: 5.6, color: "#28BEA5" },
+      { name: "Surf", score: 5.0, color: "#0003F9" }
+    ],
     marketShare: { percentage: 22, activeClients: 3089, totalPopulation: 14045, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 19, shareFibra: 22 },
     crm: { arpu: 81, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 80, arpuFibra: 88, planoMovel: "Pré" },
@@ -9236,6 +12609,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "LinQ", score: 7.5, color: "#F8A81B" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "TIM", score: 6.7, color: "#1E40AF" },
+      { name: "Algar", score: 6.7, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 14.4, activeClients: 2290, totalPopulation: 15907, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 12 },
     crm: { arpu: 93, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 140, planoMovel: "Pós" },
@@ -9263,6 +12644,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.9, color: "#1E40AF" },
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "LinQ", score: 5.3, color: "#F8A81B" },
+      { name: "Claro", score: 5.0, color: "#DA291C" },
+      { name: "V.tal", score: 5.0, color: "#FFE84D" },
+      { name: "TIM", score: 4.9, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.5, color: "#660099" },
+      { name: "Claro", score: 4.8, color: "#DA291C" },
+      { name: "TIM", score: 4.7, color: "#1E40AF" },
+      { name: "Surf", score: 4.4, color: "#0003F9" },
+      { name: "Algar", score: 4.3, color: "#28BEA5" }
     ],
     marketShare: { percentage: 15.6, activeClients: 2615, totalPopulation: 16763, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 14, shareFibra: 14 },
@@ -9292,6 +12687,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.8, color: "#660099" },
+      { name: "LinQ", score: 8.4, color: "#F8A81B" },
+      { name: "Claro", score: 7.9, color: "#DA291C" },
+      { name: "TIM", score: 7.9, color: "#1E40AF" },
+      { name: "V.tal", score: 7.9, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 21.3, activeClients: 2378, totalPopulation: 11169, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 19 },
     crm: { arpu: 86, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 132, planoMovel: "Controle" },
@@ -9319,6 +12722,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.1, color: "#1E40AF" },
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.4, color: "#660099" },
+      { name: "LinQ", score: 8.3, color: "#F8A81B" },
+      { name: "Claro", score: 7.9, color: "#DA291C" },
+      { name: "V.tal", score: 7.7, color: "#FFE84D" },
+      { name: "NIO", score: 7.4, color: "#32E000" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.1, color: "#660099" },
+      { name: "Claro", score: 7.1, color: "#DA291C" },
+      { name: "TIM", score: 7.0, color: "#1E40AF" },
+      { name: "Algar", score: 6.8, color: "#28BEA5" },
+      { name: "Surf", score: 6.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 43.2, activeClients: 5854, totalPopulation: 13552, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 38, shareFibra: 43 },
@@ -9348,6 +12765,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.4, color: "#660099" },
+      { name: "Claro", score: 5.3, color: "#DA291C" },
+      { name: "LinQ", score: 5.3, color: "#F8A81B" },
+      { name: "V.tal", score: 5.3, color: "#FFE84D" },
+      { name: "TIM", score: 4.7, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 18.1, activeClients: 3179, totalPopulation: 17569, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 16 },
     crm: { arpu: 58, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 95, planoMovel: "Pós" },
@@ -9376,6 +12801,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.1, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.1, color: "#660099" },
+      { name: "LinQ", score: 5.8, color: "#F8A81B" },
+      { name: "TIM", score: 5.5, color: "#1E40AF" },
+      { name: "V.tal", score: 5.4, color: "#FFE84D" },
+      { name: "Claro", score: 5.3, color: "#DA291C" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 17, activeClients: 1795, totalPopulation: 10562, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 17 },
     crm: { arpu: 83, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 0, arpuFibra: 88, planoMovel: "Pré" },
@@ -9404,6 +12837,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "LinQ", score: 5.7, color: "#F8A81B" },
+      { name: "V.tal", score: 5.4, color: "#FFE84D" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" },
+      { name: "Claro", score: 5.1, color: "#DA291C" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 14.1, activeClients: 2053, totalPopulation: 14565, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 12 },
     crm: { arpu: 83, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 0, arpuFibra: 80, planoMovel: "Pré" },
@@ -9432,6 +12873,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "LinQ", score: 5.7, color: "#F8A81B" },
+      { name: "V.tal", score: 5.6, color: "#FFE84D" },
+      { name: "Claro", score: 5.5, color: "#DA291C" },
+      { name: "Algar", score: 5.5, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 46.8, activeClients: 4063, totalPopulation: 8683, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 42 },
     crm: { arpu: 58, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 0, arpuFibra: 92, planoMovel: "Controle" },
@@ -9459,6 +12908,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.7, color: "#1E40AF" },
       { name: "Algar", score: 6.8, color: "#28BEA5" },
       { name: "Surf", score: 5.9, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.5, color: "#660099" },
+      { name: "Claro", score: 5.4, color: "#DA291C" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" },
+      { name: "Algar", score: 4.7, color: "#28BEA5" },
+      { name: "Surf", score: 4.7, color: "#0003F9" }
     ],
     marketShare: { percentage: 19.3, activeClients: 1889, totalPopulation: 9790, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 17, shareFibra: 0 },
@@ -9488,6 +12945,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.8, color: "#660099" },
+      { name: "LinQ", score: 6.7, color: "#F8A81B" },
+      { name: "V.tal", score: 6.5, color: "#FFE84D" },
+      { name: "Claro", score: 6.3, color: "#DA291C" },
+      { name: "TIM", score: 6.0, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 26, activeClients: 2152, totalPopulation: 8278, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 23 },
     crm: { arpu: 76, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 84, planoMovel: "Pós" },
@@ -9515,6 +12980,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.0, color: "#1E40AF" },
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "LinQ", score: 7.3, color: "#F8A81B" },
+      { name: "Claro", score: 7.1, color: "#DA291C" },
+      { name: "V.tal", score: 6.9, color: "#FFE84D" },
+      { name: "TIM", score: 6.6, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "Claro", score: 6.6, color: "#DA291C" },
+      { name: "TIM", score: 6.3, color: "#1E40AF" },
+      { name: "Algar", score: 6.2, color: "#28BEA5" },
+      { name: "Surf", score: 6.1, color: "#0003F9" }
     ],
     marketShare: { percentage: 21.2, activeClients: 2873, totalPopulation: 13556, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 19, shareFibra: 19 },
@@ -9544,6 +13023,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.2, color: "#660099" },
+      { name: "LinQ", score: 6.9, color: "#F8A81B" },
+      { name: "Claro", score: 6.8, color: "#DA291C" },
+      { name: "TIM", score: 6.7, color: "#1E40AF" },
+      { name: "V.tal", score: 6.6, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 16.7, activeClients: 1687, totalPopulation: 10103, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 16 },
     crm: { arpu: 116, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 127, planoMovel: "Controle" },
@@ -9571,6 +13058,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.9, color: "#1E40AF" },
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "LinQ", score: 5.1, color: "#F8A81B" },
+      { name: "VIVO", score: 5.0, color: "#660099" },
+      { name: "Claro", score: 5.0, color: "#DA291C" },
+      { name: "V.tal", score: 5.0, color: "#FFE84D" },
+      { name: "TIM", score: 4.8, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 4.8, color: "#660099" },
+      { name: "Claro", score: 4.7, color: "#DA291C" },
+      { name: "TIM", score: 4.2, color: "#1E40AF" },
+      { name: "Algar", score: 4.0, color: "#28BEA5" },
+      { name: "Surf", score: 4.0, color: "#0003F9" }
     ],
     marketShare: { percentage: 37.9, activeClients: 3714, totalPopulation: 9802, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 34, shareFibra: 37 },
@@ -9600,6 +13101,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "V.tal", score: 7.2, color: "#FFE84D" },
+      { name: "LinQ", score: 7.1, color: "#F8A81B" },
+      { name: "Claro", score: 6.8, color: "#DA291C" },
+      { name: "TIM", score: 6.8, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.9, color: "#660099" },
+      { name: "Claro", score: 6.8, color: "#DA291C" },
+      { name: "TIM", score: 6.5, color: "#1E40AF" },
+      { name: "Algar", score: 5.9, color: "#28BEA5" },
+      { name: "Surf", score: 5.9, color: "#0003F9" }
+    ],
     marketShare: { percentage: 26.2, activeClients: 3862, totalPopulation: 14742, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 23, shareFibra: 26 },
     crm: { arpu: 99, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 96, arpuFibra: 110, planoMovel: "Controle" },
@@ -9628,6 +13143,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "LinQ", score: 5.8, color: "#F8A81B" },
+      { name: "VIVO", score: 5.6, color: "#660099" },
+      { name: "Claro", score: 5.3, color: "#DA291C" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" },
+      { name: "V.tal", score: 5.1, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 36.2, activeClients: 3840, totalPopulation: 10608, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 32 },
     crm: { arpu: 62, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 81, planoMovel: "Controle" },
@@ -9655,6 +13178,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.5, color: "#1E40AF" },
       { name: "Algar", score: 7.3, color: "#28BEA5" },
       { name: "Surf", score: 5.9, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.1, color: "#660099" },
+      { name: "Claro", score: 7.7, color: "#DA291C" },
+      { name: "TIM", score: 7.5, color: "#1E40AF" },
+      { name: "Algar", score: 6.8, color: "#28BEA5" },
+      { name: "Surf", score: 6.7, color: "#0003F9" }
     ],
     marketShare: { percentage: 38, activeClients: 6267, totalPopulation: 16494, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 34, shareFibra: 0 },
@@ -9684,6 +13215,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.3, color: "#660099" },
+      { name: "Claro", score: 6.1, color: "#DA291C" },
+      { name: "LinQ", score: 6.1, color: "#F8A81B" },
+      { name: "TIM", score: 5.9, color: "#1E40AF" },
+      { name: "V.tal", score: 5.6, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 15.7, activeClients: 2355, totalPopulation: 15001, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 15 },
     crm: { arpu: 55, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 0, arpuFibra: 78, planoMovel: "Pré" },
@@ -9712,6 +13251,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 9.0, color: "#660099" },
+      { name: "LinQ", score: 8.7, color: "#F8A81B" },
+      { name: "V.tal", score: 8.3, color: "#FFE84D" },
+      { name: "Claro", score: 8.2, color: "#DA291C" },
+      { name: "TIM", score: 7.9, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 42.1, activeClients: 5699, totalPopulation: 13539, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 37 },
     crm: { arpu: 139, deviceTier: "Premium", planType: "Pós-pago 5G", arpuMovel: 0, arpuFibra: 159, planoMovel: "Pós" },
@@ -9739,6 +13286,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.8, color: "#1E40AF" },
       { name: "LinQ", score: 7.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.4, color: "#660099" },
+      { name: "LinQ", score: 8.3, color: "#F8A81B" },
+      { name: "Claro", score: 7.7, color: "#DA291C" },
+      { name: "V.tal", score: 7.7, color: "#FFE84D" },
+      { name: "Algar", score: 7.6, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.5, color: "#660099" },
+      { name: "Claro", score: 7.7, color: "#DA291C" },
+      { name: "TIM", score: 7.6, color: "#1E40AF" },
+      { name: "Algar", score: 7.3, color: "#28BEA5" },
+      { name: "Surf", score: 6.8, color: "#0003F9" }
     ],
     marketShare: { percentage: 45.1, activeClients: 5471, totalPopulation: 12132, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 40, shareFibra: 40 },
@@ -9768,6 +13329,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 6.6, color: "#28BEA5" },
       { name: "Surf", score: 6.2, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "TIM", score: 7.1, color: "#1E40AF" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "Algar", score: 6.6, color: "#28BEA5" },
+      { name: "Surf", score: 6.4, color: "#0003F9" }
+    ],
     marketShare: { percentage: 14.8, activeClients: 2611, totalPopulation: 17647, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 14, shareFibra: 0 },
     crm: { arpu: 121, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 102, arpuFibra: 0, planoMovel: "Pós" },
@@ -9795,6 +13364,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.5, color: "#1E40AF" },
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "LinQ", score: 5.7, color: "#F8A81B" },
+      { name: "Claro", score: 5.4, color: "#DA291C" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" },
+      { name: "V.tal", score: 5.1, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.6, color: "#660099" },
+      { name: "Claro", score: 5.6, color: "#DA291C" },
+      { name: "TIM", score: 5.1, color: "#1E40AF" },
+      { name: "Algar", score: 4.9, color: "#28BEA5" },
+      { name: "Surf", score: 4.8, color: "#0003F9" }
     ],
     marketShare: { percentage: 40.5, activeClients: 4166, totalPopulation: 10288, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 36, shareFibra: 36 },
@@ -9824,6 +13407,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.8, color: "#660099" },
+      { name: "LinQ", score: 6.4, color: "#F8A81B" },
+      { name: "TIM", score: 6.0, color: "#1E40AF" },
+      { name: "Claro", score: 5.9, color: "#DA291C" },
+      { name: "NIO", score: 5.9, color: "#32E000" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 23.8, activeClients: 2447, totalPopulation: 10282, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 23 },
     crm: { arpu: 85, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 81, planoMovel: "Controle" },
@@ -9851,6 +13442,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.5, color: "#1E40AF" },
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.8, color: "#660099" },
+      { name: "Claro", score: 6.6, color: "#DA291C" },
+      { name: "V.tal", score: 6.6, color: "#FFE84D" },
+      { name: "TIM", score: 6.5, color: "#1E40AF" },
+      { name: "LinQ", score: 6.5, color: "#F8A81B" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.4, color: "#660099" },
+      { name: "TIM", score: 6.0, color: "#1E40AF" },
+      { name: "Claro", score: 5.9, color: "#DA291C" },
+      { name: "Algar", score: 5.7, color: "#28BEA5" },
+      { name: "Surf", score: 5.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 16.2, activeClients: 2462, totalPopulation: 15202, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 14, shareFibra: 16 },
@@ -9880,6 +13485,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.0, color: "#660099" },
+      { name: "LinQ", score: 6.8, color: "#F8A81B" },
+      { name: "Claro", score: 6.4, color: "#DA291C" },
+      { name: "V.tal", score: 6.4, color: "#FFE84D" },
+      { name: "TIM", score: 6.3, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 19.7, activeClients: 1523, totalPopulation: 7736, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 17 },
     crm: { arpu: 76, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 0, arpuFibra: 85, planoMovel: "Pré" },
@@ -9908,6 +13521,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "LinQ", score: 7.5, color: "#F8A81B" },
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "V.tal", score: 7.0, color: "#FFE84D" },
+      { name: "Claro", score: 6.8, color: "#DA291C" },
+      { name: "Algar", score: 6.7, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 14.4, activeClients: 1418, totalPopulation: 9851, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 12 },
     crm: { arpu: 125, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 135, planoMovel: "Controle" },
@@ -9935,6 +13556,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.8, color: "#1E40AF" },
       { name: "Algar", score: 7.3, color: "#28BEA5" },
       { name: "Surf", score: 6.4, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.8, color: "#660099" },
+      { name: "TIM", score: 6.1, color: "#1E40AF" },
+      { name: "Claro", score: 6.0, color: "#DA291C" },
+      { name: "Algar", score: 5.6, color: "#28BEA5" },
+      { name: "Surf", score: 5.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 22, activeClients: 1799, totalPopulation: 8179, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 22, shareFibra: 0 },
@@ -9964,6 +13593,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.9, color: "#660099" },
+      { name: "Claro", score: 7.4, color: "#DA291C" },
+      { name: "LinQ", score: 7.4, color: "#F8A81B" },
+      { name: "TIM", score: 7.1, color: "#1E40AF" },
+      { name: "V.tal", score: 7.1, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.8, color: "#660099" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "TIM", score: 6.8, color: "#1E40AF" },
+      { name: "Surf", score: 6.3, color: "#0003F9" },
+      { name: "Algar", score: 6.2, color: "#28BEA5" }
+    ],
     marketShare: { percentage: 14.3, activeClients: 1680, totalPopulation: 11749, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 14, shareFibra: 12 },
     crm: { arpu: 95, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 82, arpuFibra: 134, planoMovel: "Pós" },
@@ -9992,6 +13635,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.2, color: "#660099" },
+      { name: "V.tal", score: 7.9, color: "#FFE84D" },
+      { name: "LinQ", score: 7.8, color: "#F8A81B" },
+      { name: "Claro", score: 7.5, color: "#DA291C" },
+      { name: "TIM", score: 7.5, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 26.8, activeClients: 2149, totalPopulation: 8021, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 26 },
     crm: { arpu: 124, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 102, planoMovel: "Controle" },
@@ -10019,6 +13670,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.6, color: "#1E40AF" },
       { name: "Algar", score: 7.4, color: "#28BEA5" },
       { name: "Surf", score: 6.4, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "Claro", score: 5.1, color: "#DA291C" },
+      { name: "TIM", score: 5.0, color: "#1E40AF" },
+      { name: "Algar", score: 5.0, color: "#28BEA5" },
+      { name: "Surf", score: 4.5, color: "#0003F9" }
     ],
     marketShare: { percentage: 46.6, activeClients: 3462, totalPopulation: 7431, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 41, shareFibra: 0 },
@@ -10048,6 +13707,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.1, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.7, color: "#660099" },
+      { name: "LinQ", score: 5.3, color: "#F8A81B" },
+      { name: "Claro", score: 5.2, color: "#DA291C" },
+      { name: "V.tal", score: 5.2, color: "#FFE84D" },
+      { name: "TIM", score: 4.7, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.1, color: "#660099" },
+      { name: "Claro", score: 5.1, color: "#DA291C" },
+      { name: "TIM", score: 4.8, color: "#1E40AF" },
+      { name: "Algar", score: 4.4, color: "#28BEA5" },
+      { name: "Surf", score: 4.0, color: "#0003F9" }
+    ],
     marketShare: { percentage: 39.8, activeClients: 4266, totalPopulation: 10721, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 39, shareFibra: 39 },
     crm: { arpu: 56, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 82, arpuFibra: 93, planoMovel: "Pré" },
@@ -10075,6 +13748,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.2, color: "#1E40AF" },
       { name: "Algar", score: 6.6, color: "#28BEA5" },
       { name: "Surf", score: 6.2, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "TIM", score: 6.3, color: "#1E40AF" },
+      { name: "Algar", score: 6.0, color: "#28BEA5" },
+      { name: "Surf", score: 5.8, color: "#0003F9" }
     ],
     marketShare: { percentage: 24, activeClients: 3122, totalPopulation: 13011, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 21, shareFibra: 0 },
@@ -10104,6 +13785,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 7.5, color: "#28BEA5" },
       { name: "Surf", score: 5.8, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.2, color: "#660099" },
+      { name: "TIM", score: 5.8, color: "#1E40AF" },
+      { name: "Claro", score: 5.7, color: "#DA291C" },
+      { name: "Surf", score: 5.4, color: "#0003F9" },
+      { name: "Algar", score: 5.3, color: "#28BEA5" }
+    ],
     marketShare: { percentage: 17.3, activeClients: 2458, totalPopulation: 14213, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 15, shareFibra: 0 },
     crm: { arpu: 70, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 63, arpuFibra: 0, planoMovel: "Pré" },
@@ -10131,6 +13820,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.1, color: "#1E40AF" },
       { name: "LinQ", score: 8.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.7, color: "#660099" },
+      { name: "LinQ", score: 5.6, color: "#F8A81B" },
+      { name: "V.tal", score: 5.4, color: "#FFE84D" },
+      { name: "Claro", score: 5.2, color: "#DA291C" },
+      { name: "NIO", score: 4.9, color: "#32E000" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.6, color: "#660099" },
+      { name: "Claro", score: 5.0, color: "#DA291C" },
+      { name: "TIM", score: 5.0, color: "#1E40AF" },
+      { name: "Algar", score: 4.4, color: "#28BEA5" },
+      { name: "Surf", score: 4.1, color: "#0003F9" }
     ],
     marketShare: { percentage: 18.9, activeClients: 1403, totalPopulation: 7425, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 17, shareFibra: 18 },
@@ -10160,6 +13863,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 9.1, color: "#660099" },
+      { name: "LinQ", score: 8.7, color: "#F8A81B" },
+      { name: "Claro", score: 8.5, color: "#DA291C" },
+      { name: "TIM", score: 8.2, color: "#1E40AF" },
+      { name: "V.tal", score: 7.9, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.3, color: "#660099" },
+      { name: "Claro", score: 8.2, color: "#DA291C" },
+      { name: "TIM", score: 8.0, color: "#1E40AF" },
+      { name: "Algar", score: 7.3, color: "#28BEA5" },
+      { name: "Surf", score: 7.0, color: "#0003F9" }
+    ],
     marketShare: { percentage: 39.9, activeClients: 4586, totalPopulation: 11495, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 35, shareFibra: 35 },
     crm: { arpu: 145, deviceTier: "Premium", planType: "Fibra 500Mbps", arpuMovel: 112, arpuFibra: 163, planoMovel: "Controle" },
@@ -10188,6 +13905,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.7, color: "#660099" },
+      { name: "Claro", score: 5.7, color: "#DA291C" },
+      { name: "LinQ", score: 5.6, color: "#F8A81B" },
+      { name: "V.tal", score: 5.6, color: "#FFE84D" },
+      { name: "Algar", score: 5.3, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 33.2, activeClients: 3825, totalPopulation: 11524, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 29 },
     crm: { arpu: 60, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 89, planoMovel: "Pós" },
@@ -10215,6 +13940,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.3, color: "#1E40AF" },
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.3, color: "#660099" },
+      { name: "Claro", score: 7.9, color: "#DA291C" },
+      { name: "LinQ", score: 7.9, color: "#F8A81B" },
+      { name: "V.tal", score: 7.5, color: "#FFE84D" },
+      { name: "Algar", score: 7.5, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.0, color: "#660099" },
+      { name: "Claro", score: 7.9, color: "#DA291C" },
+      { name: "TIM", score: 7.6, color: "#1E40AF" },
+      { name: "Algar", score: 6.8, color: "#28BEA5" },
+      { name: "Surf", score: 6.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 35.6, activeClients: 5080, totalPopulation: 14271, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 32, shareFibra: 35 },
@@ -10244,6 +13983,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 7.0, color: "#28BEA5" },
       { name: "Surf", score: 6.7, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.1, color: "#660099" },
+      { name: "Claro", score: 4.6, color: "#DA291C" },
+      { name: "TIM", score: 4.3, color: "#1E40AF" },
+      { name: "Algar", score: 4.1, color: "#28BEA5" },
+      { name: "Surf", score: 4.1, color: "#0003F9" }
+    ],
     marketShare: { percentage: 43.7, activeClients: 5521, totalPopulation: 12636, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 39, shareFibra: 0 },
     crm: { arpu: 76, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 67, arpuFibra: 0, planoMovel: "Pós" },
@@ -10271,6 +14018,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.4, color: "#1E40AF" },
       { name: "Algar", score: 6.9, color: "#28BEA5" },
       { name: "Surf", score: 6.5, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.1, color: "#660099" },
+      { name: "Claro", score: 6.5, color: "#DA291C" },
+      { name: "TIM", score: 6.3, color: "#1E40AF" },
+      { name: "Algar", score: 5.9, color: "#28BEA5" },
+      { name: "Surf", score: 5.6, color: "#0003F9" }
     ],
     marketShare: { percentage: 17.4, activeClients: 1910, totalPopulation: 10982, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 15, shareFibra: 0 },
@@ -10300,6 +14055,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.7, color: "#660099" },
+      { name: "Claro", score: 6.0, color: "#DA291C" },
+      { name: "TIM", score: 5.9, color: "#1E40AF" },
+      { name: "LinQ", score: 5.9, color: "#F8A81B" },
+      { name: "V.tal", score: 5.9, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.1, color: "#660099" },
+      { name: "Claro", score: 5.1, color: "#DA291C" },
+      { name: "TIM", score: 5.0, color: "#1E40AF" },
+      { name: "Algar", score: 4.9, color: "#28BEA5" },
+      { name: "Surf", score: 4.7, color: "#0003F9" }
+    ],
     marketShare: { percentage: 43.5, activeClients: 5949, totalPopulation: 13678, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 39, shareFibra: 43 },
     crm: { arpu: 65, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 58, arpuFibra: 72, planoMovel: "Controle" },
@@ -10327,6 +14096,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.9, color: "#1E40AF" },
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.1, color: "#660099" },
+      { name: "Claro", score: 5.8, color: "#DA291C" },
+      { name: "LinQ", score: 5.7, color: "#F8A81B" },
+      { name: "V.tal", score: 5.5, color: "#FFE84D" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.5, color: "#660099" },
+      { name: "Claro", score: 4.9, color: "#DA291C" },
+      { name: "TIM", score: 4.6, color: "#1E40AF" },
+      { name: "Surf", score: 4.5, color: "#0003F9" },
+      { name: "Algar", score: 4.4, color: "#28BEA5" }
     ],
     marketShare: { percentage: 21.4, activeClients: 2858, totalPopulation: 13358, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 19, shareFibra: 21 },
@@ -10356,6 +14139,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.3, color: "#660099" },
+      { name: "Claro", score: 7.1, color: "#DA291C" },
+      { name: "LinQ", score: 7.1, color: "#F8A81B" },
+      { name: "V.tal", score: 7.0, color: "#FFE84D" },
+      { name: "TIM", score: 6.6, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 20.1, activeClients: 3082, totalPopulation: 15334, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 20 },
     crm: { arpu: 99, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 131, planoMovel: "Pós" },
@@ -10383,6 +14174,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.8, color: "#1E40AF" },
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.5, color: "#660099" },
+      { name: "LinQ", score: 6.1, color: "#F8A81B" },
+      { name: "V.tal", score: 6.0, color: "#FFE84D" },
+      { name: "Claro", score: 5.9, color: "#DA291C" },
+      { name: "TIM", score: 5.9, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.1, color: "#660099" },
+      { name: "TIM", score: 5.5, color: "#1E40AF" },
+      { name: "Claro", score: 5.4, color: "#DA291C" },
+      { name: "Surf", score: 5.2, color: "#0003F9" },
+      { name: "Algar", score: 5.0, color: "#28BEA5" }
     ],
     marketShare: { percentage: 18, activeClients: 1609, totalPopulation: 8942, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 16, shareFibra: 16 },
@@ -10412,6 +14217,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.8, color: "#660099" },
+      { name: "LinQ", score: 6.6, color: "#F8A81B" },
+      { name: "V.tal", score: 6.2, color: "#FFE84D" },
+      { name: "TIM", score: 6.1, color: "#1E40AF" },
+      { name: "Algar", score: 6.0, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 23.9, activeClients: 2142, totalPopulation: 8965, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 21 },
     crm: { arpu: 82, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 78, planoMovel: "Pós" },
@@ -10440,6 +14253,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.5, color: "#660099" },
+      { name: "LinQ", score: 8.0, color: "#F8A81B" },
+      { name: "TIM", score: 7.7, color: "#1E40AF" },
+      { name: "Claro", score: 7.6, color: "#DA291C" },
+      { name: "V.tal", score: 7.3, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 25.8, activeClients: 4600, totalPopulation: 17831, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 25 },
     crm: { arpu: 125, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 0, arpuFibra: 115, planoMovel: "Controle" },
@@ -10467,6 +14288,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.0, color: "#1E40AF" },
       { name: "Algar", score: 7.5, color: "#28BEA5" },
       { name: "Surf", score: 6.3, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.9, color: "#660099" },
+      { name: "Claro", score: 7.6, color: "#DA291C" },
+      { name: "TIM", score: 7.2, color: "#1E40AF" },
+      { name: "Algar", score: 6.8, color: "#28BEA5" },
+      { name: "Surf", score: 6.7, color: "#0003F9" }
     ],
     marketShare: { percentage: 34.8, activeClients: 3935, totalPopulation: 11310, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 31, shareFibra: 0 },
@@ -10496,6 +14325,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.7, color: "#660099" },
+      { name: "V.tal", score: 5.4, color: "#FFE84D" },
+      { name: "LinQ", score: 5.3, color: "#F8A81B" },
+      { name: "Claro", score: 5.0, color: "#DA291C" },
+      { name: "Algar", score: 4.8, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 36.5, activeClients: 3608, totalPopulation: 9886, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 32 },
     crm: { arpu: 77, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 92, planoMovel: "Controle" },
@@ -10523,6 +14360,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.6, color: "#1E40AF" },
       { name: "Algar", score: 7.0, color: "#28BEA5" },
       { name: "Surf", score: 6.7, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "Claro", score: 7.5, color: "#DA291C" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "Surf", score: 6.5, color: "#0003F9" },
+      { name: "Algar", score: 6.4, color: "#28BEA5" }
     ],
     marketShare: { percentage: 39.5, activeClients: 3118, totalPopulation: 7895, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 35, shareFibra: 0 },
@@ -10552,6 +14397,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 6.4, color: "#28BEA5" },
       { name: "Surf", score: 6.5, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.9, color: "#660099" },
+      { name: "Claro", score: 5.6, color: "#DA291C" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" },
+      { name: "Algar", score: 5.0, color: "#28BEA5" },
+      { name: "Surf", score: 4.5, color: "#0003F9" }
+    ],
     marketShare: { percentage: 43.3, activeClients: 3480, totalPopulation: 8039, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 38, shareFibra: 0 },
     crm: { arpu: 61, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 81, arpuFibra: 0, planoMovel: "Pós" },
@@ -10579,6 +14432,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.2, color: "#1E40AF" },
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.6, color: "#660099" },
+      { name: "LinQ", score: 5.4, color: "#F8A81B" },
+      { name: "Claro", score: 5.1, color: "#DA291C" },
+      { name: "V.tal", score: 5.1, color: "#FFE84D" },
+      { name: "Algar", score: 5.1, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.0, color: "#660099" },
+      { name: "Claro", score: 4.9, color: "#DA291C" },
+      { name: "TIM", score: 4.5, color: "#1E40AF" },
+      { name: "Algar", score: 4.5, color: "#28BEA5" },
+      { name: "Surf", score: 4.0, color: "#0003F9" }
     ],
     marketShare: { percentage: 34, activeClients: 3661, totalPopulation: 10768, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 30, shareFibra: 34 },
@@ -10608,6 +14475,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "Claro", score: 5.4, color: "#DA291C" },
+      { name: "LinQ", score: 5.4, color: "#F8A81B" },
+      { name: "V.tal", score: 4.9, color: "#FFE84D" },
+      { name: "Algar", score: 4.9, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 17.7, activeClients: 3141, totalPopulation: 17748, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 15 },
     crm: { arpu: 62, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 87, planoMovel: "Controle" },
@@ -10636,6 +14511,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 8.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.3, color: "#660099" },
+      { name: "Claro", score: 5.9, color: "#DA291C" },
+      { name: "LinQ", score: 5.9, color: "#F8A81B" },
+      { name: "V.tal", score: 5.6, color: "#FFE84D" },
+      { name: "Algar", score: 5.6, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 18.7, activeClients: 3238, totalPopulation: 17320, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 16 },
     crm: { arpu: 82, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 88, planoMovel: "Controle" },
@@ -10663,6 +14546,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.3, color: "#1E40AF" },
       { name: "Algar", score: 6.7, color: "#28BEA5" },
       { name: "Surf", score: 6.7, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.6, color: "#660099" },
+      { name: "Claro", score: 5.5, color: "#DA291C" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" },
+      { name: "Algar", score: 5.0, color: "#28BEA5" },
+      { name: "Surf", score: 4.8, color: "#0003F9" }
     ],
     marketShare: { percentage: 16.9, activeClients: 2740, totalPopulation: 16214, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 15, shareFibra: 0 },
@@ -10692,6 +14583,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.5, color: "#660099" },
+      { name: "LinQ", score: 6.3, color: "#F8A81B" },
+      { name: "Claro", score: 6.1, color: "#DA291C" },
+      { name: "TIM", score: 6.1, color: "#1E40AF" },
+      { name: "V.tal", score: 6.1, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 31.4, activeClients: 4896, totalPopulation: 15594, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 31 },
     crm: { arpu: 67, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 0, arpuFibra: 79, planoMovel: "Pré" },
@@ -10720,6 +14619,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.9, color: "#660099" },
+      { name: "LinQ", score: 7.6, color: "#F8A81B" },
+      { name: "Claro", score: 7.5, color: "#DA291C" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" },
+      { name: "V.tal", score: 7.0, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 18.6, activeClients: 1714, totalPopulation: 9217, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 16 },
     crm: { arpu: 105, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 111, planoMovel: "Pós" },
@@ -10747,6 +14654,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.0, color: "#1E40AF" },
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "LinQ", score: 7.3, color: "#F8A81B" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "V.tal", score: 6.9, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.2, color: "#660099" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "TIM", score: 6.4, color: "#1E40AF" },
+      { name: "Algar", score: 6.1, color: "#28BEA5" },
+      { name: "Surf", score: 5.9, color: "#0003F9" }
     ],
     marketShare: { percentage: 17.8, activeClients: 2488, totalPopulation: 13982, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 16, shareFibra: 16 },
@@ -10776,6 +14697,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "LinQ", score: 7.3, color: "#F8A81B" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "Algar", score: 6.7, color: "#28BEA5" },
+      { name: "TIM", score: 6.6, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "Claro", score: 6.7, color: "#DA291C" },
+      { name: "TIM", score: 6.7, color: "#1E40AF" },
+      { name: "Algar", score: 6.2, color: "#28BEA5" },
+      { name: "Surf", score: 6.0, color: "#0003F9" }
+    ],
     marketShare: { percentage: 22.6, activeClients: 2112, totalPopulation: 9348, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 20, shareFibra: 22 },
     crm: { arpu: 88, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 96, arpuFibra: 128, planoMovel: "Controle" },
@@ -10803,6 +14738,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.1, color: "#1E40AF" },
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.4, color: "#660099" },
+      { name: "LinQ", score: 7.7, color: "#F8A81B" },
+      { name: "V.tal", score: 7.7, color: "#FFE84D" },
+      { name: "Claro", score: 7.5, color: "#DA291C" },
+      { name: "TIM", score: 7.4, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "TIM", score: 7.1, color: "#1E40AF" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "Algar", score: 6.4, color: "#28BEA5" },
+      { name: "Surf", score: 6.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 39.3, activeClients: 3525, totalPopulation: 8970, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 35, shareFibra: 35 },
@@ -10832,6 +14781,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.6, color: "#660099" },
+      { name: "LinQ", score: 8.3, color: "#F8A81B" },
+      { name: "Claro", score: 7.9, color: "#DA291C" },
+      { name: "V.tal", score: 7.8, color: "#FFE84D" },
+      { name: "TIM", score: 7.6, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 54.9, activeClients: 6118, totalPopulation: 11145, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 54 },
     crm: { arpu: 121, deviceTier: "Premium", planType: "Pós-pago 5G", arpuMovel: 0, arpuFibra: 199, planoMovel: "Pós" },
@@ -10859,6 +14816,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.2, color: "#1E40AF" },
       { name: "Algar", score: 6.6, color: "#28BEA5" },
       { name: "Surf", score: 6.0, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.5, color: "#660099" },
+      { name: "Claro", score: 5.8, color: "#DA291C" },
+      { name: "TIM", score: 5.7, color: "#1E40AF" },
+      { name: "Algar", score: 5.3, color: "#28BEA5" },
+      { name: "Surf", score: 5.1, color: "#0003F9" }
     ],
     marketShare: { percentage: 23.9, activeClients: 2903, totalPopulation: 12148, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 23, shareFibra: 0 },
@@ -10888,6 +14853,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 6.6, color: "#28BEA5" },
       { name: "Surf", score: 6.8, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.0, color: "#660099" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "TIM", score: 6.3, color: "#1E40AF" },
+      { name: "Algar", score: 6.1, color: "#28BEA5" },
+      { name: "Surf", score: 5.8, color: "#0003F9" }
+    ],
     marketShare: { percentage: 21.1, activeClients: 2074, totalPopulation: 9833, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 21, shareFibra: 0 },
     crm: { arpu: 104, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 97, arpuFibra: 0, planoMovel: "Pós" },
@@ -10915,6 +14888,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.6, color: "#1E40AF" },
       { name: "Algar", score: 7.3, color: "#28BEA5" },
       { name: "Surf", score: 6.2, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.1, color: "#660099" },
+      { name: "Claro", score: 6.6, color: "#DA291C" },
+      { name: "TIM", score: 6.1, color: "#1E40AF" },
+      { name: "Algar", score: 6.0, color: "#28BEA5" },
+      { name: "Surf", score: 5.7, color: "#0003F9" }
     ],
     marketShare: { percentage: 26.3, activeClients: 2904, totalPopulation: 11042, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 26, shareFibra: 0 },
@@ -10944,6 +14925,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.1, color: "#660099" },
+      { name: "LinQ", score: 7.7, color: "#F8A81B" },
+      { name: "V.tal", score: 7.5, color: "#FFE84D" },
+      { name: "Claro", score: 7.4, color: "#DA291C" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "Algar", score: 6.5, color: "#28BEA5" },
+      { name: "Surf", score: 6.2, color: "#0003F9" }
+    ],
     marketShare: { percentage: 41.3, activeClients: 7233, totalPopulation: 17515, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 41, shareFibra: 37 },
     crm: { arpu: 180, deviceTier: "Premium", planType: "Pós-pago 5G", arpuMovel: 119, arpuFibra: 149, planoMovel: "Pós" },
@@ -10971,6 +14966,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.9, color: "#1E40AF" },
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.7, color: "#660099" },
+      { name: "LinQ", score: 5.5, color: "#F8A81B" },
+      { name: "Claro", score: 5.4, color: "#DA291C" },
+      { name: "V.tal", score: 5.4, color: "#FFE84D" },
+      { name: "TIM", score: 5.1, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.9, color: "#660099" },
+      { name: "Claro", score: 5.2, color: "#DA291C" },
+      { name: "TIM", score: 5.1, color: "#1E40AF" },
+      { name: "Surf", score: 4.7, color: "#0003F9" },
+      { name: "Algar", score: 4.6, color: "#28BEA5" }
     ],
     marketShare: { percentage: 19.2, activeClients: 2532, totalPopulation: 13191, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 17, shareFibra: 17 },
@@ -11000,6 +15009,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.5, color: "#660099" },
+      { name: "V.tal", score: 6.1, color: "#FFE84D" },
+      { name: "LinQ", score: 5.9, color: "#F8A81B" },
+      { name: "TIM", score: 5.8, color: "#1E40AF" },
+      { name: "Claro", score: 5.7, color: "#DA291C" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 17.3, activeClients: 2647, totalPopulation: 15306, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 15 },
     crm: { arpu: 73, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 88, planoMovel: "Controle" },
@@ -11027,6 +15044,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.3, color: "#1E40AF" },
       { name: "Algar", score: 7.3, color: "#28BEA5" },
       { name: "Surf", score: 6.3, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 4.8, color: "#660099" },
+      { name: "Claro", score: 4.7, color: "#DA291C" },
+      { name: "TIM", score: 4.4, color: "#1E40AF" },
+      { name: "Algar", score: 4.0, color: "#28BEA5" },
+      { name: "Surf", score: 4.0, color: "#0003F9" }
     ],
     marketShare: { percentage: 37.2, activeClients: 6617, totalPopulation: 17790, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 33, shareFibra: 0 },
@@ -11056,6 +15081,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.4, color: "#660099" },
+      { name: "LinQ", score: 6.3, color: "#F8A81B" },
+      { name: "Claro", score: 6.1, color: "#DA291C" },
+      { name: "V.tal", score: 6.1, color: "#FFE84D" },
+      { name: "TIM", score: 5.5, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.9, color: "#660099" },
+      { name: "Claro", score: 5.0, color: "#DA291C" },
+      { name: "TIM", score: 5.0, color: "#1E40AF" },
+      { name: "Algar", score: 4.8, color: "#28BEA5" },
+      { name: "Surf", score: 4.7, color: "#0003F9" }
+    ],
     marketShare: { percentage: 26.8, activeClients: 3577, totalPopulation: 13350, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 24, shareFibra: 26 },
     crm: { arpu: 83, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 81, arpuFibra: 91, planoMovel: "Controle" },
@@ -11084,6 +15123,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 6.7, color: "#28BEA5" },
       { name: "Surf", score: 6.7, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.4, color: "#660099" },
+      { name: "Claro", score: 5.3, color: "#DA291C" },
+      { name: "TIM", score: 4.8, color: "#1E40AF" },
+      { name: "Surf", score: 4.6, color: "#0003F9" },
+      { name: "Algar", score: 4.4, color: "#28BEA5" }
+    ],
     marketShare: { percentage: 23.2, activeClients: 3241, totalPopulation: 13974, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 23, shareFibra: 0 },
     crm: { arpu: 70, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 63, arpuFibra: 0, planoMovel: "Pré" },
@@ -11109,6 +15156,14 @@ export const rawData: GeohashEntry[] = [
       { name: "VIVO", score: 7.5, color: "#660099" },
       { name: "Claro", score: 6.9, color: "#DA291C" },
       { name: "TIM", score: 7.2, color: "#1E40AF" },
+      { name: "Algar", score: 6.4, color: "#28BEA5" },
+      { name: "Surf", score: 6.1, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "TIM", score: 6.7, color: "#1E40AF" },
       { name: "Algar", score: 6.4, color: "#28BEA5" },
       { name: "Surf", score: 6.1, color: "#0003F9" }
     ],
@@ -11140,6 +15195,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.8, color: "#660099" },
+      { name: "LinQ", score: 6.8, color: "#F8A81B" },
+      { name: "Claro", score: 6.4, color: "#DA291C" },
+      { name: "V.tal", score: 6.2, color: "#FFE84D" },
+      { name: "TIM", score: 6.1, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 21.2, activeClients: 3618, totalPopulation: 17068, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 19 },
     crm: { arpu: 64, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 0, arpuFibra: 73, planoMovel: "Pré" },
@@ -11167,6 +15230,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.6, color: "#1E40AF" },
       { name: "LinQ", score: 8.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.1, color: "#660099" },
+      { name: "Claro", score: 7.4, color: "#DA291C" },
+      { name: "V.tal", score: 7.4, color: "#FFE84D" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" },
+      { name: "LinQ", score: 7.3, color: "#F8A81B" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.3, color: "#660099" },
+      { name: "Claro", score: 6.8, color: "#DA291C" },
+      { name: "TIM", score: 6.5, color: "#1E40AF" },
+      { name: "Algar", score: 6.1, color: "#28BEA5" },
+      { name: "Surf", score: 5.8, color: "#0003F9" }
     ],
     marketShare: { percentage: 45.2, activeClients: 6097, totalPopulation: 13491, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 40, shareFibra: 45 },
@@ -11196,6 +15273,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 6.7, color: "#28BEA5" },
       { name: "Surf", score: 6.8, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.6, color: "#660099" },
+      { name: "TIM", score: 5.9, color: "#1E40AF" },
+      { name: "Claro", score: 5.8, color: "#DA291C" },
+      { name: "Algar", score: 5.4, color: "#28BEA5" },
+      { name: "Surf", score: 5.4, color: "#0003F9" }
+    ],
     marketShare: { percentage: 14.3, activeClients: 1602, totalPopulation: 11208, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 12, shareFibra: 0 },
     crm: { arpu: 84, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 85, arpuFibra: 0, planoMovel: "Controle" },
@@ -11224,6 +15309,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "LinQ", score: 5.8, color: "#F8A81B" },
+      { name: "Claro", score: 5.6, color: "#DA291C" },
+      { name: "V.tal", score: 5.6, color: "#FFE84D" },
+      { name: "Algar", score: 5.4, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 19.6, activeClients: 1953, totalPopulation: 9969, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 17 },
     crm: { arpu: 55, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 91, planoMovel: "Controle" },
@@ -11252,6 +15345,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.1, color: "#660099" },
+      { name: "Claro", score: 5.7, color: "#DA291C" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" },
+      { name: "LinQ", score: 5.5, color: "#F8A81B" },
+      { name: "V.tal", score: 5.2, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 14.2, activeClients: 1786, totalPopulation: 12580, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 12 },
     crm: { arpu: 82, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 76, planoMovel: "Controle" },
@@ -11280,6 +15381,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.9, color: "#660099" },
+      { name: "LinQ", score: 5.9, color: "#F8A81B" },
+      { name: "Claro", score: 5.5, color: "#DA291C" },
+      { name: "V.tal", score: 5.4, color: "#FFE84D" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 31.3, activeClients: 3994, totalPopulation: 12761, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 31 },
     crm: { arpu: 79, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 0, arpuFibra: 87, planoMovel: "Controle" },
@@ -11308,6 +15417,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.0, color: "#660099" },
+      { name: "LinQ", score: 7.5, color: "#F8A81B" },
+      { name: "TIM", score: 7.4, color: "#1E40AF" },
+      { name: "V.tal", score: 7.3, color: "#FFE84D" },
+      { name: "Claro", score: 7.2, color: "#DA291C" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 26.6, activeClients: 3077, totalPopulation: 11569, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 23 },
     crm: { arpu: 125, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 120, planoMovel: "Controle" },
@@ -11336,6 +15453,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.8, color: "#660099" },
+      { name: "Claro", score: 6.5, color: "#DA291C" },
+      { name: "LinQ", score: 6.5, color: "#F8A81B" },
+      { name: "V.tal", score: 6.2, color: "#FFE84D" },
+      { name: "TIM", score: 6.1, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 27.6, activeClients: 3787, totalPopulation: 13722, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 24 },
     crm: { arpu: 74, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 0, arpuFibra: 89, planoMovel: "Pré" },
@@ -11364,6 +15489,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.1, color: "#660099" },
+      { name: "V.tal", score: 5.8, color: "#FFE84D" },
+      { name: "Claro", score: 5.7, color: "#DA291C" },
+      { name: "LinQ", score: 5.5, color: "#F8A81B" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 42.3, activeClients: 4345, totalPopulation: 10273, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 42 },
     crm: { arpu: 61, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 84, planoMovel: "Controle" },
@@ -11391,6 +15524,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.7, color: "#1E40AF" },
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.2, color: "#660099" },
+      { name: "LinQ", score: 7.7, color: "#F8A81B" },
+      { name: "V.tal", score: 7.7, color: "#FFE84D" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "TIM", score: 7.1, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.9, color: "#660099" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "TIM", score: 6.8, color: "#1E40AF" },
+      { name: "Algar", score: 6.5, color: "#28BEA5" },
+      { name: "Surf", score: 6.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 20.6, activeClients: 2742, totalPopulation: 13313, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 18, shareFibra: 20 },
@@ -11420,6 +15567,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.7, color: "#660099" },
+      { name: "LinQ", score: 5.4, color: "#F8A81B" },
+      { name: "V.tal", score: 5.2, color: "#FFE84D" },
+      { name: "TIM", score: 5.1, color: "#1E40AF" },
+      { name: "Claro", score: 5.0, color: "#DA291C" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.3, color: "#660099" },
+      { name: "TIM", score: 4.6, color: "#1E40AF" },
+      { name: "Claro", score: 4.5, color: "#DA291C" },
+      { name: "Surf", score: 4.3, color: "#0003F9" },
+      { name: "Algar", score: 4.2, color: "#28BEA5" }
+    ],
     marketShare: { percentage: 43.9, activeClients: 4584, totalPopulation: 10442, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 43, shareFibra: 39 },
     crm: { arpu: 77, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 79, arpuFibra: 77, planoMovel: "Controle" },
@@ -11448,6 +15609,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.7, color: "#660099" },
+      { name: "LinQ", score: 5.6, color: "#F8A81B" },
+      { name: "V.tal", score: 5.2, color: "#FFE84D" },
+      { name: "Claro", score: 4.9, color: "#DA291C" },
+      { name: "TIM", score: 4.8, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 42.9, activeClients: 3906, totalPopulation: 9106, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 38 },
     crm: { arpu: 75, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 70, planoMovel: "Pós" },
@@ -11475,6 +15644,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.4, color: "#1E40AF" },
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "Claro", score: 5.7, color: "#DA291C" },
+      { name: "LinQ", score: 5.6, color: "#F8A81B" },
+      { name: "TIM", score: 5.4, color: "#1E40AF" },
+      { name: "NIO", score: 5.3, color: "#32E000" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.7, color: "#660099" },
+      { name: "Claro", score: 5.5, color: "#DA291C" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" },
+      { name: "Algar", score: 4.8, color: "#28BEA5" },
+      { name: "Surf", score: 4.7, color: "#0003F9" }
     ],
     marketShare: { percentage: 16.4, activeClients: 2559, totalPopulation: 15605, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 14, shareFibra: 16 },
@@ -11504,6 +15687,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.1, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "V.tal", score: 7.3, color: "#FFE84D" },
+      { name: "LinQ", score: 7.1, color: "#F8A81B" },
+      { name: "TIM", score: 7.0, color: "#1E40AF" },
+      { name: "Claro", score: 6.8, color: "#DA291C" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 21.5, activeClients: 3399, totalPopulation: 15810, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 19 },
     crm: { arpu: 121, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 115, planoMovel: "Controle" },
@@ -11532,6 +15723,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "V.tal", score: 5.4, color: "#FFE84D" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" },
+      { name: "LinQ", score: 5.3, color: "#F8A81B" },
+      { name: "Claro", score: 5.0, color: "#DA291C" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 39.7, activeClients: 6559, totalPopulation: 16523, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 39 },
     crm: { arpu: 56, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 0, arpuFibra: 95, planoMovel: "Controle" },
@@ -11559,6 +15758,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.6, color: "#1E40AF" },
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "LinQ", score: 7.0, color: "#F8A81B" },
+      { name: "V.tal", score: 7.0, color: "#FFE84D" },
+      { name: "Claro", score: 6.8, color: "#DA291C" },
+      { name: "TIM", score: 6.7, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.3, color: "#660099" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "TIM", score: 6.1, color: "#1E40AF" },
+      { name: "Algar", score: 6.0, color: "#28BEA5" },
+      { name: "Surf", score: 5.5, color: "#0003F9" }
     ],
     marketShare: { percentage: 20.4, activeClients: 1429, totalPopulation: 7008, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 18, shareFibra: 20 },
@@ -11588,6 +15801,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 9.1, color: "#660099" },
+      { name: "LinQ", score: 8.3, color: "#F8A81B" },
+      { name: "V.tal", score: 8.2, color: "#FFE84D" },
+      { name: "Claro", score: 7.8, color: "#DA291C" },
+      { name: "TIM", score: 7.7, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.4, color: "#660099" },
+      { name: "Claro", score: 7.8, color: "#DA291C" },
+      { name: "TIM", score: 7.8, color: "#1E40AF" },
+      { name: "Algar", score: 7.6, color: "#28BEA5" },
+      { name: "Surf", score: 7.2, color: "#0003F9" }
+    ],
     marketShare: { percentage: 45.3, activeClients: 4526, totalPopulation: 9992, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 40, shareFibra: 40 },
     crm: { arpu: 139, deviceTier: "Premium", planType: "Fibra 1Gbps", arpuMovel: 128, arpuFibra: 170, planoMovel: "Controle" },
@@ -11615,6 +15842,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.5, color: "#1E40AF" },
       { name: "LinQ", score: 8.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.3, color: "#660099" },
+      { name: "LinQ", score: 8.0, color: "#F8A81B" },
+      { name: "Claro", score: 7.8, color: "#DA291C" },
+      { name: "V.tal", score: 7.8, color: "#FFE84D" },
+      { name: "Algar", score: 7.3, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.0, color: "#660099" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "TIM", score: 7.2, color: "#1E40AF" },
+      { name: "Algar", score: 6.7, color: "#28BEA5" },
+      { name: "Surf", score: 6.7, color: "#0003F9" }
     ],
     marketShare: { percentage: 37, activeClients: 4612, totalPopulation: 12467, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 33, shareFibra: 33 },
@@ -11644,6 +15885,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 6.7, color: "#28BEA5" },
       { name: "Surf", score: 6.3, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "TIM", score: 6.8, color: "#1E40AF" },
+      { name: "Algar", score: 6.4, color: "#28BEA5" },
+      { name: "Surf", score: 6.2, color: "#0003F9" }
+    ],
     marketShare: { percentage: 17.4, activeClients: 2145, totalPopulation: 12332, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 15, shareFibra: 0 },
     crm: { arpu: 87, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 92, arpuFibra: 0, planoMovel: "Controle" },
@@ -11672,6 +15921,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "LinQ", score: 7.3, color: "#F8A81B" },
+      { name: "V.tal", score: 6.8, color: "#FFE84D" },
+      { name: "TIM", score: 6.7, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 51.3, activeClients: 4855, totalPopulation: 9464, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 51 },
     crm: { arpu: 148, deviceTier: "Premium", planType: "Fibra 500Mbps", arpuMovel: 0, arpuFibra: 160, planoMovel: "Controle" },
@@ -11700,6 +15957,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.1, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.3, color: "#660099" },
+      { name: "Claro", score: 4.7, color: "#DA291C" },
+      { name: "LinQ", score: 4.7, color: "#F8A81B" },
+      { name: "TIM", score: 4.6, color: "#1E40AF" },
+      { name: "Algar", score: 4.6, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 34.7, activeClients: 3901, totalPopulation: 11243, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 31 },
     crm: { arpu: 58, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 83, planoMovel: "Controle" },
@@ -11727,6 +15992,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.9, color: "#1E40AF" },
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.0, color: "#660099" },
+      { name: "LinQ", score: 7.7, color: "#F8A81B" },
+      { name: "V.tal", score: 7.4, color: "#FFE84D" },
+      { name: "Algar", score: 7.1, color: "#28BEA5" },
+      { name: "Claro", score: 7.0, color: "#DA291C" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.1, color: "#660099" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "TIM", score: 6.7, color: "#1E40AF" },
+      { name: "Algar", score: 6.4, color: "#28BEA5" },
+      { name: "Surf", score: 5.6, color: "#0003F9" }
     ],
     marketShare: { percentage: 45.7, activeClients: 4039, totalPopulation: 8840, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 45, shareFibra: 41 },
@@ -11756,6 +16035,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" },
+      { name: "LinQ", score: 5.2, color: "#F8A81B" },
+      { name: "Claro", score: 5.0, color: "#DA291C" },
+      { name: "V.tal", score: 5.0, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 17.6, activeClients: 1874, totalPopulation: 10651, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 17 },
     crm: { arpu: 75, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 94, planoMovel: "Pós" },
@@ -11783,6 +16070,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.5, color: "#1E40AF" },
       { name: "LinQ", score: 7.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.2, color: "#660099" },
+      { name: "LinQ", score: 5.8, color: "#F8A81B" },
+      { name: "V.tal", score: 5.6, color: "#FFE84D" },
+      { name: "TIM", score: 5.5, color: "#1E40AF" },
+      { name: "Claro", score: 5.4, color: "#DA291C" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "Claro", score: 5.3, color: "#DA291C" },
+      { name: "Algar", score: 5.0, color: "#28BEA5" },
+      { name: "TIM", score: 4.9, color: "#1E40AF" },
+      { name: "Surf", score: 4.8, color: "#0003F9" }
     ],
     marketShare: { percentage: 17.3, activeClients: 1826, totalPopulation: 10559, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 17, shareFibra: 17 },
@@ -11812,6 +16113,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "LinQ", score: 7.2, color: "#F8A81B" },
+      { name: "V.tal", score: 7.0, color: "#FFE84D" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.0, color: "#660099" },
+      { name: "Claro", score: 6.8, color: "#DA291C" },
+      { name: "TIM", score: 6.5, color: "#1E40AF" },
+      { name: "Algar", score: 6.3, color: "#28BEA5" },
+      { name: "Surf", score: 5.7, color: "#0003F9" }
+    ],
     marketShare: { percentage: 20.7, activeClients: 3174, totalPopulation: 15335, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 18, shareFibra: 20 },
     crm: { arpu: 110, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 91, arpuFibra: 123, planoMovel: "Controle" },
@@ -11839,6 +16154,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.6, color: "#1E40AF" },
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "LinQ", score: 6.0, color: "#F8A81B" },
+      { name: "V.tal", score: 5.9, color: "#FFE84D" },
+      { name: "TIM", score: 5.4, color: "#1E40AF" },
+      { name: "Claro", score: 5.3, color: "#DA291C" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.6, color: "#660099" },
+      { name: "Claro", score: 5.0, color: "#DA291C" },
+      { name: "TIM", score: 4.9, color: "#1E40AF" },
+      { name: "Algar", score: 4.6, color: "#28BEA5" },
+      { name: "Surf", score: 4.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 22.3, activeClients: 2327, totalPopulation: 10437, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 20, shareFibra: 20 },
@@ -11868,6 +16197,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 6.8, color: "#28BEA5" },
       { name: "Surf", score: 6.8, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.5, color: "#660099" },
+      { name: "Claro", score: 5.2, color: "#DA291C" },
+      { name: "TIM", score: 5.1, color: "#1E40AF" },
+      { name: "Algar", score: 4.7, color: "#28BEA5" },
+      { name: "Surf", score: 4.4, color: "#0003F9" }
+    ],
     marketShare: { percentage: 24.1, activeClients: 2357, totalPopulation: 9781, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 24, shareFibra: 0 },
     crm: { arpu: 57, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 57, arpuFibra: 0, planoMovel: "Controle" },
@@ -11895,6 +16232,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.4, color: "#1E40AF" },
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.3, color: "#660099" },
+      { name: "LinQ", score: 7.2, color: "#F8A81B" },
+      { name: "V.tal", score: 6.9, color: "#FFE84D" },
+      { name: "Claro", score: 6.8, color: "#DA291C" },
+      { name: "TIM", score: 6.5, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "Claro", score: 6.8, color: "#DA291C" },
+      { name: "TIM", score: 6.8, color: "#1E40AF" },
+      { name: "Algar", score: 6.4, color: "#28BEA5" },
+      { name: "Surf", score: 6.1, color: "#0003F9" }
     ],
     marketShare: { percentage: 20.7, activeClients: 3386, totalPopulation: 16359, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 18, shareFibra: 20 },
@@ -11924,6 +16275,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.4, color: "#660099" },
+      { name: "V.tal", score: 6.4, color: "#FFE84D" },
+      { name: "LinQ", score: 6.3, color: "#F8A81B" },
+      { name: "Claro", score: 5.9, color: "#DA291C" },
+      { name: "Algar", score: 5.9, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 25.2, activeClients: 4372, totalPopulation: 17352, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 22 },
     crm: { arpu: 59, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 0, arpuFibra: 95, planoMovel: "Pré" },
@@ -11951,6 +16310,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.4, color: "#1E40AF" },
       { name: "LinQ", score: 7.1, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.0, color: "#660099" },
+      { name: "LinQ", score: 7.7, color: "#F8A81B" },
+      { name: "TIM", score: 7.1, color: "#1E40AF" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "Algar", score: 7.0, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.8, color: "#660099" },
+      { name: "Claro", score: 7.1, color: "#DA291C" },
+      { name: "TIM", score: 6.7, color: "#1E40AF" },
+      { name: "Surf", score: 6.5, color: "#0003F9" },
+      { name: "Algar", score: 6.4, color: "#28BEA5" }
     ],
     marketShare: { percentage: 26.5, activeClients: 2963, totalPopulation: 11182, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 26, shareFibra: 23 },
@@ -11980,6 +16353,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 8.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.7, color: "#660099" },
+      { name: "LinQ", score: 5.7, color: "#F8A81B" },
+      { name: "V.tal", score: 5.6, color: "#FFE84D" },
+      { name: "TIM", score: 5.4, color: "#1E40AF" },
+      { name: "Algar", score: 5.2, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.2, color: "#660099" },
+      { name: "Claro", score: 5.0, color: "#DA291C" },
+      { name: "TIM", score: 4.6, color: "#1E40AF" },
+      { name: "Surf", score: 4.5, color: "#0003F9" },
+      { name: "Algar", score: 4.3, color: "#28BEA5" }
+    ],
     marketShare: { percentage: 31.9, activeClients: 3392, totalPopulation: 10634, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 31, shareFibra: 31 },
     crm: { arpu: 79, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 73, arpuFibra: 86, planoMovel: "Pós" },
@@ -12007,6 +16394,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.9, color: "#1E40AF" },
       { name: "Algar", score: 7.4, color: "#28BEA5" },
       { name: "Surf", score: 6.6, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.0, color: "#660099" },
+      { name: "Claro", score: 6.2, color: "#DA291C" },
+      { name: "TIM", score: 6.1, color: "#1E40AF" },
+      { name: "Algar", score: 5.7, color: "#28BEA5" },
+      { name: "Surf", score: 5.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 19.5, activeClients: 3031, totalPopulation: 15548, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 17, shareFibra: 0 },
@@ -12036,6 +16431,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 6.9, color: "#28BEA5" },
       { name: "Surf", score: 5.8, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.1, color: "#660099" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "Algar", score: 6.8, color: "#28BEA5" },
+      { name: "Surf", score: 6.6, color: "#0003F9" }
+    ],
     marketShare: { percentage: 19.9, activeClients: 3321, totalPopulation: 16689, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 17, shareFibra: 0 },
     crm: { arpu: 102, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 108, arpuFibra: 0, planoMovel: "Controle" },
@@ -12064,6 +16467,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.6, color: "#660099" },
+      { name: "LinQ", score: 6.5, color: "#F8A81B" },
+      { name: "Claro", score: 6.0, color: "#DA291C" },
+      { name: "V.tal", score: 6.0, color: "#FFE84D" },
+      { name: "TIM", score: 5.9, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 25.5, activeClients: 4046, totalPopulation: 15867, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 22 },
     crm: { arpu: 79, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 0, arpuFibra: 78, planoMovel: "Controle" },
@@ -12091,6 +16502,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.1, color: "#1E40AF" },
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "LinQ", score: 7.1, color: "#F8A81B" },
+      { name: "V.tal", score: 6.9, color: "#FFE84D" },
+      { name: "Claro", score: 6.8, color: "#DA291C" },
+      { name: "TIM", score: 6.5, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.2, color: "#660099" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "TIM", score: 6.7, color: "#1E40AF" },
+      { name: "Algar", score: 6.5, color: "#28BEA5" },
+      { name: "Surf", score: 6.0, color: "#0003F9" }
     ],
     marketShare: { percentage: 25.7, activeClients: 3619, totalPopulation: 14085, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 25, shareFibra: 23 },
@@ -12120,6 +16545,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.2, color: "#660099" },
+      { name: "LinQ", score: 6.0, color: "#F8A81B" },
+      { name: "TIM", score: 5.8, color: "#1E40AF" },
+      { name: "V.tal", score: 5.8, color: "#FFE84D" },
+      { name: "Claro", score: 5.7, color: "#DA291C" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "Claro", score: 5.5, color: "#DA291C" },
+      { name: "TIM", score: 5.1, color: "#1E40AF" },
+      { name: "Algar", score: 4.8, color: "#28BEA5" },
+      { name: "Surf", score: 4.7, color: "#0003F9" }
+    ],
     marketShare: { percentage: 39.8, activeClients: 6976, totalPopulation: 17529, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 35, shareFibra: 39 },
     crm: { arpu: 66, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 81, arpuFibra: 82, planoMovel: "Controle" },
@@ -12147,6 +16586,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.5, color: "#1E40AF" },
       { name: "Algar", score: 6.9, color: "#28BEA5" },
       { name: "Surf", score: 6.6, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.3, color: "#660099" },
+      { name: "Claro", score: 7.5, color: "#DA291C" },
+      { name: "TIM", score: 7.2, color: "#1E40AF" },
+      { name: "Algar", score: 7.1, color: "#28BEA5" },
+      { name: "Surf", score: 6.7, color: "#0003F9" }
     ],
     marketShare: { percentage: 51.2, activeClients: 6469, totalPopulation: 12636, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 46, shareFibra: 0 },
@@ -12176,6 +16623,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "Claro", score: 5.8, color: "#DA291C" },
+      { name: "LinQ", score: 5.5, color: "#F8A81B" },
+      { name: "V.tal", score: 5.4, color: "#FFE84D" },
+      { name: "Algar", score: 5.4, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.5, color: "#660099" },
+      { name: "Claro", score: 4.8, color: "#DA291C" },
+      { name: "TIM", score: 4.7, color: "#1E40AF" },
+      { name: "Algar", score: 4.7, color: "#28BEA5" },
+      { name: "Surf", score: 4.4, color: "#0003F9" }
+    ],
     marketShare: { percentage: 34.3, activeClients: 4119, totalPopulation: 12010, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 30, shareFibra: 30 },
     crm: { arpu: 70, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 79, arpuFibra: 82, planoMovel: "Pós" },
@@ -12203,6 +16664,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.2, color: "#1E40AF" },
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.0, color: "#660099" },
+      { name: "LinQ", score: 4.9, color: "#F8A81B" },
+      { name: "Claro", score: 4.7, color: "#DA291C" },
+      { name: "TIM", score: 4.6, color: "#1E40AF" },
+      { name: "Algar", score: 4.6, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.1, color: "#660099" },
+      { name: "Claro", score: 4.7, color: "#DA291C" },
+      { name: "TIM", score: 4.4, color: "#1E40AF" },
+      { name: "Surf", score: 4.1, color: "#0003F9" },
+      { name: "Algar", score: 4.0, color: "#28BEA5" }
     ],
     marketShare: { percentage: 45.5, activeClients: 6201, totalPopulation: 13629, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 40, shareFibra: 40 },
@@ -12232,6 +16707,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.7, color: "#660099" },
+      { name: "Claro", score: 6.2, color: "#DA291C" },
+      { name: "LinQ", score: 6.2, color: "#F8A81B" },
+      { name: "TIM", score: 6.0, color: "#1E40AF" },
+      { name: "V.tal", score: 6.0, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 21.7, activeClients: 3538, totalPopulation: 16307, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 21 },
     crm: { arpu: 67, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 93, planoMovel: "Controle" },
@@ -12260,6 +16743,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "LinQ", score: 7.6, color: "#F8A81B" },
+      { name: "V.tal", score: 7.1, color: "#FFE84D" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "TIM", score: 7.0, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 48.9, activeClients: 7712, totalPopulation: 15771, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 48 },
     crm: { arpu: 166, deviceTier: "Premium", planType: "Fibra 1Gbps", arpuMovel: 0, arpuFibra: 185, planoMovel: "Controle" },
@@ -12288,6 +16779,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.1, color: "#660099" },
+      { name: "LinQ", score: 5.9, color: "#F8A81B" },
+      { name: "Claro", score: 5.7, color: "#DA291C" },
+      { name: "V.tal", score: 5.7, color: "#FFE84D" },
+      { name: "TIM", score: 5.4, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 47.1, activeClients: 5427, totalPopulation: 11523, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 47 },
     crm: { arpu: 77, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 83, planoMovel: "Controle" },
@@ -12315,6 +16814,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.7, color: "#1E40AF" },
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.3, color: "#660099" },
+      { name: "LinQ", score: 6.7, color: "#F8A81B" },
+      { name: "V.tal", score: 6.6, color: "#FFE84D" },
+      { name: "Claro", score: 6.4, color: "#DA291C" },
+      { name: "TIM", score: 6.4, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.0, color: "#660099" },
+      { name: "Claro", score: 6.5, color: "#DA291C" },
+      { name: "TIM", score: 6.1, color: "#1E40AF" },
+      { name: "Algar", score: 6.0, color: "#28BEA5" },
+      { name: "Surf", score: 5.6, color: "#0003F9" }
     ],
     marketShare: { percentage: 24.8, activeClients: 2024, totalPopulation: 8163, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 24, shareFibra: 24 },
@@ -12344,6 +16857,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "LinQ", score: 7.1, color: "#F8A81B" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "V.tal", score: 6.7, color: "#FFE84D" },
+      { name: "Algar", score: 6.7, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.0, color: "#660099" },
+      { name: "Claro", score: 6.6, color: "#DA291C" },
+      { name: "TIM", score: 6.4, color: "#1E40AF" },
+      { name: "Algar", score: 5.9, color: "#28BEA5" },
+      { name: "Surf", score: 5.8, color: "#0003F9" }
+    ],
     marketShare: { percentage: 41.4, activeClients: 7288, totalPopulation: 17604, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 41, shareFibra: 41 },
     crm: { arpu: 121, deviceTier: "Premium", planType: "Pós-pago 5G", arpuMovel: 98, arpuFibra: 175, planoMovel: "Pós" },
@@ -12371,6 +16898,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.3, color: "#1E40AF" },
       { name: "Algar", score: 6.8, color: "#28BEA5" },
       { name: "Surf", score: 6.6, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.8, color: "#660099" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" },
+      { name: "Claro", score: 7.1, color: "#DA291C" },
+      { name: "Algar", score: 6.7, color: "#28BEA5" },
+      { name: "Surf", score: 6.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 26.5, activeClients: 2625, totalPopulation: 9908, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 23, shareFibra: 0 },
@@ -12400,6 +16935,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 7.2, color: "#28BEA5" },
       { name: "Surf", score: 5.8, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.7, color: "#660099" },
+      { name: "Claro", score: 5.2, color: "#DA291C" },
+      { name: "TIM", score: 4.7, color: "#1E40AF" },
+      { name: "Algar", score: 4.7, color: "#28BEA5" },
+      { name: "Surf", score: 4.5, color: "#0003F9" }
+    ],
     marketShare: { percentage: 30.3, activeClients: 4873, totalPopulation: 16084, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 27, shareFibra: 0 },
     crm: { arpu: 85, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 61, arpuFibra: 0, planoMovel: "Controle" },
@@ -12428,6 +16971,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.5, color: "#660099" },
+      { name: "Claro", score: 8.1, color: "#DA291C" },
+      { name: "LinQ", score: 8.1, color: "#F8A81B" },
+      { name: "TIM", score: 7.7, color: "#1E40AF" },
+      { name: "V.tal", score: 7.6, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 47.5, activeClients: 5523, totalPopulation: 11629, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 42 },
     crm: { arpu: 180, deviceTier: "Premium", planType: "Pós-pago 5G", arpuMovel: 0, arpuFibra: 167, planoMovel: "Pós" },
@@ -12455,6 +17006,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.9, color: "#1E40AF" },
       { name: "Algar", score: 6.5, color: "#28BEA5" },
       { name: "Surf", score: 6.8, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.4, color: "#660099" },
+      { name: "Claro", score: 5.1, color: "#DA291C" },
+      { name: "TIM", score: 5.0, color: "#1E40AF" },
+      { name: "Algar", score: 4.8, color: "#28BEA5" },
+      { name: "Surf", score: 4.5, color: "#0003F9" }
     ],
     marketShare: { percentage: 24.5, activeClients: 4007, totalPopulation: 16359, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 24, shareFibra: 0 },
@@ -12484,6 +17043,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.7, color: "#660099" },
+      { name: "LinQ", score: 7.9, color: "#F8A81B" },
+      { name: "V.tal", score: 7.9, color: "#FFE84D" },
+      { name: "TIM", score: 7.7, color: "#1E40AF" },
+      { name: "Claro", score: 7.6, color: "#DA291C" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.9, color: "#660099" },
+      { name: "Claro", score: 7.4, color: "#DA291C" },
+      { name: "TIM", score: 6.8, color: "#1E40AF" },
+      { name: "Algar", score: 6.6, color: "#28BEA5" },
+      { name: "Surf", score: 6.5, color: "#0003F9" }
+    ],
     marketShare: { percentage: 15, activeClients: 1550, totalPopulation: 10335, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 13, shareFibra: 13 },
     crm: { arpu: 109, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 108, arpuFibra: 107, planoMovel: "Controle" },
@@ -12512,6 +17085,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.1, color: "#660099" },
+      { name: "LinQ", score: 6.0, color: "#F8A81B" },
+      { name: "V.tal", score: 5.7, color: "#FFE84D" },
+      { name: "Claro", score: 5.6, color: "#DA291C" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 14.1, activeClients: 1942, totalPopulation: 13777, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 12 },
     crm: { arpu: 79, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 78, planoMovel: "Controle" },
@@ -12539,6 +17120,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.2, color: "#1E40AF" },
       { name: "LinQ", score: 7.1, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "LinQ", score: 7.4, color: "#F8A81B" },
+      { name: "Claro", score: 7.1, color: "#DA291C" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "V.tal", score: 6.9, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.8, color: "#660099" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "TIM", score: 6.7, color: "#1E40AF" },
+      { name: "Algar", score: 6.6, color: "#28BEA5" },
+      { name: "Surf", score: 6.4, color: "#0003F9" }
     ],
     marketShare: { percentage: 21.5, activeClients: 2507, totalPopulation: 11664, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 21, shareFibra: 19 },
@@ -12568,6 +17163,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "LinQ", score: 5.1, color: "#F8A81B" },
+      { name: "VIVO", score: 5.0, color: "#660099" },
+      { name: "Claro", score: 4.9, color: "#DA291C" },
+      { name: "TIM", score: 4.8, color: "#1E40AF" },
+      { name: "Algar", score: 4.7, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 4.9, color: "#660099" },
+      { name: "Claro", score: 4.7, color: "#DA291C" },
+      { name: "TIM", score: 4.3, color: "#1E40AF" },
+      { name: "Algar", score: 4.1, color: "#28BEA5" },
+      { name: "Surf", score: 4.0, color: "#0003F9" }
+    ],
     marketShare: { percentage: 47, activeClients: 5918, totalPopulation: 12592, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 42, shareFibra: 42 },
     crm: { arpu: 83, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 67, arpuFibra: 82, planoMovel: "Pré" },
@@ -12595,6 +17204,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.9, color: "#1E40AF" },
       { name: "Algar", score: 7.4, color: "#28BEA5" },
       { name: "Surf", score: 6.7, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.0, color: "#660099" },
+      { name: "Claro", score: 6.5, color: "#DA291C" },
+      { name: "TIM", score: 6.5, color: "#1E40AF" },
+      { name: "Algar", score: 6.3, color: "#28BEA5" },
+      { name: "Surf", score: 5.8, color: "#0003F9" }
     ],
     marketShare: { percentage: 40.8, activeClients: 3112, totalPopulation: 7629, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 36, shareFibra: 0 },
@@ -12624,6 +17241,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.1, color: "#660099" },
+      { name: "LinQ", score: 5.7, color: "#F8A81B" },
+      { name: "V.tal", score: 5.7, color: "#FFE84D" },
+      { name: "Claro", score: 5.6, color: "#DA291C" },
+      { name: "TIM", score: 5.5, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.3, color: "#660099" },
+      { name: "Claro", score: 5.2, color: "#DA291C" },
+      { name: "TIM", score: 5.1, color: "#1E40AF" },
+      { name: "Algar", score: 4.7, color: "#28BEA5" },
+      { name: "Surf", score: 4.3, color: "#0003F9" }
+    ],
     marketShare: { percentage: 27.7, activeClients: 4828, totalPopulation: 17431, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 24, shareFibra: 27 },
     crm: { arpu: 66, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 59, arpuFibra: 79, planoMovel: "Pós" },
@@ -12651,6 +17282,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.5, color: "#1E40AF" },
       { name: "Algar", score: 7.4, color: "#28BEA5" },
       { name: "Surf", score: 6.7, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.4, color: "#660099" },
+      { name: "Claro", score: 7.9, color: "#DA291C" },
+      { name: "TIM", score: 7.5, color: "#1E40AF" },
+      { name: "Algar", score: 6.9, color: "#28BEA5" },
+      { name: "Surf", score: 6.9, color: "#0003F9" }
     ],
     marketShare: { percentage: 48, activeClients: 4406, totalPopulation: 9180, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 43, shareFibra: 0 },
@@ -12680,6 +17319,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.6, color: "#660099" },
+      { name: "LinQ", score: 8.2, color: "#F8A81B" },
+      { name: "TIM", score: 7.6, color: "#1E40AF" },
+      { name: "Claro", score: 7.5, color: "#DA291C" },
+      { name: "V.tal", score: 7.4, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 16.8, activeClients: 2105, totalPopulation: 12532, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 15 },
     crm: { arpu: 118, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 111, planoMovel: "Pós" },
@@ -12708,6 +17355,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.1, color: "#660099" },
+      { name: "LinQ", score: 7.6, color: "#F8A81B" },
+      { name: "V.tal", score: 7.4, color: "#FFE84D" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "TIM", score: 7.1, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 53.6, activeClients: 9129, totalPopulation: 17032, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 48 },
     crm: { arpu: 126, deviceTier: "Premium", planType: "Fibra 500Mbps", arpuMovel: 0, arpuFibra: 145, planoMovel: "Controle" },
@@ -12735,6 +17390,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.6, color: "#1E40AF" },
       { name: "Algar", score: 7.1, color: "#28BEA5" },
       { name: "Surf", score: 5.9, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "Claro", score: 5.3, color: "#DA291C" },
+      { name: "VIVO", score: 5.2, color: "#660099" },
+      { name: "TIM", score: 4.7, color: "#1E40AF" },
+      { name: "Algar", score: 4.5, color: "#28BEA5" },
+      { name: "Surf", score: 4.5, color: "#0003F9" }
     ],
     marketShare: { percentage: 16.2, activeClients: 1537, totalPopulation: 9490, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 16, shareFibra: 0 },
@@ -12764,6 +17427,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.1, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.4, color: "#660099" },
+      { name: "LinQ", score: 6.4, color: "#F8A81B" },
+      { name: "V.tal", score: 6.2, color: "#FFE84D" },
+      { name: "Claro", score: 5.9, color: "#DA291C" },
+      { name: "Algar", score: 5.9, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 19.1, activeClients: 2716, totalPopulation: 14224, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 19 },
     crm: { arpu: 70, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 0, arpuFibra: 80, planoMovel: "Controle" },
@@ -12791,6 +17462,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.3, color: "#1E40AF" },
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "LinQ", score: 7.3, color: "#F8A81B" },
+      { name: "V.tal", score: 7.1, color: "#FFE84D" },
+      { name: "Claro", score: 6.8, color: "#DA291C" },
+      { name: "TIM", score: 6.7, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "TIM", score: 6.6, color: "#1E40AF" },
+      { name: "Algar", score: 6.2, color: "#28BEA5" },
+      { name: "Surf", score: 6.1, color: "#0003F9" }
     ],
     marketShare: { percentage: 37.6, activeClients: 4188, totalPopulation: 11140, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 33, shareFibra: 37 },
@@ -12820,6 +17505,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 7.2, color: "#28BEA5" },
       { name: "Surf", score: 5.7, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "Claro", score: 5.3, color: "#DA291C" },
+      { name: "VIVO", score: 5.1, color: "#660099" },
+      { name: "TIM", score: 5.1, color: "#1E40AF" },
+      { name: "Algar", score: 4.7, color: "#28BEA5" },
+      { name: "Surf", score: 4.2, color: "#0003F9" }
+    ],
     marketShare: { percentage: 18.7, activeClients: 2879, totalPopulation: 15398, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 16, shareFibra: 0 },
     crm: { arpu: 65, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 85, arpuFibra: 0, planoMovel: "Pós" },
@@ -12848,6 +17541,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.2, color: "#660099" },
+      { name: "Claro", score: 7.7, color: "#DA291C" },
+      { name: "V.tal", score: 7.7, color: "#FFE84D" },
+      { name: "LinQ", score: 7.6, color: "#F8A81B" },
+      { name: "TIM", score: 7.1, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 14.9, activeClients: 2439, totalPopulation: 16370, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 14 },
     crm: { arpu: 85, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 100, planoMovel: "Controle" },
@@ -12875,6 +17576,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.1, color: "#1E40AF" },
       { name: "Algar", score: 6.5, color: "#28BEA5" },
       { name: "Surf", score: 6.9, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.8, color: "#660099" },
+      { name: "Claro", score: 6.1, color: "#DA291C" },
+      { name: "TIM", score: 6.0, color: "#1E40AF" },
+      { name: "Algar", score: 5.9, color: "#28BEA5" },
+      { name: "Surf", score: 5.6, color: "#0003F9" }
     ],
     marketShare: { percentage: 14.1, activeClients: 1525, totalPopulation: 10818, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 12, shareFibra: 0 },
@@ -12904,6 +17613,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.1, color: "#660099" },
+      { name: "LinQ", score: 5.7, color: "#F8A81B" },
+      { name: "TIM", score: 5.4, color: "#1E40AF" },
+      { name: "Claro", score: 5.3, color: "#DA291C" },
+      { name: "V.tal", score: 5.3, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.5, color: "#660099" },
+      { name: "Claro", score: 5.5, color: "#DA291C" },
+      { name: "TIM", score: 4.9, color: "#1E40AF" },
+      { name: "Algar", score: 4.6, color: "#28BEA5" },
+      { name: "Surf", score: 4.6, color: "#0003F9" }
+    ],
     marketShare: { percentage: 23.8, activeClients: 1961, totalPopulation: 8241, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 23, shareFibra: 21 },
     crm: { arpu: 67, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 74, arpuFibra: 83, planoMovel: "Controle" },
@@ -12932,6 +17655,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "LinQ", score: 7.4, color: "#F8A81B" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "TIM", score: 7.0, color: "#1E40AF" },
+      { name: "V.tal", score: 6.8, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 46.4, activeClients: 5995, totalPopulation: 12922, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 46 },
     crm: { arpu: 156, deviceTier: "Premium", planType: "Fibra 1Gbps", arpuMovel: 0, arpuFibra: 186, planoMovel: "Controle" },
@@ -12959,6 +17690,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.7, color: "#1E40AF" },
       { name: "Algar", score: 7.4, color: "#28BEA5" },
       { name: "Surf", score: 5.9, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "TIM", score: 5.4, color: "#1E40AF" },
+      { name: "Claro", score: 5.3, color: "#DA291C" },
+      { name: "Algar", score: 4.9, color: "#28BEA5" },
+      { name: "Surf", score: 4.7, color: "#0003F9" }
     ],
     marketShare: { percentage: 19.6, activeClients: 2863, totalPopulation: 14608, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 19, shareFibra: 0 },
@@ -12988,6 +17727,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "LinQ", score: 5.8, color: "#F8A81B" },
+      { name: "V.tal", score: 5.5, color: "#FFE84D" },
+      { name: "Algar", score: 5.3, color: "#28BEA5" },
+      { name: "Claro", score: 5.2, color: "#DA291C" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 19.5, activeClients: 2334, totalPopulation: 11972, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 17 },
     crm: { arpu: 61, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 89, planoMovel: "Controle" },
@@ -13015,6 +17762,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.7, color: "#1E40AF" },
       { name: "LinQ", score: 7.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.1, color: "#660099" },
+      { name: "Claro", score: 6.6, color: "#DA291C" },
+      { name: "LinQ", score: 6.6, color: "#F8A81B" },
+      { name: "V.tal", score: 6.5, color: "#FFE84D" },
+      { name: "TIM", score: 6.4, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.7, color: "#660099" },
+      { name: "TIM", score: 6.2, color: "#1E40AF" },
+      { name: "Claro", score: 6.0, color: "#DA291C" },
+      { name: "Algar", score: 5.7, color: "#28BEA5" },
+      { name: "Surf", score: 5.5, color: "#0003F9" }
     ],
     marketShare: { percentage: 22.8, activeClients: 3906, totalPopulation: 17133, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 20, shareFibra: 20 },
@@ -13044,6 +17805,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.9, color: "#660099" },
+      { name: "Claro", score: 5.6, color: "#DA291C" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" },
+      { name: "LinQ", score: 5.6, color: "#F8A81B" },
+      { name: "V.tal", score: 5.4, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 17.2, activeClients: 2874, totalPopulation: 16713, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 15 },
     crm: { arpu: 73, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 70, planoMovel: "Controle" },
@@ -13071,6 +17840,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.7, color: "#1E40AF" },
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "LinQ", score: 5.7, color: "#F8A81B" },
+      { name: "Claro", score: 5.3, color: "#DA291C" },
+      { name: "V.tal", score: 5.3, color: "#FFE84D" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.6, color: "#660099" },
+      { name: "Claro", score: 5.1, color: "#DA291C" },
+      { name: "TIM", score: 4.9, color: "#1E40AF" },
+      { name: "Algar", score: 4.5, color: "#28BEA5" },
+      { name: "Surf", score: 4.5, color: "#0003F9" }
     ],
     marketShare: { percentage: 17.5, activeClients: 3040, totalPopulation: 17372, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 15, shareFibra: 17 },
@@ -13100,6 +17883,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.9, color: "#660099" },
+      { name: "LinQ", score: 7.4, color: "#F8A81B" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "V.tal", score: 7.3, color: "#FFE84D" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "Claro", score: 6.7, color: "#DA291C" },
+      { name: "TIM", score: 6.6, color: "#1E40AF" },
+      { name: "Algar", score: 6.1, color: "#28BEA5" },
+      { name: "Surf", score: 6.1, color: "#0003F9" }
+    ],
     marketShare: { percentage: 19.9, activeClients: 2594, totalPopulation: 13039, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 17, shareFibra: 19 },
     crm: { arpu: 120, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 99, arpuFibra: 128, planoMovel: "Controle" },
@@ -13127,6 +17924,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.7, color: "#1E40AF" },
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.5, color: "#660099" },
+      { name: "LinQ", score: 6.3, color: "#F8A81B" },
+      { name: "TIM", score: 6.0, color: "#1E40AF" },
+      { name: "V.tal", score: 6.0, color: "#FFE84D" },
+      { name: "Claro", score: 5.8, color: "#DA291C" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.9, color: "#660099" },
+      { name: "Claro", score: 5.6, color: "#DA291C" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" },
+      { name: "Algar", score: 5.1, color: "#28BEA5" },
+      { name: "Surf", score: 5.0, color: "#0003F9" }
     ],
     marketShare: { percentage: 25.7, activeClients: 1944, totalPopulation: 7565, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 25, shareFibra: 23 },
@@ -13156,6 +17967,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.7, color: "#660099" },
+      { name: "V.tal", score: 5.5, color: "#FFE84D" },
+      { name: "Claro", score: 5.4, color: "#DA291C" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" },
+      { name: "LinQ", score: 5.3, color: "#F8A81B" }
+    ],
+    satisfactionMovel: [
+      { name: "Claro", score: 5.1, color: "#DA291C" },
+      { name: "VIVO", score: 5.0, color: "#660099" },
+      { name: "TIM", score: 4.7, color: "#1E40AF" },
+      { name: "Algar", score: 4.4, color: "#28BEA5" },
+      { name: "Surf", score: 4.2, color: "#0003F9" }
+    ],
     marketShare: { percentage: 24.7, activeClients: 2784, totalPopulation: 11272, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 24, shareFibra: 22 },
     crm: { arpu: 75, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 70, arpuFibra: 71, planoMovel: "Pós" },
@@ -13184,6 +18009,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "LinQ", score: 7.8, color: "#F8A81B" },
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "TIM", score: 7.1, color: "#1E40AF" },
+      { name: "V.tal", score: 7.1, color: "#FFE84D" },
+      { name: "Claro", score: 7.0, color: "#DA291C" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 22.1, activeClients: 2879, totalPopulation: 13031, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 19 },
     crm: { arpu: 94, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 100, planoMovel: "Controle" },
@@ -13211,6 +18044,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.1, color: "#1E40AF" },
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.4, color: "#660099" },
+      { name: "Claro", score: 6.2, color: "#DA291C" },
+      { name: "LinQ", score: 5.9, color: "#F8A81B" },
+      { name: "V.tal", score: 5.9, color: "#FFE84D" },
+      { name: "TIM", score: 5.5, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.1, color: "#660099" },
+      { name: "Claro", score: 5.5, color: "#DA291C" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" },
+      { name: "Algar", score: 5.0, color: "#28BEA5" },
+      { name: "Surf", score: 5.0, color: "#0003F9" }
     ],
     marketShare: { percentage: 32.1, activeClients: 2839, totalPopulation: 8846, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 32, shareFibra: 32 },
@@ -13240,6 +18087,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "LinQ", score: 7.5, color: "#F8A81B" },
+      { name: "V.tal", score: 7.2, color: "#FFE84D" },
+      { name: "Claro", score: 7.1, color: "#DA291C" },
+      { name: "TIM", score: 7.0, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 40, activeClients: 7171, totalPopulation: 17928, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 40 },
     crm: { arpu: 176, deviceTier: "Premium", planType: "Fibra 500Mbps", arpuMovel: 0, arpuFibra: 194, planoMovel: "Controle" },
@@ -13267,6 +18122,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.8, color: "#1E40AF" },
       { name: "Algar", score: 7.2, color: "#28BEA5" },
       { name: "Surf", score: 6.8, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.1, color: "#660099" },
+      { name: "Claro", score: 6.6, color: "#DA291C" },
+      { name: "TIM", score: 6.5, color: "#1E40AF" },
+      { name: "Algar", score: 6.3, color: "#28BEA5" },
+      { name: "Surf", score: 5.7, color: "#0003F9" }
     ],
     marketShare: { percentage: 24.8, activeClients: 2223, totalPopulation: 8967, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 24, shareFibra: 0 },
@@ -13296,6 +18159,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 6.3, color: "#28BEA5" },
       { name: "Surf", score: 6.5, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "TIM", score: 6.8, color: "#1E40AF" },
+      { name: "Algar", score: 6.5, color: "#28BEA5" },
+      { name: "Surf", score: 5.9, color: "#0003F9" }
+    ],
     marketShare: { percentage: 34.6, activeClients: 5241, totalPopulation: 15149, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 31, shareFibra: 0 },
     crm: { arpu: 120, deviceTier: "Premium", planType: "Pós-pago 5G", arpuMovel: 97, arpuFibra: 0, planoMovel: "Pós" },
@@ -13324,6 +18195,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.2, color: "#660099" },
+      { name: "LinQ", score: 5.8, color: "#F8A81B" },
+      { name: "Claro", score: 5.7, color: "#DA291C" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" },
+      { name: "V.tal", score: 5.6, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 23.8, activeClients: 2568, totalPopulation: 10793, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 21 },
     crm: { arpu: 57, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 0, arpuFibra: 84, planoMovel: "Controle" },
@@ -13351,6 +18230,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.1, color: "#1E40AF" },
       { name: "LinQ", score: 7.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.0, color: "#660099" },
+      { name: "LinQ", score: 6.7, color: "#F8A81B" },
+      { name: "Claro", score: 6.2, color: "#DA291C" },
+      { name: "V.tal", score: 6.0, color: "#FFE84D" },
+      { name: "TIM", score: 5.9, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.4, color: "#660099" },
+      { name: "Claro", score: 5.6, color: "#DA291C" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" },
+      { name: "Algar", score: 5.6, color: "#28BEA5" },
+      { name: "Surf", score: 4.9, color: "#0003F9" }
     ],
     marketShare: { percentage: 27.5, activeClients: 2314, totalPopulation: 8416, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 24, shareFibra: 24 },
@@ -13380,6 +18273,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.4, color: "#660099" },
+      { name: "LinQ", score: 5.1, color: "#F8A81B" },
+      { name: "V.tal", score: 4.7, color: "#FFE84D" },
+      { name: "Claro", score: 4.5, color: "#DA291C" },
+      { name: "TIM", score: 4.4, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 4.7, color: "#660099" },
+      { name: "Claro", score: 4.1, color: "#DA291C" },
+      { name: "TIM", score: 4.1, color: "#1E40AF" },
+      { name: "Algar", score: 4.1, color: "#28BEA5" },
+      { name: "Surf", score: 4.0, color: "#0003F9" }
+    ],
     marketShare: { percentage: 41.3, activeClients: 4005, totalPopulation: 9698, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 41, shareFibra: 37 },
     crm: { arpu: 65, deviceTier: "Basic", planType: "Controle 4G", arpuMovel: 72, arpuFibra: 82, planoMovel: "Controle" },
@@ -13407,6 +18314,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.8, color: "#1E40AF" },
       { name: "LinQ", score: 7.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.8, color: "#660099" },
+      { name: "LinQ", score: 6.7, color: "#F8A81B" },
+      { name: "Claro", score: 6.5, color: "#DA291C" },
+      { name: "V.tal", score: 6.3, color: "#FFE84D" },
+      { name: "Algar", score: 6.1, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.1, color: "#660099" },
+      { name: "TIM", score: 5.8, color: "#1E40AF" },
+      { name: "Claro", score: 5.7, color: "#DA291C" },
+      { name: "Algar", score: 5.3, color: "#28BEA5" },
+      { name: "Surf", score: 5.0, color: "#0003F9" }
     ],
     marketShare: { percentage: 22.9, activeClients: 2319, totalPopulation: 10129, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 20, shareFibra: 20 },
@@ -13436,6 +18357,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.3, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.1, color: "#660099" },
+      { name: "LinQ", score: 8.1, color: "#F8A81B" },
+      { name: "V.tal", score: 7.9, color: "#FFE84D" },
+      { name: "Claro", score: 7.7, color: "#DA291C" },
+      { name: "TIM", score: 7.2, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "Claro", score: 7.5, color: "#DA291C" },
+      { name: "TIM", score: 7.2, color: "#1E40AF" },
+      { name: "Algar", score: 6.6, color: "#28BEA5" },
+      { name: "Surf", score: 6.6, color: "#0003F9" }
+    ],
     marketShare: { percentage: 15.4, activeClients: 2559, totalPopulation: 16619, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 15, shareFibra: 13 },
     crm: { arpu: 86, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 81, arpuFibra: 131, planoMovel: "Pós" },
@@ -13463,6 +18398,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.1, color: "#1E40AF" },
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 4.9, color: "#660099" },
+      { name: "LinQ", score: 4.8, color: "#F8A81B" },
+      { name: "Claro", score: 4.7, color: "#DA291C" },
+      { name: "V.tal", score: 4.6, color: "#FFE84D" },
+      { name: "TIM", score: 4.4, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "Claro", score: 4.6, color: "#DA291C" },
+      { name: "VIVO", score: 4.4, color: "#660099" },
+      { name: "TIM", score: 4.4, color: "#1E40AF" },
+      { name: "Algar", score: 4.0, color: "#28BEA5" },
+      { name: "Surf", score: 4.0, color: "#0003F9" }
     ],
     marketShare: { percentage: 43.6, activeClients: 6668, totalPopulation: 15295, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 39, shareFibra: 43 },
@@ -13492,6 +18441,14 @@ export const rawData: GeohashEntry[] = [
       { name: "Algar", score: 7.3, color: "#28BEA5" },
       { name: "Surf", score: 5.8, color: "#0003F9" }
     ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.2, color: "#660099" },
+      { name: "Claro", score: 6.6, color: "#DA291C" },
+      { name: "TIM", score: 6.4, color: "#1E40AF" },
+      { name: "Surf", score: 5.9, color: "#0003F9" },
+      { name: "Algar", score: 5.6, color: "#28BEA5" }
+    ],
     marketShare: { percentage: 23.6, activeClients: 3559, totalPopulation: 15083, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 23, shareFibra: 0 },
     crm: { arpu: 92, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 85, arpuFibra: 0, planoMovel: "Controle" },
@@ -13519,6 +18476,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.3, color: "#1E40AF" },
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.7, color: "#660099" },
+      { name: "LinQ", score: 5.4, color: "#F8A81B" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" },
+      { name: "Claro", score: 5.2, color: "#DA291C" },
+      { name: "V.tal", score: 5.1, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.0, color: "#660099" },
+      { name: "Claro", score: 5.0, color: "#DA291C" },
+      { name: "TIM", score: 4.5, color: "#1E40AF" },
+      { name: "Algar", score: 4.3, color: "#28BEA5" },
+      { name: "Surf", score: 4.1, color: "#0003F9" }
     ],
     marketShare: { percentage: 29.7, activeClients: 5313, totalPopulation: 17890, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 29, shareFibra: 29 },
@@ -13548,6 +18519,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.1, color: "#660099" },
+      { name: "LinQ", score: 5.0, color: "#F8A81B" },
+      { name: "V.tal", score: 4.9, color: "#FFE84D" },
+      { name: "Claro", score: 4.8, color: "#DA291C" },
+      { name: "TIM", score: 4.7, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 4.8, color: "#660099" },
+      { name: "Claro", score: 4.5, color: "#DA291C" },
+      { name: "Algar", score: 4.3, color: "#28BEA5" },
+      { name: "TIM", score: 4.1, color: "#1E40AF" },
+      { name: "Surf", score: 4.0, color: "#0003F9" }
+    ],
     marketShare: { percentage: 41.3, activeClients: 6853, totalPopulation: 16594, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 41, shareFibra: 37 },
     crm: { arpu: 62, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 80, arpuFibra: 76, planoMovel: "Controle" },
@@ -13575,6 +18560,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.9, color: "#1E40AF" },
       { name: "Algar", score: 6.9, color: "#28BEA5" },
       { name: "Surf", score: 5.8, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "Surf", score: 6.5, color: "#0003F9" },
+      { name: "Algar", score: 6.3, color: "#28BEA5" }
     ],
     marketShare: { percentage: 19.7, activeClients: 2772, totalPopulation: 14075, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 17, shareFibra: 0 },
@@ -13604,6 +18597,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "LinQ", score: 7.2, color: "#F8A81B" },
+      { name: "V.tal", score: 6.9, color: "#FFE84D" },
+      { name: "TIM", score: 6.6, color: "#1E40AF" },
+      { name: "Claro", score: 6.5, color: "#DA291C" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 14.4, activeClients: 1164, totalPopulation: 8086, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 14 },
     crm: { arpu: 87, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 117, planoMovel: "Pós" },
@@ -13631,6 +18632,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.0, color: "#1E40AF" },
       { name: "LinQ", score: 7.4, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.1, color: "#660099" },
+      { name: "LinQ", score: 7.7, color: "#F8A81B" },
+      { name: "Claro", score: 7.4, color: "#DA291C" },
+      { name: "TIM", score: 7.1, color: "#1E40AF" },
+      { name: "V.tal", score: 7.0, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.6, color: "#660099" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "Algar", score: 6.7, color: "#28BEA5" },
+      { name: "Surf", score: 6.1, color: "#0003F9" }
     ],
     marketShare: { percentage: 18.7, activeClients: 2809, totalPopulation: 15022, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 16, shareFibra: 16 },
@@ -13660,6 +18675,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "LinQ", score: 7.1, color: "#F8A81B" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "V.tal", score: 6.9, color: "#FFE84D" },
+      { name: "TIM", score: 6.6, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.9, color: "#660099" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "TIM", score: 6.3, color: "#1E40AF" },
+      { name: "Algar", score: 6.1, color: "#28BEA5" },
+      { name: "Surf", score: 5.8, color: "#0003F9" }
+    ],
     marketShare: { percentage: 21.6, activeClients: 2648, totalPopulation: 12261, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 19, shareFibra: 19 },
     crm: { arpu: 103, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 87, arpuFibra: 113, planoMovel: "Controle" },
@@ -13688,6 +18717,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.4, color: "#660099" },
+      { name: "LinQ", score: 7.8, color: "#F8A81B" },
+      { name: "TIM", score: 7.4, color: "#1E40AF" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "Algar", score: 7.2, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 22.2, activeClients: 2561, totalPopulation: 11539, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 19 },
     crm: { arpu: 112, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 131, planoMovel: "Controle" },
@@ -13716,6 +18753,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.7, color: "#660099" },
+      { name: "LinQ", score: 8.7, color: "#F8A81B" },
+      { name: "Claro", score: 8.3, color: "#DA291C" },
+      { name: "TIM", score: 8.0, color: "#1E40AF" },
+      { name: "V.tal", score: 7.9, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 52.7, activeClients: 8580, totalPopulation: 16282, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 52 },
     crm: { arpu: 166, deviceTier: "Premium", planType: "Fibra 1Gbps", arpuMovel: 0, arpuFibra: 158, planoMovel: "Controle" },
@@ -13744,6 +18789,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "LinQ", score: 4.7, color: "#F8A81B" },
+      { name: "VIVO", score: 4.6, color: "#660099" },
+      { name: "TIM", score: 4.6, color: "#1E40AF" },
+      { name: "Claro", score: 4.5, color: "#DA291C" },
+      { name: "V.tal", score: 4.2, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 40.3, activeClients: 4601, totalPopulation: 11419, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 36 },
     crm: { arpu: 68, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 77, planoMovel: "Pós" },
@@ -13771,6 +18824,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.4, color: "#1E40AF" },
       { name: "Algar", score: 7.2, color: "#28BEA5" },
       { name: "Surf", score: 6.9, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "Claro", score: 6.8, color: "#DA291C" },
+      { name: "TIM", score: 6.6, color: "#1E40AF" },
+      { name: "Algar", score: 6.0, color: "#28BEA5" },
+      { name: "Surf", score: 5.9, color: "#0003F9" }
     ],
     marketShare: { percentage: 22.6, activeClients: 2989, totalPopulation: 13228, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 20, shareFibra: 0 },
@@ -13800,6 +18861,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 8.0, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 5.3, color: "#660099" },
+      { name: "LinQ", score: 5.0, color: "#F8A81B" },
+      { name: "V.tal", score: 4.7, color: "#FFE84D" },
+      { name: "Claro", score: 4.6, color: "#DA291C" },
+      { name: "Algar", score: 4.6, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.2, color: "#660099" },
+      { name: "Claro", score: 4.7, color: "#DA291C" },
+      { name: "TIM", score: 4.6, color: "#1E40AF" },
+      { name: "Algar", score: 4.3, color: "#28BEA5" },
+      { name: "Surf", score: 4.0, color: "#0003F9" }
+    ],
     marketShare: { percentage: 33, activeClients: 3881, totalPopulation: 11762, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 33, shareFibra: 33 },
     crm: { arpu: 76, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 75, arpuFibra: 92, planoMovel: "Pós" },
@@ -13827,6 +18902,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.6, color: "#1E40AF" },
       { name: "Algar", score: 6.8, color: "#28BEA5" },
       { name: "Surf", score: 6.5, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "Claro", score: 5.9, color: "#DA291C" },
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" },
+      { name: "Algar", score: 5.3, color: "#28BEA5" },
+      { name: "Surf", score: 5.1, color: "#0003F9" }
     ],
     marketShare: { percentage: 19.3, activeClients: 1502, totalPopulation: 7786, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 19, shareFibra: 0 },
@@ -13856,6 +18939,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.6, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.9, color: "#660099" },
+      { name: "Claro", score: 6.4, color: "#DA291C" },
+      { name: "LinQ", score: 6.4, color: "#F8A81B" },
+      { name: "TIM", score: 5.9, color: "#1E40AF" },
+      { name: "V.tal", score: 5.9, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 24.4, activeClients: 2860, totalPopulation: 11722, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 24 },
     crm: { arpu: 62, deviceTier: "Basic", planType: "Pré-pago 4G", arpuMovel: 0, arpuFibra: 95, planoMovel: "Pré" },
@@ -13883,6 +18974,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.1, color: "#1E40AF" },
       { name: "Algar", score: 6.9, color: "#28BEA5" },
       { name: "Surf", score: 6.6, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 4.5, color: "#660099" },
+      { name: "TIM", score: 4.4, color: "#1E40AF" },
+      { name: "Claro", score: 4.3, color: "#DA291C" },
+      { name: "Algar", score: 4.0, color: "#28BEA5" },
+      { name: "Surf", score: 4.0, color: "#0003F9" }
     ],
     marketShare: { percentage: 38, activeClients: 3013, totalPopulation: 7931, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 34, shareFibra: 0 },
@@ -13912,6 +19011,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.2, color: "#660099" },
+      { name: "LinQ", score: 7.5, color: "#F8A81B" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "V.tal", score: 7.2, color: "#FFE84D" },
+      { name: "TIM", score: 7.1, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "TIM", score: 7.0, color: "#1E40AF" },
+      { name: "Algar", score: 6.3, color: "#28BEA5" },
+      { name: "Surf", score: 6.1, color: "#0003F9" }
+    ],
     marketShare: { percentage: 19.7, activeClients: 3073, totalPopulation: 15602, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 17, shareFibra: 19 },
     crm: { arpu: 121, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 106, arpuFibra: 125, planoMovel: "Controle" },
@@ -13939,6 +19052,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.2, color: "#1E40AF" },
       { name: "Algar", score: 6.9, color: "#28BEA5" },
       { name: "Surf", score: 6.7, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.9, color: "#660099" },
+      { name: "Claro", score: 5.5, color: "#DA291C" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" },
+      { name: "Algar", score: 4.9, color: "#28BEA5" },
+      { name: "Surf", score: 4.6, color: "#0003F9" }
     ],
     marketShare: { percentage: 26.1, activeClients: 2424, totalPopulation: 9291, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 23, shareFibra: 0 },
@@ -13968,6 +19089,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.1, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "LinQ", score: 7.2, color: "#F8A81B" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "V.tal", score: 6.9, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 20.1, activeClients: 3377, totalPopulation: 16801, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 20 },
     crm: { arpu: 87, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 104, planoMovel: "Pós" },
@@ -13995,6 +19124,20 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 6.6, color: "#1E40AF" },
       { name: "LinQ", score: 7.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.0, color: "#660099" },
+      { name: "LinQ", score: 7.9, color: "#F8A81B" },
+      { name: "Claro", score: 7.6, color: "#DA291C" },
+      { name: "V.tal", score: 7.6, color: "#FFE84D" },
+      { name: "Algar", score: 7.3, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "Claro", score: 7.0, color: "#DA291C" },
+      { name: "TIM", score: 6.7, color: "#1E40AF" },
+      { name: "Algar", score: 6.7, color: "#28BEA5" },
+      { name: "Surf", score: 6.1, color: "#0003F9" }
     ],
     marketShare: { percentage: 18, activeClients: 1410, totalPopulation: 7834, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 18, shareFibra: 18 },
@@ -14024,6 +19167,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.8, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "LinQ", score: 7.5, color: "#F8A81B" },
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "V.tal", score: 6.7, color: "#FFE84D" },
+      { name: "Algar", score: 6.7, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.6, color: "#660099" },
+      { name: "TIM", score: 6.3, color: "#1E40AF" },
+      { name: "Claro", score: 6.2, color: "#DA291C" },
+      { name: "Algar", score: 5.9, color: "#28BEA5" },
+      { name: "Surf", score: 5.6, color: "#0003F9" }
+    ],
     marketShare: { percentage: 25.6, activeClients: 2427, totalPopulation: 9484, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 25, shareFibra: 23 },
     crm: { arpu: 89, deviceTier: "Mid", planType: "Fibra 300Mbps", arpuMovel: 107, arpuFibra: 102, planoMovel: "Controle" },
@@ -14052,6 +19209,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.5, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "LinQ", score: 7.7, color: "#F8A81B" },
+      { name: "Claro", score: 7.4, color: "#DA291C" },
+      { name: "TIM", score: 7.3, color: "#1E40AF" },
+      { name: "V.tal", score: 7.3, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 22.3, activeClients: 2580, totalPopulation: 11570, label: "Média Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 20 },
     crm: { arpu: 86, deviceTier: "Mid", planType: "Pós-pago 4G", arpuMovel: 0, arpuFibra: 130, planoMovel: "Pós" },
@@ -14079,6 +19244,14 @@ export const rawData: GeohashEntry[] = [
       { name: "TIM", score: 7.4, color: "#1E40AF" },
       { name: "Algar", score: 6.8, color: "#28BEA5" },
       { name: "Surf", score: 6.0, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.5, color: "#660099" },
+      { name: "Claro", score: 5.3, color: "#DA291C" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" },
+      { name: "Algar", score: 4.9, color: "#28BEA5" },
+      { name: "Surf", score: 4.8, color: "#0003F9" }
     ],
     marketShare: { percentage: 21.6, activeClients: 2796, totalPopulation: 12947, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 19, shareFibra: 0 },
@@ -14108,6 +19281,20 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 6.9, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.5, color: "#660099" },
+      { name: "LinQ", score: 8.0, color: "#F8A81B" },
+      { name: "Claro", score: 7.8, color: "#DA291C" },
+      { name: "V.tal", score: 7.3, color: "#FFE84D" },
+      { name: "TIM", score: 7.2, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.2, color: "#660099" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "Algar", score: 6.7, color: "#28BEA5" },
+      { name: "Surf", score: 6.4, color: "#0003F9" }
+    ],
     marketShare: { percentage: 17, activeClients: 2387, totalPopulation: 14046, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 15, shareFibra: 15 },
     crm: { arpu: 95, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 90, arpuFibra: 137, planoMovel: "Controle" },
@@ -14136,6 +19323,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.7, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.2, color: "#660099" },
+      { name: "LinQ", score: 7.8, color: "#F8A81B" },
+      { name: "V.tal", score: 7.4, color: "#FFE84D" },
+      { name: "Claro", score: 7.3, color: "#DA291C" },
+      { name: "Algar", score: 7.0, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 14.6, activeClients: 1762, totalPopulation: 12075, label: "Baixa Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 14 },
     crm: { arpu: 87, deviceTier: "Mid", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 100, planoMovel: "Controle" },
@@ -14164,6 +19359,14 @@ export const rawData: GeohashEntry[] = [
       { name: "LinQ", score: 7.2, color: "#F8A81B" },
       { name: "NIO", score: 6.8, color: "#32E000" }
     ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "LinQ", score: 5.9, color: "#F8A81B" },
+      { name: "Claro", score: 5.6, color: "#DA291C" },
+      { name: "V.tal", score: 5.5, color: "#FFE84D" },
+      { name: "NIO", score: 5.3, color: "#32E000" }
+    ],
+    satisfactionMovel: [],
     marketShare: { percentage: 41.8, activeClients: 3145, totalPopulation: 7524, label: "Alta Penetração" },
     shareTrend: { direction: "STABLE", delta: 0, deltaMovel: 0, deltaFibra: 0, shareMovel: 0, shareFibra: 37 },
     crm: { arpu: 70, deviceTier: "Basic", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 81, planoMovel: "Controle" },
@@ -14175,6 +19378,1618 @@ export const rawData: GeohashEntry[] = [
     priorityScore: 7.85,
     priority: "ALTA",
   },
+,
+  {
+    id: "scgr9w",
+    neighborhood: "Residencial Canedo I",
+    city: "Senador Canedo",
+    quadrant: "GROWTH",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.704163439209250,
+    lng: -49.092849935468671,
+    satisfactionScores: [
+      { name: "VIVO", score: 6.5, color: "#660099" },
+      { name: "TIM", score: 5.9, color: "#1E40AF" },
+      { name: "Claro", score: 5.6, color: "#DA291C" },
+      { name: "Algar", score: 5.2, color: "#28BEA5" },
+      { name: "Surf", score: 5.0, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.5, color: "#660099" },
+      { name: "TIM", score: 5.9, color: "#1E40AF" },
+      { name: "Claro", score: 5.6, color: "#DA291C" },
+      { name: "Algar", score: 5.2, color: "#28BEA5" },
+      { name: "Surf", score: 5.0, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 45.2, activeClients: 6299, totalPopulation: 13935, label: "Alta Penetração" },
+    shareTrend: { direction: "DOWN", delta: -2.0, deltaMovel: -1.8, deltaFibra: -1.6, shareMovel: 41.0, shareFibra: 0 },
+    crm: { arpu: 109, deviceTier: "Basic", planType: "Controle", arpuMovel: 109, arpuFibra: 0, planoMovel: "Controle" },
+    speedtest: { downloadMbps: 18, latencyMs: 25, qualityLabel: "Ruim" },
+    demographics: { avgIncome: 3126, incomeLabel: "Médio", populationDensity: 7012, populationGrowth: 2.2, growthLabel: "Moderado", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 6.3, scoreOoklaMovel: 6.3, scoreOoklaFibra: 0, scoreHAC: 5.7, taxaChamados: 1.7, sharePenetracao: 45.2, deltaVsLider: 0.1, deltaVsLiderFibra: 0, deltaVsLiderMovel: -0.1, scoreLiderFibra: 0, scoreLiderMovel: 6.4, arpuRelativo: 1.25, canalDominante: "Loja Física", canalPct: 52, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 89 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 85 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 60 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 77 }] },
+    camada2: { fibra: { classification: "EXPANSAO_NOVA_AREA", score: 40, scoreLabel: "Médio", taxaOcupacao: 48, portasDisponiveis: 29 }, movel: { classification: "AUMENTO_CAPACIDADE", score: 24, scoreLabel: "Baixo" }, decisaoIntegrada: "Foco em expansão de cobertura e captação de novos clientes." },
+    strategy: { title: "GROWTH", motive: "Área com potencial de crescimento. Foco em captação e expansão.", color: "#22C55E", bgColor: "#DCFCE7" },
+    priorityScore: 4,
+    priority: "ALTA",
+  },
+  {
+    id: "sceq87",
+    neighborhood: "Residencial Canedo II",
+    city: "Senador Canedo",
+    quadrant: "GROWTH",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.709502935447713,
+    lng: -49.095869031158614,
+    satisfactionScores: [
+      { name: "VIVO", score: 8.3, color: "#660099" },
+      { name: "Claro", score: 7.6, color: "#DA291C" },
+      { name: "TIM", score: 7.5, color: "#1E40AF" },
+      { name: "Algar", score: 6.9, color: "#28BEA5" },
+      { name: "Surf", score: 6.6, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.3, color: "#660099" },
+      { name: "Claro", score: 7.6, color: "#DA291C" },
+      { name: "TIM", score: 7.5, color: "#1E40AF" },
+      { name: "Algar", score: 6.9, color: "#28BEA5" },
+      { name: "Surf", score: 6.6, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 54.9, activeClients: 4273, totalPopulation: 7784, label: "Alta Penetração" },
+    shareTrend: { direction: "STABLE", delta: 0.1, deltaMovel: 0.1, deltaFibra: 0.1, shareMovel: 49.0, shareFibra: 0 },
+    crm: { arpu: 76, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 76, arpuFibra: 0, planoMovel: "Pós-pago 4G" },
+    speedtest: { downloadMbps: 95, latencyMs: 30, qualityLabel: "Regular" },
+    demographics: { avgIncome: 3354, incomeLabel: "Médio", populationDensity: 7907, populationGrowth: 3.0, growthLabel: "Moderado", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 8.1, scoreOoklaMovel: 8.5, scoreOoklaFibra: 0, scoreHAC: 7.6, taxaChamados: 4.9, sharePenetracao: 54.9, deltaVsLider: -1.1, deltaVsLiderFibra: 0, deltaVsLiderMovel: 0.7, scoreLiderFibra: 0, scoreLiderMovel: 7.8, arpuRelativo: 0.87, canalDominante: "Televendas", canalPct: 62, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 89 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 66 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 61 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 69 }] },
+    camada2: { fibra: { classification: "SAUDAVEL", score: 8, scoreLabel: "Baixo", taxaOcupacao: 74, portasDisponiveis: 32 }, movel: { classification: "MELHORA_QUALIDADE", score: 45, scoreLabel: "Médio" }, decisaoIntegrada: "Rede saudável. Foco em upsell e fidelização." },
+    strategy: { title: "GROWTH", motive: "Área com potencial de crescimento. Foco em captação e expansão.", color: "#22C55E", bgColor: "#DCFCE7" },
+    priorityScore: 4,
+    priority: "ALTA",
+  },
+  {
+    id: "scuger",
+    neighborhood: "Setor Central Canedo",
+    city: "Senador Canedo",
+    quadrant: "UPSELL",
+    isTop10: false,
+    technology: "AMBOS",
+    lat: -16.700320264398961,
+    lng: -49.086384585342479,
+    satisfactionScores: [
+      { name: "VIVO", score: 8.8, color: "#660099" },
+      { name: "TIM", score: 7.9, color: "#1E40AF" },
+      { name: "LinQ", score: 7.9, color: "#F8A81B" },
+      { name: "V.tal", score: 7.7, color: "#FFE84D" },
+      { name: "Claro", score: 7.6, color: "#DA291C" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.8, color: "#660099" },
+      { name: "TIM", score: 7.9, color: "#1E40AF" },
+      { name: "LinQ", score: 7.9, color: "#F8A81B" },
+      { name: "V.tal", score: 7.7, color: "#FFE84D" },
+      { name: "Claro", score: 7.6, color: "#DA291C" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.6, color: "#660099" },
+      { name: "Claro", score: 7.9, color: "#DA291C" },
+      { name: "TIM", score: 7.8, color: "#1E40AF" },
+      { name: "Algar", score: 7.1, color: "#28BEA5" },
+      { name: "Surf", score: 6.7, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 21.7, activeClients: 2583, totalPopulation: 11902, label: "Baixa Penetração" },
+    shareTrend: { direction: "DOWN", delta: -2.5, deltaMovel: -2.2, deltaFibra: -2.0, shareMovel: 20.0, shareFibra: 18.0 },
+    crm: { arpu: 80, deviceTier: "Mid-range", planType: "Fibra 500Mbps", arpuMovel: 65, arpuFibra: 96, planoMovel: "Pós-pago 4G" },
+    speedtest: { downloadMbps: 286, latencyMs: 26, qualityLabel: "Bom" },
+    demographics: { avgIncome: 4457, incomeLabel: "Médio", populationDensity: 11281, populationGrowth: 2.0, growthLabel: "Moderado", technology: "Fibra+4G", severity: "Média" },
+    diagnostico: { scoreOokla: 8.5, scoreOoklaMovel: 8.7, scoreOoklaFibra: 8.8, scoreHAC: 8.3, taxaChamados: 2.9, sharePenetracao: 21.7, deltaVsLider: 1.4, deltaVsLiderFibra: -1.5, deltaVsLiderMovel: -1.7, scoreLiderFibra: 10.3, scoreLiderMovel: 10.4, arpuRelativo: 0.92, canalDominante: "Loja Física", canalPct: 73, concorrentes: [{ nome: "Claro", coberturaFibra: true, planoFibra: "Fibra 300Mbps", precoFibra: 141, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 85 }, { nome: "TIM", coberturaFibra: true, planoFibra: "Fibra 200Mbps", precoFibra: 129, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 68 }, { nome: "NIO", coberturaFibra: true, planoFibra: "Fibra 300Mbps", precoFibra: 128, coberturaMovel: false, planoMovel: "", precoMovel: 0 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 61 }] },
+    camada2: { fibra: { classification: "EXPANSAO_COBERTURA", score: 57, scoreLabel: "Médio", taxaOcupacao: 71, portasDisponiveis: 38 }, movel: { classification: "AUMENTO_CAPACIDADE", score: 21, scoreLabel: "Baixo" }, decisaoIntegrada: "Rede saudável. Foco em upsell e fidelização." },
+    strategy: { title: "UPSELL", motive: "Base consolidada. Maximizar receita com planos premium.", color: "#7C3AED", bgColor: "#EDE9FE" },
+    priorityScore: 6,
+    priority: "MEDIA",
+  },
+  {
+    id: "scy9qh",
+    neighborhood: "Jardim Bela Vista",
+    city: "Senador Canedo",
+    quadrant: "GROWTH",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.710184619162952,
+    lng: -49.082208186235796,
+    satisfactionScores: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "Algar", score: 6.3, color: "#28BEA5" },
+      { name: "Surf", score: 6.1, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "TIM", score: 6.9, color: "#1E40AF" },
+      { name: "Algar", score: 6.3, color: "#28BEA5" },
+      { name: "Surf", score: 6.1, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 44.1, activeClients: 5932, totalPopulation: 13451, label: "Média Penetração" },
+    shareTrend: { direction: "UP", delta: 1.8, deltaMovel: 1.6, deltaFibra: 1.4, shareMovel: 40.0, shareFibra: 0 },
+    crm: { arpu: 117, deviceTier: "Basic", planType: "Controle", arpuMovel: 117, arpuFibra: 0, planoMovel: "Controle" },
+    speedtest: { downloadMbps: 119, latencyMs: 70, qualityLabel: "Bom" },
+    demographics: { avgIncome: 2709, incomeLabel: "Médio-Baixo", populationDensity: 11234, populationGrowth: 4.5, growthLabel: "Alto", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 7.4, scoreOoklaMovel: 7.7, scoreOoklaFibra: 0, scoreHAC: 6.9, taxaChamados: 3.3, sharePenetracao: 44.1, deltaVsLider: -0.8, deltaVsLiderFibra: 0, deltaVsLiderMovel: 0.8, scoreLiderFibra: 0, scoreLiderMovel: 6.9, arpuRelativo: 1.34, canalDominante: "Parceiros", canalPct: 56, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 83 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 75 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 57 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 67 }] },
+    camada2: { fibra: { classification: "SAUDAVEL", score: 51, scoreLabel: "Médio", taxaOcupacao: 43, portasDisponiveis: 38 }, movel: { classification: "AUMENTO_CAPACIDADE", score: 80, scoreLabel: "Alto" }, decisaoIntegrada: "Upsell para planos premium e convergência." },
+    strategy: { title: "GROWTH", motive: "Área com potencial de crescimento. Foco em captação e expansão.", color: "#22C55E", bgColor: "#DCFCE7" },
+    priorityScore: 10,
+    priority: "ALTA",
+  },
+  {
+    id: "scrz6s",
+    neighborhood: "Parque Industrial",
+    city: "Senador Canedo",
+    quadrant: "GROWTH_RETENCAO",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.714602675614845,
+    lng: -49.077980235160176,
+    satisfactionScores: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "Claro", score: 6.7, color: "#DA291C" },
+      { name: "TIM", score: 6.7, color: "#1E40AF" },
+      { name: "Algar", score: 6.1, color: "#28BEA5" },
+      { name: "Surf", score: 6.1, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "Claro", score: 6.7, color: "#DA291C" },
+      { name: "TIM", score: 6.7, color: "#1E40AF" },
+      { name: "Algar", score: 6.1, color: "#28BEA5" },
+      { name: "Surf", score: 6.1, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 42.8, activeClients: 5080, totalPopulation: 11869, label: "Média Penetração" },
+    shareTrend: { direction: "DOWN", delta: -1.4, deltaMovel: -1.3, deltaFibra: -1.1, shareMovel: 39.0, shareFibra: 0 },
+    crm: { arpu: 63, deviceTier: "Mid-range", planType: "Pós-pago 4G", arpuMovel: 63, arpuFibra: 0, planoMovel: "Pós-pago 4G" },
+    speedtest: { downloadMbps: 105, latencyMs: 52, qualityLabel: "Bom" },
+    demographics: { avgIncome: 4860, incomeLabel: "Médio", populationDensity: 5998, populationGrowth: 2.0, growthLabel: "Moderado", technology: "4G", severity: "Média" },
+    diagnostico: { scoreOokla: 7.4, scoreOoklaMovel: 7.2, scoreOoklaFibra: 0, scoreHAC: 6.8, taxaChamados: 4.4, sharePenetracao: 42.8, deltaVsLider: -0.1, deltaVsLiderFibra: 0, deltaVsLiderMovel: -1.3, scoreLiderFibra: 0, scoreLiderMovel: 8.5, arpuRelativo: 0.72, canalDominante: "Digital", canalPct: 47, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 92 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 77 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 62 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 63 }] },
+    camada2: { fibra: { classification: "MELHORA_QUALIDADE", score: 34, scoreLabel: "Médio", taxaOcupacao: 77, portasDisponiveis: 35 }, movel: { classification: "MELHORA_QUALIDADE", score: 50, scoreLabel: "Médio" }, decisaoIntegrada: "Upsell para planos premium e convergência." },
+    strategy: { title: "GROWTH+RETENÇÃO", motive: "Share baixo e qualidade comprometida. Dupla frente.", color: "#28BEA5", bgColor: "#FFF7ED" },
+    priorityScore: 8,
+    priority: "MEDIA",
+  },
+  {
+    id: "scfqv4",
+    neighborhood: "Residencial Primavera",
+    city: "Senador Canedo",
+    quadrant: "UPSELL",
+    isTop10: false,
+    technology: "FIBRA",
+    lat: -16.701712440620810,
+    lng: -49.097310073521264,
+    satisfactionScores: [
+      { name: "VIVO", score: 6.6, color: "#660099" },
+      { name: "Claro", score: 6.4, color: "#DA291C" },
+      { name: "LinQ", score: 6.4, color: "#F8A81B" },
+      { name: "V.tal", score: 6.3, color: "#FFE84D" },
+      { name: "TIM", score: 6.2, color: "#1E40AF" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.6, color: "#660099" },
+      { name: "Claro", score: 6.4, color: "#DA291C" },
+      { name: "LinQ", score: 6.4, color: "#F8A81B" },
+      { name: "V.tal", score: 6.3, color: "#FFE84D" },
+      { name: "TIM", score: 6.2, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
+    marketShare: { percentage: 45.4, activeClients: 5751, totalPopulation: 12668, label: "Alta Penetração" },
+    shareTrend: { direction: "DOWN", delta: -2.5, deltaMovel: -2.2, deltaFibra: -2.0, shareMovel: 0, shareFibra: 39.0 },
+    crm: { arpu: 98, deviceTier: "Mid-range", planType: "Fibra 200Mbps", arpuMovel: 0, arpuFibra: 98, planoMovel: "Controle" },
+    speedtest: { downloadMbps: 140, latencyMs: 25, qualityLabel: "Bom" },
+    demographics: { avgIncome: 6169, incomeLabel: "Médio-Alto", populationDensity: 3669, populationGrowth: 1.9, growthLabel: "Baixo", technology: "Fibra", severity: "Baixa" },
+    diagnostico: { scoreOokla: 6.7, scoreOoklaMovel: 0, scoreOoklaFibra: 6.7, scoreHAC: 6.6, taxaChamados: 3.5, sharePenetracao: 45.4, deltaVsLider: 1.0, deltaVsLiderFibra: -1.4, deltaVsLiderMovel: 0, scoreLiderFibra: 8.1, scoreLiderMovel: 0, arpuRelativo: 1.13, canalDominante: "Loja Física", canalPct: 52, concorrentes: [{ nome: "Claro", coberturaFibra: true, planoFibra: "Fibra 400Mbps", precoFibra: 138, coberturaMovel: false, planoMovel: "", precoMovel: 0 }, { nome: "TIM", coberturaFibra: true, planoFibra: "Fibra 300Mbps", precoFibra: 139, coberturaMovel: false, planoMovel: "", precoMovel: 0 }, { nome: "NIO", coberturaFibra: true, planoFibra: "Fibra 200Mbps", precoFibra: 110, coberturaMovel: false, planoMovel: "", precoMovel: 0 }, { nome: "LinQ", coberturaFibra: true, planoFibra: "Fibra 700Mbps", precoFibra: 127, coberturaMovel: false, planoMovel: "", precoMovel: 0 }, { nome: "Algar", coberturaFibra: true, planoFibra: "Fibra 200Mbps", precoFibra: 112, coberturaMovel: false, planoMovel: "", precoMovel: 0 }] },
+    camada2: { fibra: { classification: "AUMENTO_CAPACIDADE", score: 55, scoreLabel: "Médio", taxaOcupacao: 77, portasDisponiveis: 38 }, movel: { classification: "EXPANSAO_COBERTURA", score: 51, scoreLabel: "Médio" }, decisaoIntegrada: "Foco em expansão de cobertura e captação de novos clientes." },
+    strategy: { title: "UPSELL", motive: "Base consolidada. Maximizar receita com planos premium.", color: "#7C3AED", bgColor: "#EDE9FE" },
+    priorityScore: 6,
+    priority: "BAIXA",
+  },
+  {
+    id: "sc6e1c",
+    neighborhood: "Setor Novo Horizonte",
+    city: "Senador Canedo",
+    quadrant: "GROWTH",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.711379966823159,
+    lng: -49.086946169823094,
+    satisfactionScores: [
+      { name: "VIVO", score: 5.4, color: "#660099" },
+      { name: "Claro", score: 5.1, color: "#DA291C" },
+      { name: "TIM", score: 5.1, color: "#1E40AF" },
+      { name: "Surf", score: 4.8, color: "#0003F9" },
+      { name: "Algar", score: 4.7, color: "#28BEA5" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.4, color: "#660099" },
+      { name: "Claro", score: 5.1, color: "#DA291C" },
+      { name: "TIM", score: 5.1, color: "#1E40AF" },
+      { name: "Surf", score: 4.8, color: "#0003F9" },
+      { name: "Algar", score: 4.7, color: "#28BEA5" }
+    ],
+    marketShare: { percentage: 43.8, activeClients: 5471, totalPopulation: 12490, label: "Média Penetração" },
+    shareTrend: { direction: "UP", delta: 2.0, deltaMovel: 1.8, deltaFibra: 1.6, shareMovel: 39.0, shareFibra: 0 },
+    crm: { arpu: 105, deviceTier: "Basic", planType: "Pós-pago 5G", arpuMovel: 105, arpuFibra: 0, planoMovel: "Pós-pago 5G" },
+    speedtest: { downloadMbps: 96, latencyMs: 62, qualityLabel: "Regular" },
+    demographics: { avgIncome: 2825, incomeLabel: "Médio-Baixo", populationDensity: 10647, populationGrowth: 2.1, growthLabel: "Moderado", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 5.7, scoreOoklaMovel: 5.9, scoreOoklaFibra: 0, scoreHAC: 5.5, taxaChamados: 1.9, sharePenetracao: 43.8, deltaVsLider: 0.7, deltaVsLiderFibra: 0, deltaVsLiderMovel: 0.5, scoreLiderFibra: 0, scoreLiderMovel: 5.4, arpuRelativo: 1.21, canalDominante: "Loja Física", canalPct: 74, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 76 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 80 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 77 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 62 }] },
+    camada2: { fibra: { classification: "EXPANSAO_NOVA_AREA", score: 30, scoreLabel: "Médio", taxaOcupacao: 43, portasDisponiveis: 12 }, movel: { classification: "EXPANSAO_COBERTURA", score: 24, scoreLabel: "Baixo" }, decisaoIntegrada: "Dupla frente: melhorar rede e captar novos clientes." },
+    strategy: { title: "GROWTH", motive: "Área com potencial de crescimento. Foco em captação e expansão.", color: "#22C55E", bgColor: "#DCFCE7" },
+    priorityScore: 6,
+    priority: "ALTA",
+  },
+  {
+    id: "sce3rs",
+    neighborhood: "Jardim das Oliveiras",
+    city: "Senador Canedo",
+    quadrant: "RETENCAO",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.704827227271537,
+    lng: -49.095788785967272,
+    satisfactionScores: [
+      { name: "VIVO", score: 6.5, color: "#660099" },
+      { name: "Claro", score: 6.2, color: "#DA291C" },
+      { name: "TIM", score: 6.0, color: "#1E40AF" },
+      { name: "Algar", score: 5.5, color: "#28BEA5" },
+      { name: "Surf", score: 5.3, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.5, color: "#660099" },
+      { name: "Claro", score: 6.2, color: "#DA291C" },
+      { name: "TIM", score: 6.0, color: "#1E40AF" },
+      { name: "Algar", score: 5.5, color: "#28BEA5" },
+      { name: "Surf", score: 5.3, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 43.8, activeClients: 4514, totalPopulation: 10307, label: "Média Penetração" },
+    shareTrend: { direction: "STABLE", delta: 0.1, deltaMovel: 0.1, deltaFibra: 0.1, shareMovel: 39.0, shareFibra: 0 },
+    crm: { arpu: 75, deviceTier: "Basic", planType: "Controle", arpuMovel: 75, arpuFibra: 0, planoMovel: "Controle" },
+    speedtest: { downloadMbps: 98, latencyMs: 29, qualityLabel: "Regular" },
+    demographics: { avgIncome: 2196, incomeLabel: "Médio-Baixo", populationDensity: 6593, populationGrowth: 4.2, growthLabel: "Alto", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 6.6, scoreOoklaMovel: 6.4, scoreOoklaFibra: 0, scoreHAC: 6.1, taxaChamados: 4.5, sharePenetracao: 43.8, deltaVsLider: 0.6, deltaVsLiderFibra: 0, deltaVsLiderMovel: 0.4, scoreLiderFibra: 0, scoreLiderMovel: 6.0, arpuRelativo: 0.86, canalDominante: "Digital", canalPct: 45, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 70 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 80 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 80 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 55 }] },
+    camada2: { fibra: { classification: "AUMENTO_CAPACIDADE", score: 14, scoreLabel: "Baixo", taxaOcupacao: 44, portasDisponiveis: 13 }, movel: { classification: "AUMENTO_CAPACIDADE", score: 54, scoreLabel: "Médio" }, decisaoIntegrada: "Dupla frente: melhorar rede e captar novos clientes." },
+    strategy: { title: "RETENÇÃO", motive: "Alto churn. Foco em retenção e melhoria de qualidade.", color: "#DA291C", bgColor: "#FEE2E2" },
+    priorityScore: 6,
+    priority: "ALTA",
+  },
+  {
+    id: "scdc6e",
+    neighborhood: "Residencial Alvorada",
+    city: "Senador Canedo",
+    quadrant: "GROWTH",
+    isTop10: false,
+    technology: "AMBOS",
+    lat: -16.709992985498623,
+    lng: -49.097466189001864,
+    satisfactionScores: [
+      { name: "VIVO", score: 8.1, color: "#660099" },
+      { name: "Claro", score: 7.7, color: "#DA291C" },
+      { name: "LinQ", score: 7.7, color: "#F8A81B" },
+      { name: "V.tal", score: 7.7, color: "#FFE84D" },
+      { name: "TIM", score: 7.5, color: "#1E40AF" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.1, color: "#660099" },
+      { name: "Claro", score: 7.7, color: "#DA291C" },
+      { name: "LinQ", score: 7.7, color: "#F8A81B" },
+      { name: "V.tal", score: 7.7, color: "#FFE84D" },
+      { name: "TIM", score: 7.5, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.0, color: "#660099" },
+      { name: "Claro", score: 7.7, color: "#DA291C" },
+      { name: "TIM", score: 7.2, color: "#1E40AF" },
+      { name: "Algar", score: 6.9, color: "#28BEA5" },
+      { name: "Surf", score: 6.7, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 54.3, activeClients: 6307, totalPopulation: 11615, label: "Alta Penetração" },
+    shareTrend: { direction: "UP", delta: 0.4, deltaMovel: 0.4, deltaFibra: 0.3, shareMovel: 49.0, shareFibra: 46.0 },
+    crm: { arpu: 84, deviceTier: "Mid-range", planType: "Fibra 200Mbps", arpuMovel: 77, arpuFibra: 92, planoMovel: "Pós-pago 4G" },
+    speedtest: { downloadMbps: 164, latencyMs: 33, qualityLabel: "Bom" },
+    demographics: { avgIncome: 4301, incomeLabel: "Médio", populationDensity: 10902, populationGrowth: 3.7, growthLabel: "Alto", technology: "Fibra+4G", severity: "Média" },
+    diagnostico: { scoreOokla: 8.2, scoreOoklaMovel: 8.2, scoreOoklaFibra: 8.0, scoreHAC: 8.0, taxaChamados: 3.5, sharePenetracao: 54.3, deltaVsLider: 0.1, deltaVsLiderFibra: 0.6, deltaVsLiderMovel: 1.1, scoreLiderFibra: 7.4, scoreLiderMovel: 7.1, arpuRelativo: 0.97, canalDominante: "Loja Física", canalPct: 45, concorrentes: [{ nome: "Claro", coberturaFibra: true, planoFibra: "Fibra 300Mbps", precoFibra: 102, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 75 }, { nome: "TIM", coberturaFibra: true, planoFibra: "Fibra 200Mbps", precoFibra: 121, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 62 }, { nome: "NIO", coberturaFibra: true, planoFibra: "Fibra 200Mbps", precoFibra: 133, coberturaMovel: false, planoMovel: "", precoMovel: 0 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 56 }] },
+    camada2: { fibra: { classification: "EXPANSAO_COBERTURA", score: 35, scoreLabel: "Médio", taxaOcupacao: 66, portasDisponiveis: 8 }, movel: { classification: "SAUDAVEL", score: 32, scoreLabel: "Médio" }, decisaoIntegrada: "Upsell para planos premium e convergência." },
+    strategy: { title: "GROWTH", motive: "Área com potencial de crescimento. Foco em captação e expansão.", color: "#22C55E", bgColor: "#DCFCE7" },
+    priorityScore: 3,
+    priority: "MEDIA",
+  },
+  {
+    id: "scb6v7",
+    neighborhood: "Setor Sul Canedo",
+    city: "Senador Canedo",
+    quadrant: "GROWTH",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.718484020726766,
+    lng: -49.087067241241080,
+    satisfactionScores: [
+      { name: "VIVO", score: 8.2, color: "#660099" },
+      { name: "Claro", score: 7.6, color: "#DA291C" },
+      { name: "TIM", score: 7.0, color: "#1E40AF" },
+      { name: "Algar", score: 6.8, color: "#28BEA5" },
+      { name: "Surf", score: 6.6, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.2, color: "#660099" },
+      { name: "Claro", score: 7.6, color: "#DA291C" },
+      { name: "TIM", score: 7.0, color: "#1E40AF" },
+      { name: "Algar", score: 6.8, color: "#28BEA5" },
+      { name: "Surf", score: 6.6, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 37.9, activeClients: 2167, totalPopulation: 5717, label: "Média Penetração" },
+    shareTrend: { direction: "UP", delta: 1.2, deltaMovel: 1.1, deltaFibra: 1.0, shareMovel: 34.0, shareFibra: 0 },
+    crm: { arpu: 104, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 104, arpuFibra: 0, planoMovel: "Pós-pago 4G" },
+    speedtest: { downloadMbps: 39, latencyMs: 46, qualityLabel: "Ruim" },
+    demographics: { avgIncome: 2751, incomeLabel: "Médio-Baixo", populationDensity: 3325, populationGrowth: 3.5, growthLabel: "Alto", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 8.0, scoreOoklaMovel: 8.3, scoreOoklaFibra: 0, scoreHAC: 7.4, taxaChamados: 2.2, sharePenetracao: 37.9, deltaVsLider: 0.5, deltaVsLiderFibra: 0, deltaVsLiderMovel: -0.9, scoreLiderFibra: 0, scoreLiderMovel: 9.2, arpuRelativo: 1.2, canalDominante: "Parceiros", canalPct: 54, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 65 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 84 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 68 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 65 }] },
+    camada2: { fibra: { classification: "AUMENTO_CAPACIDADE", score: 17, scoreLabel: "Baixo", taxaOcupacao: 58, portasDisponiveis: 9 }, movel: { classification: "MELHORA_QUALIDADE", score: 41, scoreLabel: "Médio" }, decisaoIntegrada: "Foco em expansão de cobertura e captação de novos clientes." },
+    strategy: { title: "GROWTH", motive: "Área com potencial de crescimento. Foco em captação e expansão.", color: "#22C55E", bgColor: "#DCFCE7" },
+    priorityScore: 7,
+    priority: "ALTA",
+  },
+  {
+    id: "sc170v",
+    neighborhood: "Parque das Flores",
+    city: "Senador Canedo",
+    quadrant: "GROWTH_RETENCAO",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.704839784817093,
+    lng: -49.096695004749712,
+    satisfactionScores: [
+      { name: "VIVO", score: 6.1, color: "#660099" },
+      { name: "Claro", score: 5.7, color: "#DA291C" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" },
+      { name: "Algar", score: 5.2, color: "#28BEA5" },
+      { name: "Surf", score: 5.2, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.1, color: "#660099" },
+      { name: "Claro", score: 5.7, color: "#DA291C" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" },
+      { name: "Algar", score: 5.2, color: "#28BEA5" },
+      { name: "Surf", score: 5.2, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 41.3, activeClients: 3608, totalPopulation: 8735, label: "Média Penetração" },
+    shareTrend: { direction: "STABLE", delta: 0.3, deltaMovel: 0.3, deltaFibra: 0.2, shareMovel: 37.0, shareFibra: 0 },
+    crm: { arpu: 68, deviceTier: "Basic", planType: "Pós-pago 5G", arpuMovel: 68, arpuFibra: 0, planoMovel: "Pós-pago 5G" },
+    speedtest: { downloadMbps: 37, latencyMs: 52, qualityLabel: "Ruim" },
+    demographics: { avgIncome: 3008, incomeLabel: "Médio", populationDensity: 8906, populationGrowth: 4.4, growthLabel: "Alto", technology: "4G", severity: "Média" },
+    diagnostico: { scoreOokla: 6.1, scoreOoklaMovel: 6.6, scoreOoklaFibra: 0, scoreHAC: 5.8, taxaChamados: 5.1, sharePenetracao: 41.3, deltaVsLider: -0.0, deltaVsLiderFibra: 0, deltaVsLiderMovel: -0.3, scoreLiderFibra: 0, scoreLiderMovel: 6.9, arpuRelativo: 0.78, canalDominante: "Digital", canalPct: 40, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 87 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 86 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 60 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 64 }] },
+    camada2: { fibra: { classification: "EXPANSAO_NOVA_AREA", score: 55, scoreLabel: "Médio", taxaOcupacao: 56, portasDisponiveis: 19 }, movel: { classification: "AUMENTO_CAPACIDADE", score: 78, scoreLabel: "Alto" }, decisaoIntegrada: "Rede saudável. Foco em upsell e fidelização." },
+    strategy: { title: "GROWTH+RETENÇÃO", motive: "Share baixo e qualidade comprometida. Dupla frente.", color: "#28BEA5", bgColor: "#FFF7ED" },
+    priorityScore: 6,
+    priority: "MEDIA",
+  },
+  {
+    id: "scvbyt",
+    neighborhood: "Residencial Canedo III",
+    city: "Senador Canedo",
+    quadrant: "UPSELL",
+    isTop10: false,
+    technology: "FIBRA",
+    lat: -16.711187421465866,
+    lng: -49.099162467140246,
+    satisfactionScores: [
+      { name: "VIVO", score: 6.1, color: "#660099" },
+      { name: "LinQ", score: 5.9, color: "#F8A81B" },
+      { name: "V.tal", score: 5.7, color: "#FFE84D" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" },
+      { name: "Algar", score: 5.4, color: "#28BEA5" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.1, color: "#660099" },
+      { name: "LinQ", score: 5.9, color: "#F8A81B" },
+      { name: "V.tal", score: 5.7, color: "#FFE84D" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" },
+      { name: "Algar", score: 5.4, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
+    marketShare: { percentage: 49.3, activeClients: 2721, totalPopulation: 5520, label: "Alta Penetração" },
+    shareTrend: { direction: "UP", delta: 0.4, deltaMovel: 0.4, deltaFibra: 0.3, shareMovel: 0, shareFibra: 42.0 },
+    crm: { arpu: 85, deviceTier: "Mid-range", planType: "Fibra 100Mbps", arpuMovel: 0, arpuFibra: 85, planoMovel: "Pós-pago 5G" },
+    speedtest: { downloadMbps: 154, latencyMs: 9, qualityLabel: "Bom" },
+    demographics: { avgIncome: 5748, incomeLabel: "Médio", populationDensity: 6772, populationGrowth: 2.2, growthLabel: "Moderado", technology: "Fibra", severity: "Baixa" },
+    diagnostico: { scoreOokla: 6.0, scoreOoklaMovel: 0, scoreOoklaFibra: 6.1, scoreHAC: 5.6, taxaChamados: 2.8, sharePenetracao: 49.3, deltaVsLider: 0.1, deltaVsLiderFibra: -0.1, deltaVsLiderMovel: 0, scoreLiderFibra: 6.2, scoreLiderMovel: 0, arpuRelativo: 0.98, canalDominante: "Televendas", canalPct: 58, concorrentes: [{ nome: "Claro", coberturaFibra: true, planoFibra: "Fibra 200Mbps", precoFibra: 143, coberturaMovel: false, planoMovel: "", precoMovel: 0 }, { nome: "TIM", coberturaFibra: true, planoFibra: "Fibra 200Mbps", precoFibra: 101, coberturaMovel: false, planoMovel: "", precoMovel: 0 }, { nome: "NIO", coberturaFibra: true, planoFibra: "Fibra 300Mbps", precoFibra: 135, coberturaMovel: false, planoMovel: "", precoMovel: 0 }, { nome: "LinQ", coberturaFibra: true, planoFibra: "Fibra 500Mbps", precoFibra: 131, coberturaMovel: false, planoMovel: "", precoMovel: 0 }, { nome: "Algar", coberturaFibra: true, planoFibra: "Fibra 200Mbps", precoFibra: 97, coberturaMovel: false, planoMovel: "", precoMovel: 0 }] },
+    camada2: { fibra: { classification: "AUMENTO_CAPACIDADE", score: 34, scoreLabel: "Médio", taxaOcupacao: 78, portasDisponiveis: 40 }, movel: { classification: "EXPANSAO_COBERTURA", score: 11, scoreLabel: "Baixo" }, decisaoIntegrada: "Dupla frente: melhorar rede e captar novos clientes." },
+    strategy: { title: "UPSELL", motive: "Base consolidada. Maximizar receita com planos premium.", color: "#7C3AED", bgColor: "#EDE9FE" },
+    priorityScore: 9,
+    priority: "BAIXA",
+  },
+  {
+    id: "sce3vm",
+    neighborhood: "Setor Norte Canedo",
+    city: "Senador Canedo",
+    quadrant: "GROWTH",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.700019480704285,
+    lng: -49.087198837447069,
+    satisfactionScores: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "Claro", score: 5.6, color: "#DA291C" },
+      { name: "TIM", score: 5.4, color: "#1E40AF" },
+      { name: "Algar", score: 5.3, color: "#28BEA5" },
+      { name: "Surf", score: 5.1, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.0, color: "#660099" },
+      { name: "Claro", score: 5.6, color: "#DA291C" },
+      { name: "TIM", score: 5.4, color: "#1E40AF" },
+      { name: "Algar", score: 5.3, color: "#28BEA5" },
+      { name: "Surf", score: 5.1, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 35.6, activeClients: 2379, totalPopulation: 6683, label: "Média Penetração" },
+    shareTrend: { direction: "STABLE", delta: 0.0, deltaMovel: 0.0, deltaFibra: 0.0, shareMovel: 32.0, shareFibra: 0 },
+    crm: { arpu: 95, deviceTier: "Basic", planType: "Pós-pago 5G", arpuMovel: 95, arpuFibra: 0, planoMovel: "Pós-pago 5G" },
+    speedtest: { downloadMbps: 95, latencyMs: 24, qualityLabel: "Regular" },
+    demographics: { avgIncome: 3090, incomeLabel: "Médio", populationDensity: 10554, populationGrowth: 4.2, growthLabel: "Alto", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 6.3, scoreOoklaMovel: 6.0, scoreOoklaFibra: 0, scoreHAC: 6.0, taxaChamados: 1.4, sharePenetracao: 35.6, deltaVsLider: -2.2, deltaVsLiderFibra: 0, deltaVsLiderMovel: -0.4, scoreLiderFibra: 0, scoreLiderMovel: 6.4, arpuRelativo: 1.09, canalDominante: "Parceiros", canalPct: 42, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 66 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 81 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 57 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 68 }] },
+    camada2: { fibra: { classification: "EXPANSAO_NOVA_AREA", score: 81, scoreLabel: "Alto", taxaOcupacao: 82, portasDisponiveis: 10 }, movel: { classification: "SAUDAVEL", score: 74, scoreLabel: "Alto" }, decisaoIntegrada: "Foco em expansão de cobertura e captação de novos clientes." },
+    strategy: { title: "GROWTH", motive: "Área com potencial de crescimento. Foco em captação e expansão.", color: "#22C55E", bgColor: "#DCFCE7" },
+    priorityScore: 8,
+    priority: "ALTA",
+  },
+  {
+    id: "sc7zc6",
+    neighborhood: "Jardim Tropical",
+    city: "Senador Canedo",
+    quadrant: "RETENCAO",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.714996992085982,
+    lng: -49.094900994478330,
+    satisfactionScores: [
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "TIM", score: 6.6, color: "#1E40AF" },
+      { name: "Algar", score: 6.4, color: "#28BEA5" },
+      { name: "Surf", score: 5.9, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "TIM", score: 6.6, color: "#1E40AF" },
+      { name: "Algar", score: 6.4, color: "#28BEA5" },
+      { name: "Surf", score: 5.9, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 38.0, activeClients: 5277, totalPopulation: 13886, label: "Média Penetração" },
+    shareTrend: { direction: "UP", delta: 1.3, deltaMovel: 1.2, deltaFibra: 1.0, shareMovel: 34.0, shareFibra: 0 },
+    crm: { arpu: 103, deviceTier: "Basic", planType: "Controle", arpuMovel: 103, arpuFibra: 0, planoMovel: "Controle" },
+    speedtest: { downloadMbps: 114, latencyMs: 44, qualityLabel: "Bom" },
+    demographics: { avgIncome: 1737, incomeLabel: "Médio-Baixo", populationDensity: 3980, populationGrowth: 2.8, growthLabel: "Moderado", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 7.5, scoreOoklaMovel: 7.3, scoreOoklaFibra: 0, scoreHAC: 7.0, taxaChamados: 4.3, sharePenetracao: 38.0, deltaVsLider: -1.9, deltaVsLiderFibra: 0, deltaVsLiderMovel: -0.2, scoreLiderFibra: 0, scoreLiderMovel: 7.5, arpuRelativo: 1.18, canalDominante: "Digital", canalPct: 55, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 95 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 76 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 62 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 65 }] },
+    camada2: { fibra: { classification: "EXPANSAO_COBERTURA", score: 45, scoreLabel: "Médio", taxaOcupacao: 40, portasDisponiveis: 36 }, movel: { classification: "AUMENTO_CAPACIDADE", score: 65, scoreLabel: "Alto" }, decisaoIntegrada: "Foco em expansão de cobertura e captação de novos clientes." },
+    strategy: { title: "RETENÇÃO", motive: "Alto churn. Foco em retenção e melhoria de qualidade.", color: "#DA291C", bgColor: "#FEE2E2" },
+    priorityScore: 9,
+    priority: "ALTA",
+  },
+  {
+    id: "scgu4d",
+    neighborhood: "Vila Esperança",
+    city: "Senador Canedo",
+    quadrant: "GROWTH",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.708094848238652,
+    lng: -49.104598421470385,
+    satisfactionScores: [
+      { name: "VIVO", score: 7.1, color: "#660099" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "TIM", score: 6.6, color: "#1E40AF" },
+      { name: "Algar", score: 6.1, color: "#28BEA5" },
+      { name: "Surf", score: 5.8, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.1, color: "#660099" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "TIM", score: 6.6, color: "#1E40AF" },
+      { name: "Algar", score: 6.1, color: "#28BEA5" },
+      { name: "Surf", score: 5.8, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 26.7, activeClients: 1863, totalPopulation: 6977, label: "Baixa Penetração" },
+    shareTrend: { direction: "UP", delta: 2.1, deltaMovel: 1.9, deltaFibra: 1.7, shareMovel: 24.0, shareFibra: 0 },
+    crm: { arpu: 99, deviceTier: "Basic", planType: "Controle", arpuMovel: 99, arpuFibra: 0, planoMovel: "Controle" },
+    speedtest: { downloadMbps: 60, latencyMs: 21, qualityLabel: "Regular" },
+    demographics: { avgIncome: 3181, incomeLabel: "Médio", populationDensity: 11045, populationGrowth: 1.8, growthLabel: "Baixo", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 7.2, scoreOoklaMovel: 7.1, scoreOoklaFibra: 0, scoreHAC: 7.1, taxaChamados: 2.0, sharePenetracao: 26.7, deltaVsLider: -0.8, deltaVsLiderFibra: 0, deltaVsLiderMovel: 0.7, scoreLiderFibra: 0, scoreLiderMovel: 6.4, arpuRelativo: 1.14, canalDominante: "Digital", canalPct: 42, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 70 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 83 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 74 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 67 }] },
+    camada2: { fibra: { classification: "AUMENTO_CAPACIDADE", score: 18, scoreLabel: "Baixo", taxaOcupacao: 64, portasDisponiveis: 27 }, movel: { classification: "SAUDAVEL", score: 25, scoreLabel: "Baixo" }, decisaoIntegrada: "Dupla frente: melhorar rede e captar novos clientes." },
+    strategy: { title: "GROWTH", motive: "Área com potencial de crescimento. Foco em captação e expansão.", color: "#22C55E", bgColor: "#DCFCE7" },
+    priorityScore: 3,
+    priority: "ALTA",
+  },
+  {
+    id: "scbyzf",
+    neighborhood: "Setor Leste Canedo",
+    city: "Senador Canedo",
+    quadrant: "UPSELL",
+    isTop10: false,
+    technology: "AMBOS",
+    lat: -16.704064773094945,
+    lng: -49.084706107325857,
+    satisfactionScores: [
+      { name: "VIVO", score: 8.7, color: "#660099" },
+      { name: "Claro", score: 8.4, color: "#DA291C" },
+      { name: "LinQ", score: 8.4, color: "#F8A81B" },
+      { name: "V.tal", score: 8.1, color: "#FFE84D" },
+      { name: "TIM", score: 8.0, color: "#1E40AF" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 8.7, color: "#660099" },
+      { name: "Claro", score: 8.4, color: "#DA291C" },
+      { name: "LinQ", score: 8.4, color: "#F8A81B" },
+      { name: "V.tal", score: 8.1, color: "#FFE84D" },
+      { name: "TIM", score: 8.0, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.7, color: "#660099" },
+      { name: "Claro", score: 8.3, color: "#DA291C" },
+      { name: "TIM", score: 8.1, color: "#1E40AF" },
+      { name: "Algar", score: 7.6, color: "#28BEA5" },
+      { name: "Surf", score: 7.0, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 34.9, activeClients: 4672, totalPopulation: 13386, label: "Média Penetração" },
+    shareTrend: { direction: "DOWN", delta: -1.7, deltaMovel: -1.5, deltaFibra: -1.4, shareMovel: 31.0, shareFibra: 30.0 },
+    crm: { arpu: 114, deviceTier: "Basic", planType: "Fibra 500Mbps", arpuMovel: 99, arpuFibra: 129, planoMovel: "Pós-pago 4G" },
+    speedtest: { downloadMbps: 244, latencyMs: 12, qualityLabel: "Bom" },
+    demographics: { avgIncome: 3998, incomeLabel: "Médio", populationDensity: 9628, populationGrowth: 4.1, growthLabel: "Alto", technology: "Fibra+4G", severity: "Média" },
+    diagnostico: { scoreOokla: 8.9, scoreOoklaMovel: 9.3, scoreOoklaFibra: 9.4, scoreHAC: 8.6, taxaChamados: 2.3, sharePenetracao: 34.9, deltaVsLider: -0.2, deltaVsLiderFibra: -1.6, deltaVsLiderMovel: 0.4, scoreLiderFibra: 11.0, scoreLiderMovel: 8.9, arpuRelativo: 1.31, canalDominante: "Digital", canalPct: 44, concorrentes: [{ nome: "Claro", coberturaFibra: true, planoFibra: "Fibra 300Mbps", precoFibra: 114, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 67 }, { nome: "TIM", coberturaFibra: true, planoFibra: "Fibra 300Mbps", precoFibra: 107, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 89 }, { nome: "NIO", coberturaFibra: true, planoFibra: "Fibra 200Mbps", precoFibra: 135, coberturaMovel: false, planoMovel: "", precoMovel: 0 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 76 }] },
+    camada2: { fibra: { classification: "MELHORA_QUALIDADE", score: 74, scoreLabel: "Alto", taxaOcupacao: 35, portasDisponiveis: 12 }, movel: { classification: "SAUDAVEL", score: 69, scoreLabel: "Alto" }, decisaoIntegrada: "Upsell para planos premium e convergência." },
+    strategy: { title: "UPSELL", motive: "Base consolidada. Maximizar receita com planos premium.", color: "#7C3AED", bgColor: "#EDE9FE" },
+    priorityScore: 7,
+    priority: "MEDIA",
+  },
+  {
+    id: "sc5qvb",
+    neighborhood: "Residencial Canedo IV",
+    city: "Senador Canedo",
+    quadrant: "GROWTH",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.716402665896261,
+    lng: -49.096084325325855,
+    satisfactionScores: [
+      { name: "VIVO", score: 6.7, color: "#660099" },
+      { name: "Claro", score: 6.0, color: "#DA291C" },
+      { name: "TIM", score: 5.8, color: "#1E40AF" },
+      { name: "Algar", score: 5.4, color: "#28BEA5" },
+      { name: "Surf", score: 5.3, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.7, color: "#660099" },
+      { name: "Claro", score: 6.0, color: "#DA291C" },
+      { name: "TIM", score: 5.8, color: "#1E40AF" },
+      { name: "Algar", score: 5.4, color: "#28BEA5" },
+      { name: "Surf", score: 5.3, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 46.3, activeClients: 3447, totalPopulation: 7445, label: "Alta Penetração" },
+    shareTrend: { direction: "UP", delta: 0.8, deltaMovel: 0.7, deltaFibra: 0.6, shareMovel: 42.0, shareFibra: 0 },
+    crm: { arpu: 88, deviceTier: "Mid-range", planType: "Pós-pago 5G", arpuMovel: 88, arpuFibra: 0, planoMovel: "Pós-pago 5G" },
+    speedtest: { downloadMbps: 21, latencyMs: 33, qualityLabel: "Ruim" },
+    demographics: { avgIncome: 4034, incomeLabel: "Médio", populationDensity: 11905, populationGrowth: 3.7, growthLabel: "Alto", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 6.5, scoreOoklaMovel: 6.2, scoreOoklaFibra: 0, scoreHAC: 6.0, taxaChamados: 2.2, sharePenetracao: 46.3, deltaVsLider: 0.2, deltaVsLiderFibra: 0, deltaVsLiderMovel: 0.7, scoreLiderFibra: 0, scoreLiderMovel: 5.5, arpuRelativo: 1.01, canalDominante: "Digital", canalPct: 30, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 66 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 88 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 59 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 65 }] },
+    camada2: { fibra: { classification: "AUMENTO_CAPACIDADE", score: 31, scoreLabel: "Médio", taxaOcupacao: 35, portasDisponiveis: 37 }, movel: { classification: "SAUDAVEL", score: 60, scoreLabel: "Alto" }, decisaoIntegrada: "Foco em expansão de cobertura e captação de novos clientes." },
+    strategy: { title: "GROWTH", motive: "Área com potencial de crescimento. Foco em captação e expansão.", color: "#22C55E", bgColor: "#DCFCE7" },
+    priorityScore: 4,
+    priority: "ALTA",
+  },
+  {
+    id: "sc6p3u",
+    neighborhood: "Parque Residencial",
+    city: "Senador Canedo",
+    quadrant: "UPSELL",
+    isTop10: false,
+    technology: "FIBRA",
+    lat: -16.703121340448696,
+    lng: -49.094523048214555,
+    satisfactionScores: [
+      { name: "VIVO", score: 7.9, color: "#660099" },
+      { name: "LinQ", score: 7.9, color: "#F8A81B" },
+      { name: "V.tal", score: 7.5, color: "#FFE84D" },
+      { name: "TIM", score: 7.4, color: "#1E40AF" },
+      { name: "Claro", score: 7.3, color: "#DA291C" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.9, color: "#660099" },
+      { name: "LinQ", score: 7.9, color: "#F8A81B" },
+      { name: "V.tal", score: 7.5, color: "#FFE84D" },
+      { name: "TIM", score: 7.4, color: "#1E40AF" },
+      { name: "Claro", score: 7.3, color: "#DA291C" }
+    ],
+    satisfactionMovel: [],
+    marketShare: { percentage: 49.3, activeClients: 4397, totalPopulation: 8918, label: "Alta Penetração" },
+    shareTrend: { direction: "UP", delta: 1.9, deltaMovel: 1.7, deltaFibra: 1.5, shareMovel: 0, shareFibra: 42.0 },
+    crm: { arpu: 93, deviceTier: "Mid-range", planType: "Fibra 100Mbps", arpuMovel: 0, arpuFibra: 93, planoMovel: "Pós-pago 4G" },
+    speedtest: { downloadMbps: 190, latencyMs: 9, qualityLabel: "Bom" },
+    demographics: { avgIncome: 4939, incomeLabel: "Médio", populationDensity: 4788, populationGrowth: 3.7, growthLabel: "Alto", technology: "Fibra", severity: "Baixa" },
+    diagnostico: { scoreOokla: 8.1, scoreOoklaMovel: 0, scoreOoklaFibra: 8.3, scoreHAC: 7.7, taxaChamados: 4.8, sharePenetracao: 49.3, deltaVsLider: -2.3, deltaVsLiderFibra: 1.4, deltaVsLiderMovel: 0, scoreLiderFibra: 6.9, scoreLiderMovel: 0, arpuRelativo: 1.07, canalDominante: "Televendas", canalPct: 65, concorrentes: [{ nome: "Claro", coberturaFibra: true, planoFibra: "Fibra 300Mbps", precoFibra: 127, coberturaMovel: false, planoMovel: "", precoMovel: 0 }, { nome: "TIM", coberturaFibra: true, planoFibra: "Fibra 300Mbps", precoFibra: 125, coberturaMovel: false, planoMovel: "", precoMovel: 0 }, { nome: "NIO", coberturaFibra: true, planoFibra: "Fibra 300Mbps", precoFibra: 103, coberturaMovel: false, planoMovel: "", precoMovel: 0 }, { nome: "LinQ", coberturaFibra: true, planoFibra: "Fibra 700Mbps", precoFibra: 130, coberturaMovel: false, planoMovel: "", precoMovel: 0 }, { nome: "Algar", coberturaFibra: true, planoFibra: "Fibra 100Mbps", precoFibra: 112, coberturaMovel: false, planoMovel: "", precoMovel: 0 }] },
+    camada2: { fibra: { classification: "MELHORA_QUALIDADE", score: 72, scoreLabel: "Alto", taxaOcupacao: 44, portasDisponiveis: 34 }, movel: { classification: "MELHORA_QUALIDADE", score: 77, scoreLabel: "Alto" }, decisaoIntegrada: "Melhorar qualidade de rede e reduzir churn." },
+    strategy: { title: "UPSELL", motive: "Base consolidada. Maximizar receita com planos premium.", color: "#7C3AED", bgColor: "#EDE9FE" },
+    priorityScore: 7,
+    priority: "BAIXA",
+  },
+  {
+    id: "sc04qc",
+    neighborhood: "Setor Oeste Canedo",
+    city: "Senador Canedo",
+    quadrant: "GROWTH_RETENCAO",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.712090691335913,
+    lng: -49.103943645892016,
+    satisfactionScores: [
+      { name: "VIVO", score: 6.2, color: "#660099" },
+      { name: "Claro", score: 5.6, color: "#DA291C" },
+      { name: "Algar", score: 5.3, color: "#28BEA5" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" },
+      { name: "Surf", score: 4.7, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.2, color: "#660099" },
+      { name: "Claro", score: 5.6, color: "#DA291C" },
+      { name: "Algar", score: 5.3, color: "#28BEA5" },
+      { name: "TIM", score: 5.2, color: "#1E40AF" },
+      { name: "Surf", score: 4.7, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 46.3, activeClients: 6837, totalPopulation: 14767, label: "Alta Penetração" },
+    shareTrend: { direction: "UP", delta: 1.0, deltaMovel: 0.9, deltaFibra: 0.8, shareMovel: 42.0, shareFibra: 0 },
+    crm: { arpu: 129, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 129, arpuFibra: 0, planoMovel: "Pós-pago 4G" },
+    speedtest: { downloadMbps: 104, latencyMs: 80, qualityLabel: "Bom" },
+    demographics: { avgIncome: 2200, incomeLabel: "Médio-Baixo", populationDensity: 9215, populationGrowth: 3.4, growthLabel: "Moderado", technology: "4G", severity: "Média" },
+    diagnostico: { scoreOokla: 6.0, scoreOoklaMovel: 6.1, scoreOoklaFibra: 0, scoreHAC: 5.5, taxaChamados: 2.4, sharePenetracao: 46.3, deltaVsLider: 1.4, deltaVsLiderFibra: 0, deltaVsLiderMovel: -0.1, scoreLiderFibra: 0, scoreLiderMovel: 6.2, arpuRelativo: 1.48, canalDominante: "Parceiros", canalPct: 56, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 81 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 78 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 80 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 61 }] },
+    camada2: { fibra: { classification: "AUMENTO_CAPACIDADE", score: 54, scoreLabel: "Médio", taxaOcupacao: 75, portasDisponiveis: 15 }, movel: { classification: "AUMENTO_CAPACIDADE", score: 13, scoreLabel: "Baixo" }, decisaoIntegrada: "Rede saudável. Foco em upsell e fidelização." },
+    strategy: { title: "GROWTH+RETENÇÃO", motive: "Share baixo e qualidade comprometida. Dupla frente.", color: "#28BEA5", bgColor: "#FFF7ED" },
+    priorityScore: 10,
+    priority: "MEDIA",
+  },
+  {
+    id: "sc2t7f",
+    neighborhood: "Jardim Canedo",
+    city: "Senador Canedo",
+    quadrant: "GROWTH",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.702099918002158,
+    lng: -49.087632509242546,
+    satisfactionScores: [
+      { name: "VIVO", score: 6.7, color: "#660099" },
+      { name: "Claro", score: 6.1, color: "#DA291C" },
+      { name: "TIM", score: 5.7, color: "#1E40AF" },
+      { name: "Algar", score: 5.5, color: "#28BEA5" },
+      { name: "Surf", score: 5.1, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.7, color: "#660099" },
+      { name: "Claro", score: 6.1, color: "#DA291C" },
+      { name: "TIM", score: 5.7, color: "#1E40AF" },
+      { name: "Algar", score: 5.5, color: "#28BEA5" },
+      { name: "Surf", score: 5.1, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 43.1, activeClients: 5412, totalPopulation: 12556, label: "Média Penetração" },
+    shareTrend: { direction: "STABLE", delta: -0.2, deltaMovel: -0.2, deltaFibra: -0.2, shareMovel: 39.0, shareFibra: 0 },
+    crm: { arpu: 61, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 61, arpuFibra: 0, planoMovel: "Pós-pago 4G" },
+    speedtest: { downloadMbps: 16, latencyMs: 26, qualityLabel: "Ruim" },
+    demographics: { avgIncome: 1973, incomeLabel: "Médio-Baixo", populationDensity: 11170, populationGrowth: 4.3, growthLabel: "Alto", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 6.5, scoreOoklaMovel: 6.2, scoreOoklaFibra: 0, scoreHAC: 6.0, taxaChamados: 2.2, sharePenetracao: 43.1, deltaVsLider: 1.2, deltaVsLiderFibra: 0, deltaVsLiderMovel: 1.2, scoreLiderFibra: 0, scoreLiderMovel: 5.0, arpuRelativo: 0.7, canalDominante: "Parceiros", canalPct: 36, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 93 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 70 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 75 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 73 }] },
+    camada2: { fibra: { classification: "EXPANSAO_COBERTURA", score: 8, scoreLabel: "Baixo", taxaOcupacao: 80, portasDisponiveis: 24 }, movel: { classification: "AUMENTO_CAPACIDADE", score: 41, scoreLabel: "Médio" }, decisaoIntegrada: "Upsell para planos premium e convergência." },
+    strategy: { title: "GROWTH", motive: "Área com potencial de crescimento. Foco em captação e expansão.", color: "#22C55E", bgColor: "#DCFCE7" },
+    priorityScore: 8,
+    priority: "ALTA",
+  },
+  {
+    id: "sc8hez",
+    neighborhood: "Residencial Canedo V",
+    city: "Senador Canedo",
+    quadrant: "RETENCAO",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.720998635753283,
+    lng: -49.090464707446905,
+    satisfactionScores: [
+      { name: "Claro", score: 5.8, color: "#DA291C" },
+      { name: "VIVO", score: 5.7, color: "#660099" },
+      { name: "TIM", score: 5.4, color: "#1E40AF" },
+      { name: "Algar", score: 5.2, color: "#28BEA5" },
+      { name: "Surf", score: 4.7, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "Claro", score: 5.8, color: "#DA291C" },
+      { name: "VIVO", score: 5.7, color: "#660099" },
+      { name: "TIM", score: 5.4, color: "#1E40AF" },
+      { name: "Algar", score: 5.2, color: "#28BEA5" },
+      { name: "Surf", score: 4.7, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 18.7, activeClients: 1129, totalPopulation: 6035, label: "Baixa Penetração" },
+    shareTrend: { direction: "DOWN", delta: -0.5, deltaMovel: -0.5, deltaFibra: -0.4, shareMovel: 17.0, shareFibra: 0 },
+    crm: { arpu: 93, deviceTier: "Basic", planType: "Pós-pago 5G", arpuMovel: 93, arpuFibra: 0, planoMovel: "Pós-pago 5G" },
+    speedtest: { downloadMbps: 36, latencyMs: 47, qualityLabel: "Ruim" },
+    demographics: { avgIncome: 1503, incomeLabel: "Médio-Baixo", populationDensity: 9773, populationGrowth: 3.8, growthLabel: "Alto", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 5.9, scoreOoklaMovel: 6.0, scoreOoklaFibra: 0, scoreHAC: 5.5, taxaChamados: 4.3, sharePenetracao: 18.7, deltaVsLider: -1.3, deltaVsLiderFibra: 0, deltaVsLiderMovel: -1.2, scoreLiderFibra: 0, scoreLiderMovel: 7.2, arpuRelativo: 1.07, canalDominante: "Loja Física", canalPct: 52, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 74 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 68 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 62 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 67 }] },
+    camada2: { fibra: { classification: "EXPANSAO_NOVA_AREA", score: 70, scoreLabel: "Alto", taxaOcupacao: 76, portasDisponiveis: 15 }, movel: { classification: "AUMENTO_CAPACIDADE", score: 35, scoreLabel: "Médio" }, decisaoIntegrada: "Foco em expansão de cobertura e captação de novos clientes." },
+    strategy: { title: "RETENÇÃO", motive: "Alto churn. Foco em retenção e melhoria de qualidade.", color: "#DA291C", bgColor: "#FEE2E2" },
+    priorityScore: 9,
+    priority: "ALTA",
+  },
+  {
+    id: "sc6294",
+    neighborhood: "Setor Industrial Canedo",
+    city: "Senador Canedo",
+    quadrant: "GROWTH",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.719814560471072,
+    lng: -49.082234005867448,
+    satisfactionScores: [
+      { name: "VIVO", score: 8.7, color: "#660099" },
+      { name: "Claro", score: 8.0, color: "#DA291C" },
+      { name: "TIM", score: 7.9, color: "#1E40AF" },
+      { name: "Algar", score: 7.2, color: "#28BEA5" },
+      { name: "Surf", score: 7.0, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.7, color: "#660099" },
+      { name: "Claro", score: 8.0, color: "#DA291C" },
+      { name: "TIM", score: 7.9, color: "#1E40AF" },
+      { name: "Algar", score: 7.2, color: "#28BEA5" },
+      { name: "Surf", score: 7.0, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 37.8, activeClients: 1914, totalPopulation: 5064, label: "Média Penetração" },
+    shareTrend: { direction: "UP", delta: 2.6, deltaMovel: 2.3, deltaFibra: 2.1, shareMovel: 34.0, shareFibra: 0 },
+    crm: { arpu: 55, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 55, arpuFibra: 0, planoMovel: "Pós-pago 4G" },
+    speedtest: { downloadMbps: 73, latencyMs: 63, qualityLabel: "Regular" },
+    demographics: { avgIncome: 2514, incomeLabel: "Médio-Baixo", populationDensity: 6010, populationGrowth: 2.8, growthLabel: "Moderado", technology: "4G", severity: "Média" },
+    diagnostico: { scoreOokla: 8.7, scoreOoklaMovel: 8.7, scoreOoklaFibra: 0, scoreHAC: 8.1, taxaChamados: 1.4, sharePenetracao: 37.8, deltaVsLider: -2.0, deltaVsLiderFibra: 0, deltaVsLiderMovel: 1.1, scoreLiderFibra: 0, scoreLiderMovel: 7.6, arpuRelativo: 0.63, canalDominante: "Digital", canalPct: 47, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 79 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 60 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 67 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 72 }] },
+    camada2: { fibra: { classification: "EXPANSAO_COBERTURA", score: 33, scoreLabel: "Médio", taxaOcupacao: 67, portasDisponiveis: 32 }, movel: { classification: "AUMENTO_CAPACIDADE", score: 36, scoreLabel: "Médio" }, decisaoIntegrada: "Melhorar qualidade de rede e reduzir churn." },
+    strategy: { title: "GROWTH", motive: "Área com potencial de crescimento. Foco em captação e expansão.", color: "#22C55E", bgColor: "#DCFCE7" },
+    priorityScore: 3,
+    priority: "MEDIA",
+  },
+  {
+    id: "scp836",
+    neighborhood: "Vila Nova Canedo",
+    city: "Senador Canedo",
+    quadrant: "GROWTH",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.697241089911000,
+    lng: -49.103994747822739,
+    satisfactionScores: [
+      { name: "VIVO", score: 6.1, color: "#660099" },
+      { name: "Claro", score: 5.2, color: "#DA291C" },
+      { name: "TIM", score: 5.1, color: "#1E40AF" },
+      { name: "Algar", score: 4.9, color: "#28BEA5" },
+      { name: "Surf", score: 4.9, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.1, color: "#660099" },
+      { name: "Claro", score: 5.2, color: "#DA291C" },
+      { name: "TIM", score: 5.1, color: "#1E40AF" },
+      { name: "Algar", score: 4.9, color: "#28BEA5" },
+      { name: "Surf", score: 4.9, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 43.8, activeClients: 3119, totalPopulation: 7122, label: "Média Penetração" },
+    shareTrend: { direction: "UP", delta: 0.9, deltaMovel: 0.8, deltaFibra: 0.7, shareMovel: 39.0, shareFibra: 0 },
+    crm: { arpu: 122, deviceTier: "Basic", planType: "Controle", arpuMovel: 122, arpuFibra: 0, planoMovel: "Controle" },
+    speedtest: { downloadMbps: 18, latencyMs: 74, qualityLabel: "Ruim" },
+    demographics: { avgIncome: 2004, incomeLabel: "Médio-Baixo", populationDensity: 11227, populationGrowth: 3.5, growthLabel: "Alto", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 5.8, scoreOoklaMovel: 5.8, scoreOoklaFibra: 0, scoreHAC: 5.4, taxaChamados: 5.3, sharePenetracao: 43.8, deltaVsLider: -2.3, deltaVsLiderFibra: 0, deltaVsLiderMovel: -0.0, scoreLiderFibra: 0, scoreLiderMovel: 5.8, arpuRelativo: 1.4, canalDominante: "Loja Física", canalPct: 56, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 69 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 81 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 75 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 71 }] },
+    camada2: { fibra: { classification: "EXPANSAO_NOVA_AREA", score: 30, scoreLabel: "Médio", taxaOcupacao: 44, portasDisponiveis: 12 }, movel: { classification: "EXPANSAO_COBERTURA", score: 47, scoreLabel: "Médio" }, decisaoIntegrada: "Rede saudável. Foco em upsell e fidelização." },
+    strategy: { title: "GROWTH", motive: "Área com potencial de crescimento. Foco em captação e expansão.", color: "#22C55E", bgColor: "#DCFCE7" },
+    priorityScore: 5,
+    priority: "ALTA",
+  },
+  {
+    id: "sc6dh7",
+    neighborhood: "Jardim Canedo II",
+    city: "Senador Canedo",
+    quadrant: "UPSELL",
+    isTop10: false,
+    technology: "FIBRA",
+    lat: -16.708419165308907,
+    lng: -49.108920368546293,
+    satisfactionScores: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "LinQ", score: 7.7, color: "#F8A81B" },
+      { name: "V.tal", score: 7.3, color: "#FFE84D" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "Algar", score: 6.9, color: "#28BEA5" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.7, color: "#660099" },
+      { name: "LinQ", score: 7.7, color: "#F8A81B" },
+      { name: "V.tal", score: 7.3, color: "#FFE84D" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "Algar", score: 6.9, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [],
+    marketShare: { percentage: 20.2, activeClients: 2471, totalPopulation: 12235, label: "Baixa Penetração" },
+    shareTrend: { direction: "UP", delta: 2.9, deltaMovel: 2.6, deltaFibra: 2.3, shareMovel: 0, shareFibra: 17.0 },
+    crm: { arpu: 128, deviceTier: "Mid-range", planType: "Fibra 300Mbps", arpuMovel: 0, arpuFibra: 128, planoMovel: "Controle" },
+    speedtest: { downloadMbps: 433, latencyMs: 9, qualityLabel: "Excelente" },
+    demographics: { avgIncome: 4122, incomeLabel: "Médio", populationDensity: 6227, populationGrowth: 1.8, growthLabel: "Baixo", technology: "Fibra", severity: "Baixa" },
+    diagnostico: { scoreOokla: 7.9, scoreOoklaMovel: 0, scoreOoklaFibra: 7.4, scoreHAC: 7.3, taxaChamados: 4.5, sharePenetracao: 20.2, deltaVsLider: 0.4, deltaVsLiderFibra: -0.7, deltaVsLiderMovel: 0, scoreLiderFibra: 8.1, scoreLiderMovel: 0, arpuRelativo: 1.47, canalDominante: "Digital", canalPct: 40, concorrentes: [{ nome: "Claro", coberturaFibra: true, planoFibra: "Fibra 200Mbps", precoFibra: 135, coberturaMovel: false, planoMovel: "", precoMovel: 0 }, { nome: "TIM", coberturaFibra: true, planoFibra: "Fibra 300Mbps", precoFibra: 110, coberturaMovel: false, planoMovel: "", precoMovel: 0 }, { nome: "NIO", coberturaFibra: true, planoFibra: "Fibra 300Mbps", precoFibra: 131, coberturaMovel: false, planoMovel: "", precoMovel: 0 }, { nome: "LinQ", coberturaFibra: true, planoFibra: "Fibra 700Mbps", precoFibra: 110, coberturaMovel: false, planoMovel: "", precoMovel: 0 }, { nome: "Algar", coberturaFibra: true, planoFibra: "Fibra 200Mbps", precoFibra: 120, coberturaMovel: false, planoMovel: "", precoMovel: 0 }] },
+    camada2: { fibra: { classification: "MELHORA_QUALIDADE", score: 57, scoreLabel: "Médio", taxaOcupacao: 69, portasDisponiveis: 30 }, movel: { classification: "SAUDAVEL", score: 48, scoreLabel: "Médio" }, decisaoIntegrada: "Foco em expansão de cobertura e captação de novos clientes." },
+    strategy: { title: "UPSELL", motive: "Base consolidada. Maximizar receita com planos premium.", color: "#7C3AED", bgColor: "#EDE9FE" },
+    priorityScore: 5,
+    priority: "BAIXA",
+  },
+  {
+    id: "sccqtk",
+    neighborhood: "Residencial Canedo VI",
+    city: "Senador Canedo",
+    quadrant: "GROWTH",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.713847508839354,
+    lng: -49.097447106387541,
+    satisfactionScores: [
+      { name: "VIVO", score: 6.3, color: "#660099" },
+      { name: "Claro", score: 5.9, color: "#DA291C" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" },
+      { name: "Algar", score: 5.5, color: "#28BEA5" },
+      { name: "Surf", score: 5.1, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.3, color: "#660099" },
+      { name: "Claro", score: 5.9, color: "#DA291C" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" },
+      { name: "Algar", score: 5.5, color: "#28BEA5" },
+      { name: "Surf", score: 5.1, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 19.3, activeClients: 1661, totalPopulation: 8608, label: "Baixa Penetração" },
+    shareTrend: { direction: "UP", delta: 2.9, deltaMovel: 2.6, deltaFibra: 2.3, shareMovel: 17.0, shareFibra: 0 },
+    crm: { arpu: 125, deviceTier: "Basic", planType: "Pós-pago 5G", arpuMovel: 125, arpuFibra: 0, planoMovel: "Pós-pago 5G" },
+    speedtest: { downloadMbps: 30, latencyMs: 39, qualityLabel: "Ruim" },
+    demographics: { avgIncome: 2199, incomeLabel: "Médio-Baixo", populationDensity: 4194, populationGrowth: 4.3, growthLabel: "Alto", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 6.2, scoreOoklaMovel: 6.3, scoreOoklaFibra: 0, scoreHAC: 5.9, taxaChamados: 1.0, sharePenetracao: 19.3, deltaVsLider: -2.1, deltaVsLiderFibra: 0, deltaVsLiderMovel: -1.9, scoreLiderFibra: 0, scoreLiderMovel: 8.2, arpuRelativo: 1.44, canalDominante: "Parceiros", canalPct: 35, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 66 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 67 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 56 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 61 }] },
+    camada2: { fibra: { classification: "MELHORA_QUALIDADE", score: 30, scoreLabel: "Médio", taxaOcupacao: 68, portasDisponiveis: 19 }, movel: { classification: "EXPANSAO_COBERTURA", score: 35, scoreLabel: "Médio" }, decisaoIntegrada: "Upsell para planos premium e convergência." },
+    strategy: { title: "GROWTH", motive: "Área com potencial de crescimento. Foco em captação e expansão.", color: "#22C55E", bgColor: "#DCFCE7" },
+    priorityScore: 5,
+    priority: "ALTA",
+  },
+  {
+    id: "scxjxr",
+    neighborhood: "Setor Centro-Norte",
+    city: "Senador Canedo",
+    quadrant: "UPSELL",
+    isTop10: false,
+    technology: "AMBOS",
+    lat: -16.700534339224159,
+    lng: -49.093811649110357,
+    satisfactionScores: [
+      { name: "VIVO", score: 6.4, color: "#660099" },
+      { name: "V.tal", score: 6.1, color: "#FFE84D" },
+      { name: "Claro", score: 6.0, color: "#DA291C" },
+      { name: "LinQ", score: 6.0, color: "#F8A81B" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 6.4, color: "#660099" },
+      { name: "V.tal", score: 6.1, color: "#FFE84D" },
+      { name: "Claro", score: 6.0, color: "#DA291C" },
+      { name: "LinQ", score: 6.0, color: "#F8A81B" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.5, color: "#660099" },
+      { name: "Claro", score: 6.0, color: "#DA291C" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" },
+      { name: "Algar", score: 5.5, color: "#28BEA5" },
+      { name: "Surf", score: 5.3, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 24.1, activeClients: 2785, totalPopulation: 11556, label: "Baixa Penetração" },
+    shareTrend: { direction: "UP", delta: 2.1, deltaMovel: 1.9, deltaFibra: 1.7, shareMovel: 22.0, shareFibra: 20.0 },
+    crm: { arpu: 119, deviceTier: "Mid-range", planType: "Fibra 100Mbps", arpuMovel: 94, arpuFibra: 144, planoMovel: "Pós-pago 5G" },
+    speedtest: { downloadMbps: 109, latencyMs: 11, qualityLabel: "Bom" },
+    demographics: { avgIncome: 6701, incomeLabel: "Médio-Alto", populationDensity: 9193, populationGrowth: 2.9, growthLabel: "Moderado", technology: "Fibra+4G", severity: "Média" },
+    diagnostico: { scoreOokla: 6.4, scoreOoklaMovel: 6.3, scoreOoklaFibra: 6.6, scoreHAC: 6.0, taxaChamados: 1.1, sharePenetracao: 24.1, deltaVsLider: -0.3, deltaVsLiderFibra: -0.9, deltaVsLiderMovel: -1.8, scoreLiderFibra: 7.5, scoreLiderMovel: 8.1, arpuRelativo: 1.37, canalDominante: "Digital", canalPct: 44, concorrentes: [{ nome: "Claro", coberturaFibra: true, planoFibra: "Fibra 300Mbps", precoFibra: 112, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 93 }, { nome: "TIM", coberturaFibra: true, planoFibra: "Fibra 200Mbps", precoFibra: 115, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 62 }, { nome: "NIO", coberturaFibra: true, planoFibra: "Fibra 300Mbps", precoFibra: 127, coberturaMovel: false, planoMovel: "", precoMovel: 0 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 73 }] },
+    camada2: { fibra: { classification: "EXPANSAO_COBERTURA", score: 5, scoreLabel: "Baixo", taxaOcupacao: 82, portasDisponiveis: 8 }, movel: { classification: "SAUDAVEL", score: 67, scoreLabel: "Alto" }, decisaoIntegrada: "Foco em expansão de cobertura e captação de novos clientes." },
+    strategy: { title: "UPSELL", motive: "Base consolidada. Maximizar receita com planos premium.", color: "#7C3AED", bgColor: "#EDE9FE" },
+    priorityScore: 10,
+    priority: "MEDIA",
+  },
+  {
+    id: "scn314",
+    neighborhood: "Parque Canedo",
+    city: "Senador Canedo",
+    quadrant: "GROWTH_RETENCAO",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.708143990346201,
+    lng: -49.088065125839670,
+    satisfactionScores: [
+      { name: "VIVO", score: 6.4, color: "#660099" },
+      { name: "Claro", score: 6.1, color: "#DA291C" },
+      { name: "TIM", score: 5.4, color: "#1E40AF" },
+      { name: "Algar", score: 5.2, color: "#28BEA5" },
+      { name: "Surf", score: 5.1, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.4, color: "#660099" },
+      { name: "Claro", score: 6.1, color: "#DA291C" },
+      { name: "TIM", score: 5.4, color: "#1E40AF" },
+      { name: "Algar", score: 5.2, color: "#28BEA5" },
+      { name: "Surf", score: 5.1, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 20.5, activeClients: 2950, totalPopulation: 14388, label: "Baixa Penetração" },
+    shareTrend: { direction: "STABLE", delta: -0.2, deltaMovel: -0.2, deltaFibra: -0.2, shareMovel: 18.0, shareFibra: 0 },
+    crm: { arpu: 82, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 82, arpuFibra: 0, planoMovel: "Pós-pago 4G" },
+    speedtest: { downloadMbps: 112, latencyMs: 49, qualityLabel: "Bom" },
+    demographics: { avgIncome: 3155, incomeLabel: "Médio", populationDensity: 9407, populationGrowth: 3.8, growthLabel: "Alto", technology: "4G", severity: "Média" },
+    diagnostico: { scoreOokla: 6.3, scoreOoklaMovel: 5.9, scoreOoklaFibra: 0, scoreHAC: 5.8, taxaChamados: 2.7, sharePenetracao: 20.5, deltaVsLider: -0.1, deltaVsLiderFibra: 0, deltaVsLiderMovel: -0.7, scoreLiderFibra: 0, scoreLiderMovel: 6.6, arpuRelativo: 0.94, canalDominante: "Parceiros", canalPct: 50, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 93 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 72 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 71 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 57 }] },
+    camada2: { fibra: { classification: "SAUDAVEL", score: 72, scoreLabel: "Alto", taxaOcupacao: 84, portasDisponiveis: 28 }, movel: { classification: "AUMENTO_CAPACIDADE", score: 79, scoreLabel: "Alto" }, decisaoIntegrada: "Melhorar qualidade de rede e reduzir churn." },
+    strategy: { title: "GROWTH+RETENÇÃO", motive: "Share baixo e qualidade comprometida. Dupla frente.", color: "#28BEA5", bgColor: "#FFF7ED" },
+    priorityScore: 7,
+    priority: "MEDIA",
+  },
+  {
+    id: "scuxm2",
+    neighborhood: "Residencial Canedo VII",
+    city: "Senador Canedo",
+    quadrant: "GROWTH",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.704429043450329,
+    lng: -49.097568649065593,
+    satisfactionScores: [
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "Claro", score: 5.8, color: "#DA291C" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" },
+      { name: "Algar", score: 5.2, color: "#28BEA5" },
+      { name: "Surf", score: 4.7, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "Claro", score: 5.8, color: "#DA291C" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" },
+      { name: "Algar", score: 5.2, color: "#28BEA5" },
+      { name: "Surf", score: 4.7, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 18.7, activeClients: 1536, totalPopulation: 8215, label: "Baixa Penetração" },
+    shareTrend: { direction: "DOWN", delta: -2.0, deltaMovel: -1.8, deltaFibra: -1.6, shareMovel: 17.0, shareFibra: 0 },
+    crm: { arpu: 76, deviceTier: "Basic", planType: "Pós-pago 5G", arpuMovel: 76, arpuFibra: 0, planoMovel: "Pós-pago 5G" },
+    speedtest: { downloadMbps: 62, latencyMs: 21, qualityLabel: "Regular" },
+    demographics: { avgIncome: 2017, incomeLabel: "Médio-Baixo", populationDensity: 9840, populationGrowth: 4.1, growthLabel: "Alto", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 6.0, scoreOoklaMovel: 5.9, scoreOoklaFibra: 0, scoreHAC: 6.0, taxaChamados: 3.1, sharePenetracao: 18.7, deltaVsLider: -0.6, deltaVsLiderFibra: 0, deltaVsLiderMovel: 1.5, scoreLiderFibra: 0, scoreLiderMovel: 4.4, arpuRelativo: 0.87, canalDominante: "Televendas", canalPct: 41, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 86 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 71 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 65 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 60 }] },
+    camada2: { fibra: { classification: "MELHORA_QUALIDADE", score: 34, scoreLabel: "Médio", taxaOcupacao: 51, portasDisponiveis: 30 }, movel: { classification: "SAUDAVEL", score: 25, scoreLabel: "Baixo" }, decisaoIntegrada: "Rede saudável. Foco em upsell e fidelização." },
+    strategy: { title: "GROWTH", motive: "Área com potencial de crescimento. Foco em captação e expansão.", color: "#22C55E", bgColor: "#DCFCE7" },
+    priorityScore: 3,
+    priority: "ALTA",
+  },
+  {
+    id: "sch7kr",
+    neighborhood: "Setor Sudeste Canedo",
+    city: "Senador Canedo",
+    quadrant: "RETENCAO",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.717444468412083,
+    lng: -49.097457939397565,
+    satisfactionScores: [
+      { name: "VIVO", score: 7.2, color: "#660099" },
+      { name: "Claro", score: 6.5, color: "#DA291C" },
+      { name: "TIM", score: 6.2, color: "#1E40AF" },
+      { name: "Surf", score: 5.8, color: "#0003F9" },
+      { name: "Algar", score: 5.7, color: "#28BEA5" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.2, color: "#660099" },
+      { name: "Claro", score: 6.5, color: "#DA291C" },
+      { name: "TIM", score: 6.2, color: "#1E40AF" },
+      { name: "Surf", score: 5.8, color: "#0003F9" },
+      { name: "Algar", score: 5.7, color: "#28BEA5" }
+    ],
+    marketShare: { percentage: 20.9, activeClients: 2554, totalPopulation: 12221, label: "Baixa Penetração" },
+    shareTrend: { direction: "DOWN", delta: -0.6, deltaMovel: -0.5, deltaFibra: -0.5, shareMovel: 19.0, shareFibra: 0 },
+    crm: { arpu: 93, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 93, arpuFibra: 0, planoMovel: "Pós-pago 4G" },
+    speedtest: { downloadMbps: 17, latencyMs: 53, qualityLabel: "Ruim" },
+    demographics: { avgIncome: 2793, incomeLabel: "Médio-Baixo", populationDensity: 8838, populationGrowth: 1.6, growthLabel: "Baixo", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 6.9, scoreOoklaMovel: 7.3, scoreOoklaFibra: 0, scoreHAC: 6.6, taxaChamados: 4.6, sharePenetracao: 20.9, deltaVsLider: 0.6, deltaVsLiderFibra: 0, deltaVsLiderMovel: 1.4, scoreLiderFibra: 0, scoreLiderMovel: 5.9, arpuRelativo: 1.07, canalDominante: "Digital", canalPct: 33, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 79 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 71 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 63 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 66 }] },
+    camada2: { fibra: { classification: "AUMENTO_CAPACIDADE", score: 44, scoreLabel: "Médio", taxaOcupacao: 52, portasDisponiveis: 25 }, movel: { classification: "SAUDAVEL", score: 61, scoreLabel: "Alto" }, decisaoIntegrada: "Rede saudável. Foco em upsell e fidelização." },
+    strategy: { title: "RETENÇÃO", motive: "Alto churn. Foco em retenção e melhoria de qualidade.", color: "#DA291C", bgColor: "#FEE2E2" },
+    priorityScore: 6,
+    priority: "ALTA",
+  },
+  {
+    id: "sc543y",
+    neighborhood: "Jardim Canedo III",
+    city: "Senador Canedo",
+    quadrant: "GROWTH",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.705135042903624,
+    lng: -49.094278194832029,
+    satisfactionScores: [
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "TIM", score: 6.8, color: "#1E40AF" },
+      { name: "Algar", score: 6.4, color: "#28BEA5" },
+      { name: "Surf", score: 5.8, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.4, color: "#660099" },
+      { name: "Claro", score: 7.2, color: "#DA291C" },
+      { name: "TIM", score: 6.8, color: "#1E40AF" },
+      { name: "Algar", score: 6.4, color: "#28BEA5" },
+      { name: "Surf", score: 5.8, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 36.8, activeClients: 4211, totalPopulation: 11443, label: "Média Penetração" },
+    shareTrend: { direction: "STABLE", delta: 0.0, deltaMovel: 0.0, deltaFibra: 0.0, shareMovel: 33.0, shareFibra: 0 },
+    crm: { arpu: 129, deviceTier: "Basic", planType: "Controle", arpuMovel: 129, arpuFibra: 0, planoMovel: "Controle" },
+    speedtest: { downloadMbps: 116, latencyMs: 39, qualityLabel: "Bom" },
+    demographics: { avgIncome: 2047, incomeLabel: "Médio-Baixo", populationDensity: 6936, populationGrowth: 3.5, growthLabel: "Alto", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 7.4, scoreOoklaMovel: 7.9, scoreOoklaFibra: 0, scoreHAC: 7.1, taxaChamados: 4.9, sharePenetracao: 36.8, deltaVsLider: -0.5, deltaVsLiderFibra: 0, deltaVsLiderMovel: 1.3, scoreLiderFibra: 0, scoreLiderMovel: 6.6, arpuRelativo: 1.48, canalDominante: "Loja Física", canalPct: 63, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 80 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 75 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 55 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 77 }] },
+    camada2: { fibra: { classification: "SAUDAVEL", score: 63, scoreLabel: "Alto", taxaOcupacao: 65, portasDisponiveis: 14 }, movel: { classification: "AUMENTO_CAPACIDADE", score: 25, scoreLabel: "Baixo" }, decisaoIntegrada: "Rede saudável. Foco em upsell e fidelização." },
+    strategy: { title: "GROWTH", motive: "Área com potencial de crescimento. Foco em captação e expansão.", color: "#22C55E", bgColor: "#DCFCE7" },
+    priorityScore: 10,
+    priority: "ALTA",
+  },
+  {
+    id: "gnjznm",
+    neighborhood: "Centro de Goianira",
+    city: "Goianira",
+    quadrant: "UPSELL",
+    isTop10: false,
+    technology: "AMBOS",
+    lat: -16.496853066245844,
+    lng: -49.427412359513440,
+    satisfactionScores: [
+      { name: "VIVO", score: 7.3, color: "#660099" },
+      { name: "LinQ", score: 7.2, color: "#F8A81B" },
+      { name: "Claro", score: 6.7, color: "#DA291C" },
+      { name: "V.tal", score: 6.6, color: "#FFE84D" },
+      { name: "Algar", score: 6.5, color: "#28BEA5" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 7.3, color: "#660099" },
+      { name: "LinQ", score: 7.2, color: "#F8A81B" },
+      { name: "Claro", score: 6.7, color: "#DA291C" },
+      { name: "V.tal", score: 6.6, color: "#FFE84D" },
+      { name: "Algar", score: 6.5, color: "#28BEA5" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.5, color: "#660099" },
+      { name: "TIM", score: 6.8, color: "#1E40AF" },
+      { name: "Claro", score: 6.7, color: "#DA291C" },
+      { name: "Algar", score: 6.2, color: "#28BEA5" },
+      { name: "Surf", score: 5.8, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 46.5, activeClients: 4067, totalPopulation: 8746, label: "Alta Penetração" },
+    shareTrend: { direction: "UP", delta: 1.8, deltaMovel: 1.6, deltaFibra: 1.4, shareMovel: 42.0, shareFibra: 40.0 },
+    crm: { arpu: 120, deviceTier: "Mid-range", planType: "Fibra 500Mbps", arpuMovel: 106, arpuFibra: 133, planoMovel: "Pós-pago 4G" },
+    speedtest: { downloadMbps: 96, latencyMs: 17, qualityLabel: "Regular" },
+    demographics: { avgIncome: 4275, incomeLabel: "Médio", populationDensity: 4476, populationGrowth: 2.8, growthLabel: "Moderado", technology: "Fibra+4G", severity: "Média" },
+    diagnostico: { scoreOokla: 7.4, scoreOoklaMovel: 7.6, scoreOoklaFibra: 7.2, scoreHAC: 7.2, taxaChamados: 1.9, sharePenetracao: 46.5, deltaVsLider: -0.4, deltaVsLiderFibra: 0.4, deltaVsLiderMovel: -0.3, scoreLiderFibra: 6.8, scoreLiderMovel: 7.9, arpuRelativo: 1.38, canalDominante: "Televendas", canalPct: 43, concorrentes: [{ nome: "Claro", coberturaFibra: true, planoFibra: "Fibra 200Mbps", precoFibra: 113, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 83 }, { nome: "TIM", coberturaFibra: true, planoFibra: "Fibra 300Mbps", precoFibra: 137, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 75 }, { nome: "NIO", coberturaFibra: true, planoFibra: "Fibra 200Mbps", precoFibra: 127, coberturaMovel: false, planoMovel: "", precoMovel: 0 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 62 }] },
+    camada2: { fibra: { classification: "AUMENTO_CAPACIDADE", score: 38, scoreLabel: "Médio", taxaOcupacao: 45, portasDisponiveis: 32 }, movel: { classification: "AUMENTO_CAPACIDADE", score: 25, scoreLabel: "Baixo" }, decisaoIntegrada: "Melhorar qualidade de rede e reduzir churn." },
+    strategy: { title: "UPSELL", motive: "Base consolidada. Maximizar receita com planos premium.", color: "#7C3AED", bgColor: "#EDE9FE" },
+    priorityScore: 3,
+    priority: "MEDIA",
+  },
+  {
+    id: "gnjjb3",
+    neighborhood: "Residencial Goianira I",
+    city: "Goianira",
+    quadrant: "GROWTH",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.497489810760712,
+    lng: -49.431329039539023,
+    satisfactionScores: [
+      { name: "VIVO", score: 7.2, color: "#660099" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "TIM", score: 6.4, color: "#1E40AF" },
+      { name: "Algar", score: 6.1, color: "#28BEA5" },
+      { name: "Surf", score: 5.9, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.2, color: "#660099" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "TIM", score: 6.4, color: "#1E40AF" },
+      { name: "Algar", score: 6.1, color: "#28BEA5" },
+      { name: "Surf", score: 5.9, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 20.0, activeClients: 2085, totalPopulation: 10426, label: "Baixa Penetração" },
+    shareTrend: { direction: "STABLE", delta: -0.0, deltaMovel: -0.0, deltaFibra: -0.0, shareMovel: 18.0, shareFibra: 0 },
+    crm: { arpu: 94, deviceTier: "Basic", planType: "Controle", arpuMovel: 94, arpuFibra: 0, planoMovel: "Controle" },
+    speedtest: { downloadMbps: 42, latencyMs: 68, qualityLabel: "Ruim" },
+    demographics: { avgIncome: 3067, incomeLabel: "Médio", populationDensity: 10518, populationGrowth: 3.6, growthLabel: "Alto", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 7.1, scoreOoklaMovel: 7.1, scoreOoklaFibra: 0, scoreHAC: 6.7, taxaChamados: 2.1, sharePenetracao: 20.0, deltaVsLider: -1.7, deltaVsLiderFibra: 0, deltaVsLiderMovel: -1.0, scoreLiderFibra: 0, scoreLiderMovel: 8.1, arpuRelativo: 1.08, canalDominante: "Digital", canalPct: 48, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 95 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 83 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 78 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 64 }] },
+    camada2: { fibra: { classification: "SAUDAVEL", score: 84, scoreLabel: "Alto", taxaOcupacao: 42, portasDisponiveis: 37 }, movel: { classification: "EXPANSAO_COBERTURA", score: 34, scoreLabel: "Médio" }, decisaoIntegrada: "Melhorar qualidade de rede e reduzir churn." },
+    strategy: { title: "GROWTH", motive: "Área com potencial de crescimento. Foco em captação e expansão.", color: "#22C55E", bgColor: "#DCFCE7" },
+    priorityScore: 7,
+    priority: "ALTA",
+  },
+  {
+    id: "gn01nm",
+    neighborhood: "Setor Norte Goianira",
+    city: "Goianira",
+    quadrant: "GROWTH",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.494330557763838,
+    lng: -49.424675570000971,
+    satisfactionScores: [
+      { name: "VIVO", score: 5.9, color: "#660099" },
+      { name: "Claro", score: 5.3, color: "#DA291C" },
+      { name: "TIM", score: 5.1, color: "#1E40AF" },
+      { name: "Algar", score: 4.6, color: "#28BEA5" },
+      { name: "Surf", score: 4.5, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.9, color: "#660099" },
+      { name: "Claro", score: 5.3, color: "#DA291C" },
+      { name: "TIM", score: 5.1, color: "#1E40AF" },
+      { name: "Algar", score: 4.6, color: "#28BEA5" },
+      { name: "Surf", score: 4.5, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 41.8, activeClients: 3987, totalPopulation: 9539, label: "Média Penetração" },
+    shareTrend: { direction: "UP", delta: 2.0, deltaMovel: 1.8, deltaFibra: 1.6, shareMovel: 38.0, shareFibra: 0 },
+    crm: { arpu: 79, deviceTier: "Basic", planType: "Controle", arpuMovel: 79, arpuFibra: 0, planoMovel: "Controle" },
+    speedtest: { downloadMbps: 109, latencyMs: 37, qualityLabel: "Bom" },
+    demographics: { avgIncome: 2238, incomeLabel: "Médio-Baixo", populationDensity: 4008, populationGrowth: 3.3, growthLabel: "Moderado", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 5.6, scoreOoklaMovel: 5.8, scoreOoklaFibra: 0, scoreHAC: 5.3, taxaChamados: 4.5, sharePenetracao: 41.8, deltaVsLider: -2.0, deltaVsLiderFibra: 0, deltaVsLiderMovel: -0.2, scoreLiderFibra: 0, scoreLiderMovel: 6.0, arpuRelativo: 0.91, canalDominante: "Digital", canalPct: 36, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 88 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 65 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 60 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 79 }] },
+    camada2: { fibra: { classification: "AUMENTO_CAPACIDADE", score: 76, scoreLabel: "Alto", taxaOcupacao: 50, portasDisponiveis: 14 }, movel: { classification: "SAUDAVEL", score: 46, scoreLabel: "Médio" }, decisaoIntegrada: "Upsell para planos premium e convergência." },
+    strategy: { title: "GROWTH", motive: "Área com potencial de crescimento. Foco em captação e expansão.", color: "#22C55E", bgColor: "#DCFCE7" },
+    priorityScore: 4,
+    priority: "ALTA",
+  },
+  {
+    id: "gnm666",
+    neighborhood: "Jardim Goianira",
+    city: "Goianira",
+    quadrant: "RETENCAO",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.500906095152967,
+    lng: -49.429780856687067,
+    satisfactionScores: [
+      { name: "VIVO", score: 6.8, color: "#660099" },
+      { name: "Claro", score: 6.3, color: "#DA291C" },
+      { name: "TIM", score: 5.8, color: "#1E40AF" },
+      { name: "Algar", score: 5.8, color: "#28BEA5" },
+      { name: "Surf", score: 5.5, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.8, color: "#660099" },
+      { name: "Claro", score: 6.3, color: "#DA291C" },
+      { name: "TIM", score: 5.8, color: "#1E40AF" },
+      { name: "Algar", score: 5.8, color: "#28BEA5" },
+      { name: "Surf", score: 5.5, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 27.5, activeClients: 3263, totalPopulation: 11864, label: "Baixa Penetração" },
+    shareTrend: { direction: "UP", delta: 1.2, deltaMovel: 1.1, deltaFibra: 1.0, shareMovel: 25.0, shareFibra: 0 },
+    crm: { arpu: 108, deviceTier: "Basic", planType: "Pós-pago 5G", arpuMovel: 108, arpuFibra: 0, planoMovel: "Pós-pago 5G" },
+    speedtest: { downloadMbps: 108, latencyMs: 69, qualityLabel: "Bom" },
+    demographics: { avgIncome: 2073, incomeLabel: "Médio-Baixo", populationDensity: 10602, populationGrowth: 3.4, growthLabel: "Moderado", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 6.7, scoreOoklaMovel: 6.9, scoreOoklaFibra: 0, scoreHAC: 6.6, taxaChamados: 3.4, sharePenetracao: 27.5, deltaVsLider: 1.1, deltaVsLiderFibra: 0, deltaVsLiderMovel: 1.5, scoreLiderFibra: 0, scoreLiderMovel: 5.4, arpuRelativo: 1.24, canalDominante: "Televendas", canalPct: 51, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 76 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 83 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 78 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 66 }] },
+    camada2: { fibra: { classification: "AUMENTO_CAPACIDADE", score: 61, scoreLabel: "Alto", taxaOcupacao: 43, portasDisponiveis: 12 }, movel: { classification: "EXPANSAO_COBERTURA", score: 12, scoreLabel: "Baixo" }, decisaoIntegrada: "Melhorar qualidade de rede e reduzir churn." },
+    strategy: { title: "RETENÇÃO", motive: "Alto churn. Foco em retenção e melhoria de qualidade.", color: "#DA291C", bgColor: "#FEE2E2" },
+    priorityScore: 4,
+    priority: "ALTA",
+  },
+  {
+    id: "gn5brn",
+    neighborhood: "Residencial Goianira II",
+    city: "Goianira",
+    quadrant: "UPSELL",
+    isTop10: false,
+    technology: "FIBRA",
+    lat: -16.496143108794325,
+    lng: -49.432964994025816,
+    satisfactionScores: [
+      { name: "VIVO", score: 9.0, color: "#660099" },
+      { name: "LinQ", score: 8.3, color: "#F8A81B" },
+      { name: "Claro", score: 8.2, color: "#DA291C" },
+      { name: "V.tal", score: 7.9, color: "#FFE84D" },
+      { name: "TIM", score: 7.6, color: "#1E40AF" }
+    ],
+    satisfactionFibra: [
+      { name: "VIVO", score: 9.0, color: "#660099" },
+      { name: "LinQ", score: 8.3, color: "#F8A81B" },
+      { name: "Claro", score: 8.2, color: "#DA291C" },
+      { name: "V.tal", score: 7.9, color: "#FFE84D" },
+      { name: "TIM", score: 7.6, color: "#1E40AF" }
+    ],
+    satisfactionMovel: [],
+    marketShare: { percentage: 42.9, activeClients: 4788, totalPopulation: 11160, label: "Média Penetração" },
+    shareTrend: { direction: "UP", delta: 2.7, deltaMovel: 2.4, deltaFibra: 2.2, shareMovel: 0, shareFibra: 36.0 },
+    crm: { arpu: 150, deviceTier: "Basic", planType: "Fibra 500Mbps", arpuMovel: 0, arpuFibra: 150, planoMovel: "Controle" },
+    speedtest: { downloadMbps: 187, latencyMs: 6, qualityLabel: "Bom" },
+    demographics: { avgIncome: 3664, incomeLabel: "Médio", populationDensity: 4331, populationGrowth: 1.9, growthLabel: "Baixo", technology: "Fibra", severity: "Baixa" },
+    diagnostico: { scoreOokla: 8.7, scoreOoklaMovel: 0, scoreOoklaFibra: 8.2, scoreHAC: 8.1, taxaChamados: 4.6, sharePenetracao: 42.9, deltaVsLider: -0.1, deltaVsLiderFibra: 0.7, deltaVsLiderMovel: 0, scoreLiderFibra: 7.5, scoreLiderMovel: 0, arpuRelativo: 1.72, canalDominante: "Loja Física", canalPct: 49, concorrentes: [{ nome: "Claro", coberturaFibra: true, planoFibra: "Fibra 300Mbps", precoFibra: 125, coberturaMovel: false, planoMovel: "", precoMovel: 0 }, { nome: "TIM", coberturaFibra: true, planoFibra: "Fibra 300Mbps", precoFibra: 110, coberturaMovel: false, planoMovel: "", precoMovel: 0 }, { nome: "NIO", coberturaFibra: true, planoFibra: "Fibra 200Mbps", precoFibra: 106, coberturaMovel: false, planoMovel: "", precoMovel: 0 }, { nome: "LinQ", coberturaFibra: true, planoFibra: "Fibra 700Mbps", precoFibra: 137, coberturaMovel: false, planoMovel: "", precoMovel: 0 }, { nome: "Algar", coberturaFibra: true, planoFibra: "Fibra 100Mbps", precoFibra: 108, coberturaMovel: false, planoMovel: "", precoMovel: 0 }] },
+    camada2: { fibra: { classification: "EXPANSAO_NOVA_AREA", score: 82, scoreLabel: "Alto", taxaOcupacao: 82, portasDisponiveis: 35 }, movel: { classification: "SAUDAVEL", score: 44, scoreLabel: "Médio" }, decisaoIntegrada: "Foco em expansão de cobertura e captação de novos clientes." },
+    strategy: { title: "UPSELL", motive: "Base consolidada. Maximizar receita com planos premium.", color: "#7C3AED", bgColor: "#EDE9FE" },
+    priorityScore: 6,
+    priority: "BAIXA",
+  },
+  {
+    id: "gnut6k",
+    neighborhood: "Setor Sul Goianira",
+    city: "Goianira",
+    quadrant: "GROWTH",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.507181639648529,
+    lng: -49.430253418452985,
+    satisfactionScores: [
+      { name: "VIVO", score: 9.0, color: "#660099" },
+      { name: "Claro", score: 8.1, color: "#DA291C" },
+      { name: "TIM", score: 7.8, color: "#1E40AF" },
+      { name: "Algar", score: 7.5, color: "#28BEA5" },
+      { name: "Surf", score: 7.3, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 9.0, color: "#660099" },
+      { name: "Claro", score: 8.1, color: "#DA291C" },
+      { name: "TIM", score: 7.8, color: "#1E40AF" },
+      { name: "Algar", score: 7.5, color: "#28BEA5" },
+      { name: "Surf", score: 7.3, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 25.6, activeClients: 3216, totalPopulation: 12561, label: "Baixa Penetração" },
+    shareTrend: { direction: "DOWN", delta: -0.7, deltaMovel: -0.6, deltaFibra: -0.6, shareMovel: 23.0, shareFibra: 0 },
+    crm: { arpu: 80, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 80, arpuFibra: 0, planoMovel: "Pós-pago 4G" },
+    speedtest: { downloadMbps: 100, latencyMs: 44, qualityLabel: "Bom" },
+    demographics: { avgIncome: 1942, incomeLabel: "Médio-Baixo", populationDensity: 8943, populationGrowth: 2.3, growthLabel: "Moderado", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 8.9, scoreOoklaMovel: 8.5, scoreOoklaFibra: 0, scoreHAC: 8.7, taxaChamados: 2.4, sharePenetracao: 25.6, deltaVsLider: -1.5, deltaVsLiderFibra: 0, deltaVsLiderMovel: -0.6, scoreLiderFibra: 0, scoreLiderMovel: 9.1, arpuRelativo: 0.92, canalDominante: "Televendas", canalPct: 60, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 83 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 79 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 78 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 69 }] },
+    camada2: { fibra: { classification: "EXPANSAO_COBERTURA", score: 77, scoreLabel: "Alto", taxaOcupacao: 39, portasDisponiveis: 32 }, movel: { classification: "AUMENTO_CAPACIDADE", score: 51, scoreLabel: "Médio" }, decisaoIntegrada: "Foco em expansão de cobertura e captação de novos clientes." },
+    strategy: { title: "GROWTH", motive: "Área com potencial de crescimento. Foco em captação e expansão.", color: "#22C55E", bgColor: "#DCFCE7" },
+    priorityScore: 9,
+    priority: "ALTA",
+  },
+  {
+    id: "gnfeqw",
+    neighborhood: "Vila Nova Goianira",
+    city: "Goianira",
+    quadrant: "GROWTH_RETENCAO",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.497737479958285,
+    lng: -49.426573453428020,
+    satisfactionScores: [
+      { name: "VIVO", score: 7.3, color: "#660099" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "TIM", score: 6.5, color: "#1E40AF" },
+      { name: "Algar", score: 6.2, color: "#28BEA5" },
+      { name: "Surf", score: 5.7, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 7.3, color: "#660099" },
+      { name: "Claro", score: 6.9, color: "#DA291C" },
+      { name: "TIM", score: 6.5, color: "#1E40AF" },
+      { name: "Algar", score: 6.2, color: "#28BEA5" },
+      { name: "Surf", score: 5.7, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 32.0, activeClients: 1712, totalPopulation: 5351, label: "Média Penetração" },
+    shareTrend: { direction: "UP", delta: 1.5, deltaMovel: 1.4, deltaFibra: 1.2, shareMovel: 29.0, shareFibra: 0 },
+    crm: { arpu: 66, deviceTier: "Basic", planType: "Controle", arpuMovel: 66, arpuFibra: 0, planoMovel: "Controle" },
+    speedtest: { downloadMbps: 89, latencyMs: 24, qualityLabel: "Regular" },
+    demographics: { avgIncome: 3683, incomeLabel: "Médio", populationDensity: 10825, populationGrowth: 3.5, growthLabel: "Alto", technology: "4G", severity: "Média" },
+    diagnostico: { scoreOokla: 7.1, scoreOoklaMovel: 7.0, scoreOoklaFibra: 0, scoreHAC: 7.0, taxaChamados: 3.6, sharePenetracao: 32.0, deltaVsLider: 0.1, deltaVsLiderFibra: 0, deltaVsLiderMovel: 0.1, scoreLiderFibra: 0, scoreLiderMovel: 6.9, arpuRelativo: 0.76, canalDominante: "Digital", canalPct: 34, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 94 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 74 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 67 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 67 }] },
+    camada2: { fibra: { classification: "AUMENTO_CAPACIDADE", score: 37, scoreLabel: "Médio", taxaOcupacao: 59, portasDisponiveis: 22 }, movel: { classification: "EXPANSAO_COBERTURA", score: 57, scoreLabel: "Médio" }, decisaoIntegrada: "Rede saudável. Foco em upsell e fidelização." },
+    strategy: { title: "GROWTH+RETENÇÃO", motive: "Share baixo e qualidade comprometida. Dupla frente.", color: "#28BEA5", bgColor: "#FFF7ED" },
+    priorityScore: 9,
+    priority: "MEDIA",
+  },
+  {
+    id: "gn5dsc",
+    neighborhood: "Parque Goianira",
+    city: "Goianira",
+    quadrant: "GROWTH",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.499666469267282,
+    lng: -49.435464276509457,
+    satisfactionScores: [
+      { name: "VIVO", score: 8.3, color: "#660099" },
+      { name: "Claro", score: 7.7, color: "#DA291C" },
+      { name: "TIM", score: 7.2, color: "#1E40AF" },
+      { name: "Algar", score: 7.2, color: "#28BEA5" },
+      { name: "Surf", score: 6.9, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.3, color: "#660099" },
+      { name: "Claro", score: 7.7, color: "#DA291C" },
+      { name: "TIM", score: 7.2, color: "#1E40AF" },
+      { name: "Algar", score: 7.2, color: "#28BEA5" },
+      { name: "Surf", score: 6.9, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 39.3, activeClients: 5135, totalPopulation: 13066, label: "Média Penetração" },
+    shareTrend: { direction: "STABLE", delta: 0.1, deltaMovel: 0.1, deltaFibra: 0.1, shareMovel: 35.0, shareFibra: 0 },
+    crm: { arpu: 59, deviceTier: "Basic", planType: "Controle", arpuMovel: 59, arpuFibra: 0, planoMovel: "Controle" },
+    speedtest: { downloadMbps: 56, latencyMs: 33, qualityLabel: "Regular" },
+    demographics: { avgIncome: 2445, incomeLabel: "Médio-Baixo", populationDensity: 5001, populationGrowth: 3.5, growthLabel: "Alto", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 8.2, scoreOoklaMovel: 8.5, scoreOoklaFibra: 0, scoreHAC: 7.8, taxaChamados: 4.7, sharePenetracao: 39.3, deltaVsLider: -0.4, deltaVsLiderFibra: 0, deltaVsLiderMovel: 0.3, scoreLiderFibra: 0, scoreLiderMovel: 8.2, arpuRelativo: 0.68, canalDominante: "Parceiros", canalPct: 47, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 76 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 80 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 62 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 57 }] },
+    camada2: { fibra: { classification: "SAUDAVEL", score: 12, scoreLabel: "Baixo", taxaOcupacao: 76, portasDisponiveis: 23 }, movel: { classification: "SAUDAVEL", score: 60, scoreLabel: "Alto" }, decisaoIntegrada: "Dupla frente: melhorar rede e captar novos clientes." },
+    strategy: { title: "GROWTH", motive: "Área com potencial de crescimento. Foco em captação e expansão.", color: "#22C55E", bgColor: "#DCFCE7" },
+    priorityScore: 9,
+    priority: "ALTA",
+  },
+  {
+    id: "gnp3ps",
+    neighborhood: "Residencial Goianira III",
+    city: "Goianira",
+    quadrant: "RETENCAO",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.496335583445489,
+    lng: -49.429484578828649,
+    satisfactionScores: [
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "Claro", score: 5.7, color: "#DA291C" },
+      { name: "TIM", score: 5.7, color: "#1E40AF" },
+      { name: "Algar", score: 5.4, color: "#28BEA5" },
+      { name: "Surf", score: 4.9, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "Claro", score: 5.7, color: "#DA291C" },
+      { name: "TIM", score: 5.7, color: "#1E40AF" },
+      { name: "Algar", score: 5.4, color: "#28BEA5" },
+      { name: "Surf", score: 4.9, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 50.8, activeClients: 3138, totalPopulation: 6177, label: "Alta Penetração" },
+    shareTrend: { direction: "STABLE", delta: -0.2, deltaMovel: -0.2, deltaFibra: -0.2, shareMovel: 46.0, shareFibra: 0 },
+    crm: { arpu: 99, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 99, arpuFibra: 0, planoMovel: "Pós-pago 4G" },
+    speedtest: { downloadMbps: 100, latencyMs: 23, qualityLabel: "Bom" },
+    demographics: { avgIncome: 2459, incomeLabel: "Médio-Baixo", populationDensity: 7407, populationGrowth: 4.2, growthLabel: "Alto", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 6.1, scoreOoklaMovel: 6.0, scoreOoklaFibra: 0, scoreHAC: 6.0, taxaChamados: 4.4, sharePenetracao: 50.8, deltaVsLider: 1.3, deltaVsLiderFibra: 0, deltaVsLiderMovel: -1.8, scoreLiderFibra: 0, scoreLiderMovel: 7.8, arpuRelativo: 1.14, canalDominante: "Televendas", canalPct: 55, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 78 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 89 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 70 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 55 }] },
+    camada2: { fibra: { classification: "EXPANSAO_COBERTURA", score: 53, scoreLabel: "Médio", taxaOcupacao: 78, portasDisponiveis: 12 }, movel: { classification: "AUMENTO_CAPACIDADE", score: 73, scoreLabel: "Alto" }, decisaoIntegrada: "Upsell para planos premium e convergência." },
+    strategy: { title: "RETENÇÃO", motive: "Alto churn. Foco em retenção e melhoria de qualidade.", color: "#DA291C", bgColor: "#FEE2E2" },
+    priorityScore: 6,
+    priority: "ALTA",
+  },
+  {
+    id: "gnsez6",
+    neighborhood: "Setor Leste Goianira",
+    city: "Goianira",
+    quadrant: "UPSELL",
+    isTop10: false,
+    technology: "AMBOS",
+    lat: -16.501097442459237,
+    lng: -49.424290655646274,
+    satisfactionScores: [
+      { name: "LinQ", score: 5.9, color: "#F8A81B" },
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "Claro", score: 5.7, color: "#DA291C" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" },
+      { name: "V.tal", score: 5.2, color: "#FFE84D" }
+    ],
+    satisfactionFibra: [
+      { name: "LinQ", score: 5.9, color: "#F8A81B" },
+      { name: "VIVO", score: 5.8, color: "#660099" },
+      { name: "Claro", score: 5.7, color: "#DA291C" },
+      { name: "TIM", score: 5.6, color: "#1E40AF" },
+      { name: "V.tal", score: 5.2, color: "#FFE84D" }
+    ],
+    satisfactionMovel: [
+      { name: "VIVO", score: 6.2, color: "#660099" },
+      { name: "Claro", score: 5.9, color: "#DA291C" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" },
+      { name: "Algar", score: 5.2, color: "#28BEA5" },
+      { name: "Surf", score: 4.9, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 33.3, activeClients: 2610, totalPopulation: 7837, label: "Média Penetração" },
+    shareTrend: { direction: "DOWN", delta: -1.5, deltaMovel: -1.4, deltaFibra: -1.2, shareMovel: 30.0, shareFibra: 28.0 },
+    crm: { arpu: 123, deviceTier: "Mid-range", planType: "Fibra 200Mbps", arpuMovel: 98, arpuFibra: 148, planoMovel: "Pós-pago 5G" },
+    speedtest: { downloadMbps: 97, latencyMs: 22, qualityLabel: "Regular" },
+    demographics: { avgIncome: 4841, incomeLabel: "Médio", populationDensity: 3882, populationGrowth: 4.2, growthLabel: "Alto", technology: "Fibra+4G", severity: "Média" },
+    diagnostico: { scoreOokla: 6.0, scoreOoklaMovel: 6.4, scoreOoklaFibra: 6.2, scoreHAC: 5.5, taxaChamados: 4.6, sharePenetracao: 33.3, deltaVsLider: -1.3, deltaVsLiderFibra: -1.7, deltaVsLiderMovel: 1.4, scoreLiderFibra: 7.9, scoreLiderMovel: 5.0, arpuRelativo: 1.41, canalDominante: "Parceiros", canalPct: 38, concorrentes: [{ nome: "Claro", coberturaFibra: true, planoFibra: "Fibra 300Mbps", precoFibra: 118, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 95 }, { nome: "TIM", coberturaFibra: true, planoFibra: "Fibra 200Mbps", precoFibra: 119, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 84 }, { nome: "NIO", coberturaFibra: true, planoFibra: "Fibra 300Mbps", precoFibra: 103, coberturaMovel: false, planoMovel: "", precoMovel: 0 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 75 }] },
+    camada2: { fibra: { classification: "EXPANSAO_COBERTURA", score: 15, scoreLabel: "Baixo", taxaOcupacao: 64, portasDisponiveis: 13 }, movel: { classification: "AUMENTO_CAPACIDADE", score: 38, scoreLabel: "Médio" }, decisaoIntegrada: "Foco em expansão de cobertura e captação de novos clientes." },
+    strategy: { title: "UPSELL", motive: "Base consolidada. Maximizar receita com planos premium.", color: "#7C3AED", bgColor: "#EDE9FE" },
+    priorityScore: 3,
+    priority: "MEDIA",
+  },
+  {
+    id: "gnfgte",
+    neighborhood: "Jardim Goianira II",
+    city: "Goianira",
+    quadrant: "GROWTH",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.498524244776231,
+    lng: -49.438393663937056,
+    satisfactionScores: [
+      { name: "VIVO", score: 5.9, color: "#660099" },
+      { name: "Claro", score: 5.4, color: "#DA291C" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" },
+      { name: "Surf", score: 4.7, color: "#0003F9" },
+      { name: "Algar", score: 4.6, color: "#28BEA5" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 5.9, color: "#660099" },
+      { name: "Claro", score: 5.4, color: "#DA291C" },
+      { name: "TIM", score: 5.3, color: "#1E40AF" },
+      { name: "Surf", score: 4.7, color: "#0003F9" },
+      { name: "Algar", score: 4.6, color: "#28BEA5" }
+    ],
+    marketShare: { percentage: 53.7, activeClients: 8055, totalPopulation: 15000, label: "Alta Penetração" },
+    shareTrend: { direction: "STABLE", delta: 0.2, deltaMovel: 0.2, deltaFibra: 0.2, shareMovel: 48.0, shareFibra: 0 },
+    crm: { arpu: 79, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 79, arpuFibra: 0, planoMovel: "Pós-pago 4G" },
+    speedtest: { downloadMbps: 46, latencyMs: 31, qualityLabel: "Ruim" },
+    demographics: { avgIncome: 1573, incomeLabel: "Médio-Baixo", populationDensity: 3715, populationGrowth: 3.6, growthLabel: "Alto", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 5.7, scoreOoklaMovel: 5.9, scoreOoklaFibra: 0, scoreHAC: 5.3, taxaChamados: 0.9, sharePenetracao: 53.7, deltaVsLider: -1.4, deltaVsLiderFibra: 0, deltaVsLiderMovel: -0.2, scoreLiderFibra: 0, scoreLiderMovel: 6.1, arpuRelativo: 0.91, canalDominante: "Parceiros", canalPct: 37, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 70 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 82 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 72 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 59 }] },
+    camada2: { fibra: { classification: "AUMENTO_CAPACIDADE", score: 28, scoreLabel: "Baixo", taxaOcupacao: 56, portasDisponiveis: 35 }, movel: { classification: "AUMENTO_CAPACIDADE", score: 47, scoreLabel: "Médio" }, decisaoIntegrada: "Melhorar qualidade de rede e reduzir churn." },
+    strategy: { title: "GROWTH", motive: "Área com potencial de crescimento. Foco em captação e expansão.", color: "#22C55E", bgColor: "#DCFCE7" },
+    priorityScore: 3,
+    priority: "ALTA",
+  },
+  {
+    id: "gn0bzy",
+    neighborhood: "Residencial Goianira IV",
+    city: "Goianira",
+    quadrant: "GROWTH",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.502139354272870,
+    lng: -49.431833827634414,
+    satisfactionScores: [
+      { name: "VIVO", score: 8.2, color: "#660099" },
+      { name: "TIM", score: 7.8, color: "#1E40AF" },
+      { name: "Claro", score: 7.6, color: "#DA291C" },
+      { name: "Algar", score: 7.4, color: "#28BEA5" },
+      { name: "Surf", score: 6.6, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.2, color: "#660099" },
+      { name: "TIM", score: 7.8, color: "#1E40AF" },
+      { name: "Claro", score: 7.6, color: "#DA291C" },
+      { name: "Algar", score: 7.4, color: "#28BEA5" },
+      { name: "Surf", score: 6.6, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 43.5, activeClients: 4361, totalPopulation: 10026, label: "Média Penetração" },
+    shareTrend: { direction: "UP", delta: 2.2, deltaMovel: 2.0, deltaFibra: 1.8, shareMovel: 39.0, shareFibra: 0 },
+    crm: { arpu: 104, deviceTier: "Basic", planType: "Controle", arpuMovel: 104, arpuFibra: 0, planoMovel: "Controle" },
+    speedtest: { downloadMbps: 76, latencyMs: 66, qualityLabel: "Regular" },
+    demographics: { avgIncome: 2818, incomeLabel: "Médio-Baixo", populationDensity: 3173, populationGrowth: 3.3, growthLabel: "Moderado", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 8.4, scoreOoklaMovel: 8.3, scoreOoklaFibra: 0, scoreHAC: 8.1, taxaChamados: 5.2, sharePenetracao: 43.5, deltaVsLider: -1.0, deltaVsLiderFibra: 0, deltaVsLiderMovel: -0.9, scoreLiderFibra: 0, scoreLiderMovel: 9.2, arpuRelativo: 1.2, canalDominante: "Televendas", canalPct: 53, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 94 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 71 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 61 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 66 }] },
+    camada2: { fibra: { classification: "SAUDAVEL", score: 13, scoreLabel: "Baixo", taxaOcupacao: 75, portasDisponiveis: 21 }, movel: { classification: "AUMENTO_CAPACIDADE", score: 54, scoreLabel: "Médio" }, decisaoIntegrada: "Foco em expansão de cobertura e captação de novos clientes." },
+    strategy: { title: "GROWTH", motive: "Área com potencial de crescimento. Foco em captação e expansão.", color: "#22C55E", bgColor: "#DCFCE7" },
+    priorityScore: 5,
+    priority: "ALTA",
+  },
+  {
+    id: "gn8r7z",
+    neighborhood: "Setor Oeste Goianira",
+    city: "Goianira",
+    quadrant: "GROWTH_RETENCAO",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.496300400296917,
+    lng: -49.441562196742169,
+    satisfactionScores: [
+      { name: "VIVO", score: 8.7, color: "#660099" },
+      { name: "Claro", score: 8.1, color: "#DA291C" },
+      { name: "TIM", score: 7.7, color: "#1E40AF" },
+      { name: "Algar", score: 7.1, color: "#28BEA5" },
+      { name: "Surf", score: 6.7, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.7, color: "#660099" },
+      { name: "Claro", score: 8.1, color: "#DA291C" },
+      { name: "TIM", score: 7.7, color: "#1E40AF" },
+      { name: "Algar", score: 7.1, color: "#28BEA5" },
+      { name: "Surf", score: 6.7, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 53.8, activeClients: 4997, totalPopulation: 9289, label: "Alta Penetração" },
+    shareTrend: { direction: "UP", delta: 3.0, deltaMovel: 2.7, deltaFibra: 2.4, shareMovel: 48.0, shareFibra: 0 },
+    crm: { arpu: 75, deviceTier: "Basic", planType: "Pós-pago 5G", arpuMovel: 75, arpuFibra: 0, planoMovel: "Pós-pago 5G" },
+    speedtest: { downloadMbps: 70, latencyMs: 33, qualityLabel: "Regular" },
+    demographics: { avgIncome: 3441, incomeLabel: "Médio", populationDensity: 4410, populationGrowth: 3.1, growthLabel: "Moderado", technology: "4G", severity: "Média" },
+    diagnostico: { scoreOokla: 8.5, scoreOoklaMovel: 8.8, scoreOoklaFibra: 0, scoreHAC: 7.8, taxaChamados: 0.8, sharePenetracao: 53.8, deltaVsLider: 1.4, deltaVsLiderFibra: 0, deltaVsLiderMovel: 0.5, scoreLiderFibra: 0, scoreLiderMovel: 8.3, arpuRelativo: 0.86, canalDominante: "Digital", canalPct: 34, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 90 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 80 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 78 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 76 }] },
+    camada2: { fibra: { classification: "EXPANSAO_NOVA_AREA", score: 24, scoreLabel: "Baixo", taxaOcupacao: 78, portasDisponiveis: 30 }, movel: { classification: "AUMENTO_CAPACIDADE", score: 75, scoreLabel: "Alto" }, decisaoIntegrada: "Upsell para planos premium e convergência." },
+    strategy: { title: "GROWTH+RETENÇÃO", motive: "Share baixo e qualidade comprometida. Dupla frente.", color: "#28BEA5", bgColor: "#FFF7ED" },
+    priorityScore: 8,
+    priority: "MEDIA",
+  },
+  {
+    id: "gnuv2w",
+    neighborhood: "Vila Esperança Goianira",
+    city: "Goianira",
+    quadrant: "RETENCAO",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.506042572636979,
+    lng: -49.427867310072386,
+    satisfactionScores: [
+      { name: "VIVO", score: 8.9, color: "#660099" },
+      { name: "Claro", score: 8.0, color: "#DA291C" },
+      { name: "TIM", score: 7.6, color: "#1E40AF" },
+      { name: "Algar", score: 7.5, color: "#28BEA5" },
+      { name: "Surf", score: 6.9, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.9, color: "#660099" },
+      { name: "Claro", score: 8.0, color: "#DA291C" },
+      { name: "TIM", score: 7.6, color: "#1E40AF" },
+      { name: "Algar", score: 7.5, color: "#28BEA5" },
+      { name: "Surf", score: 6.9, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 32.2, activeClients: 3550, totalPopulation: 11026, label: "Média Penetração" },
+    shareTrend: { direction: "DOWN", delta: -1.9, deltaMovel: -1.7, deltaFibra: -1.5, shareMovel: 29.0, shareFibra: 0 },
+    crm: { arpu: 123, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 123, arpuFibra: 0, planoMovel: "Pós-pago 4G" },
+    speedtest: { downloadMbps: 98, latencyMs: 36, qualityLabel: "Regular" },
+    demographics: { avgIncome: 1923, incomeLabel: "Médio-Baixo", populationDensity: 7964, populationGrowth: 2.1, growthLabel: "Moderado", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 8.7, scoreOoklaMovel: 8.2, scoreOoklaFibra: 0, scoreHAC: 8.3, taxaChamados: 4.8, sharePenetracao: 32.2, deltaVsLider: -1.2, deltaVsLiderFibra: 0, deltaVsLiderMovel: 0.9, scoreLiderFibra: 0, scoreLiderMovel: 7.3, arpuRelativo: 1.41, canalDominante: "Loja Física", canalPct: 62, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 95 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 63 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 58 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 55 }] },
+    camada2: { fibra: { classification: "SAUDAVEL", score: 48, scoreLabel: "Médio", taxaOcupacao: 40, portasDisponiveis: 9 }, movel: { classification: "EXPANSAO_COBERTURA", score: 68, scoreLabel: "Alto" }, decisaoIntegrada: "Upsell para planos premium e convergência." },
+    strategy: { title: "RETENÇÃO", motive: "Alto churn. Foco em retenção e melhoria de qualidade.", color: "#DA291C", bgColor: "#FEE2E2" },
+    priorityScore: 8,
+    priority: "ALTA",
+  },
+  {
+    id: "gn5v9x",
+    neighborhood: "Residencial Goianira V",
+    city: "Goianira",
+    quadrant: "GROWTH",
+    isTop10: false,
+    technology: "MOVEL",
+    lat: -16.501077164039565,
+    lng: -49.434106581115181,
+    satisfactionScores: [
+      { name: "VIVO", score: 8.5, color: "#660099" },
+      { name: "Claro", score: 7.9, color: "#DA291C" },
+      { name: "TIM", score: 7.7, color: "#1E40AF" },
+      { name: "Algar", score: 7.5, color: "#28BEA5" },
+      { name: "Surf", score: 7.0, color: "#0003F9" }
+    ],
+    satisfactionFibra: [],
+    satisfactionMovel: [
+      { name: "VIVO", score: 8.5, color: "#660099" },
+      { name: "Claro", score: 7.9, color: "#DA291C" },
+      { name: "TIM", score: 7.7, color: "#1E40AF" },
+      { name: "Algar", score: 7.5, color: "#28BEA5" },
+      { name: "Surf", score: 7.0, color: "#0003F9" }
+    ],
+    marketShare: { percentage: 50.3, activeClients: 5759, totalPopulation: 11449, label: "Alta Penetração" },
+    shareTrend: { direction: "DOWN", delta: -1.9, deltaMovel: -1.7, deltaFibra: -1.5, shareMovel: 45.0, shareFibra: 0 },
+    crm: { arpu: 102, deviceTier: "Basic", planType: "Pós-pago 4G", arpuMovel: 102, arpuFibra: 0, planoMovel: "Pós-pago 4G" },
+    speedtest: { downloadMbps: 18, latencyMs: 59, qualityLabel: "Ruim" },
+    demographics: { avgIncome: 2896, incomeLabel: "Médio-Baixo", populationDensity: 5973, populationGrowth: 3.1, growthLabel: "Moderado", technology: "4G", severity: "Alta" },
+    diagnostico: { scoreOokla: 8.6, scoreOoklaMovel: 8.8, scoreOoklaFibra: 0, scoreHAC: 8.0, taxaChamados: 3.2, sharePenetracao: 50.3, deltaVsLider: -1.0, deltaVsLiderFibra: 0, deltaVsLiderMovel: -0.5, scoreLiderFibra: 0, scoreLiderMovel: 9.3, arpuRelativo: 1.17, canalDominante: "Televendas", canalPct: 53, concorrentes: [{ nome: "Claro", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 93 }, { nome: "TIM", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 70 }, { nome: "Algar", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 80 }, { nome: "Surf", coberturaFibra: false, planoFibra: "", precoFibra: 0, coberturaMovel: true, planoMovel: "Pós-pago 4G", precoMovel: 58 }] },
+    camada2: { fibra: { classification: "MELHORA_QUALIDADE", score: 80, scoreLabel: "Alto", taxaOcupacao: 70, portasDisponiveis: 39 }, movel: { classification: "SAUDAVEL", score: 53, scoreLabel: "Médio" }, decisaoIntegrada: "Rede saudável. Foco em upsell e fidelização." },
+    strategy: { title: "GROWTH", motive: "Área com potencial de crescimento. Foco em captação e expansão.", color: "#22C55E", bgColor: "#DCFCE7" },
+    priorityScore: 6,
+    priority: "ALTA",
+  }
 
 ];
 
@@ -14185,7 +21000,7 @@ export const rawData: GeohashEntry[] = [
 
 
 // Calcular priorityScore e priority para cada geohash
-export const GEOHASH_DATA: GeohashEntry[] = rawData.map((g) => {
+export const GEOHASH_DATA: GeohashEntry[] = (rawData as GeohashEntry[]).filter(Boolean).map((g) => {
   const score = calcPriorityScore(
     g.quadrant,
     g.diagnostico.sharePenetracao,
@@ -14229,8 +21044,8 @@ export const QUADRANT_CONFIG: Record<
   GROWTH_RETENCAO: {
     label: "Growth + Retenção",
     color: "#28BEA5",
-    bg: "rgba(249,115,22,0.12)",
-    dot: "#F97316",
+    bg: "rgba(40,190,165,0.12)",
+    dot: "#28BEA5",
     mapColor: "#F97316",
   },
 };
@@ -14239,27 +21054,27 @@ export const TECH_CONFIG: Record<
   Technology,
   { label: string; color: string; bg: string }
 > = {
-  FIBRA: { label: "Fibra", color: "#60a5fa", bg: "rgba(59,130,246,0.15)" },
-  MOVEL: { label: "Móvel", color: "#fbbf24", bg: "rgba(245,158,11,0.15)" },
-  AMBOS: { label: "Fibra + Móvel", color: "#a78bfa", bg: "rgba(139,92,246,0.15)" },
+  FIBRA: { label: "Fibra", color: "#1D4ED8", bg: "rgba(29,78,216,0.12)" },
+  MOVEL: { label: "Móvel", color: "#B45309", bg: "rgba(180,83,9,0.12)" },
+  AMBOS: { label: "Fibra + Móvel", color: "#7C3AED", bg: "rgba(124,58,237,0.12)" },
 };
 
 export const PRIORITY_CONFIG: Record<
   Priority,
   { label: string; color: string; bg: string }
 > = {
-  ALTA: { label: "Alta Prioridade", color: "#f87171", bg: "rgba(239,68,68,0.15)" },
-  MEDIA: { label: "Média Prioridade", color: "#fbbf24", bg: "rgba(245,158,11,0.15)" },
-  BAIXA: { label: "Baixa Prioridade", color: "#4ade80", bg: "rgba(34,197,94,0.15)" },
+  ALTA: { label: "Alta Prioridade", color: "#DC2626", bg: "rgba(220,38,38,0.12)" },
+  MEDIA: { label: "Média Prioridade", color: "#B45309", bg: "rgba(180,83,9,0.12)" },
+  BAIXA: { label: "Baixa Prioridade", color: "#15803D", bg: "rgba(21,128,61,0.12)" },
 };
 
 export const CAMADA2_CONFIG: Record<
   Camada2Class,
   { label: string; color: string; bg: string; short: string }
 > = {
-  SAUDAVEL: { label: "Saudável", color: "#4ade80", bg: "rgba(34,197,94,0.15)", short: "Saudável" },
-  MELHORA_QUALIDADE: { label: "Melhora da Qualidade", color: "#fbbf24", bg: "rgba(245,158,11,0.15)", short: "Melhora Qualidade" },
-  AUMENTO_CAPACIDADE: { label: "Aumento de Capacidade", color: "#60a5fa", bg: "rgba(59,130,246,0.15)", short: "Aumento Capacidade" },
-  EXPANSAO_NOVA_AREA: { label: "Expansão Nova Área", color: "#a78bfa", bg: "rgba(139,92,246,0.15)", short: "Expansão Nova Área" },
-  EXPANSAO_COBERTURA: { label: "Expansão de Cobertura", color: "#1D4ED8", bg: "rgba(29,78,216,0.15)", short: "Expansão Cobertura" },
+  SAUDAVEL: { label: "Saudável", color: "#15803D", bg: "rgba(21,128,61,0.12)", short: "Saudável" },
+  MELHORA_QUALIDADE: { label: "Melhora da Qualidade", color: "#B45309", bg: "rgba(180,83,9,0.12)", short: "Melhora Qualidade" },
+  AUMENTO_CAPACIDADE: { label: "Aumento de Capacidade", color: "#1D4ED8", bg: "rgba(29,78,216,0.12)", short: "Aumento Capacidade" },
+  EXPANSAO_NOVA_AREA: { label: "Expansão Nova Área", color: "#7C3AED", bg: "rgba(124,58,237,0.12)", short: "Expansão Nova Área" },
+  EXPANSAO_COBERTURA: { label: "Expansão de Cobertura", color: "#0369A1", bg: "rgba(3,105,161,0.12)", short: "Expansão Cobertura" },
 };

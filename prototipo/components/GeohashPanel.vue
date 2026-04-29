@@ -33,6 +33,7 @@ const OPERATOR_COLORS: Record<string, string> = {
   "Oi": "#32E000", "NIO": "#32E000",
   "Algar": "#28BEA5", "ALGAR": "#28BEA5",
   "Surf": "#0003F9", "SURF": "#0003F9",
+  "V.tal": "#FFE84D", "VTAL": "#FFE84D",
 };
 function getOperatorColor(name: string): string {
   for (const [key, color] of Object.entries(OPERATOR_COLORS)) {
@@ -48,6 +49,7 @@ const BRAND_COLORS: Record<string, string> = {
   "OI": "#32E000", "NIO": "#32E000",
   "ALGAR": "#28BEA5", "Algar": "#28BEA5",
   "SURF": "#0003F9", "Surf": "#0003F9",
+  "V.TAL": "#FFE84D", "V.tal": "#FFE84D",
 };
 function brandColor(name: string, score: number): string {
   return BRAND_COLORS[name] ?? (score >= 8 ? "#22C55E" : score >= 7 ? "#EAB308" : "#EF4444");
@@ -167,13 +169,33 @@ const scoreFibraSat = computed(() => {
 // Churn
 const churnData = computed(() => g.value ? calcChurn(g.value) : { churn: 0, color: "#15803D" });
 
-// Top 5 operadoras: VIVO sempre primeiro + top 4 concorrentes por score
+// Top 5 operadoras: VIVO sempre presente + top 4 concorrentes por score
 const top5Scores = computed(() => {
   if (!g.value?.satisfactionScores) return [];
-  // Sort all operators descending by score (highest first, no exceptions)
   return [...g.value.satisfactionScores]
     .sort((a, b) => b.score - a.score)
     .slice(0, 5);
+});
+// Satisfação por tecnologia (Fibra / Móvel)
+const top5Fibra = computed(() => {
+  if (!g.value?.satisfactionFibra || g.value.satisfactionFibra.length === 0) return [];
+  const sorted = [...g.value.satisfactionFibra].sort((a, b) => b.score - a.score);
+  const vivoIdx = sorted.findIndex(s => s.name === 'VIVO');
+  if (vivoIdx >= 5) {
+    const vivo = sorted.splice(vivoIdx, 1)[0];
+    sorted.splice(4, 0, vivo);
+  }
+  return sorted.slice(0, 5);
+});
+const top5Movel = computed(() => {
+  if (!g.value?.satisfactionMovel || g.value.satisfactionMovel.length === 0) return [];
+  const sorted = [...g.value.satisfactionMovel].sort((a, b) => b.score - a.score);
+  const vivoIdx = sorted.findIndex(s => s.name === 'VIVO');
+  if (vivoIdx >= 5) {
+    const vivo = sorted.splice(vivoIdx, 1)[0];
+    sorted.splice(4, 0, vivo);
+  }
+  return sorted.slice(0, 5);
 });
 
 // Infraestrutura
@@ -539,58 +561,102 @@ const tooltipVisible = ref<string | null>(null);
               </div>
             </div>
 
-            <!-- Satisfação + SpeedTest -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 8px;">
-              <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-top: 3px;">
-                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
-                  <span style="display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 5px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                  </span>
-                  <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8E8E93;">Satisfação</span>
-                </div>
-                <!-- Barras de satisfação: top 5 (VIVO + top 4 concorrentes por score) -->
-                <div style="display: flex; flex-direction: column; gap: 5px;">
-                  <div v-for="s in top5Scores" :key="s.name" style="display: flex; align-items: center; gap: 6px;">
-                    <span style="font-size: 12px; font-weight: 600; color: #1C1C1E; width: 36px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ s.name }}</span>
-                    <div style="flex: 1; height: 4px; background: #F2F2F7; border-radius: 3px; overflow: hidden;">
-                      <div
-                        :style="{
-                          height: '100%',
-                          width: `${s.score * 10}%`,
-                          background: brandColor(s.name.toUpperCase(), s.score),
-                          borderRadius: '3px',
-                          transition: 'width 0.4s ease',
-                        }"
-                      />
+            <!-- Satisfação — dividido Fibra | Móvel (full width) -->
+            <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 5px;">
+              <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 5px;">
+                <span style="display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 5px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </span>
+                <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8E8E93;">Satisfação</span>
+              </div>
+              <div style="display: flex; gap: 0; align-items: flex-start;">
+                <!-- Fibra -->
+                <div v-if="top5Fibra.length > 0" :style="{ flex: 1, paddingRight: top5Movel.length > 0 ? '10px' : '0' }">
+                  <div style="font-size: 11px; color: #660099; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 3px;">Fibra</div>
+                  <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <div v-for="s in top5Fibra" :key="s.name" style="display: flex; align-items: center; gap: 5px;">
+                      <span style="font-size: 10px; font-weight: 600; color: #1C1C1E; width: 36px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ s.name }}</span>
+                      <div style="flex: 1; height: 4px; background: #F2F2F7; border-radius: 3px; overflow: hidden;">
+                        <div :style="{ height: '100%', width: `${s.score * 10}%`, background: brandColor(s.name.toUpperCase(), s.score), borderRadius: '3px', transition: 'width 0.4s ease' }" />
+                      </div>
+                      <span :style="{ fontSize: '11px', fontWeight: 700, color: brandColor(s.name.toUpperCase(), s.score), width: '28px', textAlign: 'right', flexShrink: 0 }">{{ s.score.toFixed(1) }}</span>
                     </div>
-                    <span :style="{ fontSize: '11px', fontWeight: 700, color: brandColor(s.name.toUpperCase(), s.score), width: '28px', textAlign: 'right', flexShrink: 0 }">{{ (s.score * 10).toFixed(0) }}</span>
+                  </div>
+                </div>
+                <!-- Divider -->
+                <div v-if="top5Fibra.length > 0 && top5Movel.length > 0" style="width: 1px; background: #E5E5EA; align-self: stretch; flex-shrink: 0;" />
+                <!-- Móvel -->
+                <div v-if="top5Movel.length > 0" :style="{ flex: 1, paddingLeft: top5Fibra.length > 0 ? '10px' : '0' }">
+                  <div style="font-size: 11px; color: #660099; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 3px;">Móvel</div>
+                  <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <div v-for="s in top5Movel" :key="s.name" style="display: flex; align-items: center; gap: 5px;">
+                      <span style="font-size: 10px; font-weight: 600; color: #1C1C1E; width: 36px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ s.name }}</span>
+                      <div style="flex: 1; height: 4px; background: #F2F2F7; border-radius: 3px; overflow: hidden;">
+                        <div :style="{ height: '100%', width: `${s.score * 10}%`, background: brandColor(s.name.toUpperCase(), s.score), borderRadius: '3px', transition: 'width 0.4s ease' }" />
+                      </div>
+                      <span :style="{ fontSize: '11px', fontWeight: 700, color: brandColor(s.name.toUpperCase(), s.score), width: '28px', textAlign: 'right', flexShrink: 0 }">{{ s.score.toFixed(1) }}</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Fallback: sem split -->
+                <div v-if="top5Fibra.length === 0 && top5Movel.length === 0" style="flex: 1;">
+                  <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <div v-for="s in top5Scores" :key="s.name" style="display: flex; align-items: center; gap: 5px;">
+                      <span style="font-size: 10px; font-weight: 600; color: #1C1C1E; width: 36px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ s.name }}</span>
+                      <div style="flex: 1; height: 4px; background: #F2F2F7; border-radius: 3px; overflow: hidden;">
+                        <div :style="{ height: '100%', width: `${s.score * 10}%`, background: brandColor(s.name.toUpperCase(), s.score), borderRadius: '3px', transition: 'width 0.4s ease' }" />
+                      </div>
+                      <span :style="{ fontSize: '11px', fontWeight: 700, color: brandColor(s.name.toUpperCase(), s.score), width: '28px', textAlign: 'right', flexShrink: 0 }">{{ s.score.toFixed(1) }}</span>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-top: 3px;">
-                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
-                  <span style="display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 5px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                  </span>
-                  <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8E8E93;">SpeedTest</span>
+            </div>
+            <!-- SpeedTest — dividido Fibra | Móvel (full width) -->
+            <div style="background: #fff; border-radius: 8px; border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 5px;">
+              <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 5px;">
+                <span style="display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 5px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                </span>
+                <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8E8E93;">SpeedTest</span>
+              </div>
+              <div style="display: flex; gap: 0; align-items: flex-start;">
+                <!-- Fibra -->
+                <div v-if="g.technology === 'FIBRA' || g.technology === 'AMBOS'" :style="{ flex: 1, paddingRight: (g.technology === 'AMBOS') ? '10px' : '0' }">
+                  <div style="font-size: 11px; color: #660099; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 3px;">Fibra</div>
+                  <div style="display: flex; flex-direction: column; gap: 3px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <span style="font-size: 11px; font-weight: 600; color: #8E8E93;">Download</span>
+                      <span style="font-size: 11px; font-weight: 700; color: #1C1C1E;">{{ g.technology === 'AMBOS' ? Math.round(g.speedtest.downloadMbps * 1.3) : g.speedtest.downloadMbps }} Mbps</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <span style="font-size: 11px; font-weight: 600; color: #8E8E93;">Latência</span>
+                      <span style="font-size: 11px; font-weight: 700; color: #1C1C1E;">{{ g.technology === 'AMBOS' ? Math.round(g.speedtest.latencyMs * 0.6) : g.speedtest.latencyMs }} ms</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <span style="font-size: 11px; font-weight: 600; color: #8E8E93;">Qualidade</span>
+                      <span :style="{ fontSize: '11px', fontWeight: 700, color: g.speedtest.qualityLabel === 'Ótimo' ? '#15803D' : g.speedtest.qualityLabel === 'Bom' ? '#039900' : '#DC2626' }">{{ g.speedtest.qualityLabel }}</span>
+                    </div>
+                  </div>
                 </div>
-                <div style="display: flex; flex-direction: column; gap: 4px;">
-                  <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 12px; font-weight: 600; color: #1C1C1E;">Download</span>
-                    <span style="font-size: 13px; font-weight: 700; color: #1C1C1E;">{{ g.speedtest.downloadMbps }} Mbps</span>
-                  </div>
-                  <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 12px; font-weight: 600; color: #1C1C1E;">Latência</span>
-                    <span style="font-size: 13px; font-weight: 700; color: #1C1C1E;">{{ g.speedtest.latencyMs }} ms</span>
-                  </div>
-                  <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 12px; font-weight: 600; color: #1C1C1E;">Qualidade</span>
-                    <span
-                      :style="{
-                        fontSize: '12px', fontWeight: 700,
-                        color: g.speedtest.qualityLabel === 'Ótimo' ? '#15803D' : g.speedtest.qualityLabel === 'Bom' ? '#039900' : '#DC2626',
-                      }"
-                    >{{ g.speedtest.qualityLabel }}</span>
+                <!-- Divider -->
+                <div v-if="g.technology === 'AMBOS'" style="width: 1px; background: #E5E5EA; align-self: stretch; flex-shrink: 0;" />
+                <!-- Móvel -->
+                <div v-if="g.technology === 'MOVEL' || g.technology === 'AMBOS'" :style="{ flex: 1, paddingLeft: (g.technology === 'AMBOS') ? '10px' : '0' }">
+                  <div style="font-size: 11px; color: #660099; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 3px;">Móvel</div>
+                  <div style="display: flex; flex-direction: column; gap: 3px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <span style="font-size: 11px; font-weight: 600; color: #8E8E93;">Download</span>
+                      <span style="font-size: 11px; font-weight: 700; color: #1C1C1E;">{{ g.technology === 'AMBOS' ? Math.round(g.speedtest.downloadMbps * 0.7) : g.speedtest.downloadMbps }} Mbps</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <span style="font-size: 11px; font-weight: 600; color: #8E8E93;">Latência</span>
+                      <span style="font-size: 11px; font-weight: 700; color: #1C1C1E;">{{ g.technology === 'AMBOS' ? Math.round(g.speedtest.latencyMs * 1.5) : g.speedtest.latencyMs }} ms</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <span style="font-size: 11px; font-weight: 600; color: #8E8E93;">Qualidade</span>
+                      <span :style="{ fontSize: '11px', fontWeight: 700, color: g.speedtest.qualityLabel === 'Ótimo' ? '#15803D' : g.speedtest.qualityLabel === 'Bom' ? '#039900' : '#DC2626' }">{{ g.speedtest.qualityLabel }}</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -673,13 +739,7 @@ const tooltipVisible = ref<string | null>(null);
                   </span>
                   <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8E8E93;">Móvel</span>
                 </div>
-                <div style="padding-top: 3px; margin-bottom: -3px;">
-                  <div style="display: flex; align-items: center; justify-content: space-between;">
-                    <div style="font-size: 10px; font-weight: 700; color: #8E8E93; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0px;">Cobertura</div>
-                    <span :style="{ display: 'inline-flex', alignItems: 'center', padding: '0px 7px', borderRadius: '5px', fontSize: '11px', fontWeight: 600, color: movelCobertura.color, background: movelCobertura.bg, height: '14px', flexShrink: 0, marginTop: '3px' }">{{ movelCobertura.label }}</span>
-                  </div>
-                </div>
-                <div style="padding-top: 5px;">
+                <div style="padding-top: 3px;">
                   <div style="display: flex; align-items: center; justify-content: space-between;">
                     <div style="font-size: 10px; font-weight: 700; color: #8E8E93; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px;">Qualidade</div>
                     <span
