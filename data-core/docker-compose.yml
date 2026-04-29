@@ -270,6 +270,43 @@ services:
       - vivo-net
     restart: unless-stopped
 
+  # ===========================================================================
+  # OOKLA PROFILE — Speedtest Intelligence ingestion (catalog + load)
+  # ===========================================================================
+
+  ookla-ingest:
+    build: ./ookla
+    profiles: [ookla]
+    environment:
+      OOKLA_USERNAME: ${OOKLA_USERNAME:?OOKLA_USERNAME is required}
+      OOKLA_PASSWORD: ${OOKLA_PASSWORD:?OOKLA_PASSWORD is required}
+      OOKLA_PARALLEL_DOWNLOADS: ${OOKLA_PARALLEL_DOWNLOADS:-4}
+      OOKLA_MAX_ATTEMPTS: ${OOKLA_MAX_ATTEMPTS:-5}
+      OOKLA_S3_BUCKET: ${OOKLA_S3_BUCKET:-zoox-vivo-raw}
+      OOKLA_S3_PREFIX: ${OOKLA_S3_PREFIX:-ookla}
+      AWS_REGION: ${AWS_REGION:-us-east-1}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-}
+      AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN:-}
+      DB_HOST: ${DATABASE_HOST:?DATABASE_HOST is required}
+      DB_PORT: ${DATABASE_PORT:-5432}
+      DB_USER: ${DATABASE_USER:?DATABASE_USER is required}
+      DB_PASSWORD: ${DATABASE_PASSWORD:?DATABASE_PASSWORD is required}
+      DB_NAME: ${DATABASE_NAME:?DATABASE_NAME is required}
+    volumes:
+      - ookla-raw:/data/ookla/raw
+    networks:
+      - vivo-net
+    restart: "no"
+    # default: roda apenas o catálogo (Fase 1).
+    # Para Fase 2:
+    #   eval "$(aws configure export-credentials --format env)"
+    #   docker compose --profile ookla run --rm ookla-ingest python -m ookla_ingest load
+    # Para incluir QoELatency (1 dia):
+    #   docker compose --profile ookla run --rm ookla-ingest \
+    #     python -m ookla_ingest load --include-latency --latency-days 1
+    command: ["python", "-m", "ookla_ingest", "catalog"]
+
 volumes:
   pg-data:
   om-pg-data:
@@ -277,6 +314,7 @@ volumes:
   om-ingestion-data:
   signoz-clickhouse-data:
   signoz-zookeeper-data:
+  ookla-raw:
 
 networks:
   vivo-net:

@@ -1278,3 +1278,83 @@ ALTER TABLE web_browsing SET (
     timescaledb.compress_segmentby = 'attr_geohash7, attr_sim_operator_common_name',
     timescaledb.compress_orderby = 'ts_result DESC');
 SELECT add_compression_policy('web_browsing', INTERVAL '6 months', if_not_exists => true);
+
+-- =============================================================================
+-- 0025: Ookla ingestion state (catalog + run tracking)
+-- Suporta a rotina em duas fases (catalog/load) em data-core/ookla/.
+-- =============================================================================
+
+CREATE TYPE ookla_entity AS ENUM (
+    'MobileNetworkPerformance',
+    'FixedNetworkPerformance',
+    'QoELatency',
+    'QoEVideo',
+    'FileTransfer',
+    'WebBrowsing'
+);
+
+CREATE TYPE ookla_file_status AS ENUM (
+    'catalogued', 'downloading', 'downloaded',
+    'loading', 'loaded', 'failed', 'skipped'
+);
+
+CREATE TABLE IF NOT EXISTS ookla_catalog (
+    entity         ookla_entity      NOT NULL,
+    data_date      date              NOT NULL,
+    remote_path    text              NOT NULL,
+    file_name      text              NOT NULL,
+    file_size      bigint,
+    remote_mtime   timestamptz,
+    status         ookla_file_status NOT NULL DEFAULT 'catalogued',
+    attempts       smallint          NOT NULL DEFAULT 0,
+    rows_loaded    bigint,
+    error_message  text,
+    catalogued_at  timestamptz       NOT NULL DEFAULT NOW(),
+    loaded_at      timestamptz,
+    CONSTRAINT ookla_catalog_pkey PRIMARY KEY (entity, remote_path)
+);
+CREATE INDEX IF NOT EXISTS idx_ookla_catalog_date_entity
+    ON ookla_catalog (data_date, entity);
+CREATE INDEX IF NOT EXISTS idx_ookla_catalog_pending
+    ON ookla_catalog (status) WHERE status <> 'loaded';
+
+CREATE TABLE IF NOT EXISTS ookla_run (
+    id           bigserial    PRIMARY KEY,
+    phase        text         NOT NULL,
+    started_at   timestamptz  NOT NULL DEFAULT NOW(),
+    finished_at  timestamptz,
+    status       text         NOT NULL DEFAULT 'running',
+    stats_json   jsonb,
+    CONSTRAINT ookla_run_phase_chk  CHECK (phase  IN ('catalog', 'load', 'sniff')),
+    CONSTRAINT ookla_run_status_chk CHECK (status IN ('running', 'ok', 'failed'))
+);
+CREATE INDEX IF NOT EXISTS idx_ookla_run_started ON ookla_run (started_at DESC);
+
+-- =============================================================================
+-- 0026: qoe_latency (Ookla ConsumerQoE/QoELatency) — 138 colunas
+-- Schema derivado do parquet real (sniff exploratório). Hypertable em ts_result.
+-- Listas (parquet list<>) sao serializadas como JSON em colunas text pelo loader.
+-- =============================================================================
+
+CREATE TABLE IF NOT EXISTS qoe_latency (
+    guid_result                                  text,
+    id_device                                    text,
+    id_platform                                  integer,
+    attr_latency_type                            text,
+    attr_service_name                            text,
+    ts_result                                    timestamptz NOT NULL,
+    ts_result_received                           timestamptz,
+    -- ... 132 colunas adicionais ...
+    -- (definicao completa em data-viz/apps/api/drizzle/0026_qoe_latency.sql)
+    val_latency_ms                               real,
+    val_jitter_ms                                real,
+    val_packet_loss_ratio                        double precision,
+    attr_geohash6                                text,
+    attr_geohash7                                text,
+    attr_geohash8                                text
+);
+
+SELECT create_hypertable('qoe_latency', by_range('ts_result'), if_not_exists => TRUE);
+CREATE UNIQUE INDEX IF NOT EXISTS qoe_latency_guid_ts_uniq ON qoe_latency (guid_result, ts_result);
+CREATE INDEX IF NOT EXISTS idx_qoe_latency_geohash7 ON qoe_latency (attr_geohash7, ts_result DESC);
+CREATE INDEX IF NOT EXISTS idx_qoe_latency_geohash6 ON qoe_latency (attr_geohash6, ts_result DESC);

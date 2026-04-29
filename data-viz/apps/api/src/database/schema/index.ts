@@ -17,3 +17,5 @@ export * from "./network-performance-fixed";
 export * from "./network-performance-mobile";
 export * from "./diagnostico-growth";
 export * from "./geohash-ia-summary";
+export * from "./ookla-catalog";
+export * from "./qoe-latency";
