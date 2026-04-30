@@ -441,15 +441,16 @@ const pilaresOrdenados = computed(() => {
           <div style="margin-bottom:4px;margin-top:-4px;padding-top:4px;padding-bottom:4px;">
             <span style="font-size:12px;font-weight:800;color:#1C1C1E;letter-spacing:0.06em;text-transform:uppercase;">Avaliação dos 4 Pilares</span>
           </div>
-          <div style="display:grid;grid-template-columns:530px 770px;gap:10px;">
+          <div style="display:grid;grid-template-columns:430px 830px;gap:10px;">
             <div
               v-for="pilar in pilaresOrdenados"
               :key="pilar.id"
               :style="{
                 background:'#fff', borderRadius:'12px', border:'1px solid rgba(0,0,0,0.07)',
-                overflow:'hidden', boxShadow:'0 1px 3px rgba(0,0,0,0.04)', minHeight:'270px',
-                gridColumn: (pilar.id === '01' || pilar.id === '04') ? '1' : '2',
-                width: (pilar.id === '01' || pilar.id === '04') ? '530px' : '770px'
+                overflow:'hidden', boxShadow:'0 1px 3px rgba(0,0,0,0.04)',
+                gridColumn: (pilar.id === '01' || pilar.id === '03') ? '1' : '2',
+                width: (pilar.id === '01' || pilar.id === '03') ? '430px' : '830px',
+                minHeight: (pilar.id === '03' || pilar.id === '04') ? '180px' : '270px'
               }"
             >
               <!-- Header do Pilar -->
@@ -488,7 +489,7 @@ const pilaresOrdenados = computed(() => {
                       </div>
                       <div :style="{fontSize:'12px',color:'#8E8E93',lineHeight:'1.4',marginTop:'6px',maxWidth:'360px',whiteSpace:'nowrap'}">{{ m.formula }}</div>
                     </div>
-                    <div :style="{fontSize:'12px',fontWeight:800,color:SIG[m.signal].text,flexShrink:0,whiteSpace:'nowrap'}">{{ m.value }}</div>
+                    <div :style="{fontSize:/^[\d.,+\-\u2013%]+$/.test(String(m.value))?'14px':'12px',fontWeight:800,color:SIG[m.signal].text,flexShrink:0,whiteSpace:'nowrap'}">{{ m.value }}</div>
                   </div>
                   <div :style="{fontSize:'12px',fontWeight:600,color:SIG[m.signal].text,lineHeight:'1.4',whiteSpace:(m.noWrap || m.label === 'Fibra (Status)' || m.label === 'Móvel (Status)') ? 'nowrap' : 'normal'}">{{ m.detail }}</div>
                 </div>
@@ -496,7 +497,7 @@ const pilaresOrdenados = computed(() => {
                 <!-- Tabela de concorrência (pilar 02) -->
                 <div
                   v-if="pilar.id === '02' && displayGeo.diagnostico.concorrentes && displayGeo.diagnostico.concorrentes.length > 0"
-                  style="border-radius:8px;border:1px solid rgba(0,0,0,0.07);background:#fff;overflow:hidden;width:370px;flex-shrink:0;"
+                  style="border-radius:8px;border:1px solid rgba(0,0,0,0.07);background:#fff;overflow:hidden;flex:1 1 auto;min-width:0;"
                 >
                   <div style="padding:5px 10px;border-bottom:1px solid rgba(0,0,0,0.06);background:#F9F9FB;height:18px;display:flex;align-items:center;">
                     <span style="font-size:10px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;">Comparativo de Concorrência</span>
@@ -504,15 +505,15 @@ const pilaresOrdenados = computed(() => {
                   <table style="width:100%;border-collapse:collapse;font-size:9px;">
                     <thead>
                       <tr style="background:#F9F9FB;">
-                        <th rowspan="2" style="padding:5px 8px;text-align:left;font-weight:700;color:#8E8E93;font-size:8px;letter-spacing:0.04em;vertical-align:middle;border-right:1px solid rgba(0,0,0,0.06);width:70px;">Operadora</th>
+                        <th rowspan="2" style="padding:5px 8px;text-align:left;font-weight:700;color:#8E8E93;font-size:8px;letter-spacing:0.04em;vertical-align:middle;border-right:1px solid rgba(0,0,0,0.06);width:75px;">Operadora</th>
                         <th colspan="2" style="text-align:center;font-weight:700;color:#8E8E93;font-size:10px;letter-spacing:0.04em;border-right:1px solid rgba(0,0,0,0.06);border-bottom:1px solid rgba(0,0,0,0.06);height:9px;">Fibra</th>
                         <th colspan="2" style="text-align:center;font-weight:700;color:#8E8E93;font-size:10px;letter-spacing:0.04em;border-bottom:1px solid rgba(0,0,0,0.06);height:9px;">Móvel</th>
                       </tr>
                       <tr style="background:#F9F9FB;">
-                        <th style="text-align:center;font-weight:600;color:#AEAEB2;font-size:9px;border-right:1px solid rgba(0,0,0,0.06);border-bottom:1px solid rgba(0,0,0,0.06);height:10px;width:70px;">Cobertura</th>
-                        <th style="text-align:center;font-weight:600;color:#AEAEB2;font-size:9px;border-right:1px solid rgba(0,0,0,0.06);border-bottom:1px solid rgba(0,0,0,0.06);height:10px;width:70px;">Valor</th>
-                        <th style="text-align:center;font-weight:600;color:#AEAEB2;font-size:9px;border-right:1px solid rgba(0,0,0,0.06);border-bottom:1px solid rgba(0,0,0,0.06);height:10px;width:70px;">Cobertura</th>
-                        <th style="text-align:center;font-weight:600;color:#AEAEB2;font-size:9px;border-bottom:1px solid rgba(0,0,0,0.06);height:10px;width:70px;">Valor</th>
+                        <th style="text-align:center;font-weight:600;color:#AEAEB2;font-size:9px;border-right:1px solid rgba(0,0,0,0.06);border-bottom:1px solid rgba(0,0,0,0.06);height:10px;width:75px;">Cobertura</th>
+                        <th style="text-align:center;font-weight:600;color:#AEAEB2;font-size:9px;border-right:1px solid rgba(0,0,0,0.06);border-bottom:1px solid rgba(0,0,0,0.06);height:10px;width:75px;">Valor</th>
+                        <th style="text-align:center;font-weight:600;color:#AEAEB2;font-size:9px;border-right:1px solid rgba(0,0,0,0.06);border-bottom:1px solid rgba(0,0,0,0.06);height:10px;width:75px;">Cobertura</th>
+                        <th style="text-align:center;font-weight:600;color:#AEAEB2;font-size:9px;border-bottom:1px solid rgba(0,0,0,0.06);height:10px;width:75px;">Valor</th>
                       </tr>
                     </thead>
                     <tbody>
