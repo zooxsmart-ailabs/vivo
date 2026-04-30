@@ -494,42 +494,42 @@ const pilaresOrdenados = computed(() => {
                   style="border-radius:8px;border:1px solid rgba(0,0,0,0.07);background:#fff;overflow:hidden;width:370px;flex-shrink:0;"
                 >
                   <div style="padding:5px 10px;border-bottom:1px solid rgba(0,0,0,0.06);background:#F9F9FB;height:18px;display:flex;align-items:center;">
-                    <span style="font-size:8px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;">Comparativo de Concorrência</span>
+                    <span style="font-size:10px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;">Comparativo de Concorrência</span>
                   </div>
                   <table style="width:100%;border-collapse:collapse;font-size:9px;">
                     <thead>
                       <tr style="background:#F9F9FB;">
                         <th rowspan="2" style="padding:5px 8px;text-align:left;font-weight:700;color:#8E8E93;font-size:8px;letter-spacing:0.04em;vertical-align:middle;border-right:1px solid rgba(0,0,0,0.06);width:70px;">Operadora</th>
-                        <th colspan="2" style="text-align:center;font-weight:700;color:#8E8E93;font-size:8px;letter-spacing:0.04em;border-right:1px solid rgba(0,0,0,0.06);border-bottom:1px solid rgba(0,0,0,0.06);height:9px;">Fibra</th>
-                        <th colspan="2" style="text-align:center;font-weight:700;color:#8E8E93;font-size:8px;letter-spacing:0.04em;border-bottom:1px solid rgba(0,0,0,0.06);height:9px;">Móvel</th>
+                        <th colspan="2" style="text-align:center;font-weight:700;color:#8E8E93;font-size:10px;letter-spacing:0.04em;border-right:1px solid rgba(0,0,0,0.06);border-bottom:1px solid rgba(0,0,0,0.06);height:9px;">Fibra</th>
+                        <th colspan="2" style="text-align:center;font-weight:700;color:#8E8E93;font-size:10px;letter-spacing:0.04em;border-bottom:1px solid rgba(0,0,0,0.06);height:9px;">Móvel</th>
                       </tr>
                       <tr style="background:#F9F9FB;">
-                        <th style="text-align:center;font-weight:600;color:#AEAEB2;font-size:7.5px;border-right:1px solid rgba(0,0,0,0.06);border-bottom:1px solid rgba(0,0,0,0.06);height:10px;width:70px;">Cobertura</th>
-                        <th style="text-align:center;font-weight:600;color:#AEAEB2;font-size:7.5px;border-right:1px solid rgba(0,0,0,0.06);border-bottom:1px solid rgba(0,0,0,0.06);height:10px;width:70px;">Valor</th>
-                        <th style="text-align:center;font-weight:600;color:#AEAEB2;font-size:7.5px;border-right:1px solid rgba(0,0,0,0.06);border-bottom:1px solid rgba(0,0,0,0.06);height:10px;width:70px;">Cobertura</th>
-                        <th style="text-align:center;font-weight:600;color:#AEAEB2;font-size:7.5px;border-bottom:1px solid rgba(0,0,0,0.06);height:10px;width:70px;">Valor</th>
+                        <th style="text-align:center;font-weight:600;color:#AEAEB2;font-size:9px;border-right:1px solid rgba(0,0,0,0.06);border-bottom:1px solid rgba(0,0,0,0.06);height:10px;width:70px;">Cobertura</th>
+                        <th style="text-align:center;font-weight:600;color:#AEAEB2;font-size:9px;border-right:1px solid rgba(0,0,0,0.06);border-bottom:1px solid rgba(0,0,0,0.06);height:10px;width:70px;">Valor</th>
+                        <th style="text-align:center;font-weight:600;color:#AEAEB2;font-size:9px;border-right:1px solid rgba(0,0,0,0.06);border-bottom:1px solid rgba(0,0,0,0.06);height:10px;width:70px;">Cobertura</th>
+                        <th style="text-align:center;font-weight:600;color:#AEAEB2;font-size:9px;border-bottom:1px solid rgba(0,0,0,0.06);height:10px;width:70px;">Valor</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr v-for="(c, ci) in displayGeo.diagnostico.concorrentes" :key="ci" :style="{background: ci % 2 === 0 ? '#fff' : '#FAFAFA', borderBottom:'1px solid rgba(0,0,0,0.04)'}">
-                        <td style="padding:3px 8px;font-weight:700;color:#1C1C1E;font-size:9px;border-right:1px solid rgba(0,0,0,0.06);">{{ c.nome }}</td>
+                        <td style="padding:3px 8px;font-weight:700;color:#1C1C1E;font-size:10px;border-right:1px solid rgba(0,0,0,0.06);">{{ c.nome }}</td>
                         <td style="padding:3px 6px;text-align:center;border-right:1px solid rgba(0,0,0,0.06);">
-                          <span style="font-size:9px;font-weight:600;color:#c869f7;">{{ c.coberturaFibra ? "Sim" : "Não" }}</span>
+                          <span style="font-size:10px;font-weight:600;color:#c869f7;">{{ c.coberturaFibra ? "Sim" : "Não" }}</span>
                         </td>
                         <td style="padding:3px 6px;text-align:center;border-right:1px solid rgba(0,0,0,0.06);">
                           <div v-if="c.coberturaFibra">
-                            <div style="font-size:9px;font-weight:700;color:#1C1C1E;line-height:1.3;">R$ {{ c.precoFibra }}</div>
-                            <div style="font-size:7.5px;color:#8E8E93;line-height:1.2;">{{ c.planoFibra }}</div>
+                            <div style="font-size:12px;font-weight:700;color:#1C1C1E;line-height:1.3;">R$ {{ c.precoFibra }}</div>
+                            <div style="font-size:9px;color:#8E8E93;line-height:1.2;">{{ c.planoFibra }}</div>
                           </div>
                           <span v-else style="color:#C7C7CC;">—</span>
                         </td>
                         <td style="padding:3px 6px;text-align:center;border-right:1px solid rgba(0,0,0,0.06);">
-                          <span style="font-size:9px;font-weight:700;color:#660099;">{{ c.coberturaMovel ? "Sim" : "Não" }}</span>
+                          <span style="font-size:10px;font-weight:700;color:#660099;">{{ c.coberturaMovel ? "Sim" : "Não" }}</span>
                         </td>
                         <td style="padding:3px 6px;text-align:center;">
                           <div v-if="c.coberturaMovel">
-                            <div style="font-size:9px;font-weight:700;color:#1C1C1E;line-height:1.3;">R$ {{ c.precoMovel }}</div>
-                            <div style="font-size:7.5px;color:#8E8E93;line-height:1.2;">{{ c.planoMovel }}</div>
+                            <div style="font-size:12px;font-weight:700;color:#1C1C1E;line-height:1.3;">R$ {{ c.precoMovel }}</div>
+                            <div style="font-size:9px;color:#8E8E93;line-height:1.2;">{{ c.planoMovel }}</div>
                           </div>
                           <span v-else style="color:#C7C7CC;">—</span>
                         </td>
