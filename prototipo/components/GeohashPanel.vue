@@ -514,7 +514,7 @@ const tooltipVisible = ref<string | null>(null);
                   <div style="font-size: 14px; font-weight: 700; color: #1C1C1E; margin-bottom: -3px;">R${{ (g.demographics.avgIncome/1000).toFixed(0) }}k</div>
                   <span
                     v-if="classeSocial"
-                    :style="{ display: 'inline-flex', alignItems: 'center', padding: '0px 7px', borderRadius: '5px', fontSize: '10px', fontWeight: 600, color: classeSocial.color, background: classeSocial.bg, height: '14px', flexShrink: 0, marginTop: '3px' }"
+                    :style="{ display: 'inline-flex', alignItems: 'center', padding: '0px 7px', borderRadius: '5px', fontSize: '9px', fontWeight: 600, color: classeSocial.color, background: classeSocial.bg, height: '14px', flexShrink: 0, marginTop: '3px' }"
                   >{{ classeSocial.label }}</span>
                 </div>
                 <!-- Densidade -->
@@ -535,7 +535,7 @@ const tooltipVisible = ref<string | null>(null);
                   <div style="font-size: 14px; font-weight: 700; color: #1C1C1E; margin-bottom: -3px;">+{{ g.demographics.populationGrowth }}%</div>
                   <span
                     v-if="growthTag"
-                    :style="{ display: 'inline-flex', alignItems: 'center', padding: '0px 7px', borderRadius: '5px', fontSize: '10px', fontWeight: 600, color: growthTag.color, background: growthTag.bg, height: '14px', flexShrink: 0, marginTop: '3px' }"
+                    :style="{ display: 'inline-flex', alignItems: 'center', padding: '0px 7px', borderRadius: '5px', fontSize: '9px', fontWeight: 600, color: growthTag.color, background: growthTag.bg, height: '14px', flexShrink: 0, marginTop: '3px' }"
                   >{{ g.demographics.growthLabel }}</span>
                 </div>
               </div>
@@ -547,15 +547,15 @@ const tooltipVisible = ref<string | null>(null);
                 <span style="display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 5px; background: rgba(102,0,153,0.08); color: #660099; flex-shrink: 0;">
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                 </span>
-                <span style="font-size: 8px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8E8E93;">Satisfação</span>
+                <span style="font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #8E8E93;">Satisfação</span>
               </div>
               <div style="display: flex; gap: 0; align-items: flex-start;">
                 <!-- Fibra -->
                 <div v-if="top5Fibra.length > 0" :style="{ flex: 1, paddingRight: top5Movel.length > 0 ? '10px' : '0' }">
-                  <div style="font-size: 8px; color: #660099; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 3px;">Fibra</div>
+                  <div style="font-size: 10px; color: #660099; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 2px;">Fibra</div>
                   <div style="display: flex; flex-direction: column; gap: 3px;">
                     <div v-for="s in top5Fibra" :key="s.name" style="display: flex; align-items: center; gap: 3px;">
-                      <span style="font-size: 8.5px; font-weight: 600; color: #1C1C1E; width: 36px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ s.name }}</span>
+                      <span style="font-size: 9px; font-weight: 600; color: #1C1C1E; width: 36px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ s.name }}</span>
                       <div style="flex: 1; height: 4px; background: #F2F2F7; border-radius: 3px; overflow: hidden;">
                         <div :style="{ height: '100%', width: `${s.score * 10}%`, background: brandColor(s.name.toUpperCase(), s.score), borderRadius: '3px', transition: 'width 0.4s ease' }" />
                       </div>
@@ -567,10 +567,10 @@ const tooltipVisible = ref<string | null>(null);
                 <div v-if="top5Fibra.length > 0 && top5Movel.length > 0" style="width: 1px; background: #E5E5EA; align-self: stretch; flex-shrink: 0;" />
                 <!-- Móvel -->
                 <div v-if="top5Movel.length > 0" :style="{ flex: 1, paddingLeft: top5Fibra.length > 0 ? '10px' : '0' }">
-                  <div style="font-size: 8px; color: #660099; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 3px;">Móvel</div>
+                  <div style="font-size: 10px; color: #660099; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 2px;">Móvel</div>
                   <div style="display: flex; flex-direction: column; gap: 3px;">
                     <div v-for="s in top5Movel" :key="s.name" style="display: flex; align-items: center; gap: 3px;">
-                      <span style="font-size: 8.5px; font-weight: 600; color: #1C1C1E; width: 36px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ s.name }}</span>
+                      <span style="font-size: 9px; font-weight: 600; color: #1C1C1E; width: 36px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ s.name }}</span>
                       <div style="flex: 1; height: 4px; background: #F2F2F7; border-radius: 3px; overflow: hidden;">
                         <div :style="{ height: '100%', width: `${s.score * 10}%`, background: brandColor(s.name.toUpperCase(), s.score), borderRadius: '3px', transition: 'width 0.4s ease' }" />
                       </div>
@@ -582,7 +582,7 @@ const tooltipVisible = ref<string | null>(null);
                 <div v-if="top5Fibra.length === 0 && top5Movel.length === 0" style="flex: 1;">
                   <div style="display: flex; flex-direction: column; gap: 3px;">
                     <div v-for="s in top5Scores" :key="s.name" style="display: flex; align-items: center; gap: 3px;">
-                      <span style="font-size: 8.5px; font-weight: 600; color: #1C1C1E; width: 36px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ s.name }}</span>
+                      <span style="font-size: 9px; font-weight: 600; color: #1C1C1E; width: 36px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ s.name }}</span>
                       <div style="flex: 1; height: 4px; background: #F2F2F7; border-radius: 3px; overflow: hidden;">
                         <div :style="{ height: '100%', width: `${s.score * 10}%`, background: brandColor(s.name.toUpperCase(), s.score), borderRadius: '3px', transition: 'width 0.4s ease' }" />
                       </div>
@@ -603,7 +603,7 @@ const tooltipVisible = ref<string | null>(null);
               <div style="display: flex; gap: 0; align-items: flex-start;">
                 <!-- Fibra -->
                 <div v-if="g.technology === 'FIBRA' || g.technology === 'AMBOS'" :style="{ flex: 1, paddingRight: (g.technology === 'AMBOS') ? '10px' : '0' }">
-                  <div style="font-size: 8px; color: #660099; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 3px;">Fibra</div>
+                  <div style="font-size: 10px; color: #660099; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 2px;">Fibra</div>
                   <div style="display: flex; flex-direction: column; gap: 3px;">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                       <span style="font-size: 10px; font-weight: 600; color: #8E8E93;">Download</span>
@@ -623,7 +623,7 @@ const tooltipVisible = ref<string | null>(null);
                 <div v-if="g.technology === 'AMBOS'" style="width: 1px; background: #E5E5EA; align-self: stretch; flex-shrink: 0;" />
                 <!-- Móvel -->
                 <div v-if="g.technology === 'MOVEL' || g.technology === 'AMBOS'" :style="{ flex: 1, paddingLeft: (g.technology === 'AMBOS') ? '10px' : '0' }">
-                  <div style="font-size: 8px; color: #660099; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 3px;">Móvel</div>
+                  <div style="font-size: 10px; color: #660099; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 2px;">Móvel</div>
                   <div style="display: flex; flex-direction: column; gap: 3px;">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                       <span style="font-size: 10px; font-weight: 600; color: #8E8E93;">Download</span>
@@ -652,7 +652,7 @@ const tooltipVisible = ref<string | null>(null);
               </div>
               <div style="display: flex; gap: 10px;">
                 <div style="flex: 1;">
-                  <div style="font-size: 8px; color: #660099; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 3px;">Fibra</div>
+                  <div style="font-size: 10px; color: #660099; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 2px;">Fibra</div>
                   <div style="display: flex; flex-direction: column; gap: 2px;">
                     <div style="display: flex; justify-content: space-between;">
                       <span style="font-size: 8.5px; color: #8E8E93;">ARPU</span>
@@ -666,7 +666,7 @@ const tooltipVisible = ref<string | null>(null);
                 </div>
                 <div style="width: 1px; background: rgba(0,0,0,0.07); align-self: stretch; flex-shrink: 0;"></div>
                 <div style="flex: 1;">
-                  <div style="font-size: 8px; color: #660099; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 3px;">Móvel</div>
+                  <div style="font-size: 10px; color: #660099; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 2px;">Móvel</div>
                   <div style="display: flex; flex-direction: column; gap: 2px;">
                     <div style="display: flex; justify-content: space-between;">
                       <span style="font-size: 8.5px; color: #8E8E93;">ARPU</span>
