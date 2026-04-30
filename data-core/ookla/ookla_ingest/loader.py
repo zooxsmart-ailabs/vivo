@@ -604,15 +604,25 @@ def _files_for_day(
         *params,
     ]
     with conn.cursor() as cur:
+        # Interleave por entidade (round-robin): primeiro arquivo de cada
+        # entidade, depois segundo, etc. Garante que os N workers cobrem as 5
+        # entidades em paralelo desde o inicio, em vez de drenar uma entidade
+        # por completo antes da proxima — o lock per (entity, data_date) faz
+        # workers da MESMA entidade serializarem no INSERT, entao manter so' 1
+        # worker em flight por entidade nao desacelera.
         cur.execute(
             f"""
             SELECT entity, remote_path, data_date
-              FROM ookla_catalog
-             WHERE {where_date} AND status = ANY(%s)
-               AND attempts < %s
-               AND (NOT %s OR entity <> %s)
-               AND {clause}
-             ORDER BY entity, remote_path
+              FROM (
+                SELECT entity, remote_path, data_date,
+                       row_number() OVER (PARTITION BY entity ORDER BY remote_path) AS rn
+                  FROM ookla_catalog
+                 WHERE {where_date} AND status = ANY(%s)
+                   AND attempts < %s
+                   AND (NOT %s OR entity <> %s)
+                   AND {clause}
+              ) t
+             ORDER BY rn, entity
             """,
             sql_params,
         )
