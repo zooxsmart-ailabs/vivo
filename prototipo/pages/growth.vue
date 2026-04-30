@@ -479,7 +479,7 @@ const pilaresOrdenados = computed(() => {
                   <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:4px;">
                     <div style="min-width:0;">
                       <div style="display:flex;align-items:center;gap:5px;">
-                        <span style="font-size:9px;font-weight:700;color:#1C1C1E;line-height:1.3;">{{ m.label }}</span>
+                        <span style="font-size:12px;font-weight:700;color:#1C1C1E;line-height:1.3;">{{ m.label }}</span>
                       </div>
                       <div :style="{fontSize:'12px',color:'#8E8E93',lineHeight:'1.4',marginTop:'6px',maxWidth:'360px',whiteSpace:'nowrap'}">{{ m.formula }}</div>
                     </div>
