@@ -218,6 +218,13 @@
       "when": 1777370010958,
       "tag": "0030_qoe_extend_columns",
       "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "7",
+      "when": 1777513200000,
+      "tag": "0031_drop_unused_indexes",
+      "breakpoints": true
     }
   ]
 }

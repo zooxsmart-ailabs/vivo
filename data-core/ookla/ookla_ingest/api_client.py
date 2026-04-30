@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 import logging
+import threading
+import time
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Iterable
+from typing import Any, ClassVar, Iterable
 
 import httpx
 from tenacity import (
@@ -62,6 +64,15 @@ class OoklaApiClient:
     expõe `resolve_file_url()` — chame imediatamente antes do download para
     pegar a URL fresca da pasta-pai.
     """
+
+    # Cache compartilhado entre instancias (loader cria uma instancia por
+    # worker thread). Sem isso, N arquivos do mesmo dia disparam N listagens
+    # identicas da pasta-pai — para Performance/MobileNetworkPerformance/
+    # isso e' literalmente N==files_do_dia HTTPs redundantes. TTL curto pra
+    # nao mascarar arquivos novos que apareceram durante a corrida.
+    _DIR_CACHE_TTL: ClassVar[float] = 60.0
+    _dir_cache: ClassVar[dict[str, tuple[float, list]]] = {}
+    _dir_cache_lock: ClassVar[threading.Lock] = threading.Lock()
 
     def __init__(self, base_url: str | None = None) -> None:
         self._base = (base_url or settings.OOKLA_API_URL).rstrip("/")
@@ -163,6 +174,33 @@ class OoklaApiClient:
                         mtime=entry.mtime,
                     )
 
+    def _list_dir_cached(self, dir_url: str) -> list[FileEntry | DirEntry]:
+        """`list_dir` com cache TTL compartilhado entre threads/instancias.
+
+        Pequena janela de race: dois workers podem perder o cache em paralelo
+        e disparar dois GETs concorrentes — aceito (correto, so' desperdicio
+        breve no warm-up). Sem cache stampede prevention de proposito: o
+        complica vs. ganho marginal nao compensa nesta carga (pico de N=4
+        downloads paralelos por dia).
+        """
+        now = time.monotonic()
+        with self._dir_cache_lock:
+            cached = self._dir_cache.get(dir_url)
+            if cached is not None and (now - cached[0]) < self._DIR_CACHE_TTL:
+                return cached[1]
+        entries = self.list_dir(dir_url)
+        with self._dir_cache_lock:
+            self._dir_cache[dir_url] = (time.monotonic(), entries)
+        return entries
+
+    def invalidate_dir_cache(self, dir_url: str | None = None) -> None:
+        """Limpa cache de listagem. Sem argumento, limpa tudo."""
+        with self._dir_cache_lock:
+            if dir_url is None:
+                self._dir_cache.clear()
+            else:
+                self._dir_cache.pop(dir_url, None)
+
     def resolve_file_url(self, remote_path: str) -> str:
         """Re-resolve a URL assinada de um arquivo listando a pasta-pai.
 
@@ -179,7 +217,7 @@ class OoklaApiClient:
             raise OoklaApiError(f"remote_path sem diretorio pai: {remote_path}")
         parent_url = f"{self._base}/{parent}/"
         try:
-            entries = self.list_dir(parent_url)
+            entries = self._list_dir_cached(parent_url)
         except httpx.HTTPStatusError as e:
             if e.response is not None and e.response.status_code == 404:
                 raise OoklaFileExpired(

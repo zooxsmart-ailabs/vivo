@@ -293,6 +293,16 @@ services:
       DB_USER: ${DATABASE_USER:?DATABASE_USER is required}
       DB_PASSWORD: ${DATABASE_PASSWORD:?DATABASE_PASSWORD is required}
       DB_NAME: ${DATABASE_NAME:?DATABASE_NAME is required}
+      # Performance tuning (defaults seguros — ver settings.py)
+      OOKLA_COPY_FORMAT: ${OOKLA_COPY_FORMAT:-text}
+      OOKLA_UPSERT_MODE: ${OOKLA_UPSERT_MODE:-do_nothing}
+      # Observability — quando observability profile esta' de pe', envia
+      # traces+metrics pro signoz-otel-collector via OTLP gRPC.
+      OTEL_ENABLED: ${OTEL_ENABLED:-false}
+      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:-http://signoz-otel-collector:4317}
+      OTEL_SERVICE_NAME: ${OTEL_SERVICE_NAME:-ookla-ingest}
+      LOG_JSON: ${LOG_JSON:-false}
+      DEPLOY_ENV: ${DEPLOY_ENV:-dev}
     volumes:
       - ookla-raw:/data/ookla/raw
     networks:

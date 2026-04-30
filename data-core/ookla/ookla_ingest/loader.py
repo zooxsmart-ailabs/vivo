@@ -3,13 +3,16 @@ from __future__ import annotations
 import io
 import logging
 import threading
+import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from contextvars import ContextVar
 from dataclasses import dataclass
 from datetime import date
 from typing import Any
 
 from psycopg import Connection
 
+from . import telemetry
 from .api_client import OoklaApiClient, OoklaFileExpired
 from .copy_loader import load_file
 from .db import close_run, connect, open_run
@@ -17,6 +20,24 @@ from .path_parser import TARGET_ENTITIES, parse
 from .s3_uploader import IterStream, S3Uploader, s3_key_for
 from .schema import ENTITIES
 from .settings import settings
+
+# Correlation: cada run/arquivo aparece nos logs JSON via LogRecord extras.
+_run_id_var: ContextVar[int | None] = ContextVar("ookla_run_id", default=None)
+_file_label_var: ContextVar[str | None] = ContextVar("ookla_file", default=None)
+
+
+class _ContextFilter(logging.Filter):
+    def filter(self, record: logging.LogRecord) -> bool:
+        rid = _run_id_var.get()
+        fl = _file_label_var.get()
+        if rid is not None:
+            record.run_id = rid
+        if fl is not None:
+            record.file = fl
+        return True
+
+
+logging.getLogger().addFilter(_ContextFilter())
 
 log = logging.getLogger(__name__)
 
@@ -34,6 +55,25 @@ class CatalogRow:
 # conexao Postgres. httpx.Client e psycopg.Connection nao sao thread-safe
 # (boto3 client e' thread-safe mas mantemos consistencia).
 _local = threading.local()
+
+# Lock por (entidade, data_date): serializa o INSERT...SELECT staging->target
+# dentro do mesmo chunk Timescale. Como chunks sao particionados por
+# periodDate, dois workers em DIAS distintos da MESMA entidade nao colidem em
+# chunk lock — entao podem rodar em paralelo. Granularidade fina libera muito
+# paralelismo em backfills (5 entidades x N dias) sem reintroduzir o deadlock
+# que motivou o lock original.
+_ENTITY_LOCKS_GUARD = threading.Lock()
+_ENTITY_LOCKS: dict[tuple[str, date | None], threading.Lock] = {}
+
+
+def _entity_lock(entity: str, data_date: date | None) -> threading.Lock:
+    key = (entity, data_date)
+    with _ENTITY_LOCKS_GUARD:
+        lock = _ENTITY_LOCKS.get(key)
+        if lock is None:
+            lock = threading.Lock()
+            _ENTITY_LOCKS[key] = lock
+        return lock
 
 
 def _api() -> OoklaApiClient:
@@ -54,7 +94,9 @@ def _conn() -> Connection:
 
         c = psycopg.connect(settings.db_dsn, autocommit=False)
         with c.cursor() as cur:
-            cur.execute("SET temp_buffers = '1GB'")
+            # temp_buffers nao se aplica: staging e' UNLOGGED (shared_buffers),
+            # nao TEMP. Mantemos work_mem/maintenance_work_mem pra ajudar o
+            # INSERT...SELECT staging->target e eventual sort de unique check.
             cur.execute("SET work_mem = '256MB'")
             cur.execute("SET maintenance_work_mem = '512MB'")
         c.commit()
@@ -70,9 +112,15 @@ def run_load(
     latency_days: int = 1,
     target_only: bool = False,
     non_target_only: bool = False,
+    skip_s3: bool | None = None,
 ) -> dict[str, Any]:
     if target_only and non_target_only:
         raise ValueError("--target-only e --non-target-only são mutuamente exclusivos")
+    # `skip_s3=None` → respeita OOKLA_SKIP_S3. Flag explicita sobrescreve.
+    skip_s3 = settings.OOKLA_SKIP_S3 if skip_s3 is None else skip_s3
+    # Skip S3 + non_target_only e' inutil — non-target so' faz S3.
+    if skip_s3 and non_target_only:
+        raise ValueError("--skip-s3 com --non-target-only nao faz nada (non-target e' so' S3)")
     """Carga em 2 fases (target → não-target), streaming end-to-end.
 
     Sub-fase 1 — entidades alvo:
@@ -95,16 +143,19 @@ def run_load(
         "phases": {},
         "include_latency": include_latency,
         "latency_days": latency_days if include_latency else 0,
+        "skip_s3": skip_s3,
     }
 
     with connect() as conn:
         run_id = open_run(conn, phase="load")
+        _run_id_var.set(run_id)
         log.info(
-            "ookla load run_id=%d iniciado (latency=%s, max_days=%s, target_only=%s, parallelism=%d)",
+            "ookla load run_id=%d iniciado (latency=%s, max_days=%s, target_only=%s, skip_s3=%s, parallelism=%d)",
             run_id,
             f"{latency_days}d" if include_latency else "off",
             max_days,
             target_only,
+            skip_s3,
             settings.OOKLA_PARALLEL_DOWNLOADS,
         )
         try:
@@ -120,11 +171,13 @@ def run_load(
                     allowed_latency_days=allowed_latency_days,
                     retry_failed=retry_failed,
                     max_days=max_days,
+                    skip_s3=skip_s3,
                 )
                 stats["phases"]["target"] = phase1
                 _accumulate(stats, phase1)
 
-            if not target_only:
+            # Fase 2 (non-target) so' faz S3. Se skip_s3, pula inteira.
+            if not target_only and not skip_s3:
                 log.info("=== FASE 2/2: entidades nao-target (so S3) ===")
                 phase2 = _run_phase(
                     conn,
@@ -132,9 +185,12 @@ def run_load(
                     allowed_latency_days=allowed_latency_days,
                     retry_failed=retry_failed,
                     max_days=max_days,
+                    skip_s3=skip_s3,
                 )
                 stats["phases"]["non_target"] = phase2
                 _accumulate(stats, phase2)
+            elif skip_s3 and not target_only:
+                log.info("Fase 2/2 (non-target/S3) pulada: --skip-s3")
 
             close_run(conn, run_id, status="ok", stats=stats)
             log.info("ookla load run_id=%d concluido: %s", run_id, stats)
@@ -163,6 +219,7 @@ def _run_phase(
     allowed_latency_days: set[date],
     retry_failed: bool,
     max_days: int | None,
+    skip_s3: bool = False,
 ) -> dict[str, Any]:
     phase_stats: dict[str, Any] = {
         "days_processed": 0,
@@ -196,11 +253,17 @@ def _run_phase(
         if not files:
             continue
 
-        with ThreadPoolExecutor(
+        day_span = telemetry.span(
+            "ookla.day",
+            phase=label,
+            day=str(day) if day else "<undated>",
+            files=len(files),
+        )
+        with day_span, ThreadPoolExecutor(
             max_workers=settings.OOKLA_PARALLEL_DOWNLOADS,
             thread_name_prefix="ookla",
         ) as pool:
-            futures = {pool.submit(_process_file, row): row for row in files}
+            futures = {pool.submit(_process_file, row, skip_s3): row for row in files}
             for fut in as_completed(futures):
                 row = futures[fut]
                 try:
@@ -236,10 +299,11 @@ def _run_phase(
 # ---------------------------------------------------------------------------
 
 
-def _process_file(row: CatalogRow) -> tuple[int, bool]:
+def _process_file(row: CatalogRow, skip_s3: bool = False) -> tuple[int, bool]:
     """Pipeline de 1 arquivo, sem disco.
 
-    - Target: Ookla → BytesIO → (S3 // COPY) em paralelo no mesmo worker.
+    - Target: Ookla → BytesIO → (S3 // COPY) em paralelo no mesmo worker
+      (S3 pulado quando `skip_s3=True`; so' faz download + COPY).
     - Não-target: Ookla → S3 streaming direto (sem buffer).
 
     Retorna (rows_loaded, was_target).
@@ -249,51 +313,110 @@ def _process_file(row: CatalogRow) -> tuple[int, bool]:
         raise RuntimeError(f"path nao parseavel: {row.remote_path}")
 
     is_target = row.entity in TARGET_ENTITIES
+    file_label = row.remote_path.rsplit("/", 1)[-1]
+    _file_label_var.set(file_label)
+    attrs = {"entity": row.entity, "target": is_target}
+
+    file_t0 = time.monotonic()
+    with telemetry.span("ookla.process_file", **attrs):
+        try:
+            return _process_file_inner(row, parsed, is_target, file_label, skip_s3)
+        finally:
+            telemetry.file_duration_ms.record(
+                (time.monotonic() - file_t0) * 1000,
+                {"entity": row.entity, "target": is_target},
+            )
+
+
+def _process_file_inner(
+    row: CatalogRow,
+    parsed: Any,
+    is_target: bool,
+    file_label: str,
+    skip_s3: bool = False,
+) -> tuple[int, bool]:
     conn = _conn()
     api = _api()
     s3 = _s3()
     key = s3_key_for(row.remote_path, parsed)
 
     _mark(conn, row, status="downloading")
-    try:
-        url = api.resolve_file_url(row.remote_path)
-    except OoklaFileExpired as exc:
-        # Arquivo sumiu da API entre o catalog e o load (janela rolante,
-        # regeneracao). Marca skipped (sem incrementar attempts) — retentar
-        # nao adianta, so re-cataloga.
-        _mark(conn, row, status="skipped", error=f"expired: {exc}")
-        log.info("expirado da API: %s", row.remote_path)
-        raise
+    with telemetry.span("ookla.resolve_url", entity=row.entity):
+        try:
+            url = api.resolve_file_url(row.remote_path)
+        except OoklaFileExpired as exc:
+            _mark(conn, row, status="skipped", error=f"expired: {exc}")
+            telemetry.files_total.add(
+                1, {"entity": row.entity, "status": "skipped"}
+            )
+            log.info("expirado da API: %s", row.remote_path)
+            raise
 
     if not is_target:
-        # Stream Ookla → S3, sem qualquer buffer adicional.
+        if skip_s3:
+            # Defesa em profundidade — run_load ja' pula a fase non-target
+            # quando skip_s3=True, mas se chegou aqui, nada a fazer.
+            _mark(conn, row, status="skipped", error="skip_s3 enabled")
+            telemetry.files_total.add(1, {"entity": row.entity, "status": "skipped"})
+            return 0, False
         try:
+            t0 = time.monotonic()
             with api.stream_download(url) as resp:
                 resp.raise_for_status()
                 _mark(conn, row, status="uploading")
-                fileobj = IterStream(resp.iter_bytes(1 << 16))  # 64KB chunks
-                s3_uri = s3.upload_fileobj(fileobj, key, skip_if_exists=False)
+                fileobj = IterStream(resp.iter_bytes(1 << 16))
+                with telemetry.span(
+                    "ookla.s3_upload", entity=row.entity, streaming=True
+                ):
+                    s3_uri = s3.upload_fileobj(fileobj, key, skip_if_exists=False)
+            telemetry.s3_upload_duration_ms.record(
+                (time.monotonic() - t0) * 1000,
+                {"entity": row.entity, "streaming": True},
+            )
         except Exception as exc:
             _mark(conn, row, status="failed", error=f"stream: {exc}")
+            telemetry.files_total.add(
+                1, {"entity": row.entity, "status": "failed"}
+            )
             raise
         _mark(conn, row, status="loaded", s3_uri=s3_uri)
+        telemetry.files_total.add(1, {"entity": row.entity, "status": "loaded"})
         return 0, False
 
-    # Target: precisamos do parquet em memória pra alimentar pyarrow + S3.
+    # Target: precisamos do parquet em memoria pra alimentar pyarrow (footer
+    # exige acesso aleatorio, COPY so' arranca apos download completo).
+    # Mantemos S3 em paralelo com COPY pra ocultar o tempo de upload atras
+    # do tempo de COPY (que e' o gargalo dominante em qoe_latency).
+    #
+    # Otimizacao de RAM: acumula chunks numa lista e faz um unico b"".join
+    # antes de COPY/S3, evitando o pico 2N do antigo `BytesIO + getvalue()`.
+    # Pico fica ~1N (lista) durante download; ~2N brevemente durante o join;
+    # ~1N (payload bytes) durante COPY+S3 paralelos.
+    chunks: list[bytes] = []
+    size = 0
     try:
-        buf = io.BytesIO()
-        with api.stream_download(url) as resp:
-            resp.raise_for_status()
-            for chunk in resp.iter_bytes(1 << 20):  # 1MB chunks
-                buf.write(chunk)
-        size = buf.tell()
+        d0 = time.monotonic()
+        with telemetry.span("ookla.download", entity=row.entity) as sp:
+            with api.stream_download(url) as resp:
+                resp.raise_for_status()
+                for chunk in resp.iter_bytes(1 << 20):
+                    chunks.append(chunk)
+                    size += len(chunk)
+            if sp is not None:
+                sp.set_attribute("bytes", size)
+        telemetry.download_duration_ms.record(
+            (time.monotonic() - d0) * 1000, {"entity": row.entity}
+        )
+        telemetry.bytes_downloaded_total.add(size, {"entity": row.entity})
     except Exception as exc:
         _mark(conn, row, status="failed", error=f"download: {exc}")
+        telemetry.files_total.add(1, {"entity": row.entity, "status": "failed"})
         raise
 
     _mark(conn, row, status="uploading")
     entity_map = ENTITIES[row.entity]
-    payload = buf.getvalue()  # imutable bytes; cada thread cria seu BytesIO
+    payload = b"".join(chunks)
+    chunks.clear()
 
     s3_uri_box: list[str | None] = [None]
     rows_box: list[int] = [0]
@@ -301,24 +424,49 @@ def _process_file(row: CatalogRow) -> tuple[int, bool]:
 
     def _do_s3() -> None:
         try:
-            s3_uri_box[0] = s3.upload_fileobj(
-                io.BytesIO(payload),
-                key,
-                expected_size=size,
-                skip_if_exists=True,
+            s3_t0 = time.monotonic()
+            with telemetry.span(
+                "ookla.s3_upload", entity=row.entity, bytes=size
+            ):
+                s3_uri_box[0] = s3.upload_fileobj(
+                    io.BytesIO(payload),
+                    key,
+                    expected_size=size,
+                    skip_if_exists=True,
+                )
+            telemetry.s3_upload_duration_ms.record(
+                (time.monotonic() - s3_t0) * 1000,
+                {"entity": row.entity, "streaming": False},
             )
         except BaseException as e:
             err_box[0] = e
 
     def _do_copy() -> None:
         try:
-            rows_box[0] = load_file(
-                conn,
-                entity_map=entity_map,
-                file_obj=io.BytesIO(payload),
-                file_label=row.remote_path.rsplit("/", 1)[-1],
-            )
+            copy_t0 = time.monotonic()
+            with telemetry.span("ookla.copy_load", entity=row.entity) as sp:
+                # A lock per (entity, data_date) e' aplicada DENTRO de
+                # load_file, ao redor so' do INSERT staging->target. Isso
+                # permite que CREATE/COPY/DROP de N workers no mesmo dia
+                # rodem em paralelo (cada worker tem staging table com
+                # nome unico), serializando apenas o passo que de fato
+                # toma chunk lock no hypertable.
+                rows_box[0] = load_file(
+                    conn,
+                    entity_map=entity_map,
+                    file_obj=io.BytesIO(payload),
+                    file_label=file_label,
+                    insert_lock=_entity_lock(row.entity, row.data_date),
+                )
+                if sp is not None:
+                    sp.set_attribute("rows", rows_box[0])
+            # load_file ja' commitou INSERT (sob a lock) e DROP (fora).
+            # Esta chamada e' no-op mas mantemos como invariante explicita.
             conn.commit()
+            telemetry.copy_duration_ms.record(
+                (time.monotonic() - copy_t0) * 1000,
+                {"entity": row.entity},
+            )
         except BaseException as e:
             try:
                 conn.rollback()
@@ -326,18 +474,25 @@ def _process_file(row: CatalogRow) -> tuple[int, bool]:
                 pass
             err_box[1] = e
 
-    t_s3 = threading.Thread(target=_do_s3, name="s3")
-    t_copy = threading.Thread(target=_do_copy, name="copy")
-    t_s3.start()
-    t_copy.start()
-    t_s3.join()
-    t_copy.join()
+    if skip_s3:
+        # So' COPY — sem thread S3. Mantemos `_do_copy` em thread pra
+        # preservar simetria de erro-handling, mas e' efetivamente sequencial.
+        _do_copy()
+    else:
+        t_s3 = threading.Thread(target=_do_s3, name="s3")
+        t_copy = threading.Thread(target=_do_copy, name="copy")
+        t_s3.start()
+        t_copy.start()
+        t_s3.join()
+        t_copy.join()
 
-    if err_box[0] is not None:
+    if not skip_s3 and err_box[0] is not None:
         _mark(conn, row, status="failed", error=f"s3: {err_box[0]}")
+        telemetry.files_total.add(1, {"entity": row.entity, "status": "failed"})
         raise err_box[0]
     if err_box[1] is not None:
         _mark(conn, row, status="failed", error=f"copy: {err_box[1]}")
+        telemetry.files_total.add(1, {"entity": row.entity, "status": "failed"})
         raise err_box[1]
 
     _mark(
@@ -347,6 +502,8 @@ def _process_file(row: CatalogRow) -> tuple[int, bool]:
         rows=rows_box[0],
         s3_uri=s3_uri_box[0],
     )
+    telemetry.files_total.add(1, {"entity": row.entity, "status": "loaded"})
+    telemetry.rows_loaded_total.add(rows_box[0], {"entity": row.entity})
     return rows_box[0], True
 
 
