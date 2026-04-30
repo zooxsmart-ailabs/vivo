@@ -272,14 +272,14 @@ const pilaresOrdenados = computed(() => {
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#660099" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
             </div>
             <div>
-              <div style="font-size:10px;font-weight:800;color:#1C1C1E;line-height:1.2;">{{ displayGeo.neighborhood }}</div>
+              <div style="font-size:12px;font-weight:800;color:#1C1C1E;line-height:1.2;">{{ displayGeo.neighborhood }}</div>
               <div style="font-size:8.5px;color:#8E8E93;margin-top:2px;">{{ displayGeo.city }} · {{ displayGeo.id }}</div>
             </div>
           </div>
           <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:12px;border:1px solid rgba(0,0,0,0.07);background:#F2F2F7;flex-shrink:0;">
             <span style="font-size:18px;font-weight:800;color:#22c55e;line-height:1;">{{ displayGeo.priorityScore.toFixed(1) }}</span>
             <div style="display:flex;flex-direction:column;">
-              <span style="font-size:10px;font-weight:800;color:#22c55e;letter-spacing:0.08em;text-transform:uppercase;line-height:1.2;">
+              <span style="font-size:12px;font-weight:800;color:#22c55e;letter-spacing:0.08em;text-transform:uppercase;line-height:1.2;">
                 {{ PRIORITY_CONFIG[displayGeo.priority].label }}
               </span>
               <span style="font-size:7.5px;color:#8E8E93;line-height:1.2;">Score de Priorização</span>
@@ -299,7 +299,7 @@ const pilaresOrdenados = computed(() => {
                   </div>
                   <span style="font-size:8px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;">População</span>
                 </div>
-                <span style="font-size:10px;font-weight:800;color:#1C1C1E;line-height:1;flex-shrink:0;padding-top:2px;">~{{ (Math.round(displayGeo.demographics.populationDensity * 1.22 / 100) * 100).toLocaleString('pt-BR') }}</span>
+                <span style="font-size:12px;font-weight:800;color:#1C1C1E;line-height:1;flex-shrink:0;padding-top:2px;">~{{ (Math.round(displayGeo.demographics.populationDensity * 1.22 / 100) * 100).toLocaleString('pt-BR') }}</span>
               </div>
               <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;">
                 <div style="display:flex;gap:3px;flex-wrap:wrap;">
@@ -319,7 +319,7 @@ const pilaresOrdenados = computed(() => {
                   </div>
                   <span style="font-size:8px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;">Densidade</span>
                 </div>
-                <span style="font-size:10px;font-weight:800;color:#1C1C1E;line-height:1;flex-shrink:0;padding-top:2px;">{{ (displayGeo.demographics.populationDensity / 1000).toFixed(1) }}k</span>
+                <span style="font-size:12px;font-weight:800;color:#1C1C1E;line-height:1;flex-shrink:0;padding-top:2px;">{{ (displayGeo.demographics.populationDensity / 1000).toFixed(1) }}k</span>
               </div>
               <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;">
                 <div style="display:flex;gap:3px;flex-wrap:wrap;">
@@ -339,7 +339,7 @@ const pilaresOrdenados = computed(() => {
                   </div>
                   <span style="font-size:8px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;">Renda Média</span>
                 </div>
-                <span style="font-size:10px;font-weight:800;color:#1C1C1E;line-height:1;flex-shrink:0;padding-top:2px;">{{ fmtCurrency(displayGeo.demographics.avgIncome) }}</span>
+                <span style="font-size:12px;font-weight:800;color:#1C1C1E;line-height:1;flex-shrink:0;padding-top:2px;">{{ fmtCurrency(displayGeo.demographics.avgIncome) }}</span>
               </div>
               <div style="display:flex;align-items:center;justify-content:flex-end;">
                 <div style="font-size:8.5px;color:#8E8E93;text-align:right;flex-shrink:0;">renda domiciliar</div>
@@ -354,7 +354,7 @@ const pilaresOrdenados = computed(() => {
                   </div>
                   <span style="font-size:8px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;">Classe Social</span>
                 </div>
-                <span style="font-size:10px;font-weight:800;color:#1C1C1E;line-height:1;flex-shrink:0;padding-top:2px;">{{ getSocialClass(displayGeo.demographics.avgIncome ?? 0).label }}</span>
+                <span style="font-size:12px;font-weight:800;color:#1C1C1E;line-height:1;flex-shrink:0;padding-top:2px;">{{ getSocialClass(displayGeo.demographics.avgIncome ?? 0).label }}</span>
               </div>
               <div style="display:flex;align-items:center;justify-content:flex-end;">
                 <div style="font-size:8.5px;color:#8E8E93;text-align:right;flex-shrink:0;">classificação IBGE</div>
@@ -379,7 +379,7 @@ const pilaresOrdenados = computed(() => {
                   <div style="text-align:center;">
                     <div style="font-size:7.5px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">Share</div>
                     <div style="display:flex;align-items:baseline;justify-content:center;gap:3px;margin-left:9px;">
-                      <span style="font-size:10px;font-weight:800;color:#1C1C1E;line-height:1;">
+                      <span style="font-size:12px;font-weight:800;color:#1C1C1E;line-height:1;">
                         {{ (() => { const rawF = displayGeo.shareTrend.shareFibra ?? 0; const pctF = displayGeo.marketShare.percentage; return rawF > 0 ? rawF : (displayGeo.technology === 'MOVEL' ? Math.round(pctF * 0.65) : Math.round(pctF * 0.9)); })() }}%
                       </span>
                       <span :style="{fontSize:'12px',fontWeight:700,color: (() => { const rawF = displayGeo.shareTrend.shareFibra ?? 0; const pctF = displayGeo.marketShare.percentage; const sfv = rawF > 0 ? rawF : (displayGeo.technology === 'MOVEL' ? Math.round(pctF * 0.65) : Math.round(pctF * 0.9)); const dfv = sfv - 22; return dfv >= 5 ? '#15803D' : dfv >= 0 ? '#B45309' : '#DC2626'; })()}">
@@ -389,7 +389,7 @@ const pilaresOrdenados = computed(() => {
                   </div>
                   <div style="text-align:center;">
                     <div style="font-size:7.5px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">ARPU</div>
-                    <div style="font-size:10px;font-weight:800;color:#1C1C1E;line-height:1;">R$ {{ displayGeo.crm?.arpuFibra > 0 ? displayGeo.crm.arpuFibra : (displayGeo.crm?.arpu ?? '—') }}</div>
+                    <div style="font-size:12px;font-weight:800;color:#1C1C1E;line-height:1;">R$ {{ displayGeo.crm?.arpuFibra > 0 ? displayGeo.crm.arpuFibra : (displayGeo.crm?.arpu ?? '—') }}</div>
                   </div>
                   <div style="text-align:center;">
                     <div style="font-size:7.5px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">Plano</div>
@@ -411,7 +411,7 @@ const pilaresOrdenados = computed(() => {
                   <div style="text-align:center;">
                     <div style="font-size:7.5px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">Share</div>
                     <div style="display:flex;align-items:baseline;justify-content:center;gap:3px;margin-left:9px;">
-                      <span style="font-size:10px;font-weight:800;color:#1C1C1E;line-height:1;">
+                      <span style="font-size:12px;font-weight:800;color:#1C1C1E;line-height:1;">
                         {{ (() => { const rawM = displayGeo.shareTrend.shareMovel ?? 0; const pctM = displayGeo.marketShare.percentage; return rawM > 0 ? rawM : (displayGeo.technology === 'FIBRA' ? Math.round(pctM * 0.35) : Math.round(pctM * 0.9)); })() }}%
                       </span>
                       <span :style="{fontSize:'12px',fontWeight:700,color: (() => { const rawM = displayGeo.shareTrend.shareMovel ?? 0; const pctM = displayGeo.marketShare.percentage; const smv = rawM > 0 ? rawM : (displayGeo.technology === 'FIBRA' ? Math.round(pctM * 0.35) : Math.round(pctM * 0.9)); const dmv = smv - 18; return dmv >= 5 ? '#15803D' : dmv >= 0 ? '#B45309' : '#DC2626'; })()}">
@@ -421,7 +421,7 @@ const pilaresOrdenados = computed(() => {
                   </div>
                   <div style="text-align:center;">
                     <div style="font-size:7.5px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">ARPU</div>
-                    <div style="font-size:10px;font-weight:800;color:#1C1C1E;line-height:1;">R$ {{ displayGeo.crm?.arpuMovel > 0 ? displayGeo.crm.arpuMovel : (displayGeo.crm?.arpu ?? '—') }}</div>
+                    <div style="font-size:12px;font-weight:800;color:#1C1C1E;line-height:1;">R$ {{ displayGeo.crm?.arpuMovel > 0 ? displayGeo.crm.arpuMovel : (displayGeo.crm?.arpu ?? '—') }}</div>
                   </div>
                   <div style="text-align:center;">
                     <div style="font-size:7.5px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">Plano</div>
@@ -439,7 +439,7 @@ const pilaresOrdenados = computed(() => {
         <!-- 4 Pilares -->
         <div style="flex:0 0 auto;">
           <div style="margin-bottom:4px;margin-top:-4px;padding-top:4px;padding-bottom:4px;">
-            <span style="font-size:10px;font-weight:800;color:#1C1C1E;letter-spacing:0.06em;text-transform:uppercase;">Avaliação dos 4 Pilares</span>
+            <span style="font-size:12px;font-weight:800;color:#1C1C1E;letter-spacing:0.06em;text-transform:uppercase;">Avaliação dos 4 Pilares</span>
           </div>
           <div style="display:grid;grid-template-columns:630px 630px;gap:10px;">
             <div
@@ -546,7 +546,7 @@ const pilaresOrdenados = computed(() => {
         <div v-if="ia" style="flex:0 0 auto;display:flex;flex-direction:column;gap:16px;">
           <div>
             <div style="margin-bottom:4px;margin-top:-4px;padding-top:4px;padding-bottom:4px;">
-              <span style="font-size:10px;font-weight:800;color:#1C1C1E;letter-spacing:0.06em;text-transform:uppercase;">Recomendação Estratégica</span>
+              <span style="font-size:12px;font-weight:800;color:#1C1C1E;letter-spacing:0.06em;text-transform:uppercase;">Recomendação Estratégica</span>
             </div>
             <div style="display:flex;flex-direction:column;gap:8px;height:450px;width:350px;">
               <!-- Cards Móvel + Fibra -->
