@@ -372,7 +372,7 @@ const pilaresOrdenados = computed(() => {
                 <div style="width:16px;height:16px;border-radius:5px;background:rgba(102,0,153,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                   <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#660099" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
                 </div>
-                <span style="font-size:8px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;padding-top:1px;">Fibra</span>
+                <span style="font-size:10px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;padding-top:1px;padding-bottom:1px;">Fibra</span>
               </div>
               <div style="padding:8px 10px 6px;min-height:34px;">
                 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px 6px;">
@@ -389,11 +389,11 @@ const pilaresOrdenados = computed(() => {
                   </div>
                   <div style="text-align:center;">
                     <div style="font-size:7.5px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">ARPU</div>
-                    <div style="font-size:12px;font-weight:800;color:#1C1C1E;line-height:1;">R$ {{ displayGeo.crm?.arpuFibra > 0 ? displayGeo.crm.arpuFibra : (displayGeo.crm?.arpu ?? '—') }}</div>
+                    <div style="font-size:14px;font-weight:800;color:#1C1C1E;line-height:1;">R$ {{ displayGeo.crm?.arpuFibra > 0 ? displayGeo.crm.arpuFibra : (displayGeo.crm?.arpu ?? '—') }}</div>
                   </div>
                   <div style="text-align:center;">
                     <div style="font-size:7.5px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">Plano</div>
-                    <div style="font-size:9px;font-weight:700;color:#1C1C1E;line-height:1.2;">{{ displayGeo.crm?.planType ?? "—" }}</div>
+                    <div style="font-size:14px;font-weight:700;color:#1C1C1E;line-height:1.2;">{{ displayGeo.crm?.planType ?? "—" }}</div>
                   </div>
                 </div>
               </div>
@@ -404,7 +404,7 @@ const pilaresOrdenados = computed(() => {
                 <div style="width:16px;height:16px;border-radius:5px;background:rgba(102,0,153,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                   <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#660099" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
                 </div>
-                <span style="font-size:8px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;padding-top:1px;">Móvel</span>
+                <span style="font-size:10px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;padding-top:1px;padding-bottom:1px;">Móvel</span>
               </div>
               <div style="padding:8px 10px 6px;min-height:34px;">
                 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px 6px;">
@@ -421,11 +421,11 @@ const pilaresOrdenados = computed(() => {
                   </div>
                   <div style="text-align:center;">
                     <div style="font-size:7.5px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">ARPU</div>
-                    <div style="font-size:12px;font-weight:800;color:#1C1C1E;line-height:1;">R$ {{ displayGeo.crm?.arpuMovel > 0 ? displayGeo.crm.arpuMovel : (displayGeo.crm?.arpu ?? '—') }}</div>
+                    <div style="font-size:14px;font-weight:800;color:#1C1C1E;line-height:1;">R$ {{ displayGeo.crm?.arpuMovel > 0 ? displayGeo.crm.arpuMovel : (displayGeo.crm?.arpu ?? '—') }}</div>
                   </div>
                   <div style="text-align:center;">
                     <div style="font-size:7.5px;font-weight:700;color:#8E8E93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">Plano</div>
-                    <div style="font-size:9px;font-weight:700;color:#1C1C1E;line-height:1.2;">{{ displayGeo.crm?.planoMovel ?? "—" }}</div>
+                    <div style="font-size:14px;font-weight:700;color:#1C1C1E;line-height:1.2;">{{ displayGeo.crm?.planoMovel ?? "—" }}</div>
                   </div>
                 </div>
               </div>
@@ -437,7 +437,7 @@ const pilaresOrdenados = computed(() => {
       <!-- Layout: Pilares (esq) + Recomendação (dir) -->
       <div style="display:flex;gap:16px;align-items:flex-start;margin-top:-6px;width:1660px;">
         <!-- 4 Pilares -->
-        <div style="flex:0 0 auto;">
+        <div style="flex:0 0 1270px;">
           <div style="margin-bottom:4px;margin-top:-4px;padding-top:4px;padding-bottom:4px;">
             <span style="font-size:12px;font-weight:800;color:#1C1C1E;letter-spacing:0.06em;text-transform:uppercase;">Avaliação dos 4 Pilares</span>
           </div>
