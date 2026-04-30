@@ -36,8 +36,9 @@ def _use_binary() -> bool:
 
 
 class TargetMeta(NamedTuple):
-    udt: str          # ex.: 'text', 'inet', 'int4', 'timestamptz'
-    nullable: bool    # is_nullable=='YES'
+    udt: str                  # ex.: 'text', 'inet', 'int4', 'timestamptz'
+    nullable: bool            # is_nullable=='YES'
+    max_length: int | None    # character_maximum_length (None se sem limite)
 
 
 def load_file(
@@ -362,6 +363,8 @@ def _load_file_attempt(
 
 
 _TEXT_UDTS = frozenset({"text", "varchar", "bpchar"})
+# UDTs textuais que respeitam character_maximum_length (text e' ilimitado).
+_BOUNDED_TEXT_UDTS = frozenset({"varchar", "bpchar"})
 
 
 def _udt_for_psycopg(udt: str) -> str:
@@ -385,14 +388,15 @@ def _build_coercer(
 
     Decisao baseada no tipo do parquet (que determina o tipo Python que
     `to_pylist()` produzira) cruzado com o UDT do alvo. Para colunas
-    triviais (numericas, bool, decimal -> int/float/Decimal), retorna None
-    e o hot loop pula a chamada de funcao por celula.
+    triviais (numericas, bool, decimal -> int/float/Decimal sem max_length),
+    retorna None e o hot loop pula a chamada de funcao por celula.
 
     Ordem das coercoes preserva a do _coerce monolitico antigo:
       1. list -> json.dumps  (para parquet list<X>)
       2. naive datetime -> utc-aware
       3. string + target _inet/inet -> conversao
       4. string vazia + target nao-text -> NULL
+      5. qualquer valor + target varchar(N) -> truncar pra N chars
     """
     udt = meta.udt
 
@@ -448,10 +452,26 @@ def _build_coercer(
                 return None if v == "" else v
             return coerce_empty_to_null
 
-        # String em alvo textual: pass-through.
-        return None
+    # Truncamento pra varchar(N)/char(N): aplica-se a QUALQUER tipo parquet
+    # entrando em alvo bounded text. Em modo TEXT, psycopg serializa cada
+    # valor (incluindo int/float) via str() e PG tenta caber em varchar(N).
+    # Ookla as vezes manda numerico em coluna varchar(1) (ex.:
+    # attr_device_battery_state recebendo 12). Truncar pra max_len evita
+    # StringDataRightTruncation no COPY sem perder a linha.
+    if udt in _BOUNDED_TEXT_UDTS and meta.max_length is not None:
+        max_len = meta.max_length
 
-    # Demais tipos parquet (int*, float*, decimal*, bool, binary, ...): pass-through.
+        def coerce_truncate(v: Any) -> Any:
+            if v is None:
+                return None
+            s = v if isinstance(v, str) else str(v)
+            if len(s) > max_len:
+                return s[:max_len]
+            return s
+        return coerce_truncate
+
+    # Demais tipos parquet (int*, float*, decimal*, bool, binary, ...) em
+    # alvos sem restricao de tamanho: pass-through.
     return None
 
 
@@ -521,14 +541,14 @@ def _fetch_target_meta(conn: Connection, table_name: str) -> dict[str, TargetMet
     with conn.cursor() as cur:
         cur.execute(
             """
-            SELECT column_name, udt_name, is_nullable
+            SELECT column_name, udt_name, is_nullable, character_maximum_length
               FROM information_schema.columns
              WHERE table_schema = current_schema() AND table_name = %s
             """,
             (table_name,),
         )
         return {
-            r[0]: TargetMeta(udt=r[1], nullable=(r[2] == "YES"))
+            r[0]: TargetMeta(udt=r[1], nullable=(r[2] == "YES"), max_length=r[3])
             for r in cur.fetchall()
         }
 
