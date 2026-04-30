@@ -441,11 +441,16 @@ const pilaresOrdenados = computed(() => {
           <div style="margin-bottom:4px;margin-top:-4px;padding-top:4px;padding-bottom:4px;">
             <span style="font-size:12px;font-weight:800;color:#1C1C1E;letter-spacing:0.06em;text-transform:uppercase;">Avaliação dos 4 Pilares</span>
           </div>
-          <div style="display:grid;grid-template-columns:630px 630px;gap:10px;">
+          <div style="display:grid;grid-template-columns:530px 770px;gap:10px;">
             <div
               v-for="pilar in pilaresOrdenados"
               :key="pilar.id"
-              style="background:#fff;border-radius:12px;border:1px solid rgba(0,0,0,0.07);overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.04);width:630px;"
+              :style="{
+                background:'#fff', borderRadius:'12px', border:'1px solid rgba(0,0,0,0.07)',
+                overflow:'hidden', boxShadow:'0 1px 3px rgba(0,0,0,0.04)', minHeight:'270px',
+                gridColumn: (pilar.id === '01' || pilar.id === '04') ? '1' : '2',
+                width: (pilar.id === '01' || pilar.id === '04') ? '530px' : '770px'
+              }"
             >
               <!-- Header do Pilar -->
               <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-bottom:1px solid rgba(0,0,0,0.06);">
